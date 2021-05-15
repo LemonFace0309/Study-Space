@@ -33,6 +33,7 @@ function SignUpForm({ handleClose }) {
       name,
       email,
       password,
+      type: 'credentials',
     })
     console.log(result)
     handleClose()

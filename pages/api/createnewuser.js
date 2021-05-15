@@ -4,7 +4,7 @@ import dbConnect from '../../utils/dbConnect'
 import User from '../../models/User'
 
 export default async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, email, password, type } = req.body
 
   if ((!name || !email || !password)) {
     return res.status(422).json({ message: 'Invalid input' })
@@ -16,9 +16,10 @@ export default async (req, res) => {
     const hashedPw = await bcrypt.hash(password, 12)
 
     const user = new User({
-      name: name,
-      email: email,
+      name,
+      email,
       password: hashedPw,
+      type: type,
     })
     const result = await user.save()
     res.status(201).json({ message: 'User created!', userId: result._id })
