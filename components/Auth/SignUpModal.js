@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import SignUpForm from './SignUpForm';
 
-const ModalDialog = ({ open, handleClose }) => {
+const SignUpModal = ({ open, handleClose }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <SignUpForm handleClose={handleClose} />
@@ -10,4 +10,4 @@ const ModalDialog = ({ open, handleClose }) => {
   );
 };
 
-export default ModalDialog;
+export default SignUpModal;

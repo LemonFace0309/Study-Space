@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import { makeStyles, TextField, Button } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,11 +26,17 @@ function SignUpForm({ handleClose }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log(name, email, password);
-    handleClose();
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(name, email, password)
+    const result = await axios.post('/api/createnewuser', {
+      name,
+      email,
+      password,
+    })
+    console.log(result)
+    handleClose()
+  }
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
