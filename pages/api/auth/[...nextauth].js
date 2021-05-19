@@ -1,5 +1,9 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+const bcrypt = require('bcrypt')
+
+import dbConnect from '../../../utils/dbConnect'
+import User from '../../../models/User'
 
 const options = {
   providers: [
@@ -16,29 +20,36 @@ const options = {
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        email: {
+          label: 'Email',
+          type: 'text',
+          placeholder: 'example@example.com',
+        },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const user = (credentials) => {
-          // You need to provide your own logic here that takes the credentials
-          // submitted and returns either a object representing a user or value
-          // that is false/null if the credentials are invalid.
-          // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+        await dbConnect()
+        const { email, password } = credentials
+        const user = await User.findOne({
+          email: email,
+          type: 'credentials',
+        })
+        if (!user) {
           return null
         }
-        if (user) {
-          // Any user object returned here will be saved in the JSON Web Token
-          return user
-        } else {
-          return null
-        }
+        const matched = await bcrypt.compare(password, user.password)
+        const parsedUser = (({ _id, name, email }) => ({ _id, name, email }))(
+          user
+        )
+        return matched ? parsedUser : null
       },
     }),
   ],
   callbacks: {
     async signIn(user, account, profile) {
-      if (
+      if (account.type === 'credentials') {
+        return true
+      } else if (
         account.provider === 'google' &&
         profile.verified_email === true &&
         profile.email.endsWith('@gmail.com')
@@ -48,6 +59,12 @@ const options = {
         return false
       }
     },
+    async jwt(token, user, account, profile, isNewUser) {
+      return token
+    },
+  },
+  session: {
+    jwt: true,
   },
   database: process.env.DATABASE_URL,
 }
