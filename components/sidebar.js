@@ -4,6 +4,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import LayersIcon from "@material-ui/icons/Layers";
+import Friends from "./Friends";
 
 const Sidebar = () => {
   return (
@@ -41,9 +42,11 @@ const Sidebar = () => {
             <h1 className="text-gray-300">FRIEND ACTIVITY</h1>
             <div className=""></div>
             <div
-              className="transform cursor-pointer transition delay-100 w-3/12  p-12 py-20 shadow-xl  
+              className="transform cursor-pointer w-3/12  p-12 py-20 shadow-xl  
                     border rounded-xl bg-gradient-to-r from-purple-400 to-purple-400"
-            ></div>
+            >
+              <Friends></Friends>
+            </div>
           </div>
         </div>
       </div>
