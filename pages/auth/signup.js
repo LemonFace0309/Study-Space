@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Button from '@material-ui/core/Button'
 import SignUpModal from '../../components/Auth/SignUpModal'
 
-const signUp = () => {
+const SignUp = () => {
   const [open, setOpen] = useState(false)
 
   const handleOpen = () => {
@@ -23,4 +23,4 @@ const signUp = () => {
   )
 }
 
-export default signUp
+export default SignUp

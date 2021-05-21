@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { signIn, signOut, getSession } from 'next-auth/client'
 
-function auth() {
+function Auth() {
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState()
 
@@ -23,4 +23,4 @@ function auth() {
   return <>{!loading && <div><AuthButton /></div>}</>
 }
 
-export default auth
+export default Auth
