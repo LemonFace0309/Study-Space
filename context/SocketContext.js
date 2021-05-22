@@ -28,15 +28,26 @@ export const SocketProvider = ({ children }) => {
     setStream(currentStream)
     myVideo.current.srcObject = currentStream
 
+    socket.emit('getId')
+
     socket.on('me', (id) => {
       console.log(id)
       setMe(id)
     })
 
-    socket.on('calluser', ({ from, name: callerName, signal }) => {
+    socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivedCall: true, from, name: callerName, signal })
     })
   }, [])
+
+  // socket.on('me', (id) => {
+  //   console.log(id)
+  //   setMe(id)
+  // })
+
+  // socket.on('callUser', ({ from, name: callerName, signal }) => {
+  //   setCall({ isReceivedCall: true, from, name: callerName, signal })
+  // })
 
   const answerCall = () => {
     setCallAccepted(true)
@@ -59,7 +70,7 @@ export const SocketProvider = ({ children }) => {
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream })
     peer.on('signal', (data) => {
-      socket.emit('calluser', {
+      socket.emit('callUser', {
         userToCall: id,
         signalData: data,
         from: me,
@@ -70,13 +81,14 @@ export const SocketProvider = ({ children }) => {
       userVideo.current.srcObject = currentStream
     })
 
-    socket.on('callaccepted', (signal) => {
+    socket.on('callAccepted', (signal) => {
       setCallAccepted(true)
       peer.signal(signal)
     })
 
     connectionRef.current = peer
   }
+
   const leaveCall = () => {
     setCallEnded(true)
 
