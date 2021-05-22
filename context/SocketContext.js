@@ -29,6 +29,7 @@ export const SocketProvider = ({ children }) => {
     myVideo.current.srcObject = currentStream
 
     socket.on('me', (id) => {
+      console.log(id)
       setMe(id)
     })
 
