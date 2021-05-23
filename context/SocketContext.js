@@ -33,7 +33,6 @@ export const SocketProvider = ({ children }) => {
     socket.emit('getId')
 
     socket.on('me', (id) => {
-      console.log(id)
       setMe(id)
     })
 
@@ -68,7 +67,6 @@ export const SocketProvider = ({ children }) => {
 
     const peer = new Peer({ initiator: true, trickle: false, stream })
     peer.on('signal', (data) => {
-      console.log('Initiator Signal', 'Data:', data)
       socket.emit('callUser', {
         userToCall: id,
         signalData: data,
@@ -83,7 +81,6 @@ export const SocketProvider = ({ children }) => {
     })
 
     socket.on('callAccepted', (signal) => {
-      console.log('Initiator call gets accepted')
       setCallAccepted(true)
       // required to accept stream data
       peer.signal(signal)
