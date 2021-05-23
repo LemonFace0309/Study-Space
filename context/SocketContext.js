@@ -46,7 +46,7 @@ export const SocketProvider = ({ children }) => {
 
     const peer = new Peer({ initiator: false, trickle: false, stream })
     peer.on('signal', (data) => {
-      socket.emit('answercall', {
+      socket.emit('answerCall', {
         signal: data,
         to: call.from,
       })
