@@ -26,7 +26,9 @@ export const SocketProvider = ({ children }) => {
       audio: true,
     })
     setStream(currentStream)
-    myVideo.current.srcObject = currentStream
+    if (myVideo.current) {
+      myVideo.current.srcObject = currentStream
+    }
 
     socket.emit('getId')
 
@@ -40,15 +42,6 @@ export const SocketProvider = ({ children }) => {
     })
   }, [])
 
-  // socket.on('me', (id) => {
-  //   console.log(id)
-  //   setMe(id)
-  // })
-
-  // socket.on('callUser', ({ from, name: callerName, signal }) => {
-  //   setCall({ isReceivedCall: true, from, name: callerName, signal })
-  // })
-
   const answerCall = () => {
     setCallAccepted(true)
 
@@ -60,16 +53,22 @@ export const SocketProvider = ({ children }) => {
       })
     })
     peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream
+      if (userVideo.current) {
+        userVideo.current.srcObject = currentStream
+      }
     })
 
+    // required to accept stream data
     peer.signal(call.signal)
 
     connectionRef.current = peer
   }
+
   const callUser = (id) => {
+
     const peer = new Peer({ initiator: true, trickle: false, stream })
     peer.on('signal', (data) => {
+      console.log('Initiator Signal', 'Data:', data)
       socket.emit('callUser', {
         userToCall: id,
         signalData: data,
@@ -78,11 +77,15 @@ export const SocketProvider = ({ children }) => {
       })
     })
     peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream
+      if (userVideo.current) {
+        userVideo.current.srcObject = currentStream
+      }
     })
 
     socket.on('callAccepted', (signal) => {
+      console.log('Initiator call gets accepted')
       setCallAccepted(true)
+      // required to accept stream data
       peer.signal(signal)
     })
 
