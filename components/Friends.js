@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "linear-gradient(45deg, #000000 100%, #FF8E53 90%)",
   },
 }));
 
