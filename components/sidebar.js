@@ -1,50 +1,48 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
+import Card from "../components/Card";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import LayersIcon from "@material-ui/icons/Layers";
-import Friends from "./Friends";
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
+import FriendCard from "./FriendCard";
 
 const Sidebar = () => {
   return (
     //<div class="grid grid-flow-col grid-cols-100 grid-rows-1 gap-4">
-    //<p className="text-xl  font-semibold">picture</p>
-    <div className="md: w-4/12 h-screen shadow-2xl bg-gradient-to-br from-purple-500 to-purple-300">
-      <div className="border-b py-3 mt-1 flex justify-around">
-        <SentimentVerySatisfiedIcon />
-        <p></p>
-        <MenuOpenIcon />
+    <div className="overflow-auto fixed w-4/12 h-screen shadow-2xl bg-gradient-to-br from-purple-900 to-purple-800">
+      <div className="py-3 mt-1 flex justify-around">
+        <p className="text-xl font-semibold text-gray-300">dashboard😊</p>
+        <MenuOpenIcon style={{ color: "white" }} />
       </div>
-      <div className="p-4 space-y-14">
+      <div className="py-4 pl-0 pr-4 space-y-14">
         <div className="space-y-4">
-          <h1 className="text-gray-400">Menu</h1>
+          <h1 className="pl-4 text-gray-300">MENU</h1>
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-white-600  cursor-pointer">
+            <div className="flex p-3 rounded-r-md text-gray-700  space-x-4 0 hover:bg-purple-300 hover:text-purple-600 cursor-pointer  ">
               <HomeIcon className=" text-gray-300" />
               <p className="text-gray-300">Home</p>
             </div>
           </div>
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-white-600  cursor-pointer  ">
+            <div className="flex p-3 rounded-r-md text-gray-700  space-x-4 0 hover:bg-purple-300  hover:text-purple-600  cursor-pointer  ">
               <SearchIcon className="text-gray-300" />
               <p className="text-gray-300">Browse</p>
             </div>
           </div>
           <div className="">
-            <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-white-600  cursor-pointer  ">
+            <div className="flex p-3 rounded-r-md text-gray-700  space-x-4 0 hover:bg-purple-300  hover:text-purple-600  cursor-pointer  ">
               <EqualizerIcon className="text-gray-300" />
               <p className="text-gray-300">Statistics</p>
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="space-y-6 align-baseline">
-            <h1 className="text-gray-300 ">FRIEND ACTIVITY</h1>
-            <Friends></Friends>
-          </div>
+      </div>
+      <div className="p-4 space-y-14 mt-20">
+        <div className="space-y-4">
+          <h1 className="text-gray-300">FRIEND ACTIVITY</h1>
+          <FriendCard></FriendCard>
         </div>
       </div>
     </div>

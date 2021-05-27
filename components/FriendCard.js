@@ -4,42 +4,53 @@ import DoneIcon from "@material-ui/icons/Done";
 import EcoIcon from "@material-ui/icons/Eco";
 import LockIcon from "@material-ui/icons/Lock";
 
-const Style = "text-white text-xs";
-
-const arrayIcon = [
-  <AllOutIcon fontSize="small" className={Style} />,
-  <DoneIcon fontSize="small" className={Style} />,
-  <EcoIcon fontSize="small" className={Style} />,
-  <LockIcon fontSize="small" className={Style} />,
-];
-const Color = [
-  "from-indigo-500 to-blue-500",
-  "from-blue-400 to-blue-300",
-  "from-green-500 to-green-400",
-  "from-yellow-600 to-yellow-500",
-];
-
 const FriendCard = (props) => {
-  var balance = props.balance;
-  balance = balance * 9.5;
-
   return (
-    <div
-      className={`transform hover:scale-110 cursor-pointer transition delay-100 w-3/12  p-2 py-4 shadow-xl  border rounded-xl bg-gradient-to-r ${
-        Color[props.icon]
-      }`}
-    >
-      <div className="flex justify-between">
-        <div></div>
-        <div className=" w-10  h-10 flex items-center justify-center  bg-gray-300 rounded-xl m-1  bg-opacity-30">
-          {arrayIcon[props.icon]}
-        </div>
+    <div>
+      <div class="bg-purple-200 rounded-r-md rounded-b-md">
+        <table class="mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg divide-y divide-gray-300 overflow-hidden">
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4">
+                <div class="flex items-center space-x-3">
+                  <div class="inline-flex w-10 h-10">
+                    <img
+                      class="w-10 h-10 object-cover rounded-full"
+                      alt="User avatar"
+                      src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
+                    />
+                  </div>
+                  <div>
+                    <p class="">Yi Nan Zhang</p>
+                    <p class="text-gray-500 text-xs font-semibold tracking-wide">
+                      in study session
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4">
+                <div class="flex items-center space-x-3">
+                  <div class="inline-flex w-10 h-10">
+                    <img
+                      class="w-10 h-10 object-cover rounded-full"
+                      alt="User avatar"
+                      src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
+                    />
+                  </div>
+                  <div>
+                    <p class="">Jimmy Yang</p>
+                    <p class="text-gray-500 text-xs font-semibold tracking-wide">
+                      in study session
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <p className="text-gray-200 text-xs  ">{props.title}</p>
-      <p className="text-gray-50 text-lg  font-semibold  ">
-        {props.balance} EGLD
-      </p>
-      <p className="text-gray-300  text-sm ">${balance}</p>
     </div>
   );
 };

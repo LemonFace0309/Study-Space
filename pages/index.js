@@ -5,13 +5,13 @@ import Container from "../components/Container";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex w-screen h-screen">
+    <div class="flex">
+      <div class="flex flex-col justify-between w-1/3 h-screen">
         <Sidebar />
-        <div className="w-screen ">
-          <Header />
-          <Container />
-        </div>
+      </div>
+      <div class="flex flex-col justify-between w-2/3">
+        <Header />
+        <Container />
       </div>
     </div>
   );
