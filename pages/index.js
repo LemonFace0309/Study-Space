@@ -10,7 +10,6 @@ export default function Home() {
         <Sidebar />
       </div>
       <div class="flex flex-col justify-between w-2/3">
-        <Header />
         <Container />
       </div>
     </div>
