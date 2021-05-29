@@ -1,5 +1,5 @@
   
-import React, { useState, useContext, useCallback, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 // import useLocalStorage from '../hooks/useLocalStorage'
 import { useSocket } from './SocketProvider';
@@ -13,7 +13,7 @@ export function useConversation() {
 export function ConversationProvider({ children }) {
   // const [conversations, setConversations] = useLocalStorage('conversations', [])
   const [conversation, setConversation] = useState([])
-  const { peer, callAccepted, name } = useSocket()
+  const { callAccepted, peer, call } = useSocket()
 
   const addMessageToConversation = ({ text, sender }) => {
     let fromMe = false
@@ -26,17 +26,24 @@ export function ConversationProvider({ children }) {
   }
 
   const sendMessage = (text) => {
+    if (!peer.current) return false
+
     peer.current.send(text)
     addMessageToConversation({ text })
+    return true
   }
 
   useEffect(() => {
-    if (!callAccepted || !peer) return
+    if (!callAccepted || !peer.current) return
 
     peer.current.on('data', data => {
-      addMessageToConversation({ text: data, sender: name })
+      data = new TextDecoder("utf-8").decode(data)
+      console.log(call.name)
+      addMessageToConversation({ text: data, sender: call.name })
     })
-  }, [callAccepted, peer, addMessageToConversation])
+
+    return 
+  }, [callAccepted])
 
   const value = {
     conversation,

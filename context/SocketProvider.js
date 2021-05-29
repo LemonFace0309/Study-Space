@@ -50,6 +50,7 @@ export const SocketProvider = ({ children }) => {
       socket.emit('answerCall', {
         signal: data,
         to: call.from,
+        name,
       })
     })
     peer.current.on('stream', (currentStream) => {
@@ -81,7 +82,8 @@ export const SocketProvider = ({ children }) => {
       }
     })
 
-    socket.on('callAccepted', (signal) => {
+    socket.on('callAccepted', ({ name, signal }) => {
+      setCall({ isReceivedCall: false, name, signal })
       setCallAccepted(true)
       // required to accept stream data
       peer.current.signal(signal)
@@ -94,6 +96,7 @@ export const SocketProvider = ({ children }) => {
     setCallEnded(true)
 
     connectionRef.current.destroy()
+    peer.current.destroy()
 
     window.location.reload()
   }
