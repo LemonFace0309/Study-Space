@@ -13,7 +13,7 @@ export function useConversation() {
 export function ConversationProvider({ children }) {
   // const [conversations, setConversations] = useLocalStorage('conversations', [])
   const [conversation, setConversation] = useState([])
-  const { callAccepted, peer, call } = useSocket()
+  const { callAccepted, peerRef, call } = useSocket()
 
   const addMessageToConversation = ({ text, sender }) => {
     let fromMe = false
@@ -26,17 +26,17 @@ export function ConversationProvider({ children }) {
   }
 
   const sendMessage = (text) => {
-    if (!peer.current) return false
+    if (!peerRef.current) return false
 
-    peer.current.send(text)
+    peerRef.current.send(text)
     addMessageToConversation({ text })
     return true
   }
 
   useEffect(() => {
-    if (!callAccepted || !peer.current) return
+    if (!callAccepted || !peerRef.current) return
 
-    peer.current.on('data', data => {
+    peerRef.current.on('data', data => {
       data = new TextDecoder("utf-8").decode(data)
       console.log(call.name)
       addMessageToConversation({ text: data, sender: call.name })

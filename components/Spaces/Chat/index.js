@@ -22,7 +22,7 @@ const Chat = () => {
     }, 2000)
   }
 
-  const handleKeyPress = (e) => {
+  const keyPressHandler = (e) => {
     if (e.keyCode == 13) {
       submitHandler(e)
     }
@@ -43,7 +43,7 @@ const Chat = () => {
             rows={1}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyPress}
+            onKeyDown={keyPressHandler}
           />
           <IconButton type="submit" color="primary">
             <SendIcon />
