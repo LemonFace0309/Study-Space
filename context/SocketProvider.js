@@ -66,6 +66,9 @@ export const SocketProvider = ({ children }) => {
   }
 
   const callUser = (id) => {
+    if (id === me) {
+      throw new Error("Don't be weird! Call someone else.")
+    }
 
     peer.current = new Peer({ initiator: true, trickle: false, stream })
     peer.current.on('signal', (data) => {
