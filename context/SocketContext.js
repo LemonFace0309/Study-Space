@@ -19,6 +19,7 @@ export const SocketProvider = ({ children }) => {
   const myVideo = useRef()
   const userVideo = useRef()
   const connectionRef = useRef()
+  const peer = useRef()
 
   useEffect(async () => {
     const currentStream = await navigator.mediaDevices.getUserMedia({
@@ -44,29 +45,29 @@ export const SocketProvider = ({ children }) => {
   const answerCall = () => {
     setCallAccepted(true)
 
-    const peer = new Peer({ initiator: false, trickle: false, stream })
-    peer.on('signal', (data) => {
+    peer.current = new Peer({ initiator: false, trickle: false, stream })
+    peer.current.on('signal', (data) => {
       socket.emit('answerCall', {
         signal: data,
         to: call.from,
       })
     })
-    peer.on('stream', (currentStream) => {
+    peer.current.on('stream', (currentStream) => {
       if (userVideo.current) {
         userVideo.current.srcObject = currentStream
       }
     })
 
     // required to accept stream data
-    peer.signal(call.signal)
+    peer.current.signal(call.signal)
 
-    connectionRef.current = peer
+    connectionRef.current = peer.current
   }
 
   const callUser = (id) => {
 
-    const peer = new Peer({ initiator: true, trickle: false, stream })
-    peer.on('signal', (data) => {
+    peer.current = new Peer({ initiator: true, trickle: false, stream })
+    peer.current.on('signal', (data) => {
       socket.emit('callUser', {
         userToCall: id,
         signalData: data,
@@ -74,7 +75,7 @@ export const SocketProvider = ({ children }) => {
         name,
       })
     })
-    peer.on('stream', (currentStream) => {
+    peer.current.on('stream', (currentStream) => {
       if (userVideo.current) {
         userVideo.current.srcObject = currentStream
       }
@@ -83,10 +84,10 @@ export const SocketProvider = ({ children }) => {
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true)
       // required to accept stream data
-      peer.signal(signal)
+      peer.current.signal(signal)
     })
 
-    connectionRef.current = peer
+    connectionRef.current = peer.current
   }
 
   const leaveCall = () => {
@@ -109,6 +110,7 @@ export const SocketProvider = ({ children }) => {
         setName,
         callEnded,
         me,
+        peer,
         callUser,
         leaveCall,
         answerCall,
