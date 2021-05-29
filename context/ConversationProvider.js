@@ -10,18 +10,10 @@ export function useConversation() {
   return useContext(ConversationContext)
 }
 
-export function ConversationProvider({ id, children }) {
+export function ConversationProvider({ children }) {
   // const [conversations, setConversations] = useLocalStorage('conversations', [])
   const [conversation, setConversation] = useState([])
   const { peer, callAccepted, name } = useSocket()
-
-  useEffect(() => {
-    if (!callAccepted || !peer) return
-
-    peer.current.on('data', data => {
-      addMessageToConversation({ text: data, sender: name })
-    })
-  }, [callAccepted, peer, addMessageToConversation])
 
   const addMessageToConversation = ({ text, sender }) => {
     let fromMe = false
@@ -38,10 +30,17 @@ export function ConversationProvider({ id, children }) {
     addMessageToConversation({ text })
   }
 
+  useEffect(() => {
+    if (!callAccepted || !peer) return
+
+    peer.current.on('data', data => {
+      addMessageToConversation({ text: data, sender: name })
+    })
+  }, [callAccepted, peer, addMessageToConversation])
+
   const value = {
     conversation,
     sendMessage,
-    setConversation,
   }
 
   return (

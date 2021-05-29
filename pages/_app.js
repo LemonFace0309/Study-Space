@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import { Provider } from 'next-auth/client'
 
 import Layout from '../components/Layout/Layout'
-import { SocketProvider } from '../context/SocketContext'
+import { SocketProvider } from '../context/SocketProvider'
+import { ConversationProvider } from '../context/ConversationProvider'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
@@ -17,9 +18,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider session={pageProps.session}>
       <SocketProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ConversationProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ConversationProvider>
       </SocketProvider>
     </Provider>
   )

@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
+
+import { useConversation } from '../../../../context/ConversationProvider';
+
 const Conversation = () => {
-  import { useConversation } from '../../../../contexts/ConversationProvider';
-  
   const { conversation } = useConversation()
   
   const setRef = useCallback(node => {
@@ -10,10 +12,10 @@ const Conversation = () => {
   }, [])
 
   return (
-    <div className="flex-g1 overflow-auto">
+    <div className="flex-grow overflow-auto">
       <div className="flex flex-col items-start justify-end px-3">
-        {conversation.messages.map((message, index) => {
-          const lastMessage = conversation.messages.length - 1 === index
+        {conversation.map((message, index) => {
+          const lastMessage = conversation.length - 1 === index
           return (
             <div
               ref={lastMessage ? setRef : null}

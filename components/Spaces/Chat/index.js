@@ -1,24 +1,27 @@
+import { useState } from "react";
 import { IconButton, TextField } from "@material-ui/core"
 import Paper from "@material-ui/core/Paper"
 import SendIcon from '@material-ui/icons/Send';
 
 import Conversation from './Conversation'
+import { useConversation } from '../../../context/ConversationProvider'
 
 const Chat = () => {
   const [text, setText] = useState('')
-  // const { sendMessage, selectedConversation } = useConversations()
+  const { sendMessage } = useConversation()
 
   const submitHandler = (e) => {
     e.preventDefault()
+    console.log('test')
 
-    setText('')
+    sendMessage(text)
   }
 
   return (
     <>
       <Paper className="flex flex-col h-96 min-h-full w-9/12 max-w-lg">
         <Conversation />
-        <form onSubmited={submitHandler} className="flex items-center">
+        <form onSubmit={submitHandler} className="flex items-center">
           <TextField
             variant="outlined"
             label="Message User"
@@ -28,7 +31,7 @@ const Chat = () => {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
-          <IconButton color="primary">
+          <IconButton type="submit" color="primary">
             <SendIcon />
           </IconButton>
         </form>
