@@ -19,7 +19,7 @@ const Color = [
   "from-yellow-600 to-yellow-500",
 ];
 
-const Card = (props) => {
+const TemplateCard = (props) => {
   var balance = props.balance;
   balance = balance * 9.5;
 
@@ -44,4 +44,4 @@ const Card = (props) => {
   );
 };
 
-export default Card;
+export default TemplateCard;
