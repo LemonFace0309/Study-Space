@@ -14,8 +14,8 @@ const Container = () => {
         </p>
       </div>
       <div className="flex p-4 space-x-3">
-        <TemplateCard title="TOTAL" balance={409.079} icon={0} />
-        <TemplateCard title="AVAILABLE" balance={300.079} icon={1} />
+        {/*<TemplateCard title="TOTAL" balance={409.079} icon={0} />
+        <TemplateCard title="AVAILABLE" balance={300.079} icon={1} /> */}
       </div>
       <div className="flex ml-3 mt-6 space-x-6 mr-4"></div>
     </div>

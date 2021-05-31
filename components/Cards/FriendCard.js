@@ -21,7 +21,10 @@ const FriendCard = (props) => {
                   />
                 </div>
                 <div>
-                  <Typography variant="body" style={{ whiteSpace: "pre-line" }}>
+                  <Typography
+                    variant="body1"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
                     Yi Nan Zhang
                   </Typography>
                   <Typography
@@ -44,7 +47,10 @@ const FriendCard = (props) => {
                   />
                 </div>
                 <div>
-                  <Typography variant="body" style={{ whiteSpace: "pre-line" }}>
+                  <Typography
+                    variant="body1"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
                     Jimmy Yang
                   </Typography>
                   <Typography
