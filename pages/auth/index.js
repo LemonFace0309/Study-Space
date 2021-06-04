@@ -17,50 +17,99 @@ import styles from '../../styles/Auth/Auth.module.css'
 const Auth = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [validFirstName, setValidFirstName] = useState(false)
+  const [validLastName, setValidLastName] = useState(false)
+  const [validEmail, setValidEmail] = useState(false)
+  const [validPassword, setValidPassword] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
-  const handleOpenModal = () => {
-    setModalOpen(true)
+  const validSignUp =
+    validFirstName && validLastName && validEmail && validPassword
+  const validLogIn = validEmail && validPassword
+
+  const handleInputChange = (e, updater, validator = () => null) => {
+    updater(e.target.value)
+    validator(e.target.value)
   }
 
-  const handleCloseModal = () => {
-    setModalOpen(false)
+  const handleSubmit = () => {
+    if (isSignUp) {
+      // do this
+    } else {
+      // do that
+    }
+    setSubmitted(true)
   }
 
-  let formContent
+  let formContent = [
+    <TextField
+      label="Email Address"
+      fullWidth
+      error={submitted && !validEmail}
+      helperText={submitted && !validEmail && "Please enter a valid email address 🥺"}
+      className="mb-1"
+      type="email"
+      value={email}
+      onChange={(e) => handleInputChange(e, setEmail)}
+    />,
+    <TextField
+      label="Password"
+      fullWidth
+      error={submitted && !validPassword}
+      helperText={submitted && !validPassword && "Please enter a valid password 🥺"}
+      type="password"
+      value={password}
+      onChange={(e) => handleInputChange(e, setPassword)}
+    />,
+  ]
   let btnText
   let switchModeText
   if (isSignUp) {
-    formContent = (
-      <>
-        <TextField label="First Name" fullWidth className="mb-1" />
-        <TextField label="Last Name" fullWidth className="mb-1" />
-        <TextField label="Email Address" fullWidth className="mb-1" />
-        <TextField label="Password" fullWidth />
-      </>
+    formContent.unshift(
+      <TextField
+        label="First Name"
+        fullWidth
+        error={submitted && !validFirstName}
+        helperText={submitted && !validFirstName && "Please enter a valid first name 🥺"}
+        className="mb-1"
+        value={firstName}
+        onChange={(e) => handleInputChange(e, setFirstName)}
+      />,
+      <TextField
+        label="Last Name"
+        fullWidth
+        error={submitted && !validLastName}
+        helperText={submitted && !validLastName && "Please enter a valid last name 🥺"}
+        className="mb-1"
+        value={lastName}
+        onChange={(e) => handleInputChange(e, setLastName)}
+      />
     )
     btnText = 'SIGN UP'
-    switchModeText = "Already have an account? "
+    switchModeText = 'Already have an account? '
   } else {
-    formContent = (
-      <>
-        <TextField label="Email Address" fullWidth className="mb-1" />
-        <TextField label="Password" fullWidth />
-      </>
-    )
     btnText = 'LOG IN'
     switchModeText = "Don't have an account? "
   }
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleOpenModal}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => setModalOpen(true)}
+      >
         {isSignUp ? 'Login' : 'Signup'}
       </Button>
       <Dialog
         fullWidth={true}
         maxWidth="lg"
         open={modalOpen}
-        onClose={handleCloseModal}
+        onClose={() => setModalOpen(false)}
         aria-labelledby="Login/Signup Modal"
         className={styles.Dialogue}
       >
@@ -76,7 +125,10 @@ const Auth = () => {
                 Log in
               </Typography>
               <div className="w-8/12 mt-8">{formContent}</div>
-              <Button className="my-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none">
+              <Button
+                className="my-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none"
+                onClick={handleSubmit}
+              >
                 {btnText}
               </Button>
               <div className="flex w-full justify-center items-center">
@@ -111,7 +163,11 @@ const Auth = () => {
             <div className="flex justify-center">
               <Typography variant="subtitle1">
                 {switchModeText}{' '}
-                <Box color="#977BBF" className="inline cursor-pointer" onClick={() => setIsSignUp((isSignUp) => !isSignUp)}>
+                <Box
+                  color="#977BBF"
+                  className="inline cursor-pointer"
+                  onClick={() => setIsSignUp((isSignUp) => !isSignUp)}
+                >
                   {isSignUp ? 'Log in' : 'Sign up'}
                 </Box>
               </Typography>
