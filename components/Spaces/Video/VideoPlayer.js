@@ -30,7 +30,7 @@ function VideoPlayer() {
     useSocket()
 
   return (
-    <Grid container className={classes.gridContainer}>
+    <Grid container className={classes.gridContainer} direction="row">
       {stream && (
         <Paper className={classes.paper}>
           <Grid item xs={12} md={6}>
