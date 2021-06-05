@@ -111,6 +111,9 @@ const Auth = ({ providers }) => {
     setSubmitted(true)
   }
 
+  let btnText
+  let oAuthText
+  let switchModeText
   let formContent = [
     <TextField
       label="Email Address"
@@ -138,9 +141,6 @@ const Auth = ({ providers }) => {
       onChange={(e) => handleInputChange(e, setPassword, validatePassword)}
     />,
   ]
-  let btnText
-  let oAuthText
-  let switchModeText
   if (isSignUp) {
     formContent.unshift(
       <TextField
