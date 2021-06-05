@@ -20,7 +20,7 @@ export default async (req, res) => {
       type: 'credentials',
     })
     if (existingUser) {
-      return res.status(422).json({ message: 'User with that email already exists!'})
+      return res.status(422).json({ message: 'User with that email already exists 😱' })
     }
 
     const user = new User({
