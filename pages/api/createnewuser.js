@@ -15,6 +15,14 @@ export default async (req, res) => {
   try {
     const hashedPw = await bcrypt.hash(password, 12)
 
+    const existingUser = await User.findOne({
+      email,
+      type: 'credentials',
+    })
+    if (existingUser) {
+      return res.status(422).json({ message: 'User with that email already exists!'})
+    }
+
     const user = new User({
       name,
       email,

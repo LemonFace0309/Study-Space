@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
+import { getProviders, signIn, signOut, getSession } from 'next-auth/client'
 import Image from 'next/image'
+import axios from 'axios'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -14,7 +16,9 @@ import {
 
 import styles from '../../styles/Auth/Auth.module.css'
 
-const Auth = () => {
+const Auth = ({ providers }) => {
+  const [loading, setLoading] = useState(true)
+  const [session, setSession] = useState()
   const [modalOpen, setModalOpen] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [firstName, setFirstName] = useState('')
@@ -26,6 +30,25 @@ const Auth = () => {
   const [validEmail, setValidEmail] = useState(false)
   const [validPassword, setValidPassword] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+
+  const AuthButton = () => {
+    if (session) {
+      return (
+        <Button variant="outlined" color="primary" onClick={() => signOut()}>
+          Signout
+        </Button>
+      )
+    }
+    return (
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => setModalOpen(true)}
+      >
+        {isSignUp ? 'Login' : 'Signup'}
+      </Button>
+    )
+  }
 
   const validSignUp =
     validFirstName && validLastName && validEmail && validPassword
@@ -56,6 +79,13 @@ const Auth = () => {
     )
   }
 
+  useEffect(async () => {
+    const userSession = await getSession()
+    setSession(userSession)
+    setLoading(false)
+    console.debug(userSession)
+  }, [])
+
   useEffect(() => {
     validatePassword(password)
   }, [isSignUp])
@@ -65,12 +95,18 @@ const Auth = () => {
     validator(e.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleCredentialsSubmit = async (e) => {
     e.preventDefault()
-    if (isSignUp) {
-      // do this
-    } else {
-      // do that
+    if (isSignUp && validSignUp) {
+      const result = await axios.post('/api/createnewuser', {
+        name: firstName + ' ' + lastName,
+        email,
+        password,
+        type: 'credentials',
+      })
+      console.debug(result)
+    } else if (validLogIn) {
+      signIn('credentials', { email, password })
     }
     setSubmitted(true)
   }
@@ -103,6 +139,7 @@ const Auth = () => {
     />,
   ]
   let btnText
+  let oAuthText
   let switchModeText
   if (isSignUp) {
     formContent.unshift(
@@ -131,20 +168,16 @@ const Auth = () => {
     )
     btnText = 'SIGN UP'
     switchModeText = 'Already have an account? '
+    oAuthText = 'Sign up with'
   } else {
     btnText = 'LOG IN'
     switchModeText = "Don't have an account? "
+    oAuthText = 'Log in with'
   }
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => setModalOpen(true)}
-      >
-        {isSignUp ? 'Login' : 'Signup'}
-      </Button>
+      {!loading && <AuthButton />}
       <Dialog
         fullWidth={true}
         maxWidth="lg"
@@ -155,7 +188,7 @@ const Auth = () => {
       >
         <Grid container className="my-8" alignItems="center" direction="row">
           <Grid container item xs={12} md={6} direction="column">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleCredentialsSubmit}>
               <div className="flex-grow flex flex-col items-center p-8">
                 <Typography
                   variant="h4"
@@ -172,7 +205,7 @@ const Auth = () => {
                     isSignUp && !validSignUp
                       ? 'bg-gray-400'
                       : styles.submitButtonEnabled
-                      // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
+                    // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
                   } my-12 overflow-hidden text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none`}
                   disabled={isSignUp && !validSignUp}
                 >
@@ -186,10 +219,13 @@ const Auth = () => {
                   <Divider className="w-4/12 h-0.5" />
                 </div>
                 <Typography variant="caption" component="p" className="my-2">
-                  Log in with
+                  {oAuthText}
                 </Typography>
                 <div className="flex w-full justify-center items-center">
-                  <IconButton className="mr-4 outline-none">
+                  <IconButton
+                    className="mr-4 outline-none"
+                    onClick={() => signIn(providers?.facebook.id)}
+                  >
                     <Image
                       src="/images/facebook.svg"
                       alt="Facebook Login"
@@ -197,7 +233,10 @@ const Auth = () => {
                       width="32"
                     />
                   </IconButton>
-                  <IconButton className="outline-none ">
+                  <IconButton
+                    className="outline-none"
+                    onClick={() => signIn(providers?.google.id)}
+                  >
                     <Image
                       src="/images/google.svg"
                       alt="Facebook Login"
@@ -248,6 +287,13 @@ const Auth = () => {
       </Dialog>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders()
+  return {
+    props: { providers },
+  }
 }
 
 export default Auth
