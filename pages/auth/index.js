@@ -168,7 +168,12 @@ const Auth = () => {
                 <div className="w-8/12 mt-8">{formContent}</div>
                 <Button
                   type="submit"
-                  className="my-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none"
+                  className={`${
+                    isSignUp && !validSignUp
+                      ? 'bg-gray-400'
+                      : styles.submitButtonEnabled
+                      // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
+                  } my-12 overflow-hidden text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none`}
                   disabled={isSignUp && !validSignUp}
                 >
                   {btnText}
@@ -205,7 +210,7 @@ const Auth = () => {
             </form>
             <div className="flex justify-center">
               <Typography variant="subtitle1">
-                {switchModeText}{' '}
+                {switchModeText}
                 <Box
                   color="#977BBF"
                   className="inline cursor-pointer"
