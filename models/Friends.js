@@ -3,25 +3,31 @@ import mongoose from 'mongoose'
 const FriendsSchema = mongoose.Schema(
   {
     requester: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
     recipient: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    requester_email: {
+      type: String,
+    },
+    recipient_email: {
+      type: String,
     },
     status: {
       type: Number,
       enums: [
-        0,    //'add friend',
+        0,    //'not friends',
         1,    //'requested',
         2,    //'friends'
       ]
-    }
+    },
   },
   {
     timestamps: true
   }
 )
 
-export default mongoose.model('Friends', FriendsSchema)
+export default mongoose.models.Friends || mongoose.model('Friends', FriendsSchema)

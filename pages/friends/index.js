@@ -1,0 +1,86 @@
+import { useState, useEffect } from 'react'
+import axios from 'axios';
+import { Button } from '@material-ui/core'
+import { getSession } from 'next-auth/client'
+
+
+function users() {
+  const [userList, setUserList] = useState([])
+  const [friendsList, setFriendsList] = useState([])
+  const [session, setSession] = useState()
+  const [currentUser, setCurrentUser] = useState({})
+
+  useEffect(async () => {
+    const userSession = await getSession()
+    setSession(userSession)
+    if (userSession) {
+      console.log(userSession)
+      setCurrentUser({
+        'name': userSession.user.name,
+        'email': userSession.user.email
+      })
+      axios.get('/api/getuserlist', {
+        params: {
+          name: userSession.user.name,
+          email: userSession.user.email,
+        }
+      })
+        .then(res => {
+          setUserList(res.data.users)
+          setFriendsList(res.data.friends)
+        })
+    }
+  }, [])
+
+  async function handleAddFriend(user) {
+    console.log("[handleAddFriend] send")
+    const result = await axios.post('/api/createnewfriend', {
+      user1name: currentUser.name,
+      user1email: currentUser.email,
+      user2name: user.name,
+      user2email: user.email,
+    })
+    console.log(result)
+
+  }
+  
+  if (!session) return <h1> Please log in </h1>;
+  return (
+    <>
+      <h1> Users </h1>
+      {userList.map((user, i) => {
+        if (user.name == currentUser.name && user.email == currentUser.email) return;
+        let friendText = "Add";
+        for (let friend in friendsList) {
+          friend = friendsList[friend]
+          if (friend.requester_email == currentUser.email && friend.recipient_email == user.email) { 
+            if (friend.status == 1)  {
+              friendText = "Pending"
+              break;
+            } else if (friend.status == 2) {
+              friendText = "Added"
+              break;
+            }
+          }
+          if (friend.recipient_email == currentUser.email && friend.requester_email == user.email) { 
+            if (friend.status == 1)  {
+              friendText = "Accept"
+              break;
+            } else if (friend.status == 2) {
+              friendText = "Added"
+              break;
+            }
+          }
+        }
+
+        return <div key={i}>
+          {user.name} {user.email}
+          <img src={user.image}></img>
+          <Button onClick={() => handleAddFriend(user)}> {friendText} </Button>
+        </div>
+      })}
+    </>
+  )
+}
+
+export default users

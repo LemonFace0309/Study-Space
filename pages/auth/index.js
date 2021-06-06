@@ -10,7 +10,6 @@ function auth() {
     const userSession = await getSession()
     setSession(userSession)
     setLoading(false)
-    console.log(userSession)
   }, [])
 
   const AuthButton = () => {
