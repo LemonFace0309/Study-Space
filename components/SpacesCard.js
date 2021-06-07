@@ -7,14 +7,15 @@ import ChatIcon from "@material-ui/icons/Chat";
 import PeopleIcon from "@material-ui/icons/People";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import { AddBoxOutlined, AddBoxRounded } from "@material-ui/icons";
+import { Children } from "react";
 
 export default function SpacesCard(props) {
   const theme = useTheme();
 
   return (
     <Paper
-      className={`flex flex-col cursor-pointer w-4/12 transform hover:scale-110 hover:shadow transition ease-out duration-200`}
-      elevation={5}
+      className={`flex flex-col`}
+      
     >
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
@@ -46,6 +47,8 @@ export default function SpacesCard(props) {
           {props.music}
         </Box>
       </Box>
+
+      {props.children}
     </Paper>
   );
 }

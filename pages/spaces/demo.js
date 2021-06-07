@@ -18,13 +18,15 @@ const theme = createMuiTheme({
 export default function SpacesCardDemo() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="flex flex-none flex-row space-x-5">
-        <SpacesCard
-          spaceName="UW Math 2025"
-          description="finals grind, upper years available in chat for help with past exams"
-          headCount="17"
-          music="lofi 2"
-        />
+      <div className="flex flex-row space-x-5">
+        <div className="cursor-pointer transform hover:scale-110 transition ease-out duration-200">
+          <SpacesCard
+            spaceName="UW Math 2025"
+            description="finals grind, upper years available in chat for help with past exams"
+            headCount="17"
+            music="lofi 2"
+          />
+        </div>
         <SpacesCard
           spaceName="Capstone Grind '25"
           description="writing your report, making your presentation, setting up data"
