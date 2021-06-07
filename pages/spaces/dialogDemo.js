@@ -90,7 +90,7 @@ function SimpleDialog(props) {
       aria-labelledby="simple-dialog-title"
       open={open}
     >
-      <Box className="p-10 ">
+      <Box className="p-10 rounded-lg">
         <SpacesCard
           className="w-full transform-none hover:none"
           spaceName="UW Math 2025"
