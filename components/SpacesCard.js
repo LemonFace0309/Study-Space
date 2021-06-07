@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
+import {Paper} from "@material-ui/core";
 
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
@@ -9,9 +9,8 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
 export default function SpacesCard(props) {
   return (
-    <div
-      className={`flex flex-col transform hover:scale-110 cursor-pointer transition delay-100 w-4/12  p-2 py-2 shadow-xl  border rounded-xl bg-gradient-to-r `}
-    >
+    <Paper className={`flex flex-col cursor-pointer w-4/12 transform hover:scale-110 hover:shadow transition ease-out duration-200`}
+    elevation={5}>
       <div className="flex flex-grow justify-between ">
         <div className="text-left p-3">
           <h2 className="text-xl text-purple-900">{props.spaceName}</h2>
@@ -36,6 +35,6 @@ export default function SpacesCard(props) {
           {props.music}
         </div>
       </div>
-    </div>
+    </Paper>
   );
 }
