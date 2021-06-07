@@ -35,11 +35,6 @@ const Card = (props) => {
                 ${balance}
             </p>
 
-
-
-
-
-
         </div>
     )
 }
