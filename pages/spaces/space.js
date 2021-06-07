@@ -38,7 +38,7 @@ function Space() {
       <AppBar className={classes.appBar} position="static" color="inherit">
         <Typography variant="h2" align="center">Study with Me</Typography>
       </AppBar>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} direction="row">
         <Grid className="flex flex-col items-center w-full" item xs={12} md={6}>
           <VideoPlayer />
           <Options>

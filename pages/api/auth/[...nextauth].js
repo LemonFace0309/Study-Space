@@ -31,7 +31,7 @@ const options = {
         await dbConnect()
         const { email, password } = credentials
         const user = await User.findOne({
-          email: email,
+          email,
           type: 'credentials',
         })
         if (!user) {
@@ -41,7 +41,7 @@ const options = {
         const parsedUser = (({ _id, name, email }) => ({ _id, name, email }))(
           user
         )
-        return matched ? parsedUser : null
+        return matched && parsedUser
       },
     }),
   ],
