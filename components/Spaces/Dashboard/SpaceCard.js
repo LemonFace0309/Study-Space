@@ -9,17 +9,20 @@ import ChatIcon from "@material-ui/icons/Chat";
 import PeopleIcon from "@material-ui/icons/People";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
-export default function SpacesCard(props) {
-  const theme = useTheme();
 
+export default function SpaceCard(props) {
+  const theme = useTheme();
+  const { description, headCount, music } = props;
   return (
-    <Paper className={`flex flex-col`}>
+    <Paper className="rounded-xl">
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
           <Typography variant="h5" align="center">
             {props.spaceName}
           </Typography>
-          <Typography color='textSecondary' variant="body1">{props.description}</Typography>
+          <Typography color="textSecondary" variant="body1">
+            {description}
+          </Typography>
         </Box>
 
         <Box
@@ -35,16 +38,15 @@ export default function SpacesCard(props) {
       <Box
         bgcolor={theme.palette.primary.light}
         color={theme.palette.primary.main}
-        className="flex flex-row text-sm rounded-xl p-2 space-x-2"
+        className="flex flex-row text-sm rounded-bl-xl rounded-br-xl p-2 space-x-2"
       >
         <Box>
           <PeopleIcon />
-          {props.headCount}
-          
+          {headCount}
         </Box>
         <Box>
           <LibraryMusicIcon />
-          {props.music}
+          {music}
         </Box>
       </Box>
     </Paper>
