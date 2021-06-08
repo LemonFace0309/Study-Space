@@ -15,25 +15,6 @@ import { useTheme } from "@material-ui/core/styles";
 
 import PersonIcon from "@material-ui/icons/Person";
 
-// Mock Data
-const friends = [
-  { name: "Charles Liu", status: "Finish work!" },
-  { name: "Charles Liu", status: "in study session!" },
-  { name: "Charles Liu", status: "taking a break" },
-];
-const participants = [
-  { name: "Charles Liu", status: "Finish work!" },
-  { name: "Charles Liu", status: "in study session!" },
-  { name: "Charles Liu", status: "taking a break" },
-];
-const hosts = [
-  { name: "Charles Liu", status: "Finish work!" },
-  { name: "Charles Liu", status: "in study session!" },
-  { name: "Charles Liu", status: "taking a break" },
-  { name: "Charles Liu", status: "Finish work!" },
-  { name: "Charles Liu", status: "in study session!" },
-  { name: "Charles Liu", status: "taking a break" },
-];
 
 function UserList(props) {
   const { users } = props;
