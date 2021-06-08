@@ -12,9 +12,10 @@ import SpaceCard from "../../components/Spaces/Dashboard/SpaceCard";
 
 
 import Typography from "@material-ui/core/Typography";
+import { spaceCardModalTestData } from "../../data/spaceCardModalTestData";
+import { spaceCardTestData } from "../../data/spaceCardTestData";
 
 
-// 
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -33,7 +34,9 @@ export default function SpaceCardModalDemo() {
   // For the sake of the demo, we are using locally defined theme. 
   // When using ThemeProvider, use the useTheme() hook.
   // const theme = useTheme();
-
+  const { friends, participants, hosts } = spaceCardModalTestData;
+  const { cardData } = spaceCardTestData; 
+  const { spaceName, description, headCount, music } = cardData[0];
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -50,12 +53,12 @@ export default function SpaceCardModalDemo() {
           Open Space Card Modal
         </Typography>
       </Button>
-      <SpaceCardModal open={open} onClose={handleClose}>
+      <SpaceCardModal open={open} onClose={handleClose} friends = {friends} participants={participants} hosts={hosts}>
         <SpaceCard
-          spaceName="UW Math 2025"
-          description="finals grind, upper years available in chat for help with past exams"
-          headCount="17"
-          music="lofi 2"
+          spaceName={spaceName}
+          description={description}
+          headCount={headCount}
+          music={music}
         />
       </SpaceCardModal>
     </ThemeProvider>

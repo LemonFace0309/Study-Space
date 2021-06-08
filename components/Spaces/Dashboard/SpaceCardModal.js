@@ -16,6 +16,7 @@ import { useTheme } from "@material-ui/core/styles";
 import PersonIcon from "@material-ui/icons/Person";
 
 
+
 function UserList(props) {
   const { users } = props;
   return (
@@ -36,7 +37,8 @@ function UserList(props) {
 
 export default function SpaceCardModal(props) {
   const theme = useTheme();
-  const { onClose, open, children } = props;
+  const { onClose, open, children, friends, participants, hosts } = props;
+  
 
   const handleClose = () => {
     onClose();
