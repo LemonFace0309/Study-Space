@@ -13,7 +13,7 @@ export const spaceCardTestData = {
       "music": "cafe beats eng edition F21"
     },
     {
-      "spaceName": "UW Math 2025",
+      "spaceName": "TA Session",
       "description": "3rd and 4th years offering help in MSCI, GENE, MATH, and CS",
       "headCount": "8",
       "music": "none"

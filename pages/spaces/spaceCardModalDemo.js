@@ -33,7 +33,7 @@ export default function SpaceCardModalDemo() {
   // const theme = useTheme();
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
-  const { spaceName, description, headCount, music } = cardData[0];
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -43,35 +43,45 @@ export default function SpaceCardModalDemo() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <ThemeProvider theme={theme}>
-      <div
-        onClick={handleClickOpen}
-        className="cursor-pointer transform hover:scale-110 transition ease-out duration-200"
-      >
-        <SpaceCard
-          spaceName={spaceName}
-          description={description}
-          headCount={headCount}
-          music={music}
-        />
-      </div>
+      <div className="flex flex-row space-x-5">
+        {cardData.map((data) => {
+          let { spaceName, description, headCount, music } = data;
 
-      <SpaceCardModal
-        open={open}
-        onClose={handleClose}
-        friends={friends}
-        participants={participants}
-        hosts={hosts}
-      >
-        <SpaceCard
-          spaceName={spaceName}
-          description={description}
-          headCount={headCount}
-          music={music}
-        />
-      </SpaceCardModal>
+          return (
+            <div>
+              <div
+                onClick={handleClickOpen}
+                className="cursor-pointer transform hover:scale-110 transition ease-out duration-200"
+              >
+                <SpaceCard
+                  spaceName={spaceName}
+                  description={description}
+                  headCount={headCount}
+                  music={music}
+                />
+              </div>
+
+              <SpaceCardModal
+                open={open}
+                onClose={handleClose}
+                friends={friends}
+                participants={participants}
+                hosts={hosts}
+              >
+                <SpaceCard
+                  spaceName={spaceName}
+                  description={description}
+                  headCount={headCount}
+                  music={music}
+                />
+              </SpaceCardModal>
+            </div>
+          );
+        })}
+      </div>
     </ThemeProvider>
   );
 }
