@@ -1,5 +1,5 @@
 export const spaceCardTestData = {
-  "cards": [
+  "cardData": [
     {
       "spaceName": "UW Math 2025",
       "description": "finals grind, upper years available in chat for help with past exams",
