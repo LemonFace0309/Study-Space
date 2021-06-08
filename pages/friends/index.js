@@ -14,36 +14,36 @@ function users() {
     const userSession = await getSession()
     setSession(userSession)
     if (userSession) {
-      console.log(userSession)
+      console.debug(userSession)
       setCurrentUser({
         'name': userSession.user.name,
         'email': userSession.user.email
       })
-      axios.get('/api/getuserlist', {
+
+      const res = await axios.get('/api/getuserlist', {
         params: {
           name: userSession.user.name,
           email: userSession.user.email,
         }
       })
-        .then(res => {
-          setUserList(res.data.users)
-          setFriendsList(res.data.friends)
-        })
+      setUserList(res.data.users)
+      setFriendsList(res.data.friends)
+
     }
   }, [])
 
   async function handleAddFriend(user) {
-    console.log("[handleAddFriend] send")
+    console.debug("[handleAddFriend] send")
     const result = await axios.post('/api/createnewfriend', {
       user1name: currentUser.name,
       user1email: currentUser.email,
       user2name: user.name,
       user2email: user.email,
     })
-    console.log(result)
+    console.debug(result)
 
   }
-  
+
   if (!session) return <h1> Please log in </h1>;
   return (
     <>
@@ -53,8 +53,8 @@ function users() {
         let friendText = "Add";
         for (let friend in friendsList) {
           friend = friendsList[friend]
-          if (friend.requester_email == currentUser.email && friend.recipient_email == user.email) { 
-            if (friend.status == 1)  {
+          if (friend.requester_email == currentUser.email && friend.recipient_email == user.email) {
+            if (friend.status == 1) {
               friendText = "Pending"
               break;
             } else if (friend.status == 2) {
@@ -62,8 +62,8 @@ function users() {
               break;
             }
           }
-          if (friend.recipient_email == currentUser.email && friend.requester_email == user.email) { 
-            if (friend.status == 1)  {
+          if (friend.recipient_email == currentUser.email && friend.requester_email == user.email) {
+            if (friend.status == 1) {
               friendText = "Accept"
               break;
             } else if (friend.status == 2) {

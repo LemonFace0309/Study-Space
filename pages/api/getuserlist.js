@@ -7,7 +7,7 @@ import Friends from '../../models/Friends'
 export default async (req, res) => {
   const { name, email } = req.query
 
-  if (( !name || !email )) {
+  if ( !name || !email ) {
     return res.status(422).json({ message: 'Invalid input' })
   }
 
