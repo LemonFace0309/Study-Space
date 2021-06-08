@@ -24,10 +24,10 @@ const theme = createMuiTheme({
       main: "#977BBF",
       medium: "#E5DDED",
       light: "#F5F2F9",
+      info: "#8698A7",
     },
     secondary: {
-      main: "#8698A7",
-      quit: "#F3858C",
+      main: "#F3858C",
     },
   },
 });
@@ -48,7 +48,7 @@ export default function StudySpaceDemo() {
           >
             <Box >
               <Button
-                variant="outlined"
+                variant="outlined" color="primary"
                 className="flex flex-row justify-start rounded-full  outline-none"
               >
                 <CreateIcon />
