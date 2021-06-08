@@ -17,6 +17,10 @@ const theme = createMuiTheme({
 });
 
 export default function SpaceCardDemo() {
+  // For the sake of the demo, we are using locally defined theme.
+  // When using ThemeProvider, use the useTheme() hook.
+  // const theme = useTheme();
+  
   return (
     <ThemeProvider theme={theme}>
       <div className="flex flex-row space-x-5">

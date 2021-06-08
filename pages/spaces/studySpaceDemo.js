@@ -1,12 +1,15 @@
 import React from "react";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import Timer from "../../components/Spaces/StudySpace/Timer";
+import User from "../../components/Spaces/StudySpace/User";
 
-import { Paper, Container, Box, Grid, Typography } from "@material-ui/core";
+import { Paper, Container, Box, Grid, Typography, LinearProgress, Avatar } from "@material-ui/core";
 import {
   useTheme,
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
+
+
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -15,8 +18,6 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import CreateIcon from "@material-ui/icons/Create";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-import Avatar from "@material-ui/core/Avatar";
-import PersonIcon from "@material-ui/icons/Person";
 
 const theme = createMuiTheme({
   palette: {
@@ -33,102 +34,14 @@ const theme = createMuiTheme({
   },
 });
 
-function TimeCard(props) {
-  const theme = useTheme();
 
-  return (
-    <Paper elevate={10} className="rounded-3xl">
-      <Box
-        bgcolor={theme.palette.primary.light}
-        className="flex flex-col justify-center p-5 rounded-3xl"
-      >
-        <Grid className="grid grid-cols-1">
-          <Box
-            color={theme.palette.secondary.main}
-            bgcolor={theme.palette.primary.medium}
-            className="text-center text-md uppercase tracking-tight font-bold rounded-lg w-11/12 p-3 m-2 "
-          >
-            Almost there! Take a break in
-          </Box>
 
-          <Container className="flex flex-col text-center justify-between ">
-            <Box
-              color={theme.palette.primary.dark}
-              className="text-6xl uppercase tracking-widest font-semibold"
-            >
-              01:15
-            </Box>
-            <Box
-              color={theme.palette.secondary.main}
-              className="flex flex-row justify-between m-auto space-x-10 text-sm uppercase tracking-tight font-semibold"
-            >
-              <h3>Hour</h3>
-              <h3>Minutes</h3>
-            </Box>
-          </Container>
 
-          <Container className="flex flex-col text-center justify-between ">
-            <Box color={theme.palette.primary.dark}>
-              <LinearDeterminate />
-            </Box>
-            <Box
-              color={theme.palette.secondary.main}
-              className="flex flex-row justify-between text-sm tracking-tight font-semibold"
-            >
-              <h3>12:10 pm</h3>
-              <h3>2:30 pm</h3>
-            </Box>
-          </Container>
-        </Grid>
-      </Box>
-    </Paper>
-  );
-}
-
-function LinearDeterminate() {
-  const [progress, setProgress] = React.useState(70);
-
-  //   React.useEffect(() => {
-  //     const timer = setInterval(() => {
-  //       setProgress((oldProgress) => {
-  //         if (oldProgress === 100) {
-  //           return 0;
-  //         }
-  //         const diff = Math.random() * 10;
-  //         return Math.min(oldProgress + diff, 100);
-  //       });
-  //     }, 500);
-
-  //     return () => {
-  //       clearInterval(timer);
-  //     };
-  //   }, []);
-
-  return (
-    <div>
-      <LinearProgress color="primary" variant="determinate" value={progress} />
-    </div>
-  );
-}
-
-function User() {
-    const theme = useTheme();
-    return (
-      <Paper elevate={10} className="rounded-lg">
-        <Box
-          bgcolor={theme.palette.primary.light}
-          color={theme.palette.primary.dark}
-          className="flex flex-col justify-center items-center p-5 rounded-lg w-full h-full"
-        >
-          <Avatar>
-            <PersonIcon />
-          </Avatar>
-          <p className="font-bold">Jimmy &#40;Host&#41;</p>
-        </Box>
-      </Paper>
-    );
-}
 export default function StudySpaceDemo() {
+  // For the sake of the demo, we are using locally defined theme.
+  // When using ThemeProvider, use the useTheme() hook.
+  // const theme = useTheme();
+  
   return (
     <ThemeProvider theme={theme}>
       <Grid className="grid grid-cols-12 space-y-24">
@@ -143,9 +56,9 @@ export default function StudySpaceDemo() {
           <SettingsIcon />
         </Box>
         <Box className="col-span-4">
-          <TimeCard />
+          <Timer />
         </Box>
-        
+
         <Box
           color={theme.palette.secondary.quit}
           className="flex flex-row justify-start rounded-full border-2 col-span-4"
