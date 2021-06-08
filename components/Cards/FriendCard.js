@@ -8,6 +8,14 @@ import DoneIcon from "@material-ui/icons/Done";
 import EcoIcon from "@material-ui/icons/Eco";
 import LockIcon from "@material-ui/icons/Lock";
 
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ImageIcon from "@material-ui/icons/Image";
+import WorkIcon from "@material-ui/icons/Work";
+import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+
 const useStyles = makeStyles({
     box: {
       borderRadius: "0px 15px 15px 0px",
@@ -19,62 +27,32 @@ const useStyles = makeStyles({
     const classes = useStyles();
     return (
       <Box className={classes.box}>
-        <table class="mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg divide-y overflow-hidden">
-          <tbody>
-            <tr>
-              <td class="px-6 py-4">
-                <div class="flex items-center space-x-3">
-                  <div class="inline-flex w-10 h-10">
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
-                    />
-                  </div>
-                  <div>
-                    <Typography
-                      variant="body1"
-                      style={{ whiteSpace: "pre-line" }}
-                    >
-                      Yi Nan Zhang
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      style={{ whiteSpace: "pre-line" }}
-                    >
-                      in study session
-                    </Typography>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4">
-                <div class="flex items-center space-x-3">
-                  <div class="inline-flex w-10 h-10">
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
-                    />
-                  </div>
-                  <div>
-                    <Typography
-                      variant="body1"
-                      style={{ whiteSpace: "pre-line" }}
-                    >
-                      Jimmy Yang
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      style={{ whiteSpace: "pre-line" }}
-                    >
-                      in study session
-                    </Typography>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <List className={classes.root}>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <ImageIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Yi Nan Zhang" secondary="in study session" />
+          </ListItem>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <WorkIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Jimmy Yang" secondary="in study session" />
+          </ListItem>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <BeachAccessIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Charles Liu" secondary="in study session" />
+          </ListItem>
+        </List>
       </Box>
     );
   };

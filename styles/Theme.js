@@ -3,16 +3,27 @@ import { createMuiTheme } from "@material-ui/core/styles";
 export default createMuiTheme({
   palette: {
     primary: {
+      // purple
       light: "#BDACD4",
       main: "#977BBF",
       dark: "#4E3276",
-      contrastText: "#fff",
+      contrastText: "#fff", // white
     },
     secondary: {
+      // pink
       light: "#FAF3F5",
       main: "#E3BAC6",
-      contrastText: "#000",
+      contrastText: "#000", // black
     },
+    error: {
+      // red
+      main: "#EF5D66",
+    },
+    /* causes error so I'm leaving it out for now
+    success: {
+      // green
+      main: "1DD1A1",
+    }, */
     action: {
       hover: "#BDACD4",
     },

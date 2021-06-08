@@ -4,6 +4,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import EcoIcon from "@material-ui/icons/Eco";
 import LockIcon from "@material-ui/icons/Lock";
 
+// Card given from original template, might delete later if not needed
 const Style = "text-white text-xs";
 
 const arrayIcon = [

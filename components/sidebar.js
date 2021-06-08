@@ -17,7 +17,7 @@ import FriendCard from "./Cards/FriendCard";
 const useStyles = makeStyles({
   button: {
     fontSize: "18px",
-    textTransform: "none", //makes it lowercase
+    textTransform: "lowercase", //makes it lowercase
     maxWidth: "200px",
     maxHeight: "50px",
     minWidth: "200px",
