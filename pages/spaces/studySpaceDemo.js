@@ -46,9 +46,10 @@ export default function StudySpaceDemo() {
             color={theme.palette.primary.dark}
             className="flex flex-row  rounded-full space-x-5 col-span-4"
           >
-            <Box >
+            <Box>
               <Button
-                variant="outlined" color="primary"
+                variant="outlined"
+                color="primary"
                 className="flex flex-row justify-start rounded-full  outline-none"
               >
                 <CreateIcon />
@@ -57,7 +58,9 @@ export default function StudySpaceDemo() {
                 </Typography>
               </Button>
             </Box>
-            <SettingsIcon />
+            <Box color={theme.palette.primary.dark}>
+              <SettingsIcon />
+            </Box>
           </Grid>
 
           <Grid item className="col-span-4">
@@ -81,7 +84,6 @@ export default function StudySpaceDemo() {
             </Button>
           </Grid>
 
-   
           <Grid item className="flex justify-start items-end col-span-2 px-8 ">
             <Box
               color={theme.palette.primary.dark}
