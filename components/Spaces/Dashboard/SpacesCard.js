@@ -1,6 +1,8 @@
 import React from "react";
-import { Paper, Container, Box, Typography } from "@material-ui/core";
+import { Paper, Box, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
+
+// Icons
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -14,8 +16,10 @@ export default function SpacesCard(props) {
     <Paper className={`flex flex-col`}>
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
-          <h2 className="text-xl">{props.spaceName}</h2>
-          <p className="text-sm text-gray-500">{props.description}</p>
+          <Typography variant="h5" align="center">
+            {props.spaceName}
+          </Typography>
+          <Typography color='textSecondary' variant="body1">{props.description}</Typography>
         </Box>
 
         <Box
@@ -36,6 +40,7 @@ export default function SpacesCard(props) {
         <Box>
           <PeopleIcon />
           {props.headCount}
+          
         </Box>
         <Box>
           <LibraryMusicIcon />

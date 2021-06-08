@@ -1,5 +1,5 @@
 import React from "react";
-import SpacesCard from "../../components/SpacesCard";
+import SpacesCard from "../../components/Spaces/Dashboard/SpacesCard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
@@ -8,6 +8,7 @@ const theme = createMuiTheme({
       dark: "#614885",
       main: "#977BBF",
       light: "#F5F2F9",
+      text: "#8BA0AB",
     },
     secondary: {
       main: "#f44336",
