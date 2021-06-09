@@ -19,7 +19,7 @@ export default createMuiTheme({
       // red
       main: "#EF5D66",
     },
-    /* causes error so I'm leaving it out for now
+    /* success causes error so I'm leaving it out for now
     success: {
       // green
       main: "1DD1A1",

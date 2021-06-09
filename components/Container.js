@@ -5,10 +5,12 @@ import RightBar from "./RightBar";
 
 const Container = () => {
   return (
-    <div className=" h-full ">
-      <div className="  px-8 py-1 ">
-        <p className="pt-4 text-gray-500 font-bold text-2xl">Hey Charles!</p>
-        <p className=" pt-2 transform -translate-y-2">
+    <div className="h-full">
+      <div className="px-8 py-1">
+        <p className="pt-4 text-purple-900 font-medium text-4xl">
+          Hey Charles!
+        </p>
+        <p className="pt-4 transform -translate-y-2 text-sm">
           The key is not to prioritize what's on your schedule, but to schedule
           your priorities.
         </p>
