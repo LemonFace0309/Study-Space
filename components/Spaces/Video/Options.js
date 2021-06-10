@@ -54,7 +54,7 @@ function Options({ children }) {
     <Container className={classes.container}>
       <Paper elevation={10} className={classes.paper}>
         <form className={classes.root} noValidate autoComplete="off">
-          <Grid container className={classes.gridContainer}>
+          <Grid container className={classes.gridContainer} direction="row">
             <Grid item xd={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">
                 Account Info
