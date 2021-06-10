@@ -7,12 +7,14 @@ export default createMuiTheme({
       light: "#BDACD4",
       main: "#977BBF",
       dark: "#4E3276",
+      mainGradient: "linear-gradient(to right, #4E3276, #977BBF)",
       contrastText: "#fff", // white
     },
     secondary: {
       // pink
       light: "#FAF3F5",
       main: "#E3BAC6",
+      mainGradient: "linear-gradient(to right, #FAF3F5, #BDACD4)",
       contrastText: "#000", // black
     },
     error: {
@@ -37,6 +39,13 @@ export default createMuiTheme({
     subtitle2: {
       fontWeight: 500,
       fontSize: "14px",
+    },
+    h2: {
+      fontWeight: 400,
+      fontSize: "28px",
+      lineHeight: 1.2,
+      letterSpacing: "-0.00833em",
+      color: "#FFF",
     },
     h3: {
       fontWeight: 300,
