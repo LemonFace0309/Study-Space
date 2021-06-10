@@ -34,24 +34,28 @@ const useStyles = makeStyles({
 
 const Sidebar = () => {
   const classes = useStyles();
+  const theme = useTheme();
   return (
-    //color={theme.palette.primary.dark} className="rounded-r"
-    <Box className={classes.box}>
+    //className={classes.box}
+    <Box bgcolor={theme.palette.primary.dark} className="h-screen rounded-r-xl">
       <div className="py-5 flex justify-around">
         <Typography variant="subtitle1" align="left">
           Dashboard😊
         </Typography>
         <MenuOpenIcon
           className="pt-2"
-          style={{ color: "#BDACD4" }} //color={theme.palette.primary.light}
+          color={theme.palette.primary.light} // doesn't work
+          style={{ color: "#BDACD4" }}
         />
       </div>
       <div className="py-4 pl-4 pr-4">
         <div className="">
           <div className="flex p-3 rounded-r-md">
             <Button
-              //color={theme.palette.primary.main} className="lowercase max-w-xl max-h-1 bg-transparent rounded-l-none"
+              //style={{ color: "#BDACD4", backgroundColor: "#4E3276" }}
+              //bgcolor={theme.palette.primary.main}
               className={classes.button}
+              //className="capitalize w-48 rounded-l-none"
               variant="contained"
               startIcon={<HomeIcon />}
             >

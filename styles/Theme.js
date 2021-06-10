@@ -25,7 +25,8 @@ export default createMuiTheme({
       main: "1DD1A1",
     }, */
     action: {
-      hover: "#BDACD4",
+      active: "#4E3276",
+      hover: "#977BBF",
     },
   },
   typography: {

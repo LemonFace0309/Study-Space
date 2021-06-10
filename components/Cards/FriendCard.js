@@ -8,20 +8,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
-const useStyles = makeStyles({
-  box: {
-    borderRadius: "0px 15px 15px 0px",
-    background: "#977BBF",
-  },
-});
-
 const FriendCard = (props) => {
-  const classes = useStyles();
   const theme = useTheme();
   return (
-    //color={theme.palette.primary.main} className="rounded-r"
-    <Box className={classes.box}>
-      <List className={classes.root}>
+    <Box bgcolor={theme.palette.primary.main} className="rounded-r-xl">
+      <List>
         <ListItem>
           <ListItemAvatar>
             <Avatar />
