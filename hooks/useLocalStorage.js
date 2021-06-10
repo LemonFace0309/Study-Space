@@ -1,26 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
-const PREFIX = 'Productify: '
+const PREFIX = "Productify: ";
 
-const useLocalStorage = (key, initialValue) => {
-  const prefixedKey = PREFIX + key
-  
+const UseLocalStorage = (key, initialValue) => {
+  const prefixedKey = PREFIX + key;
+
   const [value, setValue] = useState(() => {
-    const jsonValue = localStorage.getItem(prefixedKey)
+    const jsonValue = localStorage.getItem(prefixedKey);
     if (jsonValue != null) {
-      return JSON.parse(jsonValue)
-    } else if (typeof initialValue === 'function') {
-      return initialValue()
+      return JSON.parse(jsonValue);
+    } else if (typeof initialValue === "function") {
+      return initialValue();
     } else {
-      return initialValue
+      return initialValue;
     }
-  })
+  });
 
   useEffect(() => {
-    localStorage.setItem(prefixedKey, JSON.stringify(value))
-  }, [prefixedKey, value])
+    localStorage.setItem(prefixedKey, JSON.stringify(value));
+  }, [prefixedKey, value]);
 
-  return [value, setValue]
-}
+  return [value, setValue];
+};
 
-export default useLocalStorage
+export default UseLocalStorage;
