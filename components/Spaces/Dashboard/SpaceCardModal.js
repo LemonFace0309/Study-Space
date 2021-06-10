@@ -9,11 +9,10 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  useTheme,
 } from "@material-ui/core";
 
-import { useTheme } from "@material-ui/core/styles";
-
-import PersonIcon from "@material-ui/icons/Person";
+import  PersonIcon from "@material-ui/icons/Person";
 
 
 
@@ -37,15 +36,12 @@ function UserList(props) {
 
 export default function SpaceCardModal(props) {
   const theme = useTheme();
-  const { onClose, open, children, friends, participants, hosts } = props;
+  const { handleClose, open, children, friends, participants, hosts } = props;
   
 
-  const handleClose = () => {
-    onClose();
-  };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={() => handleClose()} open={open}>
       <Box className="p-10 rounded-lg">
         {children}
 
@@ -57,7 +53,7 @@ export default function SpaceCardModal(props) {
           In Session
         </Typography>
 
-        <Container className="flex flex-row justify-between ">
+        <Container className="flex flex-col sm:flex-row justify-between  ">
           <Box
             bgcolor={theme.palette.primary.light}
             className="flex flex-col p-5 rounded-lg"
