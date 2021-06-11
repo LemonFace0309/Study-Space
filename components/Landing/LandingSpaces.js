@@ -17,7 +17,7 @@ const LandingSpaces = ({ data }) => {
           <SpaceCard
             spaceName={card.spaceName}
             description={card.description}
-            headCount={card.headCound}
+            headCount={card.headCount}
             music={card.music}
           />
         </Grid>
