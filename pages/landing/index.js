@@ -9,9 +9,7 @@ const Landing = ({ data }) => {
         <Header />
         <Banner />
       </div>
-      <main>
-        <LandingSpaces data={data} />
-      </main>
+      <LandingSpaces data={data} />
     </div>
   )
 }

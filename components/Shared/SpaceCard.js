@@ -10,7 +10,7 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 const SpaceCard = ({ spaceName, description, headCount, music }) => {
   const theme = useTheme();
   return (
-    <Paper className="flex flex-col h-full rounded-xl">
+    <Paper className="flex flex-col h-full" style={{ borderRadius: '0px 15px 15px 15px' }}>
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
           <Typography variant="h5" align="center">

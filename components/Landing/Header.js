@@ -44,7 +44,7 @@ const Header = (props) => {
           <Toolbar>
             <IconButton
               edge="start"
-              className="mr-2"
+              className="mr-2 outline-none"
               color="inherit"
               aria-label="menu"
             >
