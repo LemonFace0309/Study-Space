@@ -27,8 +27,8 @@ const Landing = ({ data, features }) => {
 };
 
 Landing.propTypes = {
-  data: PropTypes.object.isRequired,
-  features: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
+  features: PropTypes.array.isRequired,
 };
 
 export const getStaticProps = async () => {
