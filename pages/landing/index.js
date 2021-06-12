@@ -1,8 +1,11 @@
-import Header from '../../components/Landing/Header'
-import Banner from '../../components/Landing/Banner'
-import LandingSpaces from '../../components/Landing/LandingSpaces'
+import PropTypes from 'prop-types';
 
-const Landing = ({ data }) => {
+import Header from '../../components/Landing/Header';
+import Banner from '../../components/Landing/Banner';
+import LandingSpaces from '../../components/Landing/LandingSpaces';
+import Feature, { DIRECTIONS } from '../../components/Landing/Feature';
+
+const Landing = ({ data, features }) => {
   return (
     <div>
       <div className="min-h-screen flex flex-col">
@@ -10,11 +13,25 @@ const Landing = ({ data }) => {
         <Banner />
       </div>
       <LandingSpaces data={data} />
+      {features.map((feature, index) => (
+        <Feature
+          key={index}
+          title={feature.title}
+          body={feature.body}
+          img={feature.img}
+          direction={index % 2 ? DIRECTIONS.BACKWARDS : DIRECTIONS.FORWARDS}
+        />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export const getStaticProps = async (ctx) => {
+Landing.propTypes = {
+  data: PropTypes.object.isRequired,
+  features: PropTypes.object.isRequired,
+};
+
+export const getStaticProps = async () => {
   return {
     props: {
       data: [
@@ -40,8 +57,25 @@ export const getStaticProps = async (ctx) => {
           music: 'none',
         },
       ],
+      features: [
+        {
+          title: 'Customizable Spaces',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque nec egestas rutrum eu tincidunt ante nulla. Consectetur pellentesque imperdiet condimentum gravida purus.',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Virtual study enhancements',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque nec egestas rutrum eu tincidunt ante nulla. Consectetur pellentesque imperdiet condimentum gravida purus.',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque nec egestas rutrum eu tincidunt ante nulla. Consectetur pellentesque imperdiet condimentum gravida purus.',
+          img: '/images/placeholder.jpg',
+        },
+      ],
     },
-  }
-}
+  };
+};
 
-export default Landing
+export default Landing;

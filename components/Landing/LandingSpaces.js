@@ -1,6 +1,6 @@
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 
-import SpaceCard from '../Shared/SpaceCard'
+import SpaceCard from '../Shared/SpaceCard';
 
 const LandingSpaces = ({ data }) => {
   return (
@@ -12,8 +12,7 @@ const LandingSpaces = ({ data }) => {
           xs={12}
           md={6}
           lg={4}
-          className="cursor-pointer transform hover:scale-105 transition ease-out duration-200"
-        >
+          className="cursor-pointer transform hover:scale-105 transition ease-out duration-200">
           <SpaceCard
             spaceName={card.spaceName}
             description={card.description}
@@ -23,7 +22,7 @@ const LandingSpaces = ({ data }) => {
         </Grid>
       ))}
     </Grid>
-  )
-}
+  );
+};
 
-export default LandingSpaces
+export default LandingSpaces;

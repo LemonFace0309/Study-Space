@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
-import { Provider } from 'next-auth/client'
+import { useEffect } from 'react';
+import { Provider } from 'next-auth/client';
 
-import Layout from '../components/Layout/Layout'
-import { SocketProvider } from '../context/SocketProvider'
-import { ConversationProvider } from '../context/ConversationProvider'
-import '../styles/globals.css'
+import Layout from '../components/Layout/Layout';
+import { SocketProvider } from '../context/SocketProvider';
+import { ConversationProvider } from '../context/ConversationProvider';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
         </ConversationProvider>
       </SocketProvider>
     </Provider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

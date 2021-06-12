@@ -1,8 +1,8 @@
-import React from 'react'
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import CropLandscapeIcon from '@material-ui/icons/CropLandscape'
-import AppsIcon from '@material-ui/icons/Apps'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import React from 'react';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import CropLandscapeIcon from '@material-ui/icons/CropLandscape';
+import AppsIcon from '@material-ui/icons/Apps';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const Header = () => {
   return (
@@ -19,7 +19,7 @@ const Header = () => {
         <p className="text-gray-600 font-semibold">Close</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

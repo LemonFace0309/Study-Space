@@ -1,9 +1,9 @@
-import React from 'react'
-import classNames from 'classnames'
+import React from 'react';
+import classNames from 'classnames';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { AppBar, Toolbar, Button } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, Toolbar, Button } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -28,14 +28,14 @@ const Header = (props) => {
     'outline-none',
     'hover:text-gray-500',
     'transition duration-200 ease-in-out',
-  ])
+  ]);
   const authButtons = classNames([
     'normal-case',
     'px-10',
     'm-2',
     'rounded-full',
     'outline-none',
-  ])
+  ]);
 
   return (
     <>
@@ -46,8 +46,7 @@ const Header = (props) => {
               edge="start"
               className="mr-2 outline-none"
               color="inherit"
-              aria-label="menu"
-            >
+              aria-label="menu">
               <MenuIcon />
             </IconButton>
             <div className="flex-grow">
@@ -66,8 +65,7 @@ const Header = (props) => {
               className={authButtons}
               style={{
                 border: '1.5px solid rgba(107, 114, 128)',
-              }}
-            >
+              }}>
               Sign Up
             </Button>
             <Button
@@ -75,15 +73,14 @@ const Header = (props) => {
               className={authButtons}
               style={{
                 border: '1.5px solid rgba(107, 114, 128)',
-              }}
-            >
+              }}>
               Log in
             </Button>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
