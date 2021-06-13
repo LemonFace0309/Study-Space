@@ -1,6 +1,5 @@
-import mongoose from 'mongoose'
-
-const connection = {}
+import mongoose from "mongoose";
+const connection = {};
 
 async function dbConnect() {
   if (connection.isConnected) {
@@ -15,4 +14,4 @@ async function dbConnect() {
   connection.isConnected = db.connections[0].readyState
 }
 
-export default dbConnect
+export default dbConnect;
