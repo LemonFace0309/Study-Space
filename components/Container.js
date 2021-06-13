@@ -10,7 +10,7 @@ const Container = () => {
         <Typography variant="h1" className="pt-4">
           Hey Charles!
         </Typography>
-        <Typography variant="subtitle2">
+        <Typography variant="h3">
           The key is not to prioritize what's on your schedule, but to schedule
           your priorities.
         </Typography>

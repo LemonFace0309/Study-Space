@@ -41,11 +41,12 @@ export default createMuiTheme({
       fontSize: '14px',
     },
     h1: {
+      // title
       fontWeight: 500,
       fontSize: '30px',
       lineHeight: 2,
       letterSpacing: '-0.00833em',
-      color: '#4E3276',
+      color: '#616161',
     },
     h2: {
       fontWeight: 400,
@@ -56,11 +57,16 @@ export default createMuiTheme({
     },
     h3: {
       fontWeight: 300,
+      fontSize: '14px',
+      lineHeight: 1.2,
+      letterSpacing: '-0.00833em',
+      color: '#888888',
     },
     body1: {
       color: '#FFF',
     },
     allVariants: {
+      fontFamily: 'Ubuntu',
       color: '#BDACD4',
     },
   },
