@@ -4,7 +4,6 @@ import DoneIcon from '@material-ui/icons/Done'
 import EcoIcon from '@material-ui/icons/Eco'
 import LockIcon from '@material-ui/icons/Lock'
 // Card given from original template, might delete later if not needed
-//
 const Style = 'text-white text-xs'
 
 const arrayIcon = [
@@ -20,8 +19,9 @@ const Color = [
   'from-yellow-600 to-yellow-500',
 ]
 
+// change to: const Card = ({ balance }) => { balance = balance * 9.5
 const Card = (props) => {
-  var balance = props.balance
+  const balance = props.balance
   balance = balance * 9.5
 
   return (
@@ -31,13 +31,14 @@ const Card = (props) => {
       }`}
     >
       <div className="flex justify-between">
-        <div></div>
         <div className=" w-10  h-10 flex items-center justify-center  bg-gray-300 rounded-xl m-1  bg-opacity-30">
+          {/* const Card = ({icon}) */}
           {arrayIcon[props.icon]}
         </div>
       </div>
       <p className="text-gray-200 text-xs  ">{props.title}</p>
       <p className="text-gray-50 text-lg  font-semibold  ">
+        {/* const Balance = ({balance}) */}
         {props.balance} EGLD
       </p>
       <p className="text-gray-300  text-sm ">${balance}</p>
