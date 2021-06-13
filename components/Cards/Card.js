@@ -1,27 +1,28 @@
-import React from "react";
-import AllOutIcon from "@material-ui/icons/AllOut";
-import DoneIcon from "@material-ui/icons/Done";
-import EcoIcon from "@material-ui/icons/Eco";
-import LockIcon from "@material-ui/icons/Lock";
+import React from 'react'
+import AllOutIcon from '@material-ui/icons/AllOut'
+import DoneIcon from '@material-ui/icons/Done'
+import EcoIcon from '@material-ui/icons/Eco'
+import LockIcon from '@material-ui/icons/Lock'
 // Card given from original template, might delete later if not needed
-const Style = "text-white text-xs";
+//
+const Style = 'text-white text-xs'
 
 const arrayIcon = [
   <AllOutIcon fontSize="small" className={Style} />,
   <DoneIcon fontSize="small" className={Style} />,
   <EcoIcon fontSize="small" className={Style} />,
   <LockIcon fontSize="small" className={Style} />,
-];
+]
 const Color = [
-  "from-indigo-500 to-blue-500",
-  "from-blue-400 to-blue-300",
-  "from-green-500 to-green-400",
-  "from-yellow-600 to-yellow-500",
-];
+  'from-indigo-500 to-blue-500',
+  'from-blue-400 to-blue-300',
+  'from-green-500 to-green-400',
+  'from-yellow-600 to-yellow-500',
+]
 
 const Card = (props) => {
-  var balance = props.balance;
-  balance = balance * 9.5;
+  var balance = props.balance
+  balance = balance * 9.5
 
   return (
     <div
@@ -41,7 +42,7 @@ const Card = (props) => {
       </p>
       <p className="text-gray-300  text-sm ">${balance}</p>
     </div>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card
