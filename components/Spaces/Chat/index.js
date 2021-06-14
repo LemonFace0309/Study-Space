@@ -1,36 +1,38 @@
-import { useState } from "react";
-import { IconButton, TextField } from "@material-ui/core"
-import Paper from "@material-ui/core/Paper"
+import { useState } from 'react';
+import { IconButton, TextField } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 
-import Conversation from './Conversation'
-import { useConversation } from '../../../context/ConversationProvider'
+import Conversation from './Conversation';
+import { useConversation } from '../../../context/ConversationProvider';
 
 const Chat = () => {
-  const [text, setText] = useState('')
-  const [error, setError] = useState(false)
-  const { sendMessage } = useConversation()
+  const [text, setText] = useState('');
+  const [error, setError] = useState(false);
+  const { sendMessage } = useConversation();
 
   const submitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const messageDidSend = sendMessage(text)
-    setError(!messageDidSend)
-    setText('')
+    const messageDidSend = sendMessage(text);
+    setError(!messageDidSend);
+    setText('');
     setTimeout(() => {
-      setError(false)
-    }, 2000)
-  }
+      setError(false);
+    }, 2000);
+  };
 
   const keyPressHandler = (e) => {
     if (e.keyCode == 13) {
-      submitHandler(e)
+      submitHandler(e);
     }
-  }
+  };
 
   return (
     <>
-      <Paper className="flex flex-col h-96 min-h-full w-9/12 max-w-lg" elevation={3}>
+      <Paper
+        className="flex flex-col h-96 min-h-full w-9/12 max-w-lg"
+        elevation={3}>
         <Conversation />
         <form onSubmit={submitHandler} className="flex items-center mt-2">
           <TextField
@@ -51,7 +53,7 @@ const Chat = () => {
         </form>
       </Paper>
     </>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import axios from 'axios'
-import { makeStyles, TextField, Button } from '@material-ui/core'
+import { useState } from 'react';
+import axios from 'axios';
+import { makeStyles, TextField, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,26 +18,26 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
     },
   },
-}))
+}));
 
 function SignUpForm({ handleClose }) {
-  const classes = useStyles()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const classes = useStyles();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(name, email, password)
+    e.preventDefault();
+    console.log(name, email, password);
     const result = await axios.post('/api/createnewuser', {
       name,
       email,
       password,
       type: 'credentials',
-    })
-    console.log(result)
-    handleClose()
-  }
+    });
+    console.log(result);
+    handleClose();
+  };
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
@@ -73,7 +73,7 @@ function SignUpForm({ handleClose }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }
 
-export default SignUpForm
+export default SignUpForm;

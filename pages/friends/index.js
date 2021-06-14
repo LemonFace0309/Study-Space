@@ -1,47 +1,44 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from '@material-ui/core'
-import { getSession } from 'next-auth/client'
-
+import { Button } from '@material-ui/core';
+import { getSession } from 'next-auth/client';
 
 function users() {
-  const [userList, setUserList] = useState([])
-  const [friendsList, setFriendsList] = useState([])
-  const [session, setSession] = useState()
-  const [currentUser, setCurrentUser] = useState({})
+  const [userList, setUserList] = useState([]);
+  const [friendsList, setFriendsList] = useState([]);
+  const [session, setSession] = useState();
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(async () => {
-    const userSession = await getSession()
-    setSession(userSession)
+    const userSession = await getSession();
+    setSession(userSession);
     if (userSession) {
-      console.debug(userSession)
+      console.debug(userSession);
       setCurrentUser({
-        'name': userSession.user.name,
-        'email': userSession.user.email
-      })
+        name: userSession.user.name,
+        email: userSession.user.email,
+      });
 
       const res = await axios.get('/api/getuserlist', {
         params: {
           name: userSession.user.name,
           email: userSession.user.email,
-        }
-      })
-      setUserList(res.data.users)
-      setFriendsList(res.data.friends)
-
+        },
+      });
+      setUserList(res.data.users);
+      setFriendsList(res.data.friends);
     }
-  }, [])
+  }, []);
 
   async function handleAddFriend(user) {
-    console.debug("[handleAddFriend] send")
+    console.debug('[handleAddFriend] send');
     const result = await axios.post('/api/createnewfriend', {
       user1name: currentUser.name,
       user1email: currentUser.email,
       user2name: user.name,
       user2email: user.email,
-    })
-    console.debug(result)
-
+    });
+    console.debug(result);
   }
 
   if (!session) return <h1> Please log in </h1>;
@@ -49,38 +46,50 @@ function users() {
     <>
       <h1> Users </h1>
       {userList.map((user, i) => {
-        if (user.name == currentUser.name && user.email == currentUser.email) return;
-        let friendText = "Add";
+        if (user.name == currentUser.name && user.email == currentUser.email)
+          return;
+        let friendText = 'Add';
         for (let friend in friendsList) {
-          friend = friendsList[friend]
-          if (friend.requester_email == currentUser.email && friend.recipient_email == user.email) {
+          friend = friendsList[friend];
+          if (
+            friend.requester_email == currentUser.email &&
+            friend.recipient_email == user.email
+          ) {
             if (friend.status == 1) {
-              friendText = "Pending"
+              friendText = 'Pending';
               break;
             } else if (friend.status == 2) {
-              friendText = "Added"
+              friendText = 'Added';
               break;
             }
           }
-          if (friend.recipient_email == currentUser.email && friend.requester_email == user.email) {
+          if (
+            friend.recipient_email == currentUser.email &&
+            friend.requester_email == user.email
+          ) {
             if (friend.status == 1) {
-              friendText = "Accept"
+              friendText = 'Accept';
               break;
             } else if (friend.status == 2) {
-              friendText = "Added"
+              friendText = 'Added';
               break;
             }
           }
         }
 
-        return <div key={i}>
-          {user.name} {user.email}
-          <img src={user.image}></img>
-          <Button onClick={() => handleAddFriend(user)}> {friendText} </Button>
-        </div>
+        return (
+          <div key={i}>
+            {user.name} {user.email}
+            <img src={user.image}></img>
+            <Button onClick={() => handleAddFriend(user)}>
+              {' '}
+              {friendText}{' '}
+            </Button>
+          </div>
+        );
       })}
     </>
-  )
+  );
 }
 
-export default users
+export default users;

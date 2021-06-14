@@ -1,13 +1,13 @@
-import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import AppBar from '@material-ui/core/AppBar'
-import { Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import VideoPlayer from '../../components/Spaces/Video/VideoPlayer'
-import Notifications from '../../components/Spaces/Video/Notifications'
-import Options from '../../components/Spaces/Video/Options'
-import Chat from '../../components/Spaces/Chat'
+import VideoPlayer from '../../components/Spaces/Video/VideoPlayer';
+import Notifications from '../../components/Spaces/Video/Notifications';
+import Options from '../../components/Spaces/Video/Options';
+import Chat from '../../components/Spaces/Chat';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -31,12 +31,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Space() {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <>
       <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography variant="h2" align="center">Study with Me</Typography>
+        <Typography variant="h2" align="center">
+          Study with Me
+        </Typography>
       </AppBar>
       <Grid container spacing={2} direction="row">
         <Grid className="flex flex-col items-center w-full" item xs={12} md={6}>
@@ -50,7 +52,7 @@ function Space() {
         </Grid>
       </Grid>
     </>
-  )
+  );
 }
 
-export default Space
+export default Space;

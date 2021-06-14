@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   Button,
   TextField,
@@ -6,12 +6,12 @@ import {
   Typography,
   Container,
   Paper,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons'
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 
-import { useSocket } from '../../../context/SocketProvider'
+import { useSocket } from '../../../context/SocketProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 20px',
     border: '2px solid black',
   },
-}))
+}));
 
 function Options({ children }) {
-  const classes = useStyles()
+  const classes = useStyles();
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
-    useSocket()
-  const [idToCall, setIdToCall] = useState('')
+    useSocket();
+  const [idToCall, setIdToCall] = useState('');
 
   return (
     <Container className={classes.container}>
@@ -70,8 +70,7 @@ function Options({ children }) {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  startIcon={<Assignment fontSize="large" />}
-                >
+                  startIcon={<Assignment fontSize="large" />}>
                   Copy Your Id
                 </Button>
               </CopyToClipboard>
@@ -93,8 +92,7 @@ function Options({ children }) {
                   startIcon={<PhoneDisabled fontSize="large" />}
                   fullWidth
                   onClick={leaveCall}
-                  className={classes.margin}
-                >
+                  className={classes.margin}>
                   Hang Up
                 </Button>
               ) : (
@@ -104,8 +102,7 @@ function Options({ children }) {
                   startIcon={<Phone fontSize="large" />}
                   fullWidth
                   onClick={() => callUser(idToCall)}
-                  className={classes.margin}
-                >
+                  className={classes.margin}>
                   Call
                 </Button>
               )}
@@ -115,7 +112,7 @@ function Options({ children }) {
         {children}
       </Paper>
     </Container>
-  )
+  );
 }
 
-export default Options
+export default Options;
