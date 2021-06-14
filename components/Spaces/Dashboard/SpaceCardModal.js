@@ -16,8 +16,7 @@ import  PersonIcon from "@material-ui/icons/Person";
 
 
 
-function UserList(props) {
-  const { users } = props;
+function UserList({ users }) {
   return (
     <List>
       {users.map((user) => (
@@ -34,11 +33,8 @@ function UserList(props) {
   );
 }
 
-export default function SpaceCardModal(props) {
+export default function SpaceCardModal({ handleClose, open, children, friends, participants, hosts }) {
   const theme = useTheme();
-  const { handleClose, open, children, friends, participants, hosts } = props;
-  
-
 
   return (
     <Dialog onClose={() => handleClose()} open={open}>
