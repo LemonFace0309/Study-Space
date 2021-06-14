@@ -17,7 +17,7 @@ const Feature = ({ title, body, img, direction }) => {
       className="m-0 w-full p-12">
       <Grid item xs={12} md={6}>
         <Typography variant="h5">{title}</Typography>
-        <Typography variant="body1">{body}</Typography>
+        <Typography variant="body1" color="textPrimary">{body}</Typography>
       </Grid>
       <Grid item xs={12} md={6}>
         <img src={img} alt={title} className="max-h-72" />
