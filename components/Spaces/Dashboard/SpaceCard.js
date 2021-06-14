@@ -11,13 +11,13 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
 export default function SpaceCard(props) {
   const theme = useTheme();
-  const { description, headCount, music } = props;
+  const { spaceName, description, headCount, music } = props;
   return (
     <Paper className="rounded-xl">
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
           <Typography variant="h5" align="center">
-            {props.spaceName}
+            {spaceName}
           </Typography>
           <Typography color="textSecondary" variant="body1">
             {description}

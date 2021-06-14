@@ -2,12 +2,7 @@ import React from "react";
 import Timer from "../../components/Spaces/StudySpace/Timer";
 import User from "../../components/Spaces/StudySpace/User";
 
-import { Container, Box, Grid, Button, Typography } from "@material-ui/core";
-import {
-  useTheme,
-  createMuiTheme,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { Container, Box, Grid, Button, Typography, useTheme, createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
@@ -101,8 +96,9 @@ export default function StudySpaceDemo() {
                 <div className="mt-5 ml-5">
                   <User />
                 </div>
-                <User /> <User /> <User /> <User /> <User />
-                <User /> <User /> <User /> <User /> <User /> <User />
+                {Array.from(Array(11).keys()).map(() => (
+                  <User />
+                ))}
               </Grid>
             </Container>
           </Grid>

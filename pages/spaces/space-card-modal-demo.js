@@ -36,24 +36,16 @@ export default function SpaceCardModalDemo() {
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <div className="flex flex-row space-x-5">
-        {cardData.map((data) => {
-          let { spaceName, description, headCount, music } = data;
-
+        {cardData.map(({ spaceName, description, headCount, music }) => {
           return (
             <div>
               <div
-                onClick={handleClickOpen}
+                onClick={() => {
+                  setOpen(true);
+                }}
                 className="cursor-pointer transform hover:scale-110 transition ease-out duration-200"
               >
                 <SpaceCard
@@ -66,7 +58,9 @@ export default function SpaceCardModalDemo() {
 
               <SpaceCardModal
                 open={open}
-                onClose={handleClose}
+                handleClose={() => {
+                  setOpen(false);
+                }}
                 friends={friends}
                 participants={participants}
                 hosts={hosts}
