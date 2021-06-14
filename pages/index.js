@@ -1,20 +1,18 @@
-import Head from 'next/head'
-import Sidebar from '../components/sidebar'
-import Header from "../components/Header"
-import Container from '../components/Container'
-
+import Head from "next/head";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import Container from "../components/Container";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex w-screen h-screen" >
+    <div class="flex">
+      {/*flex flex-col justify-between w-1/3 h-screen*/}
+      <div class="justify-between h-screen">
         <Sidebar />
-        <div className="w-screen ">
-          <Header />
-          <Container />
-        </div>
       </div>
-
+      <div class="flex flex-col justify-between w-2/3">
+        <Container />
+      </div>
     </div>
-  )
+  );
 }
