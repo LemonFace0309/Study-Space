@@ -4,7 +4,7 @@ import SpaceCard from '../Shared/SpaceCard';
 
 const LandingSpaces = ({ data }) => {
   return (
-    <Grid container spacing={3} className="py-4 px-8 bg-gray-200">
+    <Grid container spacing={3} className="m-0 w-full py-4 px-8 bg-gray-200">
       {data.map((card, index) => (
         <Grid
           key={index}

@@ -14,7 +14,7 @@ const Feature = ({ title, body, img, direction }) => {
       spacing={4}
       alignItems="center"
       direction={direction}
-      className="p-12">
+      className="m-0 w-full p-12">
       <Grid item xs={12} md={6}>
         <Typography variant="h5">{title}</Typography>
         <Typography variant="body1">{body}</Typography>

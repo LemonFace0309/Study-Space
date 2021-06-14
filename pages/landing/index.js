@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 
 import Header from '../../components/Landing/Header';
-import Banner from '../../components/Landing/Banner';
+import Hero from '../../components/Landing/Hero';
 import LandingSpaces from '../../components/Landing/LandingSpaces';
 import Feature, { DIRECTIONS } from '../../components/Landing/Feature';
 
 const Landing = ({ data, features }) => {
   return (
-    <div>
+    <>
       <div className="min-h-screen flex flex-col">
         <Header />
-        <Banner />
+        <Hero />
       </div>
       <LandingSpaces data={data} />
       {features.map((feature, index) => (
@@ -22,7 +22,7 @@ const Landing = ({ data, features }) => {
           direction={index % 2 ? DIRECTIONS.BACKWARDS : DIRECTIONS.FORWARDS}
         />
       ))}
-    </div>
+    </>
   );
 };
 

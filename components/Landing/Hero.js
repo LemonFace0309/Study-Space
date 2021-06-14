@@ -1,7 +1,7 @@
 import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-const Banner = () => {
+const hero = () => {
   return (
     <Container maxWidth="xl" className="flex-grow flex items-stretch">
       <Grid container direction="row" className="items-center p-2" spacing={3}>
@@ -59,4 +59,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default hero;

@@ -38,48 +38,46 @@ const Header = (props) => {
   ]);
 
   return (
-    <>
-      <ElevationScroll {...props}>
-        <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className="mr-2 outline-none"
-              color="inherit"
-              aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <div className="flex-grow">
-              <button variant="h6" className={menuItemStyles}>
-                Just You
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                With Friends
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                Large Groups
-              </button>
-            </div>
-            <Button
-              color="inherit"
-              className={authButtons}
-              style={{
-                border: '1.5px solid rgba(107, 114, 128)',
-              }}>
-              Sign Up
-            </Button>
-            <Button
-              color="inherit"
-              className={authButtons}
-              style={{
-                border: '1.5px solid rgba(107, 114, 128)',
-              }}>
-              Log in
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </ElevationScroll>
-    </>
+    <ElevationScroll {...props}>
+      <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className="mr-2 outline-none"
+            color="inherit"
+            aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <div className="flex-grow">
+            <button variant="h6" className={menuItemStyles}>
+              Just You
+            </button>
+            <button variant="h6" className={menuItemStyles}>
+              With Friends
+            </button>
+            <button variant="h6" className={menuItemStyles}>
+              Large Groups
+            </button>
+          </div>
+          <Button
+            color="inherit"
+            className={authButtons}
+            style={{
+              border: '1.5px solid rgba(107, 114, 128)',
+            }}>
+            Sign Up
+          </Button>
+          <Button
+            color="inherit"
+            className={authButtons}
+            style={{
+              border: '1.5px solid rgba(107, 114, 128)',
+            }}>
+            Log in
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </ElevationScroll>
   );
 };
 
