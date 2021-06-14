@@ -9,7 +9,6 @@ import ChatIcon from "@material-ui/icons/Chat";
 import PeopleIcon from "@material-ui/icons/People";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 
-
 export default function SpaceCard(props) {
   const theme = useTheme();
   const { spaceName, description, headCount, music } = props;
