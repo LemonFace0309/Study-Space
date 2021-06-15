@@ -2,6 +2,8 @@ import React from 'react'
 import Middle from './Middle'
 import RightBar from './RightBar'
 import Typography from '@material-ui/core/Typography'
+import JoinCard from "./Cards/JoinCard";
+import CreateCard from "./Cards/CreateCard";
 
 const Container = () => {
   return (
@@ -16,6 +18,18 @@ const Container = () => {
         </Typography>
       </div>
       <div className="flex ml-3 mt-6 space-x-6 mr-4"></div>
+
+      {/* can be editied to store new cards */}
+      <div className="flex flex-row space-x-5 p-10">
+        <CreateCard
+          spaceName="Create a Space"
+          description="insert some sort of tagline or feature description "
+        />
+        <JoinCard
+          spaceName="Join a Space"
+          description="insert some sort of tagline or feature description "
+        />
+      </div>;
     </div>
   )
 }
