@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
 import Image from 'next/image';
 import axios from 'axios';
@@ -289,5 +290,9 @@ export async function getServerSideProps(context) {
     props: { providers },
   };
 }
+
+Auth.propTypes = {
+  providers: PropTypes.object.isRequired,
+};
 
 export default Auth;

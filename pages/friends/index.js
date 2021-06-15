@@ -80,7 +80,7 @@ function users() {
         return (
           <div key={i}>
             {user.name} {user.email}
-            <img src={user.image}></img>
+            <img src={user.image} alt="user" />
             <Button onClick={() => handleAddFriend(user)}>
               {' '}
               {friendText}{' '}
