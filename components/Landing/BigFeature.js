@@ -7,7 +7,7 @@ export const DIRECTIONS = {
   BACKWARDS: 'row-reverse',
 };
 
-const Feature = ({ title, body, img, direction }) => {
+const BigFeature = ({ title, body, img, direction }) => {
   return (
     <Grid
       container
@@ -17,7 +17,9 @@ const Feature = ({ title, body, img, direction }) => {
       className="m-0 w-full p-12">
       <Grid item xs={12} md={6}>
         <Typography variant="h5">{title}</Typography>
-        <Typography variant="body1" color="textPrimary">{body}</Typography>
+        <Typography variant="body1" color="textPrimary">
+          {body}
+        </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
         <img src={img} alt={title} className="max-h-72" />
@@ -26,11 +28,11 @@ const Feature = ({ title, body, img, direction }) => {
   );
 };
 
-Feature.propTypes = {
+BigFeature.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
   direction: PropTypes.string.isRequired,
 };
 
-export default Feature;
+export default BigFeature;

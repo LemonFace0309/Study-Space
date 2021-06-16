@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import Header from '../../components/Landing/Header';
 import Hero from '../../components/Landing/Hero';
 import LandingSpaces from '../../components/Landing/LandingSpaces';
-import Feature, { DIRECTIONS } from '../../components/Landing/Feature';
+import BigFeature, { DIRECTIONS } from '../../components/Landing/BigFeature';
+import BigStats from '../../components/Landing/BigStats';
+import SmallFeatures from '../../components/Landing/SmallFeatures';
+import Footer from '../../components/Landing/Footer';
 
-const Landing = ({ data, features }) => {
+const Landing = ({ data, bigFeatures, stats, smallFeatures }) => {
   return (
     <>
       <div className="min-h-screen flex flex-col">
@@ -13,8 +16,8 @@ const Landing = ({ data, features }) => {
         <Hero />
       </div>
       <LandingSpaces data={data} />
-      {features.map((feature, index) => (
-        <Feature
+      {bigFeatures.map((feature, index) => (
+        <BigFeature
           key={index}
           title={feature.title}
           body={feature.body}
@@ -22,13 +25,18 @@ const Landing = ({ data, features }) => {
           direction={index % 2 ? DIRECTIONS.BACKWARDS : DIRECTIONS.FORWARDS}
         />
       ))}
+      <BigStats stats={stats} />
+      <SmallFeatures features={smallFeatures} />
+      <Footer />
     </>
   );
 };
 
 Landing.propTypes = {
-  data: PropTypes.array.isRequired,
-  features: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  bigFeatures: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stats: PropTypes.arrayOf(PropTypes.object).isRequired,
+  smallFeatures: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export const getStaticProps = async () => {
@@ -57,7 +65,7 @@ export const getStaticProps = async () => {
           music: 'none',
         },
       ],
-      features: [
+      bigFeatures: [
         {
           title: 'Customizable Spaces',
           body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque nec egestas rutrum eu tincidunt ante nulla. Consectetur pellentesque imperdiet condimentum gravida purus.',
@@ -71,6 +79,55 @@ export const getStaticProps = async () => {
         {
           title: 'Communities of students',
           body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque nec egestas rutrum eu tincidunt ante nulla. Consectetur pellentesque imperdiet condimentum gravida purus.',
+          img: '/images/placeholder.jpg',
+        },
+      ],
+      stats: [
+        {
+          score: '99%',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+        },
+        {
+          score: 12,
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+        },
+        {
+          score: '9 / 12',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+        },
+      ],
+      smallFeatures: [
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
+          img: '/images/placeholder.jpg',
+        },
+        {
+          title: 'Communities of students',
+          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis arcu et. Pellentesque... ',
           img: '/images/placeholder.jpg',
         },
       ],
