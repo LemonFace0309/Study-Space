@@ -84,20 +84,17 @@ export const getStaticProps = async () => {
       ],
       stats: [
         {
-          isPercentage: true,
-          number: 99,
+          score: '99%',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },
         {
-          isPercentage: false,
-          number: 12,
+          score: 12,
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },
         {
-          isPercentage: true,
-          number: 72,
+          score: '9 / 12',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },

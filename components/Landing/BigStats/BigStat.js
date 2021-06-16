@@ -11,8 +11,7 @@ const BigStat = ({ stat }) => {
       md={4}
       className="flex flex-col items-center justify-around">
       <Typography variant="h2" gutterBottom>
-        {stat.number}
-        {stat.isPercentage && '%'}
+        {stat.score}
       </Typography>
       <Typography variant="body1">{stat.description}</Typography>
     </Grid>
@@ -21,8 +20,7 @@ const BigStat = ({ stat }) => {
 
 BigStat.propTypes = {
   stat: PropTypes.exact({
-    isPercentage: PropTypes.bool.isRequired,
-    number: PropTypes.number.isRequired,
+    score: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     description: PropTypes.string.isRequired,
   }),
 };
