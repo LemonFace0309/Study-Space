@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
 
 import Header from '../../components/Landing/Header';
 import Hero from '../../components/Landing/Hero';
@@ -8,11 +9,16 @@ import BigStats from '../../components/Landing/BigStats';
 import SmallFeatures from '../../components/Landing/SmallFeatures';
 import Footer from '../../components/Landing/Footer';
 
-const Landing = ({ data, bigFeatures, stats, smallFeatures }) => {
+const Landing = ({ data, bigFeatures, stats, smallFeatures, providers }) => {
   return (
     <>
       <div className="min-h-screen flex flex-col">
-        <Header />
+        <Header
+          providers={providers}
+          signIn={signIn}
+          signOut={signOut}
+          getSession={getSession}
+        />
         <Hero />
       </div>
       <LandingSpaces data={data} />
@@ -33,6 +39,7 @@ const Landing = ({ data, bigFeatures, stats, smallFeatures }) => {
 };
 
 Landing.propTypes = {
+  providers: PropTypes.object.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   bigFeatures: PropTypes.arrayOf(PropTypes.object).isRequired,
   stats: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -40,8 +47,10 @@ Landing.propTypes = {
 };
 
 export const getStaticProps = async () => {
+  const providers = await getProviders();
   return {
     props: {
+      providers,
       data: [
         {
           spaceName: 'UW Math 2025',
