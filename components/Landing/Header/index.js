@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import classNames from 'classnames';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { AppBar, Toolbar, Button, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -213,57 +213,61 @@ const Header = (props) => {
       <ElevationScroll {...props}>
         <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
           <Toolbar>
-            <IconButton
-              onClick={() => setIsNavDrawerOpen(true)}
-              edge="start"
-              className="mr-2 outline-none"
-              color="inherit"
-              aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <div className="flex-grow">
-              <button variant="h6" className={menuItemStyles}>
-                Just You
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                With Friends
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                Large Groups
-              </button>
-            </div>
-            {session ? (
-              <Button
+            <Hidden mdUp>
+              <IconButton
+                onClick={() => setIsNavDrawerOpen(true)}
+                edge="start"
+                className="mr-2 outline-none"
                 color="inherit"
-                className={authButtons}
-                style={{
-                  border: '1.5px solid rgba(107, 114, 128)',
-                }}
-                onClick={() => signOut()}>
-                Signout
-              </Button>
-            ) : (
-              <>
+                aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+            <Hidden smDown>
+              <div className="flex-grow">
+                <button variant="h6" className={menuItemStyles}>
+                  Just You
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  With Friends
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  Large Groups
+                </button>
+              </div>
+              {session ? (
                 <Button
                   color="inherit"
                   className={authButtons}
-                  onClick={handleSignUp}
                   style={{
                     border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  Sign Up
+                  }}
+                  onClick={() => signOut()}>
+                  Signout
                 </Button>
-                <Button
-                  color="inherit"
-                  className={authButtons}
-                  onClick={handleLogIn}
-                  style={{
-                    border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  Log in
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleSignUp}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Sign Up
+                  </Button>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleLogIn}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Log in
+                  </Button>
+                </>
+              )}
+            </Hidden>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
