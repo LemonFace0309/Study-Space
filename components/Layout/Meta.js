@@ -1,6 +1,6 @@
 // @author Charles Liu
 
-import Head from 'next/head'
+import Head from 'next/head';
 
 const Meta = ({ title, keywords, description, image }) => {
   return (
@@ -20,14 +20,14 @@ const Meta = ({ title, keywords, description, image }) => {
       />
       <title>{title}</title>
     </Head>
-  )
-}
+  );
+};
 
 Meta.defaultProps = {
   title: 'Startup',
   keywords: 'cool startup',
   description: '',
   image: '',
-}
+};
 
-export default Meta
+export default Meta;

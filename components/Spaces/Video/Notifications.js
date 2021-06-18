@@ -1,10 +1,10 @@
-import React from 'react'
-import { Button } from '@material-ui/core'
+import React from 'react';
+import { Button } from '@material-ui/core';
 
-import { useSocket } from '../../../context/SocketProvider'
+import { useSocket } from '../../../context/SocketProvider';
 
 function Notifications() {
-  const { answerCall, call, callAccepted } = useSocket()
+  const { answerCall, call, callAccepted } = useSocket();
 
   return (
     <>
@@ -17,7 +17,7 @@ function Notifications() {
         </div>
       )}
     </>
-  )
+  );
 }
 
-export default Notifications
+export default Notifications;

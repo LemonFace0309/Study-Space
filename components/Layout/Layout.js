@@ -1,6 +1,6 @@
 // @author Charles Liu
 
-import Meta from './Meta'
+import Meta from './Meta';
 
 const Layout = ({ children }) => {
   return (
@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
       <Meta />
       <main className="">{children}</main>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

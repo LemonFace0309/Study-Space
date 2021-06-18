@@ -1,20 +1,5 @@
-import Head from 'next/head'
-import Sidebar from '../components/sidebar'
-import Header from "../components/Header"
-import Container from '../components/Container'
+const Home = () => {
+  return <h1>WELCOME :D</h1>;
+};
 
-
-export default function Home() {
-  return (
-    <div>
-      <div className="flex w-screen h-screen" >
-        <Sidebar />
-        <div className="w-screen ">
-          <Header />
-          <Container />
-        </div>
-      </div>
-
-    </div>
-  )
-}
+export default Home;
