@@ -7,8 +7,9 @@ import { AppBar, Toolbar, Button, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import AuthDialog from '../../components/Auth/AuthDialog';
-import styles from '../Shared/Spinner.module.css';
+import AuthDialog from '../../Auth/AuthDialog';
+import NavDrawer from './NavDrawer';
+import styles from '../../Shared/Spinner.module.css';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -28,6 +29,7 @@ function ElevationScroll(props) {
 
 const Header = (props) => {
   const { providers, signIn, signOut, getSession } = props;
+  const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -202,10 +204,17 @@ const Header = (props) => {
 
   return (
     <>
+      <NavDrawer
+        isOpen={isNavDrawerOpen}
+        setIsOpen={setIsNavDrawerOpen}
+        handleSignUp={handleSignUp}
+        handleLogIn={handleLogIn}
+      />
       <ElevationScroll {...props}>
         <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
           <Toolbar>
             <IconButton
+              onClick={() => setIsNavDrawerOpen(true)}
               edge="start"
               className="mr-2 outline-none"
               color="inherit"
