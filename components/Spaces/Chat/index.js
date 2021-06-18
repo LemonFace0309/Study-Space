@@ -6,25 +6,22 @@ import SendIcon from '@material-ui/icons/Send';
 import Conversation from './Conversation'
 import { useConversation } from '../../../context/ConversationProvider'
 
-const Chat = ({socketRef, conversation, peersRef}) => {
+const Chat = ({ conversation, setConversation, peersRef }) => {
   const [text, setText] = useState('')
   const [error, setError] = useState(false)
   const { sendMessage } = useConversation()
 
   const submitHandler = (e) => {
     e.preventDefault()
-
-
-    console.log(peersRef)
+    setConversation(prevConversation => {
+      return [...prevConversation, { text: text, fromMe: true }]
+    })
     peersRef.current.forEach((peer, i) => {
-      console.log(i, peer)
-      peer.peer.send(text)
+      if (peer) {
+        peer.peer.send(text)
+      }
     });
 
-
-    // const messageDidSend = sendMessage(text)
-    socketRef.current.emit("send message", {text: text})
-    // setError(!messageDidSend)
     setText('')
     setTimeout(() => {
       setError(false)
@@ -40,7 +37,7 @@ const Chat = ({socketRef, conversation, peersRef}) => {
   return (
     <>
       <Paper className="flex flex-col h-96 min-h-full w-9/12 max-w-lg" elevation={3}>
-        <Conversation conversation={conversation}/>
+        <Conversation conversation={conversation} />
         <form onSubmit={submitHandler} className="flex items-center mt-2">
           <TextField
             error={error}
