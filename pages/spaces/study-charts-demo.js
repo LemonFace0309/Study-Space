@@ -2,6 +2,7 @@ import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import ChartCard from "../../components/Spaces/Dashboard/ChartCard"
 import VerticalBar from '../../components/Spaces/Dashboard/Charts/VerticalBar';
+import LineChart from '../../components/Spaces/Dashboard/Charts/LineChart';
 import { chartData } from '../../data/chartData';
 
 
@@ -23,8 +24,8 @@ export default function StudyChartsDemo() {
             </div>
           );
         })} */}
-      <ChartCard title={peakStudyTimes.title} date={peakStudyTimes.date} chart={VerticalBar}/>
-      <ChartCard title={studyTimes.title} date={studyTimes.date} chart={VerticalBar}/>
+      <ChartCard title={peakStudyTimes.title} date={peakStudyTimes.date} chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data}/>}/>
+      <ChartCard title={studyTimes.title} date={studyTimes.date} chart={<LineChart options={studyTimes.options} data={studyTimes.data}/>}/>
       {/* Github Heat Frequency Chart */}
 
       </div>
