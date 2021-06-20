@@ -1,9 +1,10 @@
 import React from 'react'
-import Middle from './Middle'
-import RightBar from './RightBar'
+import Middle from '../Middle'
+import RightBar from '../RightBar'
 import Typography from '@material-ui/core/Typography'
 import JoinCard from "./Cards/JoinCard";
 import CreateCard from "./Cards/CreateCard";
+
 
 const Container = () => {
   return (

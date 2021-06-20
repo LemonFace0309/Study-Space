@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import Container from "../components/Container";
+import Sidebar from "../components/Dashboard/Sidebar";
+import Container from "../components/Dashboard/Container";
 
 export default function Home() {
   return (
