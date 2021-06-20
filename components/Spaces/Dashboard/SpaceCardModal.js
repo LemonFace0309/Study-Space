@@ -34,7 +34,6 @@ function UserList({ users }) {
 }
 
 export default function SpaceCardModal({ handleClose, open, children, friends, participants, hosts }) {
-  const theme = useTheme();
 
   return (
     <Dialog onClose={() => handleClose()} open={open}>
@@ -43,30 +42,29 @@ export default function SpaceCardModal({ handleClose, open, children, friends, p
 
         <Typography
           variant="h6"
-          color="textSecondary"
-          className="uppercase py-4"
+          className="uppercase py-4 text-primary-text"
         >
           In Session
         </Typography>
 
         <Container className="flex flex-col sm:flex-row justify-between  ">
           <Box
-            bgcolor={theme.palette.primary.light}
-            className="flex flex-col p-5 rounded-lg"
+          
+            className="flex flex-col p-5 rounded-lg bg-primary-light"
           >
-            <Typography variant="body1" color="textSecondary">
+            <Typography variant="body1" color="text-primary-text">
               Friends
             </Typography>
             <UserList users={friends} />
 
-            <Typography variant="body1" color="textSecondary">
+            <Typography variant="body1" className="text-primary-text">
               Participants
             </Typography>
             <UserList users={participants} />
           </Box>
 
           <Box className="flex flex-col p-5">
-            <Typography variant="body1" color="textSecondary">
+            <Typography variant="body1" className="text-primary-text">
               Host&#40;s&#41;
             </Typography>
             <UserList users={hosts} />

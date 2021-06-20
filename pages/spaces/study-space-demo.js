@@ -33,19 +33,15 @@ export default function StudySpaceDemo() {
   // const theme = useTheme();
 
   return (
-    <ThemeProvider theme={theme}>
       <Container className="mt-10">
-        <Grid container className="grid grid-cols-12">
+        <Grid className="grid grid-cols-12">
           <Grid
-            item
-            color={theme.palette.primary.dark}
-            className="flex flex-row  rounded-full space-x-5 col-span-4"
+            className="flex flex-row  rounded-full space-x-5 col-span-4 "
           >
             <Box>
               <Button
                 variant="outlined"
-                color="primary"
-                className="flex flex-row justify-start rounded-full  outline-none"
+                className="flex flex-row justify-start rounded-full  outline-none text-primary-dark"
               >
                 <CreateIcon />
                 <Typography variant="body1" className="uppercase">
@@ -53,7 +49,7 @@ export default function StudySpaceDemo() {
                 </Typography>
               </Button>
             </Box>
-            <Box color={theme.palette.primary.dark}>
+            <Box className="text-primary-dark">
               <SettingsIcon />
             </Box>
           </Grid>
@@ -69,9 +65,9 @@ export default function StudySpaceDemo() {
             className="flex flex-row justify-end items-start col-span-4"
           >
             <Button
-              color="secondary"
+          
               variant="outlined"
-              className="rounded-full  outline-none"
+              className="rounded-full  outline-none text-secondary-main"
             >
               <Typography variant="body1" className="uppercase">
                 Quit
@@ -79,10 +75,10 @@ export default function StudySpaceDemo() {
             </Button>
           </Grid>
 
-          <Grid item className="flex justify-start items-end col-span-2 px-8 ">
+          <Grid className="flex justify-start items-end col-span-2 px-8 ">
             <Box
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 "
+
+              className="flex flex-row space-x-5 text-primary-dark"
             >
               <VideocamOffIcon />
               <MicIcon />
@@ -90,11 +86,11 @@ export default function StudySpaceDemo() {
           </Grid>
 
           {/* MUI grid can be an item AND a container. */}
-          <Grid item container className="col-span-8">
+          <Grid className="col-span-8">
             <Container className="mb-24">
               <Grid className="grid grid-cols-6 ml-5 space-x-5 space-y-5 ">
                 <div className="mt-5 ml-5">
-                  <User />
+                  <User  />
                 </div>
                 {Array.from(Array(11).keys()).map(() => (
                   <User />
@@ -102,10 +98,9 @@ export default function StudySpaceDemo() {
               </Grid>
             </Container>
           </Grid>
-          <Grid item className="flex justify-end items-end col-span-2 px-8 ">
+          <Grid className="flex justify-end items-end col-span-2 px-8 ">
             <Box
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 "
+              className="flex flex-row space-x-5 text-primary-dark"
             >
               <LibraryMusicIcon />
               <PeopleIcon />
@@ -114,6 +109,6 @@ export default function StudySpaceDemo() {
           </Grid>
         </Grid>
       </Container>
-    </ThemeProvider>
+
   );
 }
