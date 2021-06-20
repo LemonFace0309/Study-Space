@@ -1,12 +1,35 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
 import axios from 'axios';
-import { Button, TextField } from '@material-ui/core';
+import classNames from 'classnames';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import AuthDialog from '../../components/Auth/AuthDialog';
+import AuthDialog from '../../Auth/AuthDialog';
+import NavDrawer from './NavDrawer';
+import styles from '../../Shared/Spinner.module.css';
 
-const Auth = ({ providers }) => {
+function ElevationScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+const Header = (props) => {
+  const { providers, signIn, signOut, getSession } = props;
+  const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState();
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,23 +44,20 @@ const Auth = ({ providers }) => {
   const [validPassword, setValidPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const AuthButton = () => {
-    if (session) {
-      return (
-        <Button variant="outlined" color="primary" onClick={() => signOut()}>
-          Signout
-        </Button>
-      );
-    }
-    return (
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => setModalOpen(true)}>
-        {isSignUp ? 'Login' : 'Signup'}
-      </Button>
-    );
-  };
+  // using classNames so it's easy to change when making responsive
+  const menuItemStyles = classNames([
+    'mx-2',
+    'outline-none',
+    'hover:text-gray-500',
+    'transition duration-200 ease-in-out',
+  ]);
+  const authButtons = classNames([
+    'normal-case',
+    'px-10',
+    'm-2',
+    'rounded-full',
+    'outline-none',
+  ]);
 
   const validSignUp =
     validFirstName && validLastName && validEmail && validPassword;
@@ -135,6 +155,7 @@ const Auth = ({ providers }) => {
   if (isSignUp) {
     formContent.unshift(
       <TextField
+        key="3"
         label="First Name"
         fullWidth
         error={submitted && !validFirstName}
@@ -146,6 +167,7 @@ const Auth = ({ providers }) => {
         onChange={(e) => handleInputChange(e, setFirstName, validateFirstName)}
       />,
       <TextField
+        key="4"
         label="Last Name"
         fullWidth
         error={submitted && !validLastName}
@@ -166,9 +188,89 @@ const Auth = ({ providers }) => {
     oAuthText = 'Log in with';
   }
 
+  const handleSignUp = () => {
+    setIsSignUp(true);
+    setModalOpen(true);
+  };
+
+  const handleLogIn = () => {
+    setIsSignUp(false);
+    setModalOpen(true);
+  };
+
+  if (loading) {
+    return <div className={styles.loader} />;
+  }
+
   return (
-    <div>
-      {!loading && <AuthButton />}
+    <>
+      <NavDrawer
+        isOpen={isNavDrawerOpen}
+        setIsOpen={setIsNavDrawerOpen}
+        handleSignUp={handleSignUp}
+        handleLogIn={handleLogIn}
+      />
+      <ElevationScroll {...props}>
+        <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
+          <Toolbar>
+            <Hidden mdUp>
+              <IconButton
+                onClick={() => setIsNavDrawerOpen(true)}
+                edge="start"
+                className="mr-2 outline-none"
+                color="inherit"
+                aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+            <Hidden smDown>
+              <div className="flex-grow">
+                <button variant="h6" className={menuItemStyles}>
+                  Just You
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  With Friends
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  Large Groups
+                </button>
+              </div>
+              {session ? (
+                <Button
+                  color="inherit"
+                  className={authButtons}
+                  style={{
+                    border: '1.5px solid rgba(107, 114, 128)',
+                  }}
+                  onClick={() => signOut()}>
+                  Signout
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleSignUp}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Sign Up
+                  </Button>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleLogIn}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Log in
+                  </Button>
+                </>
+              )}
+            </Hidden>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
       <AuthDialog
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
@@ -183,19 +285,15 @@ const Auth = ({ providers }) => {
         signIn={signIn}
         providers={providers}
       />
-    </div>
+    </>
   );
 };
 
-export async function getServerSideProps(context) {
-  const providers = await getProviders();
-  return {
-    props: { providers },
-  };
-}
-
-Auth.propTypes = {
+Header.propTypes = {
   providers: PropTypes.object.isRequired,
+  signIn: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
+  getSession: PropTypes.func.isRequired,
 };
 
-export default Auth;
+export default Header;

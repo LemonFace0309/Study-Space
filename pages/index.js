@@ -1,15 +1,5 @@
-import Sidebar from "../components/Dashboard/Sidebar";
-import Container from "../components/Dashboard/Container";
+const Home = () => {
+  return <h1>WELCOME :D</h1>;
+};
 
-export default function Home() {
-  return (
-    <div class="flex">
-      <div class="justify-between h-screen">
-        <Sidebar />
-      </div>
-      <div class="flex flex-col justify-between w-2/3">
-        <Container />
-      </div>
-    </div>
-  );
-}
+export default Home;

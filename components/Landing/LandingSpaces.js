@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import SpaceCard from '../Shared/SpaceCard';
@@ -23,6 +24,10 @@ const LandingSpaces = ({ data }) => {
       ))}
     </Grid>
   );
+};
+
+LandingSpaces.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default LandingSpaces;

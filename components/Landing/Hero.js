@@ -49,7 +49,7 @@ const hero = () => {
           <Grid item xs={6} className="flex justify-center items-center">
             <img
               src="/images/placeholder.jpg"
-              alt="landing photo"
+              alt="Hero"
               className="max-h-96"
             />
           </Grid>
