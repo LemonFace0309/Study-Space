@@ -26,17 +26,17 @@ export const submitted = atom({
 });
 
 export const validFirstName = selector({
-  key: 'auto-validFirstName',
+  key: 'auth-validFirstName',
   get: ({ get }) => /^[a-z ,.'-]+$/i.test(get(firstName)),
 });
 
 export const validLastName = selector({
-  key: 'auto-validLastName',
+  key: 'auth-validLastName',
   get: ({ get }) => /^[a-z ,.'-]+$/i.test(get(lastName)),
 });
 
 export const validEmail = selector({
-  key: 'auto-validEmail',
+  key: 'auth-validEmail',
   get: ({ get }) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
       get(email)
@@ -44,7 +44,7 @@ export const validEmail = selector({
 });
 
 export const validPassword = selector({
-  key: 'auto-validPassword',
+  key: 'auth-validPassword',
   get: ({ get }) =>
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
       get(password)
