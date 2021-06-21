@@ -16,9 +16,9 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
     setConversation(prevConversation => {
       return [...prevConversation, { text: text, fromMe: true }]
     })
-    peersRef.current.forEach((peer, i) => {
-      if (peer) {
-        peer.peer.send(text)
+    peersRef.current.forEach((peerObj) => {
+      if (peerObj) {
+        peerObj.peer.send(text)
       }
     });
 
