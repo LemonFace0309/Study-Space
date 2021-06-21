@@ -6,17 +6,22 @@ import SendIcon from '@material-ui/icons/Send';
 import Conversation from './Conversation';
 import { useConversation } from '../../../context/ConversationProvider';
 
-const Chat = () => {
-  const [text, setText] = useState('');
-  const [error, setError] = useState(false);
-  const { sendMessage } = useConversation();
+const Chat = ({ conversation, setConversation, peersRef }) => {
+  const [text, setText] = useState('')
+  const [error, setError] = useState(false)
 
   const submitHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    setConversation(prevConversation => {
+      return [...prevConversation, { text: text, fromMe: true }]
+    })
+    peersRef.current.forEach((peerObj) => {
+      if (peerObj) {
+        peerObj.peer.send(text)
+      }
+    });
 
-    const messageDidSend = sendMessage(text);
-    setError(!messageDidSend);
-    setText('');
+    setText('')
     setTimeout(() => {
       setError(false);
     }, 2000);
@@ -30,14 +35,12 @@ const Chat = () => {
 
   return (
     <>
-      <Paper
-        className="flex flex-col h-96 min-h-full w-9/12 max-w-lg"
-        elevation={3}>
-        <Conversation />
+      <Paper className="flex flex-col h-96 min-h-full w-9/12 max-w-lg" elevation={3}>
+        <Conversation conversation={conversation} />
         <form onSubmit={submitHandler} className="flex items-center mt-2">
           <TextField
             error={error}
-            helperText={error && 'Connect to a call to send a message'}
+            helperText={error}
             variant="outlined"
             label="Message User"
             fullWidth
