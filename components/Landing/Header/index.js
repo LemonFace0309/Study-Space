@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import classNames from 'classnames';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { AppBar, Toolbar, Button, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import AuthDialog from '../../components/Auth/AuthDialog';
-import styles from '../Shared/Spinner.module.css';
+import * as authState from '../../../atoms/auth';
+import AuthDialog from '../../Auth/AuthDialog';
+import NavDrawer from './NavDrawer';
+import styles from '../../Shared/Spinner.module.css';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -28,19 +31,25 @@ function ElevationScroll(props) {
 
 const Header = (props) => {
   const { providers, signIn, signOut, getSession } = props;
+  const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [validFirstName, setValidFirstName] = useState(false);
-  const [validLastName, setValidLastName] = useState(false);
-  const [validEmail, setValidEmail] = useState(false);
-  const [validPassword, setValidPassword] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [successfulSignUp, setSuccessfulSignUp] = useState(false);
+
+  const [firstName, setFirstName] = useRecoilState(authState.firstName);
+  const [lastName, setLastName] = useRecoilState(authState.lastName);
+  const [email, setEmail] = useRecoilState(authState.email);
+  const [password, setPassword] = useRecoilState(authState.password);
+  const validFirstName = useRecoilValue(authState.validFirstName);
+  const validLastName = useRecoilValue(authState.validLastName);
+  const validEmail = useRecoilValue(authState.validEmail);
+  const validPassword = useRecoilValue(authState.validPassword);
+  const validSignUp = useRecoilValue(authState.validSignUp);
+  const validLogIn = useRecoilValue(authState.validLogIn);
+  const [submitted, setSubmitted] = useRecoilState(authState.submitted);
+  const [allAuthData, resetAllAuthData] = useRecoilState(authState.resetAll);
 
   // using classNames so it's easy to change when making responsive
   const menuItemStyles = classNames([
@@ -57,35 +66,6 @@ const Header = (props) => {
     'outline-none',
   ]);
 
-  const validSignUp =
-    validFirstName && validLastName && validEmail && validPassword;
-  const validLogIn = validEmail && validPassword;
-
-  const validateFirstName = (value) => {
-    setValidFirstName(/^[a-z ,.'-]+$/i.test(value));
-  };
-
-  const validateLastName = (value) => {
-    setValidLastName(/^[a-z ,.'-]+$/i.test(value));
-  };
-
-  const validateEmail = (value) => {
-    setValidEmail(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        value
-      )
-    );
-  };
-
-  const validatePassword = (value) => {
-    setValidPassword(
-      !isSignUp ||
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-          value
-        )
-    );
-  };
-
   useEffect(async () => {
     const userSession = await getSession();
     setSession(userSession);
@@ -94,13 +74,11 @@ const Header = (props) => {
   }, []);
 
   useEffect(() => {
-    validatePassword(password);
-  }, [isSignUp]);
-
-  const handleInputChange = (e, updater, validator) => {
-    updater(e.target.value);
-    validator(e.target.value);
-  };
+    const timeout = setTimeout(() => {
+      setSuccessfulSignUp(false);
+    }, 3000);
+    return clearTimeout(timeout);
+  }, [successfulSignUp]);
 
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
@@ -111,11 +89,14 @@ const Header = (props) => {
         password,
         type: 'credentials',
       });
+      resetAllAuthData();
+      setSuccessfulSignUp(true);
       console.debug(result);
     } else if (validLogIn) {
       signIn('credentials', { email, password });
+    } else {
+      setSubmitted(true);
     }
-    setSubmitted(true);
   };
 
   let btnText;
@@ -133,7 +114,7 @@ const Header = (props) => {
       className="mb-1"
       type="email"
       value={email}
-      onChange={(e) => handleInputChange(e, setEmail, validateEmail)}
+      onChange={(e) => setEmail(e.target.value)}
     />,
     <TextField
       key="2"
@@ -147,7 +128,7 @@ const Header = (props) => {
       }
       type="password"
       value={password}
-      onChange={(e) => handleInputChange(e, setPassword, validatePassword)}
+      onChange={(e) => setPassword(e.target.value)}
     />,
   ];
   if (isSignUp) {
@@ -162,7 +143,7 @@ const Header = (props) => {
         }
         className="mb-1"
         value={firstName}
-        onChange={(e) => handleInputChange(e, setFirstName, validateFirstName)}
+        onChange={(e) => setFirstName(e.target.value)}
       />,
       <TextField
         key="4"
@@ -174,7 +155,7 @@ const Header = (props) => {
         }
         className="mb-1"
         value={lastName}
-        onChange={(e) => handleInputChange(e, setLastName, validateLastName)}
+        onChange={(e) => setLastName(e.target.value)}
       />
     );
     btnText = 'SIGN UP';
@@ -202,65 +183,78 @@ const Header = (props) => {
 
   return (
     <>
+      <NavDrawer
+        isOpen={isNavDrawerOpen}
+        setIsOpen={setIsNavDrawerOpen}
+        handleSignUp={handleSignUp}
+        handleLogIn={handleLogIn}
+      />
       <ElevationScroll {...props}>
         <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className="mr-2 outline-none"
-              color="inherit"
-              aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <div className="flex-grow">
-              <button variant="h6" className={menuItemStyles}>
-                Just You
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                With Friends
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                Large Groups
-              </button>
-            </div>
-            {session ? (
-              <Button
+            <Hidden mdUp>
+              <IconButton
+                onClick={() => setIsNavDrawerOpen(true)}
+                edge="start"
+                className="mr-2 outline-none"
                 color="inherit"
-                className={authButtons}
-                style={{
-                  border: '1.5px solid rgba(107, 114, 128)',
-                }}
-                onClick={() => signOut()}>
-                Signout
-              </Button>
-            ) : (
-              <>
+                aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+            <Hidden smDown>
+              <div className="flex-grow">
+                <button variant="h6" className={menuItemStyles}>
+                  Just You
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  With Friends
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  Large Groups
+                </button>
+              </div>
+              {session ? (
                 <Button
                   color="inherit"
                   className={authButtons}
-                  onClick={handleSignUp}
                   style={{
                     border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  Sign Up
+                  }}
+                  onClick={() => signOut()}>
+                  Signout
                 </Button>
-                <Button
-                  color="inherit"
-                  className={authButtons}
-                  onClick={handleLogIn}
-                  style={{
-                    border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  Log in
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleSignUp}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Sign Up
+                  </Button>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleLogIn}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    Log in
+                  </Button>
+                </>
+              )}
+            </Hidden>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
       <AuthDialog
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
+        showSuccessAlert={successfulSignUp}
+        setShowSuccessAlert={setSuccessfulSignUp}
         handleCredentialsSubmit={handleCredentialsSubmit}
         formContent={formContent}
         isSignUp={isSignUp}
