@@ -9,7 +9,6 @@ import { useConversation } from '../../../context/ConversationProvider';
 const Chat = ({ conversation, setConversation, peersRef }) => {
   const [text, setText] = useState('')
   const [error, setError] = useState(false)
-  const { sendMessage } = useConversation()
 
   const submitHandler = (e) => {
     e.preventDefault()
