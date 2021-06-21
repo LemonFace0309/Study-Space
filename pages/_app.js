@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../styles/Theme';
 
 import Layout from '../components/Layout/Layout';
 import { SocketProvider } from '../context/SocketProvider';
 import { ConversationProvider } from '../context/ConversationProvider';
+import theme from '../styles/Theme';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
@@ -19,17 +20,19 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Provider session={pageProps.session}>
-      <SocketProvider>
-        <ConversationProvider>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </ConversationProvider>
-      </SocketProvider>
-    </Provider>
+    <RecoilRoot>
+      <Provider session={pageProps.session}>
+        <SocketProvider>
+          <ConversationProvider>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </ConversationProvider>
+        </SocketProvider>
+      </Provider>
+    </RecoilRoot>
   );
 }
 
