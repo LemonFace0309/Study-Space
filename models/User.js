@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const UserSchema = mongoose.Schema(
   {
@@ -19,15 +19,15 @@ const UserSchema = mongoose.Schema(
     },
     friends: [
       {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Friends'
-      }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Friends',
+      },
     ],
     type: String,
   },
   {
     timestamps: true,
   }
-)
+);
 
-export default mongoose.models.User || mongoose.model('User', UserSchema)
+export default mongoose.models.User || mongoose.model('User', UserSchema);

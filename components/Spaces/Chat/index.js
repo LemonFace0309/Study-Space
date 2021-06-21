@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { IconButton, TextField } from "@material-ui/core"
-import Paper from "@material-ui/core/Paper"
+import { useState } from 'react';
+import { IconButton, TextField } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 
-import Conversation from './Conversation'
-import { useConversation } from '../../../context/ConversationProvider'
+import Conversation from './Conversation';
+import { useConversation } from '../../../context/ConversationProvider';
 
 const Chat = ({ conversation, setConversation, peersRef }) => {
   const [text, setText] = useState('')
@@ -24,15 +24,15 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
 
     setText('')
     setTimeout(() => {
-      setError(false)
-    }, 2000)
-  }
+      setError(false);
+    }, 2000);
+  };
 
   const keyPressHandler = (e) => {
     if (e.keyCode == 13) {
-      submitHandler(e)
+      submitHandler(e);
     }
-  }
+  };
 
   return (
     <>
@@ -57,7 +57,7 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
         </form>
       </Paper>
     </>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

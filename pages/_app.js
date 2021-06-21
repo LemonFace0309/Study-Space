@@ -1,10 +1,13 @@
-import { useEffect } from 'react'
-import { Provider } from 'next-auth/client'
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { Provider } from 'next-auth/client';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../styles/Theme';
 
-import Layout from '../components/Layout/Layout'
-import { SocketProvider } from '../context/SocketProvider'
-import { ConversationProvider } from '../context/ConversationProvider'
-import '../styles/globals.css'
+import Layout from '../components/Layout/Layout';
+import { SocketProvider } from '../context/SocketProvider';
+import { ConversationProvider } from '../context/ConversationProvider';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -19,13 +22,20 @@ function MyApp({ Component, pageProps }) {
     <Provider session={pageProps.session}>
       <SocketProvider>
         <ConversationProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
         </ConversationProvider>
       </SocketProvider>
     </Provider>
-  )
+  );
 }
 
-export default MyApp
+MyApp.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object.isRequired,
+};
+
+export default MyApp;

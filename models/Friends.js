@@ -1,14 +1,14 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const FriendsSchema = mongoose.Schema(
   {
     requester: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
     },
     recipient: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
     },
     requester_email: {
       type: String,
@@ -19,15 +19,16 @@ const FriendsSchema = mongoose.Schema(
     status: {
       type: Number,
       enums: [
-        0,    //'not friends',
-        1,    //'requested',
-        2,    //'friends'
-      ]
+        0, //'not friends',
+        1, //'requested',
+        2, //'friends'
+      ],
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
-export default mongoose.models.Friends || mongoose.model('Friends', FriendsSchema)
+export default mongoose.models.Friends ||
+  mongoose.model('Friends', FriendsSchema);
