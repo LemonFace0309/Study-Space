@@ -5,15 +5,14 @@ import Typography from '@material-ui/core/Typography'
 import JoinCard from "./Cards/JoinCard";
 import CreateCard from "./Cards/CreateCard";
 
-
 const Container = () => {
   return (
     <div className="h-full">
       <div className="px-8 py-1">
-        <Typography variant="h1" className="pt-4">
+        <Typography variant="h4" className="pt-4">
           Hey Charles!
         </Typography>
-        <Typography variant="h3">
+        <Typography variant="h7">
           The key is not to prioritize what's on your schedule, but to schedule
           your priorities.
         </Typography>
