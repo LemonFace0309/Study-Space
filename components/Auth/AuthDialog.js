@@ -9,13 +9,17 @@ import {
   Hidden,
   Typography,
   IconButton,
+  Snackbar,
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import styles from '../../styles/Auth/Auth.module.css';
 
 const AuthDialog = ({
   modalOpen,
   setModalOpen,
+  showSuccessAlert,
+  setShowSuccessAlert,
   handleCredentialsSubmit,
   formContent,
   isSignUp,
@@ -36,6 +40,23 @@ const AuthDialog = ({
       aria-labelledby="Login/Signup Modal"
       className={styles.Dialogue}>
       <Grid container className="my-8" alignItems="center" direction="row">
+        <Grid item xs={12}>
+          <Snackbar
+            open={showSuccessAlert}
+            autoHideDuration={3000}
+            onClose={() => setShowSuccessAlert(false)}>
+            <MuiAlert
+              elevation={6}
+              variant="filled"
+              onClose={() => setShowSuccessAlert(false)}
+              severity="success">
+              Congratulations! Your account has been created
+              <span role="img" aria-label="partying face emoji">
+                🥳
+              </span>
+            </MuiAlert>
+          </Snackbar>
+        </Grid>
         <Grid container item xs={12} md={6} direction="column">
           <form onSubmit={handleCredentialsSubmit}>
             <div className="flex-grow flex flex-col items-center p-8">
@@ -134,6 +155,8 @@ const AuthDialog = ({
 AuthDialog.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   setModalOpen: PropTypes.func.isRequired,
+  showSuccessAlert: PropTypes.bool.isRequired,
+  setShowSuccessAlert: PropTypes.func.isRequired,
   handleCredentialsSubmit: PropTypes.func.isRequired,
   formContent: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSignUp: PropTypes.bool.isRequired,
