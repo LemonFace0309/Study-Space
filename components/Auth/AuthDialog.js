@@ -10,8 +10,9 @@ import {
   Typography,
   IconButton,
   Snackbar,
+
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
+import Alert from '@material-ui/lab/Alert';
 
 import styles from '../../styles/Auth/Auth.module.css';
 
@@ -45,7 +46,7 @@ const AuthDialog = ({
             open={showSuccessAlert}
             autoHideDuration={3000}
             onClose={() => setShowSuccessAlert(false)}>
-            <MuiAlert
+            <Alert
               elevation={6}
               variant="filled"
               onClose={() => setShowSuccessAlert(false)}
@@ -54,7 +55,7 @@ const AuthDialog = ({
               <span role="img" aria-label="partying face emoji">
                 🥳
               </span>
-            </MuiAlert>
+            </Alert>
           </Snackbar>
         </Grid>
         <Grid container item xs={12} md={6} direction="column">
