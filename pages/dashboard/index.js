@@ -6,7 +6,7 @@ export default function Dashboard() {
   return (
 
     <Grid container>
-      <Grid item xs={3}>
+      <Grid  xs={3}>
         <Sidebar/>
       </Grid>
     </Grid>
