@@ -2,12 +2,12 @@ import React from "react";
 import { Paper, Box, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 
-export default function CreateCard(props) {
+export default function DashboardCard(props) {
   const theme = useTheme();
-  const { spaceName, description } = props;
+  const { spaceName, description, variant } = props;
   return (
     <Box
-      style={{ background: theme.palette.primary.mainGradient }}
+      style={{ background: variant==="primary" ? theme.palette.primary.mainGradient : theme.palette.secondary.mainGradient}}
       className="flex flex-grow justify-between rounded-r-xl rounded-bl-xl "
     >
       <div class="h-32 w-80 grid grid-cols-3">
