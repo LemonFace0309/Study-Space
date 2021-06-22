@@ -1,15 +1,14 @@
 import Sidebar from "../../components/Dashboard/Sidebar";
 import Container from "../../components/Dashboard/Container";
+import {Grid} from "@material-ui/core";
 
 export default function Dashboard() {
   return (
-    <div class="flex">
-      <div class="justify-between h-screen">
-        <Sidebar />
-      </div>
-      <div class="flex flex-col justify-between w-2/3">
-        <Container />
-      </div>
-    </div>
+
+    <Grid container>
+      <Grid item xs={3}>
+        <Sidebar/>
+      </Grid>
+    </Grid>
   );
 }

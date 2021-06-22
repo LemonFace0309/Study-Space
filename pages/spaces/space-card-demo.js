@@ -1,5 +1,5 @@
 import React from "react";
-import SpaceCard from "../../components/Spaces/Dashboard/SpaceCard";
+import SpaceCard from "../../components/Dashboard/Cards/SpaceCard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import { spaceCardTestData } from "../../data/spaceCardTestData";

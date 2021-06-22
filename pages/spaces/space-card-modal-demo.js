@@ -7,8 +7,8 @@ import {
 } from "@material-ui/core/styles";
 
 import { Button } from "@material-ui/core";
-import SpaceCardModal from "../../components/Spaces/Dashboard/SpaceCardModal";
-import SpaceCard from "../../components/Spaces/Dashboard/SpaceCard";
+import SpaceCardModal from "../../components/Dashboard/Cards/SpaceCardModal";
+import SpaceCard from "../../components/Dashboard/Cards/SpaceCard";
 
 import Typography from "@material-ui/core/Typography";
 import { spaceCardModalTestData } from "../../data/spaceCardModalTestData";

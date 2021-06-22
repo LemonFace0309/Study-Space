@@ -1,5 +1,5 @@
 import React from "react";
-import BigSpaceCard from "../../components/Spaces/Dashboard/BigSpaceCard";
+import BigSpaceCard from "../../components/Dashboard/Cards/BigSpaceCard";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
