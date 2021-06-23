@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   Container,
   Box,
@@ -10,13 +12,11 @@ import {
   ListItemAvatar,
   Avatar,
   useTheme,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import  PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from '@material-ui/icons/Person';
 
-
-
-function UserList({ users }) {
+const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
@@ -31,9 +31,19 @@ function UserList({ users }) {
       ))}
     </List>
   );
-}
+};
+UserList.PropTypes = {
+  users: PropTypes.object,
+};
 
-export default function SpaceCardModal({ handleClose, open, children, friends, participants, hosts }) {
+export default function SpaceCardModal({
+  handleClose,
+  open,
+  children,
+  friends,
+  participants,
+  hosts,
+}) {
   const theme = useTheme();
 
   return (
@@ -44,16 +54,14 @@ export default function SpaceCardModal({ handleClose, open, children, friends, p
         <Typography
           variant="h6"
           color="textSecondary"
-          className="uppercase py-4"
-        >
+          className="uppercase py-4">
           In Session
         </Typography>
 
         <Container className="flex flex-col sm:flex-row justify-between  ">
           <Box
             bgcolor={theme.palette.primary.light}
-            className="flex flex-col p-5 rounded-lg"
-          >
+            className="flex flex-col p-5 rounded-lg">
             <Typography variant="body1" color="textSecondary">
               Friends
             </Typography>
@@ -76,3 +84,12 @@ export default function SpaceCardModal({ handleClose, open, children, friends, p
     </Dialog>
   );
 }
+
+SpaceCardModal.propTypes = {
+  handleClose: PropTypes.func,
+  open: PropTypes.func,
+  children: PropTypes.element,
+  friends: PropTypes.object,
+  participants: PropTypes.object,
+  hosts: PropTypes.object,
+};
