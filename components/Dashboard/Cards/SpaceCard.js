@@ -1,15 +1,21 @@
-import React from "react";
-import { Paper, Box, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Paper, Box, Typography, useTheme } from '@material-ui/core';
 
 // Icons
-import VideocamOffIcon from "@material-ui/icons/VideocamOff";
-import MicIcon from "@material-ui/icons/Mic";
-import ChatIcon from "@material-ui/icons/Chat";
-import PeopleIcon from "@material-ui/icons/People";
-import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import MicIcon from '@material-ui/icons/Mic';
+import ChatIcon from '@material-ui/icons/Chat';
+import PeopleIcon from '@material-ui/icons/People';
+import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
-export default function SpaceCard({ spaceName, description, headCount, music }) {
+export default function SpaceCard({
+  spaceName,
+  description,
+  headCount,
+  music,
+}) {
   const theme = useTheme();
 
   return (
@@ -26,8 +32,7 @@ export default function SpaceCard({ spaceName, description, headCount, music }) 
 
         <Box
           color={theme.palette.primary.main}
-          className=" flex items-center justify-center flex-col m-1 bg-opacity-30"
-        >
+          className=" flex items-center justify-center flex-col m-1 bg-opacity-30">
           <VideocamOffIcon />
           <MicIcon />
           <ChatIcon />
@@ -37,8 +42,7 @@ export default function SpaceCard({ spaceName, description, headCount, music }) 
       <Box
         bgcolor={theme.palette.primary.light}
         color={theme.palette.primary.main}
-        className="flex flex-row text-sm rounded-bl-xl rounded-br-xl p-2 space-x-2"
-      >
+        className="flex flex-row text-sm rounded-bl-xl rounded-br-xl p-2 space-x-2">
         <Box>
           <PeopleIcon />
           {headCount}
@@ -51,3 +55,10 @@ export default function SpaceCard({ spaceName, description, headCount, music }) 
     </Paper>
   );
 }
+
+SpaceCard.propTypes = {
+  spaceName: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  headCount: PropTypes.number.isRequired,
+  music: PropTypes.string.isRequired,
+};
