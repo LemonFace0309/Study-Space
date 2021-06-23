@@ -8,9 +8,9 @@ import {
   useTheme,
 } from '@material-ui/core';
 import DashboardCard from './Cards/DashboardCard';
-
 import SpaceCardModal from './Cards/SpaceCardModal';
 import SpaceCard from './Cards/SpaceCard';
+
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 
@@ -20,7 +20,7 @@ const DashboardContainer = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Container >
+    <Container>
       <Paper elevatation={6} className="rounded-3xl">
         <Grid
           container
