@@ -10,12 +10,12 @@ import FriendCard from './Cards/FriendCard';
 
 const useStyles = makeStyles({
   button: {
+    width: '100%',
     fontSize: '18px',
+    '&:focus': {
+      outline: 'none',
+    },
     textTransform: 'capitalize',
-    maxWidth: '200px',
-    maxHeight: '50px',
-    minWidth: '200px',
-    minHeight: '30px',
     color: '#BDACD4',
     '&:hover': {
       backgroundColor: '#977BBF',
@@ -58,7 +58,7 @@ const Sidebar = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant="subtitle2">FRIEND ACTIVITY</Typography>
+          <Typography variant="subtitle2" >FRIEND ACTIVITY</Typography>
           <FriendCard></FriendCard>
         </Grid>
       </Grid>
