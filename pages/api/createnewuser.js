@@ -17,7 +17,6 @@ export default async (req, res) => {
 
     const existingUser = await User.findOne({
       email,
-      type: 'credentials',
     });
     if (existingUser) {
       return res
