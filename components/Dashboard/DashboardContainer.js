@@ -8,9 +8,9 @@ import {
   useTheme,
 } from '@material-ui/core';
 import DashboardCard from './Cards/DashboardCard';
-
 import SpaceCardModal from './Cards/SpaceCardModal';
 import SpaceCard from './Cards/SpaceCard';
+
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 

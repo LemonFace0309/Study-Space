@@ -3,7 +3,7 @@ import { Paper, Box, Typography } from "@material-ui/core";
 import Card from "../../Shared/Card"
 
 
-export default function ChartCard(props) {
+export default function OverviewChartCard(props) {
   
     return (
 
