@@ -8,27 +8,33 @@ export default function DashboardCard(props) {
   const theme = useTheme();
   const { spaceName, description, variant } = props;
   return (
-    <Paper className="rounded-xl" elevate={5}>
+    <Paper elevate={5} className="rounded-lg">
+
       <Grid
+        spacing={5}
         container
-        // direction="col"
-        // alignContent="center"
-        // justify="flex-start"
+        direction="row"
+        className="rounded-lg"
         style={{
           background:
-            variant === 'primary'
+            variant === 'dark'
               ? theme.palette.primary.mainGradient
               : theme.palette.secondary.mainGradient,
         }}>
-        <Grid item>
-          <Box className="h-20 w-20 bg-gray-400"></Box>
+        <Grid item xs={4}>
+          <Box bgcolor="text.disabled" width={1} height={1}></Box>
         </Grid>
-        <Grid item>
-          <Box className="text-left p-3">
-            <Typography color="text" variant="h5" align="left">
+        <Grid item xs={8}>
+          <Box
+            color={
+              variant === 'dark'
+                ? theme.palette.primary.contrastText
+                : theme.palette.primary.dark
+            }>
+            <Typography variant="h5" align="left">
               {spaceName}
             </Typography>
-            <Typography variant="body1">{description}</Typography>
+            <Typography variant="body2">{description}</Typography>
           </Box>
         </Grid>
       </Grid>
