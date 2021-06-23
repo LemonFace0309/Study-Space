@@ -3,7 +3,7 @@ import multer from 'multer';
 const AWS = require('aws-sdk');
 const { v4: uuid } = require('uuid');
 
-import dbConnect from '../../utils/dbConnect';
+import dbConnect from '../../../utils/dbConnect';
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ID,
