@@ -12,7 +12,7 @@ export default function DashboardCard(props) {
         container
         style={{
           background:
-            variant === 'primary'
+            variant === 'dark'
               ? theme.palette.primary.mainGradient
               : theme.palette.secondary.mainGradient,
         }}>
@@ -30,7 +30,7 @@ export default function DashboardCard(props) {
             <Typography color="text" variant="h5" align="left">
               {spaceName}
             </Typography>
-            <Typography variant="body1">{description}</Typography>
+            <Typography variant="body2">{description}</Typography>
           </Box>
         </Grid>
       </Grid>
