@@ -21,7 +21,7 @@ const DashboardContainer = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Container disableGutters>
+    <Container >
       <Paper elevatation={6} className="rounded-3xl">
         <Grid
           container

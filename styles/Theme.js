@@ -27,6 +27,9 @@ export default createMuiTheme({
       // red
       main: '#EF5D66',
     },
+    text:{
+      disabled:'#C4C4C4'
+    },
     /* success causes error so I'm leaving it out for now
     success: {
       // green
@@ -40,7 +43,6 @@ export default createMuiTheme({
   typography: {
     fontFamily: 'Ubuntu',
   },
-
   button: {
     backgroundColor: 'transparent',
     color: '#fff',

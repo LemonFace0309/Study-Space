@@ -9,7 +9,6 @@ export default function DashboardCard(props) {
   const { spaceName, description, variant } = props;
   return (
     <Paper elevate={5} className="rounded-lg">
-
       <Grid
         spacing={5}
         container
