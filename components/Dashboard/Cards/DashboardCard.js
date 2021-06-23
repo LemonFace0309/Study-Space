@@ -1,6 +1,4 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Paper, Box, Typography, Grid } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 

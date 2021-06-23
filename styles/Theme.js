@@ -14,8 +14,8 @@ export default createMuiTheme({
       main: '#977BBF',
       dark: '#4E3276',
       mainGradient: 'linear-gradient(to right, #4E3276, #977BBF)',
-      contrastText: '#fff', // white
-    },
+      contrastText: '#fff', // white,
+    }, 
     secondary: {
       // pink
       light: '#FAF3F5',
@@ -23,6 +23,13 @@ export default createMuiTheme({
       mainGradient: 'linear-gradient(to right, #FAF3F5, #BDACD4)',
       contrastText: '#000', // black
     },
+
+    text: {
+      primary: '#111111', // black
+      secondary: '#888888', // medium gray
+      disabled: '#C4C4C4', // light gray 
+    },
+
     error: {
       // red
       main: '#EF5D66',

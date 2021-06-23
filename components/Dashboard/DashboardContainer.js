@@ -17,7 +17,6 @@ import { spaceCardTestData } from '../../data/spaceCardTestData';
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
-
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
