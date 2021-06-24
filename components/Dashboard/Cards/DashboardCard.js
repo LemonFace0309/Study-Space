@@ -10,6 +10,7 @@ export default function DashboardCard(props) {
       <Grid
         className="rounded-2xl"
         container
+        direction="row"
         style={{
           background:
             variant === 'dark'
@@ -19,11 +20,11 @@ export default function DashboardCard(props) {
         <Grid item xs={3}>
           <Box bgcolor="text.disabled" className="h-20 w-20 "></Box>
         </Grid>
-        <Grid item>
+        <Grid item xs={9}>
           <Box
             className="text-left p-3"
             color={
-              variant === 'primary'
+              variant === 'dark'
                 ? theme.palette.primary.contrastText
                 : theme.palette.primary.dark
             }>

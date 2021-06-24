@@ -47,7 +47,7 @@ const DashboardContainer = () => {
                Need a space to study?
               </Typography>
               <DashboardCard
-                variant="primary"
+                variant="dark"
                 spaceName="Create a Space"
                 description="insert some sort of tagline or feature description "
               />
