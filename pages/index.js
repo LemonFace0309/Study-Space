@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { getSession } from 'next-auth/client';
@@ -10,6 +11,7 @@ import dbConnect from '../utils/dbConnect';
 const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
   session = JSON.parse(session);
   console.debug(session);
+  const [userImage, setUserImage] = useState(session.user.image);
 
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
@@ -37,6 +39,8 @@ const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
       formData.append(fileInputRef.current.name, file);
     });
 
+    formData.append('id', session.user._id);
+
     // for (let key of formData.entries()) {
     //   console.log(key[0] + ', ' + key[1]);
     // }
@@ -47,6 +51,7 @@ const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
       config
     );
     console.debug(response);
+    setUserImage(response.data.data.Location);
 
     formRef.current?.reset();
   };
@@ -55,18 +60,23 @@ const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
     <>
       <h1>WELCOME :D</h1>
       {session && (
-        <form className="mt-4" onSubmit={handleUpdateProfile} ref={formRef}>
-          <label htmlFor="image">Upload new Profile Pic</label>
-          <input
-            type="file"
-            name="image"
-            id="image"
-            ref={fileInputRef}
-            accept={acceptedFileTypes}
-            multiple={allowMultipleFiles}
-          />
-          <Button type="submit">Save</Button>
-        </form>
+        <>
+          {session.user.image && (
+            <Image src={userImage} height="250" width="250" />
+          )}
+          <form className="mt-4" onSubmit={handleUpdateProfile} ref={formRef}>
+            <label htmlFor="image">Upload new Profile Pic</label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              ref={fileInputRef}
+              accept={acceptedFileTypes}
+              multiple={allowMultipleFiles}
+            />
+            <Button type="submit">Save</Button>
+          </form>
+        </>
       )}
     </>
   );
