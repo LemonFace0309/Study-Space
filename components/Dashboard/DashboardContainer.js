@@ -1,10 +1,10 @@
 import { React, useState } from 'react';
 import {
   Container,
+  Box,
   Grid,
   Typography,
   Paper,
-  Box,
   useTheme,
 } from '@material-ui/core';
 import DashboardCard from './Cards/DashboardCard';
@@ -18,20 +18,24 @@ const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
   const [open, setOpen] = useState(false);
-
   const theme = useTheme();
-
   return (
-    <Paper elevatation={6} className="rounded-3xl">
-      <Container>
-        <Grid container spacing={3}>
-          <Grid container item xs={12} spacing={3}>
+    <Container>
+      <Paper elevatation={6} className="rounded-3xl">
+        <Grid
+          container
+          direction="column"
+          alignContent="center"
+          alignItems="center"
+          justify="center"
+          spacing={6}>
+          <Grid container item xs={12}>
             <Grid item xs={12}>
               <Box color={theme.palette.primary.dark}>
                 <Typography variant="h4">Hey Charles!</Typography>
               </Box>
             </Grid>
-            <Grid item>
+            <Grid item xs={12}>
               <Box color={theme.palette.text.secondary}>
                 <Typography variant="h6">
                   The key is not to prioritize what's on your schedule, but to
@@ -41,25 +45,49 @@ const DashboardContainer = () => {
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={3}>
-            <Grid item xs={6}>
-              <Typography variant="h6">
-               Need a space to study?
-              </Typography>
-              <DashboardCard
-                variant="dark"
-                spaceName="Create a Space"
-                description="insert some sort of tagline or feature description "
-              />
+          {/* Dashboard Card Section */}
+
+          <Grid
+            container
+            direction="row"
+            item
+            alignContent="center"
+            alignItems="center"
+            justify="space-between"
+            spacing={3}
+            xs={12}>
+            <Grid item xs={6} container direction="column" spacing={3}>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Need a space to study?
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <DashboardCard
+                  variant="dark"
+                  spaceName="Create a Space"
+                  description="insert some sort of tagline or feature description "
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <DashboardCard
-                spaceName="Join a Space"
-                description="insert some sort of tagline or feature description "
-              />
+            <Grid item xs={6} container direction="column" spacing={3}>
+              <Grid item xs={12}>
+                <Typography variant="h6" color="textSecondary">
+                  Have a space to study?
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <DashboardCard
+                  variant="light"
+                  spaceName="Join a Space"
+                  description="insert some sort of tagline or feature description "
+                />
+              </Grid>
             </Grid>
           </Grid>
-          <Grid container item xs={12} spacing={2}>
+
+          {/* Space Card Section */}
+          <Grid container item xs={12} spacing={2} justify="space-between">
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
                 <Grid item xs={4}>
@@ -95,10 +123,9 @@ const DashboardContainer = () => {
               );
             })}
           </Grid>
-          <Grid container item xs={12}></Grid>
         </Grid>
-      </Container>
-    </Paper>
+      </Paper>
+    </Container>
   );
 };
 export default DashboardContainer;
