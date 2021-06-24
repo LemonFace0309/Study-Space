@@ -99,14 +99,8 @@ export default function StudySpaceDemo() {
 
           <Grid className="flex justify-start items-end col-span-2 px-8 ">
             <Box
-<<<<<<< HEAD
               color={theme.palette.primary.dark}
               className="flex flex-row space-x-5 ">
-=======
-
-              className="flex flex-row space-x-5 text-primary-dark"
-            >
->>>>>>> origin/feature/46/create-dashboard-charts
               <VideocamOffIcon />
               <MicIcon />
             </Box>
