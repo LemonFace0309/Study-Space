@@ -3,6 +3,7 @@ import multer from 'multer';
 const AWS = require('aws-sdk');
 const { v4: uuid } = require('uuid');
 
+import User from '../../../models/User';
 import dbConnect from '../../../utils/dbConnect';
 
 const s3 = new AWS.S3({
@@ -26,22 +27,46 @@ const router = nextConnect({
 router.use(multer({ storage }).single('image'));
 
 router.post(async (req, res) => {
-  await dbConnect();
+  const reqBody = JSON.parse(JSON.stringify(req.body));
+  const userId = reqBody?.id;
+  if (!userId) {
+    return res.status(422).json({ message: 'invalid input' });
+  }
 
   const myFile = req.file.originalname.split('.');
   const fileType = myFile[myFile.length - 1];
 
   const params = {
+    ACL: 'public-read',
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${uuid()}.${fileType}`,
     Body: req.file.buffer,
+    ContentType: req.file.mimetype,
   };
 
-  s3.upload(params, (error, data) => {
+  let user = {};
+  try {
+    await dbConnect();
+    user = await User.findById(userId);
+    if (!user) {
+      return res.status(422).json({ message: 'invalid input' });
+    }
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+  console.debug(user);
+
+  s3.upload(params, async (error, data) => {
     if (error) {
       res.status(500).send(error);
     }
-
+    user.image = data.Location;
+    try {
+      await user.save();
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+    console.debug(user);
     res.status(200).json({ data });
   });
 });
