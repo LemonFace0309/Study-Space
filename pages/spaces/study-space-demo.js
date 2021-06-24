@@ -1,28 +1,36 @@
-import React from "react";
-import Timer from "../../components/Spaces/StudySpace/Timer";
-import User from "../../components/Spaces/StudySpace/User";
+import React from 'react';
+import Timer from '../../components/Spaces/StudySpace/Timer';
+import User from '../../components/Spaces/StudySpace/User';
 
-import { Container, Box, Grid, Button, Typography, useTheme, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Grid,
+  Button,
+  Typography,
+  createMuiTheme,
+  ThemeProvider,
+} from '@material-ui/core';
 
-import VideocamOffIcon from "@material-ui/icons/VideocamOff";
-import MicIcon from "@material-ui/icons/Mic";
-import ChatIcon from "@material-ui/icons/Chat";
-import PeopleIcon from "@material-ui/icons/People";
-import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
-import CreateIcon from "@material-ui/icons/Create";
-import SettingsIcon from "@material-ui/icons/Settings";
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import MicIcon from '@material-ui/icons/Mic';
+import ChatIcon from '@material-ui/icons/Chat';
+import PeopleIcon from '@material-ui/icons/People';
+import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
+import CreateIcon from '@material-ui/icons/Create';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      dark: "#614885",
-      main: "#977BBF",
-      medium: "#E5DDED",
-      light: "#F5F2F9",
-      info: "#8698A7",
+      dark: '#614885',
+      main: '#977BBF',
+      medium: '#E5DDED',
+      light: '#F5F2F9',
+      info: '#8698A7',
     },
     secondary: {
-      main: "#F3858C",
+      main: '#F3858C',
     },
   },
 });
@@ -36,13 +44,14 @@ export default function StudySpaceDemo() {
       <Container className="mt-10">
         <Grid className="grid grid-cols-12">
           <Grid
-            className="flex flex-row  rounded-full space-x-5 col-span-4 "
-          >
+            item
+            color={theme.palette.primary.dark}
+            className="flex flex-row  rounded-full space-x-5 col-span-4">
             <Box>
               <Button
                 variant="outlined"
-                className="flex flex-row justify-start rounded-full  outline-none text-primary-dark"
-              >
+                color="primary"
+                className="flex flex-row justify-start rounded-full  outline-none">
                 <CreateIcon />
                 <Typography variant="body1" className="uppercase">
                   Session
@@ -62,13 +71,10 @@ export default function StudySpaceDemo() {
 
           <Grid
             item
-            className="flex flex-row justify-end items-start col-span-4"
-          >
+            className="flex flex-row justify-end items-start col-span-4">
             <Button
-          
               variant="outlined"
-              className="rounded-full  outline-none text-secondary-main"
-            >
+              className="rounded-full  outline-none">
               <Typography variant="body1" className="uppercase">
                 Quit
               </Typography>
@@ -77,9 +83,8 @@ export default function StudySpaceDemo() {
 
           <Grid className="flex justify-start items-end col-span-2 px-8 ">
             <Box
-
-              className="flex flex-row space-x-5 text-primary-dark"
-            >
+              color={theme.palette.primary.dark}
+              className="flex flex-row space-x-5 ">
               <VideocamOffIcon />
               <MicIcon />
             </Box>
@@ -92,16 +97,16 @@ export default function StudySpaceDemo() {
                 <div className="mt-5 ml-5">
                   <User  />
                 </div>
-                {Array.from(Array(11).keys()).map(() => (
-                  <User />
+                {Array.from(Array(11).keys()).map((key) => (
+                  <User key={key} />
                 ))}
               </Grid>
             </Container>
           </Grid>
           <Grid className="flex justify-end items-end col-span-2 px-8 ">
             <Box
-              className="flex flex-row space-x-5 text-primary-dark"
-            >
+              color={theme.palette.primary.dark}
+              className="flex flex-row space-x-5 ">
               <LibraryMusicIcon />
               <PeopleIcon />
               <ChatIcon />

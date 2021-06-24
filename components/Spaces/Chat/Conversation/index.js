@@ -2,8 +2,8 @@ import { useCallback, useMemo } from 'react';
 
 import { useConversation } from '../../../../context/ConversationProvider';
 
-const Conversation = () => {
-  const { conversation } = useConversation();
+const Conversation = ({conversation}) => {
+  // const { conversation } = useConversation()
 
   const setRef = useCallback((node) => {
     if (node) {
