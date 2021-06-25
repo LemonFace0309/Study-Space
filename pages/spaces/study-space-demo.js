@@ -9,7 +9,6 @@ import {
   Button,
   Typography,
   createMuiTheme,
-  ThemeProvider,
 } from '@material-ui/core';
 
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
@@ -36,10 +35,6 @@ const theme = createMuiTheme({
 });
 
 export default function StudySpaceDemo() {
-  // For the sake of the demo, we are using locally defined theme.
-  // When using ThemeProvider, use the useTheme() hook.
-  // const theme = useTheme();
-
   return (
     <Container className="mt-10">
       <Grid className="grid grid-cols-12">
