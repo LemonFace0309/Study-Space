@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { getSession } from 'next-auth/client';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import User from '../models/User';
 import dbConnect from '../utils/dbConnect';
@@ -13,6 +14,11 @@ const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
   console.debug(session);
   const [userImage, setUserImage] = useState(session?.user?.image);
 
+  const userNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const curPassRef = useRef(null);
+  const newPassRef = useRef(null);
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
 
@@ -59,11 +65,26 @@ const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
   return (
     <>
       <h1>WELCOME :D</h1>
-      {session && (
+      {session.user && (
         <>
           {session.user.image && (
             <Image src={userImage} height="250" width="250" />
           )}
+          <TextField ref={userNameRef} label="Username" variant="outlined" />
+          <TextField ref={emailRef} label="Email" variant="outlined" />
+          <TextField ref={phoneRef} label="Phone Number" variant="outlined" />
+          <TextField
+            ref={curPassRef}
+            type="password"
+            label="Current Password"
+            variant="outlined"
+          />
+          <TextField
+            ref={newPassRef}
+            type="password"
+            label="New Password"
+            variant="outlined"
+          />
           <form className="mt-4" onSubmit={handleUpdateProfile} ref={formRef}>
             <label htmlFor="image">Upload new Profile Pic</label>
             <input
