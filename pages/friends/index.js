@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button } from '@material-ui/core';
 import { getSession } from 'next-auth/client';
 
-function users() {
+function Users() {
   const [userList, setUserList] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
   const [session, setSession] = useState();
@@ -92,4 +92,4 @@ function users() {
   );
 }
 
-export default users;
+export default Users;
