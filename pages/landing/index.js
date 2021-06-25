@@ -47,6 +47,7 @@ Landing.propTypes = {
 };
 
 export const getStaticProps = async () => {
+  console.debug('NEXTAUTH URL:', process.env.NEXTAUTH_URL);
   const providers = await getProviders();
   return {
     props: {
