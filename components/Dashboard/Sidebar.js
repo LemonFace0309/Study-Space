@@ -58,7 +58,7 @@ const Sidebar = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant="subtitle2" >FRIEND ACTIVITY</Typography>
+          <Typography variant="subtitle2">FRIEND ACTIVITY</Typography>
           <FriendCard></FriendCard>
         </Grid>
       </Grid>
