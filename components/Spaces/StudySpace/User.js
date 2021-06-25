@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { Paper, Box, Typography, Avatar } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import { Paper, Box, Typography, Avatar } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
-import PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from '@material-ui/icons/Person';
 
 export default function User() {
   const theme = useTheme();
@@ -12,8 +12,7 @@ export default function User() {
       <Box
         bgcolor={theme.palette.primary.light}
         color={theme.palette.primary.dark}
-        className="flex flex-col justify-center items-center p-5 rounded-lg w-full h-full"
-      >
+        className="flex flex-col justify-center items-center p-5 rounded-lg w-full h-full">
         <Avatar>
           <PersonIcon />
         </Avatar>
