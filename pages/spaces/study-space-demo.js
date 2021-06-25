@@ -41,106 +41,68 @@ export default function StudySpaceDemo() {
   // const theme = useTheme();
 
   return (
-      <Container className="mt-10">
-        <Grid className="grid grid-cols-12">
-          <Grid
-<<<<<<< HEAD
-            item
-            color={theme.palette.primary.dark}
-            className="flex flex-row  rounded-full space-x-5 col-span-4">
-            <Box>
-              <Button
-                variant="outlined"
-                color="primary"
-                className="flex flex-row justify-start rounded-full  outline-none">
-=======
-            className="flex flex-row  rounded-full space-x-5 col-span-4 "
-          >
-            <Box>
-              <Button
-                variant="outlined"
-                className="flex flex-row justify-start rounded-full  outline-none text-primary-dark"
-              >
->>>>>>> origin/feature/46/create-dashboard-charts
-                <CreateIcon />
-                <Typography variant="body1" className="uppercase">
-                  Session
-                </Typography>
-              </Button>
-            </Box>
-            <Box className="text-primary-dark">
-              <SettingsIcon />
-            </Box>
-          </Grid>
-
-          <Grid item className="col-span-4">
-            <Container className="mb-24">
-              <Timer />
-            </Container>
-          </Grid>
-
-          <Grid
-            item
-            className="flex flex-row justify-end items-start col-span-4">
+    <Container className="mt-10">
+      <Grid className="grid grid-cols-12">
+        <Grid className="flex flex-row  rounded-full space-x-5 col-span-4 ">
+          <Box>
             <Button
-          
               variant="outlined"
-<<<<<<< HEAD
-              className="rounded-full  outline-none">
-=======
-              className="rounded-full  outline-none text-secondary-main"
-            >
->>>>>>> origin/feature/46/create-dashboard-charts
+              className="flex flex-row justify-start rounded-full  outline-none text-primary-dark">
+              <CreateIcon />
               <Typography variant="body1" className="uppercase">
-                Quit
+                Session
               </Typography>
             </Button>
-          </Grid>
-
-          <Grid className="flex justify-start items-end col-span-2 px-8 ">
-            <Box
-<<<<<<< HEAD
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 ">
-=======
-
-              className="flex flex-row space-x-5 text-primary-dark"
-            >
->>>>>>> origin/feature/46/create-dashboard-charts
-              <VideocamOffIcon />
-              <MicIcon />
-            </Box>
-          </Grid>
-
-          {/* MUI grid can be an item AND a container. */}
-          <Grid className="col-span-8">
-            <Container className="mb-24">
-              <Grid className="grid grid-cols-6 ml-5 space-x-5 space-y-5 ">
-                <div className="mt-5 ml-5">
-                  <User  />
-                </div>
-                {Array.from(Array(11).keys()).map((key) => (
-                  <User key={key} />
-                ))}
-              </Grid>
-            </Container>
-          </Grid>
-          <Grid className="flex justify-end items-end col-span-2 px-8 ">
-            <Box
-<<<<<<< HEAD
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 ">
-=======
-              className="flex flex-row space-x-5 text-primary-dark"
-            >
->>>>>>> origin/feature/46/create-dashboard-charts
-              <LibraryMusicIcon />
-              <PeopleIcon />
-              <ChatIcon />
-            </Box>
-          </Grid>
+          </Box>
+          <Box className="text-primary-dark">
+            <SettingsIcon />
+          </Box>
         </Grid>
-      </Container>
 
+        <Grid item className="col-span-4">
+          <Container className="mb-24">
+            <Timer />
+          </Container>
+        </Grid>
+
+        <Grid item className="flex flex-row justify-end items-start col-span-4">
+          <Button
+            variant="outlined"
+            className="rounded-full  outline-none text-secondary-main">
+            <Typography variant="body1" className="uppercase">
+              Quit
+            </Typography>
+          </Button>
+        </Grid>
+
+        <Grid className="flex justify-start items-end col-span-2 px-8 ">
+          <Box className="flex flex-row space-x-5 text-primary-dark">
+            <VideocamOffIcon />
+            <MicIcon />
+          </Box>
+        </Grid>
+
+        {/* MUI grid can be an item AND a container. */}
+        <Grid className="col-span-8">
+          <Container className="mb-24">
+            <Grid className="grid grid-cols-6 ml-5 space-x-5 space-y-5 ">
+              <div className="mt-5 ml-5">
+                <User />
+              </div>
+              {Array.from(Array(11).keys()).map((key) => (
+                <User key={key} />
+              ))}
+            </Grid>
+          </Container>
+        </Grid>
+        <Grid className="flex justify-end items-end col-span-2 px-8 ">
+          <Box className="flex flex-row space-x-5 text-primary-dark">
+            <LibraryMusicIcon />
+            <PeopleIcon />
+            <ChatIcon />
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
