@@ -43,11 +43,15 @@ export default function StudySpaceDemo() {
   return (
     <Container className="mt-10">
       <Grid className="grid grid-cols-12">
-        <Grid className="flex flex-row  rounded-full space-x-5 col-span-4 ">
+        <Grid
+          item
+          color={theme.palette.primary.dark}
+          className="flex flex-row  rounded-full space-x-5 col-span-4">
           <Box>
             <Button
               variant="outlined"
-              className="flex flex-row justify-start rounded-full  outline-none text-primary-dark">
+              color="primary"
+              className="flex flex-row justify-start rounded-full  outline-none">
               <CreateIcon />
               <Typography variant="body1" className="uppercase">
                 Session
@@ -66,9 +70,7 @@ export default function StudySpaceDemo() {
         </Grid>
 
         <Grid item className="flex flex-row justify-end items-start col-span-4">
-          <Button
-            variant="outlined"
-            className="rounded-full  outline-none text-secondary-main">
+          <Button variant="outlined" className="rounded-full  outline-none">
             <Typography variant="body1" className="uppercase">
               Quit
             </Typography>
@@ -76,7 +78,9 @@ export default function StudySpaceDemo() {
         </Grid>
 
         <Grid className="flex justify-start items-end col-span-2 px-8 ">
-          <Box className="flex flex-row space-x-5 text-primary-dark">
+          <Box
+            color={theme.palette.primary.dark}
+            className="flex flex-row space-x-5 ">
             <VideocamOffIcon />
             <MicIcon />
           </Box>
@@ -96,7 +100,9 @@ export default function StudySpaceDemo() {
           </Container>
         </Grid>
         <Grid className="flex justify-end items-end col-span-2 px-8 ">
-          <Box className="flex flex-row space-x-5 text-primary-dark">
+          <Box
+            color={theme.palette.primary.dark}
+            className="flex flex-row space-x-5 ">
             <LibraryMusicIcon />
             <PeopleIcon />
             <ChatIcon />
