@@ -6,6 +6,10 @@ import dbConnect from '../../../utils/dbConnect';
 import User from '../../../models/User';
 
 const options = {
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+  },
   providers: [
     Providers.Google({
       clientId: process.env.GOOGLE_CLIENT_ID,

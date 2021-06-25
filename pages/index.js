@@ -9,9 +9,9 @@ import User from '../models/User';
 import dbConnect from '../utils/dbConnect';
 
 const Home = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
-  session = JSON.parse(session);
+  session = session !== '' && JSON.parse(session);
   console.debug(session);
-  const [userImage, setUserImage] = useState(session.user.image);
+  const [userImage, setUserImage] = useState(session?.user?.image);
 
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
@@ -111,7 +111,7 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      session: JSON.stringify(newSession), // otherwise nextjs throws error - can't serialize data
+      session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
     },
   };
 };
