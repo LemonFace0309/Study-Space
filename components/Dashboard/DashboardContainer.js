@@ -59,7 +59,7 @@ const DashboardContainer = () => {
             justify="space-between"
             spacing={3}
             xs={12}>
-            <Grid item xs={6} container direction="column" spacing={3}>
+            <Grid item xs={12} md={6} container direction="column" spacing={3}>
               <Grid item xs={12}>
                 <Typography variant="h6" color="textSecondary">
                   Need a space to study?
@@ -73,7 +73,7 @@ const DashboardContainer = () => {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={6} container direction="column" spacing={3}>
+            <Grid item xs={12} md={6} container direction="column" spacing={3}>
               <Grid item xs={12}>
                 <Typography variant="h6" color="textSecondary">
                   Have a space to study?
@@ -93,7 +93,7 @@ const DashboardContainer = () => {
           <Grid container item xs={12} spacing={2} justify="space-between">
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid key={uniqueId(spaceName)} item xs={4}>
+                <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
                   <div
                     onClick={() => {
                       setOpen(true);

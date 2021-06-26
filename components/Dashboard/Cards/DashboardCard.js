@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Paper, Box, Typography, Grid } from '@material-ui/core';
+import { Paper, Box, Typography, Grid, Hidden } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 const DashboardCard = ({ spaceName, description, variant }) => {
@@ -17,9 +17,12 @@ const DashboardCard = ({ spaceName, description, variant }) => {
               ? theme.palette.primary.mainGradient
               : theme.palette.secondary.mainGradient,
         }}>
-        <Grid item xs={4}>
-          <Box bgcolor="text.disabled" width={1} height={1}></Box>
-        </Grid>
+        <Hidden mdDown>
+          <Grid item xs={4}>
+            <Box bgcolor="text.disabled" width={1} height={1}></Box>
+          </Grid>
+        </Hidden>
+
         <Grid item xs={8}>
           <Box
             color={
