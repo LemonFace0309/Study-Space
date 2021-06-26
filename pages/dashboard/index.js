@@ -1,15 +1,23 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Hidden } from '@material-ui/core';
+import { getSession } from 'next-auth/client';
+import { Grid, Hidden, Button } from '@material-ui/core';
 
+import User from '../models/User';
+import dbConnect from '../../utils/dbConnect';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import DashboardContainer from '../../components/Dashboard/DashboardContainer';
 import ChartCard from '../../components/Dashboard/Cards/ChartCard';
 import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
 import LineChart from '../../components/Dashboard/Charts/LineChart';
+import ProfileModal from '../../components/Dashboard/Modals/ProfileModal';
 import { chartData } from '../../data/chartData';
 
-const Dashboard = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
+const Dashboard = ({ session }) => {
+  session = session !== '' && JSON.parse(session);
   const { peakStudyTimes, studyTimes } = chartData;
+  const [profileOpen, setProfileOpen] = useState(false);
+
   return (
     <Grid container>
       <Hidden smDown>
@@ -48,8 +56,24 @@ const Dashboard = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
           </Grid>
         </Grid>
       </Grid>
+      {session && (
+        <>
+          <Button onClick={() => setProfileOpen((prev) => !prev)}>
+            Profile
+          </Button>
+          <ProfileModal
+            session={session}
+            isOpen={profileOpen}
+            handleClose={setProfileOpen}
+          />
+        </>
+      )}
     </Grid>
   );
+};
+
+Dashboard.propTypes = {
+  session: PropTypes.string.isRequired,
 };
 
 export const getServerSideProps = async ({ req }) => {
@@ -72,6 +96,5 @@ export const getServerSideProps = async ({ req }) => {
     },
   };
 };
-
 
 export default Dashboard;
