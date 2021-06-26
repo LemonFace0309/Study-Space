@@ -24,10 +24,11 @@ const UserSchema = mongoose.Schema(
       },
     ],
     type: String,
+    image: String,
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+export default mongoose?.models?.User || mongoose.model('User', UserSchema);
