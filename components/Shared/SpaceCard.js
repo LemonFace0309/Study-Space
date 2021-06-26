@@ -50,7 +50,8 @@ const SpaceCard = ({ spaceName, description, headCount, music }) => {
 SpaceCard.propTypes = {
   spaceName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  headCount: PropTypes.oneOf([PropTypes.number, PropTypes.string]).isRequired,
+  headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   music: PropTypes.string.isRequired,
 };
 

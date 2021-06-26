@@ -30,7 +30,7 @@ const UserList = ({ users }) => {
   );
 };
 UserList.propTypes = {
-  users: PropTypes.object,
+  users: PropTypes.array.isRequired,
 };
 
 const SpaceCardModal = ({
@@ -83,12 +83,12 @@ const SpaceCardModal = ({
 };
 
 SpaceCardModal.propTypes = {
-  handleClose: PropTypes.func,
-  open: PropTypes.func,
-  children: PropTypes.element,
-  friends: PropTypes.object,
-  participants: PropTypes.object,
-  hosts: PropTypes.object,
+  handleClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  friends: PropTypes.array,
+  participants: PropTypes.array,
+  hosts: PropTypes.array,
 };
 
 export default SpaceCardModal;
