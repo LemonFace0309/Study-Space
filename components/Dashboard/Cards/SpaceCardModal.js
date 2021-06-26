@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   Container,
+  Grid,
   Box,
   Typography,
   Dialog,
@@ -13,14 +12,13 @@ import {
   Avatar,
   useTheme,
 } from '@material-ui/core';
-
 import PersonIcon from '@material-ui/icons/Person';
 
 const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={user.name} className="py-0">
+        <ListItem key={user.name}>
           <ListItemAvatar>
             <Avatar>
               <PersonIcon />
@@ -32,64 +30,68 @@ const UserList = ({ users }) => {
     </List>
   );
 };
-UserList.PropTypes = {
-  users: PropTypes.object,
+UserList.propTypes = {
+  users: PropTypes.array.isRequired,
 };
 
-export default function SpaceCardModal({
+const SpaceCardModal = ({
   handleClose,
   open,
   children,
   friends,
   participants,
   hosts,
-}) {
+}) => {
   const theme = useTheme();
 
   return (
     <Dialog onClose={() => handleClose()} open={open}>
-      <Box className="p-10 rounded-lg">
-        {children}
+      <Container>
+        <Grid container spacing={3}>
+          {/* Space Card */}
+          <Grid item xs={12}>
+            {children}
+          </Grid>
 
-        <Typography
-          variant="h6"
-          color="textSecondary"
-          className="uppercase py-4">
-          In Session
-        </Typography>
+          <Grid item container xs={12} spacing={3}>
+            {/* Friends and Participants Section*/}
+            <Grid item xs={12} sm={6}>
+              <Box bgcolor={theme.palette.primary.light}>
+                <Typography variant="body1" color="textSecondary">
+                  Friends
+                </Typography>
+                <UserList users={friends} />
 
-        <Container className="flex flex-col sm:flex-row justify-between  ">
-          <Box
-            bgcolor={theme.palette.primary.light}
-            className="flex flex-col p-5 rounded-lg">
-            <Typography variant="body1" color="textSecondary">
-              Friends
-            </Typography>
-            <UserList users={friends} />
+                <Typography variant="body1" color="textSecondary">
+                  Participants
+                </Typography>
+                <UserList users={participants} />
+              </Box>
+            </Grid>
 
-            <Typography variant="body1" color="textSecondary">
-              Participants
-            </Typography>
-            <UserList users={participants} />
-          </Box>
-
-          <Box className="flex flex-col p-5">
-            <Typography variant="body1" color="textSecondary">
-              Host&#40;s&#41;
-            </Typography>
-            <UserList users={hosts} />
-          </Box>
-        </Container>
-      </Box>
+            {/* Host Section */}
+            <Grid item xs={12} sm={6}>
+              <Box>
+                <Typography variant="body1" color="textSecondary">
+                  Host&#40;s&#41;
+                </Typography>
+                <UserList users={hosts} />
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     </Dialog>
   );
-}
+};
 
 SpaceCardModal.propTypes = {
-  handleClose: PropTypes.func,
-  open: PropTypes.func,
-  children: PropTypes.element,
-  friends: PropTypes.object,
-  participants: PropTypes.object,
-  hosts: PropTypes.object,
+  handleClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  friends: PropTypes.array,
+  participants: PropTypes.array,
+  hosts: PropTypes.array,
 };
+
+export default SpaceCardModal;

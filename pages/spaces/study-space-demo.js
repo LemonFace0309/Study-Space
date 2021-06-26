@@ -9,7 +9,6 @@ import {
   Button,
   Typography,
   createMuiTheme,
-  ThemeProvider,
 } from '@material-ui/core';
 
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
@@ -35,87 +34,78 @@ const theme = createMuiTheme({
   },
 });
 
-export default function StudySpaceDemo() {
-  // For the sake of the demo, we are using locally defined theme.
-  // When using ThemeProvider, use the useTheme() hook.
-  // const theme = useTheme();
-
+const StudySpaceDemo = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Container className="mt-10">
-        <Grid container className="grid grid-cols-12">
-          <Grid
-            item
-            color={theme.palette.primary.dark}
-            className="flex flex-row  rounded-full space-x-5 col-span-4">
-            <Box>
-              <Button
-                variant="outlined"
-                color="primary"
-                className="flex flex-row justify-start rounded-full  outline-none">
-                <CreateIcon />
-                <Typography variant="body1" className="uppercase">
-                  Session
-                </Typography>
-              </Button>
-            </Box>
-            <Box color={theme.palette.primary.dark}>
-              <SettingsIcon />
-            </Box>
-          </Grid>
-
-          <Grid item className="col-span-4">
-            <Container className="mb-24">
-              <Timer />
-            </Container>
-          </Grid>
-
-          <Grid
-            item
-            className="flex flex-row justify-end items-start col-span-4">
+    <Container className="mt-10">
+      <Grid className="grid grid-cols-12">
+        <Grid
+          item
+          color={theme.palette.primary.dark}
+          className="flex flex-row  rounded-full space-x-5 col-span-4">
+          <Box>
             <Button
-              color="secondary"
               variant="outlined"
-              className="rounded-full  outline-none">
+              color="primary"
+              className="flex flex-row justify-start rounded-full  outline-none">
+              <CreateIcon />
               <Typography variant="body1" className="uppercase">
-                Quit
+                Session
               </Typography>
             </Button>
-          </Grid>
-
-          <Grid item className="flex justify-start items-end col-span-2 px-8 ">
-            <Box
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 ">
-              <VideocamOffIcon />
-              <MicIcon />
-            </Box>
-          </Grid>
-
-          {/* MUI grid can be an item AND a container. */}
-          <Grid item container className="col-span-8">
-            <Container className="mb-24">
-              <Grid className="grid grid-cols-6 ml-5 space-x-5 space-y-5 ">
-                <div className="mt-5 ml-5">
-                  <User />
-                </div>
-                {Array.from(Array(11).keys()).map((key) => (
-                  <User key={key} />
-                ))}
-              </Grid>
-            </Container>
-          </Grid>
-          <Grid item className="flex justify-end items-end col-span-2 px-8 ">
-            <Box
-              color={theme.palette.primary.dark}
-              className="flex flex-row space-x-5 ">
-              <LibraryMusicIcon />
-              <PeopleIcon />
-              <ChatIcon />
-            </Box>
-          </Grid>
+          </Box>
+          <Box className="text-primary-dark">
+            <SettingsIcon />
+          </Box>
         </Grid>
-      </Container>
-    </ThemeProvider>
+
+        <Grid item className="col-span-4">
+          <Container className="mb-24">
+            <Timer />
+          </Container>
+        </Grid>
+
+        <Grid item className="flex flex-row justify-end items-start col-span-4">
+          <Button variant="outlined" className="rounded-full  outline-none">
+            <Typography variant="body1" className="uppercase">
+              Quit
+            </Typography>
+          </Button>
+        </Grid>
+
+        <Grid className="flex justify-start items-end col-span-2 px-8 ">
+          <Box
+            color={theme.palette.primary.dark}
+            className="flex flex-row space-x-5 ">
+            <VideocamOffIcon />
+            <MicIcon />
+          </Box>
+        </Grid>
+
+        {/* MUI grid can be an item AND a container. */}
+        <Grid className="col-span-8">
+          <Container className="mb-24">
+            <Grid className="grid grid-cols-6 ml-5 space-x-5 space-y-5 ">
+              <div className="mt-5 ml-5">
+                <User />
+              </div>
+              {Array.from(Array(11).keys()).map((key) => (
+                <User key={key} />
+              ))}
+            </Grid>
+          </Container>
+        </Grid>
+        <Grid className="flex justify-end items-end col-span-2 px-8 ">
+          <Box
+            color={theme.palette.primary.dark}
+            className="flex flex-row space-x-5 ">
+            <LibraryMusicIcon />
+            <PeopleIcon />
+            <ChatIcon />
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
   );
-}
+};
+
+export default StudySpaceDemo;

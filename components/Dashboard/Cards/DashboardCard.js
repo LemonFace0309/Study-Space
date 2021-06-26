@@ -1,44 +1,50 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { Paper, Box, Typography } from '@material-ui/core';
+import { Paper, Box, Typography, Grid, Hidden } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-export default function DashboardCard(props) {
+const DashboardCard = ({ spaceName, description, variant }) => {
   const theme = useTheme();
-  const { spaceName, description, variant } = props;
   return (
-    <Paper className="rounded-xl " elevate={5}>
-      <Box
+    <Paper elevate={5} className="rounded-lg">
+      <Grid
+        spacing={5}
+        container
+        direction="row"
+        className="rounded-lg"
         style={{
           background:
-            variant === 'primary'
+            variant === 'dark'
               ? theme.palette.primary.mainGradient
               : theme.palette.secondary.mainGradient,
-        }}
-        className="flex flex-grow justify-between rounded-r-xl rounded-bl-xl ">
-        <div className="h-32 w-80 grid grid-cols-3">
-          <div className="p-6">
-            {/* spaceholder */}
-            <Box class="h-20 w-20 bg-purple-200"></Box>
-          </div>
-          <div className="col-span-2 pt-2">
-            <Box className="text-left p-3">
-              <Typography color="text" variant="h5" align="left">
-                {spaceName}
-              </Typography>
-              <Typography variant="body1" className="text-sm pt-1">
-                {description}
-              </Typography>
-            </Box>
-          </div>
-        </div>
-      </Box>
+        }}>
+        <Hidden mdDown>
+          <Grid item xs={4}>
+            <Box bgcolor="text.disabled" width={1} height={1}></Box>
+          </Grid>
+        </Hidden>
+
+        <Grid item xs={8}>
+          <Box
+            color={
+              variant === 'dark'
+                ? theme.palette.primary.contrastText
+                : theme.palette.primary.dark
+            }>
+            <Typography variant="h5" align="left">
+              {spaceName}
+            </Typography>
+            <Typography variant="body2">{description}</Typography>
+          </Box>
+        </Grid>
+      </Grid>
     </Paper>
   );
-}
+};
+
 DashboardCard.propTypes = {
   spaceName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
 };
+
+export default DashboardCard;
