@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Box, Grid, Button, Typography, useTheme } from '@material-ui/core';
@@ -34,11 +35,7 @@ const Sidebar = () => {
           <Typography variant="subtitle1" align="left">
             Dashboard😊
           </Typography>
-          <MenuOpenIcon
-            className="pt-2"
-            color={theme.palette.primary.light} // doesn't work
-            style={{ color: '#BDACD4' }}
-          />
+          <MenuOpenIcon className="pt-2" style={{ color: '#BDACD4' }} />
         </Grid>
         <Grid item container direction="column" spacing={1}>
           <Grid item>

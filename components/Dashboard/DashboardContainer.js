@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { React, useState } from 'react';
+import uniqueId from 'lodash';
 import {
   Container,
   Box,
@@ -7,10 +10,10 @@ import {
   Paper,
   useTheme,
 } from '@material-ui/core';
+
 import DashboardCard from './Cards/DashboardCard';
 import SpaceCardModal from './Cards/SpaceCardModal';
-import SpaceCard from './Cards/SpaceCard';
-
+import SpaceCard from '../Shared/SpaceCard';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 
@@ -38,8 +41,8 @@ const DashboardContainer = () => {
             <Grid item xs={12}>
               <Box color={theme.palette.text.secondary}>
                 <Typography variant="h6">
-                  The key is not to prioritize what's on your schedule, but to
-                  schedule your priorities.
+                  The key is not to prioritize what&#39;s on your schedule, but
+                  to schedule your priorities.
                 </Typography>
               </Box>
             </Grid>
@@ -90,7 +93,7 @@ const DashboardContainer = () => {
           <Grid container item xs={12} spacing={2} justify="space-between">
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid item xs={4}>
+                <Grid key={uniqueId(spaceName)} item xs={4}>
                   <div
                     onClick={() => {
                       setOpen(true);
@@ -103,7 +106,6 @@ const DashboardContainer = () => {
                       music={music}
                     />
                   </div>
-
                   <SpaceCardModal
                     open={open}
                     handleClose={() => {
@@ -128,4 +130,5 @@ const DashboardContainer = () => {
     </Container>
   );
 };
+
 export default DashboardContainer;

@@ -34,7 +34,7 @@ const theme = createMuiTheme({
   },
 });
 
-export default function StudySpaceDemo() {
+const StudySpaceDemo = () => {
   return (
     <Container className="mt-10">
       <Grid className="grid grid-cols-12">
@@ -106,4 +106,6 @@ export default function StudySpaceDemo() {
       </Grid>
     </Container>
   );
-}
+};
+
+export default StudySpaceDemo;

@@ -13,17 +13,17 @@ export const chartData = {
   peakStudyTimes: {
     title: 'Peak Study Times',
     date: 'This Week (May 8)',
-    options :{
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
             },
-          ],
-        },
+          },
+        ],
       },
+    },
     data: {
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [
@@ -54,31 +54,29 @@ export const chartData = {
   studyTimes: {
     title: 'Study Times',
     date: 'This Month (May)',
-   data : {
-        labels: ['1', '2', '3', '4', '5', '6'],
-        datasets: [
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6'],
+      datasets: [
+        {
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          fill: false,
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgba(255, 99, 132, 0.2)',
+        },
+      ],
+    },
+
+    options: {
+      scales: {
+        yAxes: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            ticks: {
+              beginAtZero: true,
+            },
           },
         ],
       },
-      
-      options : {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      }
+    },
   },
 };
-
-

@@ -1,6 +1,4 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   Container,
   Box,
@@ -13,7 +11,6 @@ import {
   Avatar,
   useTheme,
 } from '@material-ui/core';
-
 import PersonIcon from '@material-ui/icons/Person';
 
 const UserList = ({ users }) => {
@@ -32,18 +29,18 @@ const UserList = ({ users }) => {
     </List>
   );
 };
-UserList.PropTypes = {
+UserList.propTypes = {
   users: PropTypes.object,
 };
 
-export default function SpaceCardModal({
+const SpaceCardModal = ({
   handleClose,
   open,
   children,
   friends,
   participants,
   hosts,
-}) {
+}) => {
   const theme = useTheme();
 
   return (
@@ -83,7 +80,7 @@ export default function SpaceCardModal({
       </Box>
     </Dialog>
   );
-}
+};
 
 SpaceCardModal.propTypes = {
   handleClose: PropTypes.func,
@@ -93,3 +90,5 @@ SpaceCardModal.propTypes = {
   participants: PropTypes.object,
   hosts: PropTypes.object,
 };
+
+export default SpaceCardModal;

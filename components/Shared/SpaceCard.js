@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Paper, Box, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
@@ -10,9 +10,7 @@ import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 const SpaceCard = ({ spaceName, description, headCount, music }) => {
   const theme = useTheme();
   return (
-    <Paper
-      className="flex flex-col h-full"
-      style={{ borderRadius: '0px 15px 15px 15px' }}>
+    <Paper className="rounded-xl">
       <Box className="flex flex-grow justify-between ">
         <Box color={theme.palette.primary.dark} className="text-left p-3">
           <Typography variant="h5" align="center">
@@ -25,7 +23,7 @@ const SpaceCard = ({ spaceName, description, headCount, music }) => {
 
         <Box
           color={theme.palette.primary.main}
-          className="flex items-center justify-center flex-col m-1 bg-opacity-30">
+          className=" flex items-center justify-center flex-col m-1 bg-opacity-30">
           <VideocamOffIcon />
           <MicIcon />
           <ChatIcon />
@@ -47,6 +45,13 @@ const SpaceCard = ({ spaceName, description, headCount, music }) => {
       </Box>
     </Paper>
   );
+};
+
+SpaceCard.propTypes = {
+  spaceName: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  headCount: PropTypes.oneOf([PropTypes.number, PropTypes.string]).isRequired,
+  music: PropTypes.string.isRequired,
 };
 
 export default SpaceCard;

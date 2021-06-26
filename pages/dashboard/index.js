@@ -1,9 +1,8 @@
+import { Grid } from '@material-ui/core';
+
 import Sidebar from '../../components/Dashboard/Sidebar';
 import DashboardContainer from '../../components/Dashboard/DashboardContainer';
-import { Grid, Container } from '@material-ui/core';
-import OverviewChartCard from '../../components/Dashboard/Cards/OverviewChartCard';
 import ChartCard from '../../components/Dashboard/Cards/ChartCard';
-
 import VerticalBar from '../../components/Dashboard/Cards/Charts/VerticalBar';
 import LineChart from '../../components/Dashboard/Cards/Charts/LineChart';
 import { chartData } from '../../data/chartData';

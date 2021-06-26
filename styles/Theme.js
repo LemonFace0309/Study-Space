@@ -15,7 +15,7 @@ export default createMuiTheme({
       dark: '#4E3276',
       mainGradient: 'linear-gradient(to right, #4E3276, #977BBF)',
       contrastText: '#fff', // white,
-    }, 
+    },
     secondary: {
       // pink
       light: '#FAF3F5',
@@ -27,15 +27,12 @@ export default createMuiTheme({
     text: {
       primary: '#111111', // black
       secondary: '#888888', // medium gray
-      disabled: '#C4C4C4', // light gray 
+      disabled: '#C4C4C4', // light gray
     },
 
     error: {
       // red
       main: '#EF5D66',
-    },
-    text:{
-      disabled:'#C4C4C4'
     },
     /* success causes error so I'm leaving it out for now
     success: {

@@ -1,9 +1,8 @@
-import React from 'react';
-import { Paper, Box, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { Box, Typography } from '@material-ui/core';
 import Card from '../../Shared/Card';
 
-export default function ChartCard(props) {
-  const { title, date, chart } = props;
+const ChartCard = ({ title, date, chart }) => {
   return (
     <Card>
       <Box className="text-left p-3">
@@ -18,4 +17,12 @@ export default function ChartCard(props) {
       <Box>{chart}</Box>
     </Card>
   );
-}
+};
+
+ChartCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  chart: PropTypes.node.isRequired,
+};
+
+export default ChartCard;

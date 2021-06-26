@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import { Paper, Box, Typography, Grid } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-export default function DashboardCard(props) {
+const DashboardCard = ({ spaceName, description, variant }) => {
   const theme = useTheme();
-  const { spaceName, description, variant } = props;
   return (
     <Paper elevate={5} className="rounded-lg">
       <Grid
@@ -37,9 +36,12 @@ export default function DashboardCard(props) {
       </Grid>
     </Paper>
   );
-}
+};
+
 DashboardCard.propTypes = {
   spaceName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
 };
+
+export default DashboardCard;

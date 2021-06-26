@@ -1,25 +1,21 @@
 import React from 'react';
-import { Paper, Box, Typography } from "@material-ui/core";
-import Card from "../../Shared/Card"
+import { Box, Typography } from '@material-ui/core';
+import Card from '../../Shared/Card';
 
-
-export default function OverviewChartCard(props) {
-  
-    return (
-
-      <Card>
-        <Box className="text-left p-3">
-          <Typography variant="h5" align="center" className="text-primary-dark ">
-   
-          </Typography>
-          <Typography  variant="body1" className="text-primary-text">
+const OverviewChartCard = () => {
+  return (
+    <Card>
+      <Box className="text-left p-3">
+        <Typography
+          variant="h5"
+          align="center"
+          className="text-primary-dark "></Typography>
+        <Typography variant="body1" className="text-primary-text">
           hello
-          </Typography>
-        </Box>
+        </Typography>
+      </Box>
+    </Card>
+  );
+};
 
-  
-    </Card>)
-      
-      
-    
-  }
+export default OverviewChartCard;
