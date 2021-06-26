@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 import { Grid, Hidden } from '@material-ui/core';
 
 import Sidebar from '../../components/Dashboard/Sidebar';
 import DashboardContainer from '../../components/Dashboard/DashboardContainer';
 import ChartCard from '../../components/Dashboard/Cards/ChartCard';
-import VerticalBar from '../../components/Dashboard/Cards/Charts/VerticalBar';
-import LineChart from '../../components/Dashboard/Cards/Charts/LineChart';
+import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
+import LineChart from '../../components/Dashboard/Charts/LineChart';
 import { chartData } from '../../data/chartData';
 
-export default function Dashboard() {
+const Dashboard = ({ session, acceptedFileTypes, allowMultipleFiles }) => {
   const { peakStudyTimes, studyTimes } = chartData;
   return (
     <Grid container>
@@ -49,4 +50,28 @@ export default function Dashboard() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export const getServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  await dbConnect();
+
+  let newSession;
+  if (session) {
+    const user = await User.findOne({
+      email: session.user.email,
+    });
+    newSession = { ...session, user };
+    console.log('Session:', newSession);
+  }
+
+  return {
+    props: {
+      session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
+    },
+  };
+};
+
+
+export default Dashboard;
