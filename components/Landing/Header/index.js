@@ -61,20 +61,27 @@ const Header = (props) => {
   const authButtons = classNames(['normal-case', 'px-10', 'm-2', 'rounded-full', 'outline-none']);
 
   useEffect(() => {
-    const setSession = async () => {
-      const userSession = await getSession();
-      setSession(userSession);
-      setLoading(false);
-      console.debug(userSession);
+    const initSession = async () => {
+      try {
+        const userSession = await getSession();
+        setSession(userSession);
+        setLoading(false);
+        console.debug(userSession);
+      } catch (e) {
+        console.error(e);
+      }
     };
-    setSession();
+    initSession();
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setSuccessfulSignUp(false);
-    }, 3000);
-    return clearTimeout(timeout);
+    let timeout;
+    if (successfulSignUp) {
+      timeout = setTimeout(() => {
+        setSuccessfulSignUp(false);
+      }, 3000);
+    }
+    return timeout && clearTimeout(timeout);
   }, [successfulSignUp]);
 
   const handleCredentialsSubmit = async (e) => {

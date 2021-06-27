@@ -13,12 +13,7 @@ const Landing = ({ data, bigFeatures, stats, smallFeatures, providers }) => {
   return (
     <>
       <div className="min-h-screen flex flex-col">
-        <Header
-          providers={providers}
-          signIn={signIn}
-          signOut={signOut}
-          getSession={getSession}
-        />
+        <Header providers={providers} signIn={signIn} signOut={signOut} getSession={getSession} />
         <Hero />
       </div>
       <LandingSpaces data={data} />
@@ -54,22 +49,19 @@ export const getStaticProps = async () => {
       data: [
         {
           spaceName: 'UW Math 2025',
-          description:
-            'finals grind, upper years available in chat for help with past exams',
+          description: 'finals grind, upper years available in chat for help with past exams',
           headCount: '17',
           music: 'lofi 2',
         },
         {
           spaceName: "Capstone Grind '25",
-          description:
-            'writing your report, making your presentation, setting up data',
+          description: 'writing your report, making your presentation, setting up data',
           headCount: '23',
           music: 'cafe beats eng edition F21',
         },
         {
           spaceName: 'UW Math 2025',
-          description:
-            '3rd and 4th years offering help in MSCI, GENE, MATH, and CS',
+          description: '3rd and 4th years offering help in MSCI, GENE, MATH, and CS',
           headCount: '8',
           music: 'none',
         },
@@ -94,18 +86,15 @@ export const getStaticProps = async () => {
       stats: [
         {
           score: '99%',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },
         {
           score: 12,
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },
         {
           score: '9 / 12',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pretium bibendum mauris, mollis...',
         },
       ],
       smallFeatures: [
