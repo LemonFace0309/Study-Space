@@ -30,8 +30,13 @@ export const password = atom({
   default: '',
 });
 
-export const newPassword = atom({
-  key: 'auth-newPassword',
+export const newPassword1 = atom({
+  key: 'auth-newPassword1',
+  default: '',
+});
+
+export const newPassword2 = atom({
+  key: 'auth-newPassword2',
   default: '',
 });
 
@@ -60,18 +65,12 @@ export const validEmail = selector({
 
 export const validUsername = selector({
   key: 'auth-validUsername',
-  get: ({ get }) =>
-    /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(
-      get(username)
-    ),
+  get: ({ get }) => /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(get(username)),
 });
 
 export const validPhoneNumber = selector({
   key: 'auth-validPhoneNumber',
-  get: ({ get }) =>
-    /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(
-      get(phoneNumber)
-    ),
+  get: ({ get }) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(get(phoneNumber)),
 });
 
 export const sanitizedPhoneNumber = selector({
@@ -81,27 +80,19 @@ export const sanitizedPhoneNumber = selector({
 
 export const validPassword = selector({
   key: 'auth-validPassword',
-  get: ({ get }) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-      get(password)
-    ),
+  get: ({ get }) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(password)),
 });
 
 export const validNewPassword = selector({
   key: 'auth-validNewPassword',
   get: ({ get }) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-      get(password)
-    ),
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(newPassword2)) &&
+    get(newPassword1) === get(get(newPassword2)),
 });
 
 export const validSignUp = selector({
   key: 'auth-validSignUp',
-  get: ({ get }) =>
-    get(validFirstName) &&
-    get(validLastName) &&
-    get(validEmail) &&
-    get(validPassword),
+  get: ({ get }) => get(validFirstName) && get(validLastName) && get(validEmail) && get(validPassword),
 });
 
 export const validLogIn = selector({
@@ -125,7 +116,8 @@ export const resetAll = selector({
     reset(username);
     reset(phoneNumber);
     reset(password);
-    reset(newPassword);
+    reset(newPassword1);
+    reset(newPassword2);
     reset(submitted);
   },
 });

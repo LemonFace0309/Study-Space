@@ -58,19 +58,16 @@ const Header = (props) => {
     'hover:text-gray-500',
     'transition duration-200 ease-in-out',
   ]);
-  const authButtons = classNames([
-    'normal-case',
-    'px-10',
-    'm-2',
-    'rounded-full',
-    'outline-none',
-  ]);
+  const authButtons = classNames(['normal-case', 'px-10', 'm-2', 'rounded-full', 'outline-none']);
 
-  useEffect(async () => {
-    const userSession = await getSession();
-    setSession(userSession);
-    setLoading(false);
-    console.debug(userSession);
+  useEffect(() => {
+    const setSession = async () => {
+      const userSession = await getSession();
+      setSession(userSession);
+      setLoading(false);
+      console.debug(userSession);
+    };
+    setSession();
   }, []);
 
   useEffect(() => {
@@ -108,9 +105,7 @@ const Header = (props) => {
       label="Email Address"
       fullWidth
       error={submitted && !validEmail}
-      helperText={
-        submitted && !validEmail && 'Please enter a valid email address 🥺'
-      }
+      helperText={submitted && !validEmail && 'Please enter a valid email address 🥺'}
       className="mb-1"
       type="email"
       value={email}
@@ -138,9 +133,7 @@ const Header = (props) => {
         label="First Name"
         fullWidth
         error={submitted && !validFirstName}
-        helperText={
-          submitted && !validFirstName && 'Please enter a valid first name 🥺'
-        }
+        helperText={submitted && !validFirstName && 'Please enter a valid first name 🥺'}
         className="mb-1"
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
@@ -150,9 +143,7 @@ const Header = (props) => {
         label="Last Name"
         fullWidth
         error={submitted && !validLastName}
-        helperText={
-          submitted && !validLastName && 'Please enter a valid last name 🥺'
-        }
+        helperText={submitted && !validLastName && 'Please enter a valid last name 🥺'}
         className="mb-1"
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}

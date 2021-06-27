@@ -34,38 +34,22 @@ const Dashboard = ({ session }) => {
             <ChartCard
               title={peakStudyTimes.title}
               date={peakStudyTimes.date}
-              chart={
-                <VerticalBar
-                  options={peakStudyTimes.options}
-                  data={peakStudyTimes.data}
-                />
-              }
+              chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ChartCard
               title={studyTimes.title}
               date={studyTimes.date}
-              chart={
-                <LineChart
-                  options={studyTimes.options}
-                  data={studyTimes.data}
-                />
-              }
+              chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
             />
           </Grid>
         </Grid>
       </Grid>
       {session && (
         <>
-          <Button onClick={() => setProfileOpen((prev) => !prev)}>
-            Profile
-          </Button>
-          <ProfileDialog
-            session={session}
-            isOpen={profileOpen}
-            handleClose={() => setProfileOpen(false)}
-          />
+          <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
+          <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
         </>
       )}
     </Grid>
