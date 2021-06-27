@@ -15,6 +15,7 @@ import { chartData } from '../../data/chartData';
 
 const Dashboard = ({ session }) => {
   session = session !== '' && JSON.parse(session);
+  console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
 
