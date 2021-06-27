@@ -24,7 +24,7 @@ const Conversation = ({conversation}) => {
             }`}>
             <div
               className={`rounded px-2 py-1 ${
-                message.fromMe ? 'bg-blue-500 text-white' : 'border-2'
+                message.fromMe ? 'bg-purple-500 text-white' : 'border-2'
               }`}>
               {message.text}
             </div>

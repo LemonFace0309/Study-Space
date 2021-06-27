@@ -18,3 +18,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+/* Add on to react-tabs to take up full space available */
+.react-tabs {
+  height: 100%;
+  width: 100%;
+}
+
+.react-tabs__tab-panel--selected {
+  height: 100%;
+  width: 100%;
+}
