@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
 import { Grid, Hidden, Button } from '@material-ui/core';
 
-import User from '../models/User';
+import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import DashboardContainer from '../../components/Dashboard/DashboardContainer';
 import ChartCard from '../../components/Dashboard/Cards/ChartCard';
 import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
 import LineChart from '../../components/Dashboard/Charts/LineChart';
-import ProfileModal from '../../components/Dashboard/Modals/ProfileModal';
+import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
 
 const Dashboard = ({ session }) => {
@@ -61,10 +61,10 @@ const Dashboard = ({ session }) => {
           <Button onClick={() => setProfileOpen((prev) => !prev)}>
             Profile
           </Button>
-          <ProfileModal
+          <ProfileDialog
             session={session}
             isOpen={profileOpen}
-            handleClose={setProfileOpen}
+            handleClose={() => setProfileOpen(false)}
           />
         </>
       )}
