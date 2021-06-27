@@ -53,42 +53,44 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
         Enter your current and new password
       </Typography>
       <Grid item xs={12} md={6}>
-        <Typography className="capitalize" variant="subtitle1" gutterBottom>
-          Current Password
-        </Typography>
-        <TextField
-          disabled={!editMode}
-          variant="outlined"
-          fullWidth
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className="mb-2"
-        />
-        <Typography className="capitalize" variant="subtitle1" gutterBottom>
-          New Password
-        </Typography>
-        <TextField
-          disabled={!editMode}
-          variant="outlined"
-          fullWidth
-          type="password"
-          value={newPassword1}
-          onChange={(e) => setNewPassword1(e.target.value)}
-          className="mb-2"
-        />
-        <Typography className="capitalize" variant="subtitle1" gutterBottom>
-          Confirm New Password
-        </Typography>
-        <TextField
-          disabled={!editMode}
-          variant="outlined"
-          fullWidth
-          type="password"
-          value={newPassword2}
-          onChange={(e) => setNewPassword2(e.target.value)}
-          className="mb-2"
-        />
+        <form>
+          <Typography className="capitalize" variant="subtitle1" gutterBottom>
+            Current Password
+          </Typography>
+          <TextField
+            disabled={!editMode}
+            variant="outlined"
+            fullWidth
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="mb-2"
+          />
+          <Typography className="capitalize" variant="subtitle1" gutterBottom>
+            New Password
+          </Typography>
+          <TextField
+            disabled={!editMode}
+            variant="outlined"
+            fullWidth
+            type="password"
+            value={newPassword1}
+            onChange={(e) => setNewPassword1(e.target.value)}
+            className="mb-2"
+          />
+          <Typography className="capitalize" variant="subtitle1" gutterBottom>
+            Confirm New Password
+          </Typography>
+          <TextField
+            disabled={!editMode}
+            variant="outlined"
+            fullWidth
+            type="password"
+            value={newPassword2}
+            onChange={(e) => setNewPassword2(e.target.value)}
+            className="mb-2"
+          />
+        </form>
       </Grid>
     </Grid>
   );
