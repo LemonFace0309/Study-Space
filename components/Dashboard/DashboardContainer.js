@@ -2,14 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { React, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
-import {
-  Container,
-  Box,
-  Grid,
-  Typography,
-  Paper,
-  useTheme,
-} from '@material-ui/core';
+import { Container, Box, Grid, Typography, Paper, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
 import SpaceCardModal from './Cards/SpaceCardModal';
@@ -25,13 +18,7 @@ const DashboardContainer = () => {
   return (
     <Container>
       <Paper elevatation={6} className="rounded-3xl">
-        <Grid
-          container
-          direction="column"
-          alignContent="center"
-          alignItems="center"
-          justify="center"
-          spacing={6}>
+        <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
           <Grid container item xs={12}>
             <Grid item xs={12}>
               <Box color={theme.palette.primary.dark}>
@@ -41,8 +28,7 @@ const DashboardContainer = () => {
             <Grid item xs={12}>
               <Box color={theme.palette.text.secondary}>
                 <Typography variant="h6">
-                  The key is not to prioritize what&#39;s on your schedule, but
-                  to schedule your priorities.
+                  The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
                 </Typography>
               </Box>
             </Grid>
@@ -99,12 +85,7 @@ const DashboardContainer = () => {
                       setOpen(true);
                     }}
                     className="cursor-pointer transform hover:scale-110 transition ease-out duration-200">
-                    <SpaceCard
-                      spaceName={spaceName}
-                      description={description}
-                      headCount={headCount}
-                      music={music}
-                    />
+                    <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
                   </div>
                   <SpaceCardModal
                     open={open}
@@ -114,12 +95,7 @@ const DashboardContainer = () => {
                     friends={friends}
                     participants={participants}
                     hosts={hosts}>
-                    <SpaceCard
-                      spaceName={spaceName}
-                      description={description}
-                      headCount={headCount}
-                      music={music}
-                    />
+                    <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
                   </SpaceCardModal>
                 </Grid>
               );

@@ -23,7 +23,6 @@ export default createMuiTheme({
       mainGradient: 'linear-gradient(to right, #FAF3F5, #BDACD4)',
       contrastText: '#000', // black
     },
-
     text: {
       primary: '#111111', // black
       secondary: '#888888', // medium gray
@@ -46,13 +45,5 @@ export default createMuiTheme({
   },
   typography: {
     fontFamily: 'Ubuntu',
-  },
-  button: {
-    backgroundColor: 'transparent',
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#977BBF',
-      color: '#fff',
-    },
   },
 });
