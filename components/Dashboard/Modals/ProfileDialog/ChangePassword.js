@@ -38,8 +38,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
       newPassword2,
     };
 
-    const response = await axios.post('/api/profile/edit-profile', jsonData, {
-      headers: { 'content-type': 'multipart/form-data' },
+    const response = await axios.patch('/api/profile/edit-profile', jsonData, {
       onUploadProgress: (event) => {
         console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
       },

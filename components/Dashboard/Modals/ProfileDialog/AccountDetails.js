@@ -73,7 +73,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
     //   console.log(key[0] + ', ' + key[1]);
     // }
 
-    const response = await axios.post('/api/profile/edit-profile', formData, {
+    const response = await axios.patch('/api/profile/edit-profile', formData, {
       headers: { 'content-type': 'multipart/form-data' },
       onUploadProgress: (event) => {
         console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
