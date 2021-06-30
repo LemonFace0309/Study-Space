@@ -48,12 +48,12 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
 
   useEffect(() => {
     if (saveChanges) {
-      // handleUpdateAccountProfile();
+      // handleUpdateProfile();
       setSaveChanges(false);
     }
   }, [editMode]);
 
-  const handleUpdateAccountProfile = async () => {
+  const handleUpdateImage = async () => {
     if (!fileInputRef.current.files?.length) {
       return;
     }
@@ -65,15 +65,12 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
     });
 
     formData.append('id', session.user._id);
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('phoneNumber', phoneNumber);
 
     // for (let key of formData.entries()) {
     //   console.log(key[0] + ', ' + key[1]);
     // }
 
-    const response = await axios.patch('/api/profile/edit-profile', formData, {
+    const response = await axios.patch('/api/profile/update-image', formData, {
       headers: { 'content-type': 'multipart/form-data' },
       onUploadProgress: (event) => {
         console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
@@ -83,6 +80,21 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
     setUserImage(response.data.data.Location);
 
     formRef.current?.reset();
+  };
+
+  const handleUpdateProfile = async () => {
+    const jsonData = {
+      username,
+      email,
+      phoneNumber,
+    };
+
+    const response = await axios.patch('/api/profile/update-profile', jsonData, {
+      onUploadProgress: (event) => {
+        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+      },
+    });
+    console.debug(response);
   };
 
   return (
