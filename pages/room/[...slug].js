@@ -53,54 +53,38 @@ const Room = () => {
         width: window.innerWidth / 2,
       };
 
-      socketRef.current = io(
-        process.env.NODE_SERVER || 'http://localhost:8080'
-      );
-      navigator.mediaDevices
-        .getUserMedia({ video: videoConstraints, audio: true })
-        .then((stream) => {
-          userVideo.current.srcObject = stream;
-          socketRef.current.emit('join room', roomID);
-          socketRef.current.on('all users', (users) => {
-            const peers = [];
-            users.forEach((userID) => {
-              const peer = createPeer(
-                userID,
-                socketRef.current.id,
-                stream,
-                currentUsername
-              );
-              peersRef.current.push({
-                peerID: userID,
-                peer,
-              });
-              peers.push(peer);
-            });
-            setPeers(peers);
-          });
-
-          socketRef.current.on('user joined', (payload) => {
-            const peer = addPeer(
-              payload.signal,
-              payload.callerID,
-              stream,
-              currentUsername
-            );
+      socketRef.current = io(process.env.NODE_SERVER || 'http://localhost:8080');
+      navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
+        userVideo.current.srcObject = stream;
+        socketRef.current.emit('join room', roomID);
+        socketRef.current.on('all users', (users) => {
+          const peers = [];
+          users.forEach((userID) => {
+            const peer = createPeer(userID, socketRef.current.id, stream, currentUsername);
             peersRef.current.push({
-              peerID: payload.callerID,
+              peerID: userID,
               peer,
             });
-
-            setPeers((users) => [...users, peer]);
+            peers.push(peer);
           });
-
-          socketRef.current.on('receiving returned signal', (payload) => {
-            const receivingPeerObj = peersRef.current.find(
-              (p) => p.peerID === payload.id
-            );
-            receivingPeerObj.peer.signal(payload.signal);
-          });
+          setPeers(peers);
         });
+
+        socketRef.current.on('user joined', (payload) => {
+          const peer = addPeer(payload.signal, payload.callerID, stream, currentUsername);
+          peersRef.current.push({
+            peerID: payload.callerID,
+            peer,
+          });
+
+          setPeers((users) => [...users, peer]);
+        });
+
+        socketRef.current.on('receiving returned signal', (payload) => {
+          const receivingPeerObj = peersRef.current.find((p) => p.peerID === payload.id);
+          receivingPeerObj.peer.signal(payload.signal);
+        });
+      });
     };
     initRoom();
   }, []);
@@ -151,11 +135,7 @@ const Room = () => {
   }
 
   return (
-    <Grid
-      container
-      spacing={2}
-      className="flex-row justify-between h-screen"
-      style={{ background: '#DDA0DD' }}>
+    <Grid container spacing={2} className="flex-row justify-between h-screen" style={{ background: '#DDA0DD' }}>
       <Grid item xs={12} md={8}>
         <div className="p-5 flex flex-row flex-wrap justify-center items-center">
           <video muted ref={userVideo} autoPlay height="400" width="400" />
@@ -165,11 +145,7 @@ const Room = () => {
         </div>
       </Grid>
       <Grid item xs={12} md={4} className="p-5 flex flex-col items-center">
-        <Chat
-          peersRef={peersRef}
-          conversation={conversation}
-          setConversation={setConversation}
-        />
+        <Chat peersRef={peersRef} conversation={conversation} setConversation={setConversation} />
       </Grid>
     </Grid>
   );
