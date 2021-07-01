@@ -16,7 +16,7 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
       return [...prevConversation, { text: text, fromMe: true }]
     })
     peersRef.current.forEach((peerObj) => {
-      if (peerObj) {
+      if (peerObj && !peerObj.peer.destroyed) {
         peerObj.peer.send(text)
       }
     });
@@ -35,7 +35,7 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
 
   return (
     <>
-      <Paper className="flex flex-col h-96 min-h-full w-9/12 max-w-lg" elevation={3}>
+      <Paper className="flex flex-col h-96 min-h-full max-w-lg" elevation={3}>
         <Conversation conversation={conversation} />
         <form onSubmit={submitHandler} className="flex items-center mt-2">
           <TextField
