@@ -15,8 +15,28 @@ export const email = atom({
   default: '',
 });
 
+export const username = atom({
+  key: 'auth-username',
+  default: '',
+});
+
+export const phoneNumber = atom({
+  key: 'auth-phoneNumber',
+  default: '',
+});
+
 export const password = atom({
   key: 'auth-password',
+  default: '',
+});
+
+export const newPassword1 = atom({
+  key: 'auth-newPassword1',
+  default: '',
+});
+
+export const newPassword2 = atom({
+  key: 'auth-newPassword2',
   default: '',
 });
 
@@ -43,21 +63,36 @@ export const validEmail = selector({
     ),
 });
 
+export const validUsername = selector({
+  key: 'auth-validUsername',
+  get: ({ get }) => /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(get(username)),
+});
+
+export const validPhoneNumber = selector({
+  key: 'auth-validPhoneNumber',
+  get: ({ get }) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(get(phoneNumber)),
+});
+
+export const sanitizedPhoneNumber = selector({
+  key: 'auth-sanitizedPhoneNumber',
+  get: ({ get }) => ('' + get(phoneNumber)).replace(/\D/g, ''),
+});
+
 export const validPassword = selector({
   key: 'auth-validPassword',
+  get: ({ get }) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(password)),
+});
+
+export const validNewPassword = selector({
+  key: 'auth-validNewPassword',
   get: ({ get }) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-      get(password)
-    ),
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(newPassword2)) &&
+    get(newPassword1) === get(get(newPassword2)),
 });
 
 export const validSignUp = selector({
   key: 'auth-validSignUp',
-  get: ({ get }) =>
-    get(validFirstName) &&
-    get(validLastName) &&
-    get(validEmail) &&
-    get(validPassword),
+  get: ({ get }) => get(validFirstName) && get(validLastName) && get(validEmail) && get(validPassword),
 });
 
 export const validLogIn = selector({
@@ -78,7 +113,11 @@ export const resetAll = selector({
     reset(firstName);
     reset(lastName);
     reset(email);
+    reset(username);
+    reset(phoneNumber);
     reset(password);
+    reset(newPassword1);
+    reset(newPassword2);
     reset(submitted);
   },
 });

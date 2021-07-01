@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { LinearProgress } from "@material-ui/core";
-
-
+import { LinearProgress } from '@material-ui/core';
 
 export default function ProgressBar() {
   const [progress, setProgress] = useState(70);
