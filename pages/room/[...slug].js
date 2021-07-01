@@ -58,7 +58,7 @@ const Room = () => {
         width: window.innerWidth / 2,
       };
 
-      socketRef.current = io(process.env.NODE_SERVER || 'http://localhost:8080');
+      socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
         userVideo.current.srcObject = stream;
         socketRef.current.emit('join room', roomID);

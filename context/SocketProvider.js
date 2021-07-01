@@ -4,7 +4,7 @@ import Peer from 'simple-peer';
 
 const SocketContext = React.createContext();
 
-const socket = io(process.env.NODE_SERVER || 'http://localhost:8080');
+const socket = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
 
 export const useSocket = () => useContext(SocketContext);
 
