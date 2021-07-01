@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
+import { useTheme } from '@material-ui/core'
 import { useConversation } from '../../../../context/ConversationProvider';
 
 const Conversation = ({conversation}) => {
   // const { conversation } = useConversation()
+  const theme = useTheme();
 
   const setRef = useCallback((node) => {
     if (node) {
@@ -24,8 +26,9 @@ const Conversation = ({conversation}) => {
             }`}>
             <div
               className={`rounded px-2 py-1 ${
-                message.fromMe ? 'bg-purple-500 text-white' : 'border-2'
-              }`}>
+                message.fromMe ? 'text-white' : 'border-2'
+              }`}
+              style={{ backgroundColor: theme.palette.primary.main}}>
               {message.text}
             </div>
             <div

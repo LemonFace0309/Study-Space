@@ -8,6 +8,14 @@ import { Chat as ChatIcon, People, LibraryMusic, PlaylistAddCheck } from '@mater
 import Chat from '../Chat/'
 
 
+const callTabsIndex = {
+  EMPTY_TAB: 0,
+  MUSIC_QUEUE: 1,
+  MUSIC_LIBRARY: 2,
+  PEOPLE: 3,
+  CHAT: 4,
+}
+
 function CallTabs({
   peersRef,
   conversation,
@@ -15,13 +23,7 @@ function CallTabs({
   showTabs,
   setShowTabs,
 }) {
-  const callTabsIndex = {
-    EMPTY_TAB: 0,
-    MUSIC_QUEUE: 1,
-    MUSIC_LIBRARY: 2,
-    PEOPLE: 3,
-    CHAT: 4,
-  }
+
   const [tabIndex, setTabIndex] = useState(callTabsIndex.CHAT);
 
   function setTab(newTabIndex) {
