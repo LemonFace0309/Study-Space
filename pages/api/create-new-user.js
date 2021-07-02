@@ -1,4 +1,4 @@
-import { hashPassword } from '../../utils/password';
+const bcrypt = require('bcrypt');
 
 import dbConnect from '../../utils/dbConnect';
 import User from '../../models/User';
@@ -19,7 +19,7 @@ export default async (req, res) => {
   await dbConnect();
 
   try {
-    const hashedPw = await hashPassword(password);
+    const hashedPw = await bcrypt.hash(password, 12);
 
     const existingUser = await User.findOne({
       email,

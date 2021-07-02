@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
   const classes = useStyles();
+  const [serverError, setServerError] = useState(false);
   const [currentPassword, setCurrentPassword] = useRecoilState(authState.password);
   const [newPassword1, setNewPassword1] = useRecoilState(authState.newPassword1);
   const [newPassword2, setNewPassword2] = useRecoilState(authState.newPassword2);
@@ -27,25 +28,36 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
 
   useEffect(() => {
     if (saveChanges) {
-      // handleUpdatePassword();
+      handleUpdatePassword();
       setSaveChanges(false);
     }
   }, [editMode]);
 
+  useEffect(() => {
+    if (serverError) {
+      setServerError(false);
+    }
+  }, [currentPassword, newPassword1, newPassword2]);
+
   const handleUpdatePassword = async () => {
     const jsonData = {
-      id: session?.user?.id,
+      id: session?.user?._id,
       currentPassword,
       newPassword1,
       newPassword2,
     };
 
-    const response = await axios.patch('/api/profile/edit-profile', jsonData, {
-      onUploadProgress: (event) => {
-        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-      },
-    });
-    console.debug(response);
+    try {
+      const response = await axios.patch('/api/profile/update-password', jsonData, {
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+    } catch (err) {
+      setServerError(true);
+      alert(err?.response?.data?.message ?? 'Internal Server Error');
+    }
   };
 
   return (
@@ -64,6 +76,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={currentPassword}
+            error={serverError}
             onChange={(e) => setCurrentPassword(e.target.value)}
             className="mb-2"
           />
@@ -76,7 +89,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword1}
-            error={newPassword1 !== '' && !validNewPassword}
+            error={(newPassword1 !== '' && !validNewPassword) || serverError}
             helperText={
               !validNewPassword &&
               'Minimum eight characters. At least one letter, one number and one special character is required.'
@@ -93,7 +106,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword2}
-            error={newPassword2 !== '' && !newPasswordsMatch}
+            error={(newPassword2 !== '' && !newPasswordsMatch) || serverError}
             helperText={newPassword2 !== '' && !newPasswordsMatch && 'New passwords must match.'}
             onChange={(e) => setNewPassword2(e.target.value)}
             className="mb-2"
