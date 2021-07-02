@@ -22,6 +22,8 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
   const [currentPassword, setCurrentPassword] = useRecoilState(authState.password);
   const [newPassword1, setNewPassword1] = useRecoilState(authState.newPassword1);
   const [newPassword2, setNewPassword2] = useRecoilState(authState.newPassword2);
+  const validNewPassword = useRecoilValue(authState.validNewPassword);
+  const newPasswordsMatch = useRecoilValue(authState.newPasswordsMatch);
 
   useEffect(() => {
     if (saveChanges) {
@@ -74,6 +76,11 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword1}
+            error={newPassword1 !== '' && !validNewPassword}
+            helperText={
+              !validNewPassword &&
+              'Minimum eight characters. At least one letter, one number and one special character is required.'
+            }
             onChange={(e) => setNewPassword1(e.target.value)}
             className="mb-2"
           />
@@ -86,6 +93,8 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword2}
+            error={newPassword2 !== '' && !newPasswordsMatch}
+            helperText={newPassword2 !== '' && !newPasswordsMatch && 'New passwords must match.'}
             onChange={(e) => setNewPassword2(e.target.value)}
             className="mb-2"
           />

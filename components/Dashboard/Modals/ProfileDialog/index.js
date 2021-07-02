@@ -65,6 +65,8 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   const validUsername = useRecoilValue(authState.validUsername);
   const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
   const validEmail = useRecoilValue(authState.validEmail);
+  const validNewPassword = useRecoilValue(authState.validNewPassword);
+  const newPasswordsMatch = useRecoilValue(authState.newPasswordsMatch);
 
   const renderTabComponent = (component) => {
     switch (component) {
@@ -103,6 +105,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
 
   const isEditButtonDisabled = () => {
     if (tabIndex === 0 && editMode && (!validEmail || !validUsername || !validPhoneNumber)) {
+      return true;
+    }
+    if (tabIndex === 1 && editMode && !newPasswordsMatch) {
       return true;
     }
     return false;

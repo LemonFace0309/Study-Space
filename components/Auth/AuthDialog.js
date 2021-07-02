@@ -1,16 +1,6 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import {
-  Box,
-  Button,
-  Dialog,
-  Divider,
-  Grid,
-  Hidden,
-  Typography,
-  IconButton,
-  Snackbar,
-} from '@material-ui/core';
+import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import styles from '../../styles/Auth/Auth.module.css';
@@ -41,15 +31,8 @@ const AuthDialog = ({
       className={styles.Dialogue}>
       <Grid container className="my-8" alignItems="center" direction="row">
         <Grid item xs={12}>
-          <Snackbar
-            open={showSuccessAlert}
-            autoHideDuration={3000}
-            onClose={() => setShowSuccessAlert(false)}>
-            <Alert
-              elevation={6}
-              variant="filled"
-              onClose={() => setShowSuccessAlert(false)}
-              severity="success">
+          <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
+            <Alert elevation={6} variant="filled" onClose={() => setShowSuccessAlert(false)} severity="success">
               Congratulations! Your account has been created
               <span role="img" aria-label="partying face emoji">
                 🥳
@@ -60,20 +43,14 @@ const AuthDialog = ({
         <Grid container item xs={12} md={6} direction="column">
           <form onSubmit={handleCredentialsSubmit}>
             <div className="flex-grow flex flex-col items-center p-8">
-              <Typography
-                variant="h4"
-                component="h1"
-                style={{ color: '#4E3276' }}
-                className="font-bold">
+              <Typography variant="h4" component="h1" style={{ color: '#4E3276' }} className="font-bold">
                 {isSignUp ? 'Sign Up' : 'Log in'}
               </Typography>
               <div className="w-8/12 mt-8">{formContent}</div>
               <Button
                 type="submit"
                 className={`${
-                  isSignUp && !validSignUp
-                    ? 'bg-gray-400'
-                    : styles.submitButtonEnabled
+                  isSignUp && !validSignUp ? 'bg-gray-400' : styles.submitButtonEnabled
                   // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
                 } my-12 overflow-hidden text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none`}
                 disabled={isSignUp && !validSignUp}>
@@ -90,25 +67,11 @@ const AuthDialog = ({
                 {oAuthText}
               </Typography>
               <div className="flex w-full justify-center items-center">
-                <IconButton
-                  className="mr-4 outline-none"
-                  onClick={() => signIn(providers?.facebook.id)}>
-                  <Image
-                    src="/images/facebook.svg"
-                    alt="Facebook Login"
-                    height="32"
-                    width="32"
-                  />
+                <IconButton className="mr-4 outline-none" onClick={() => signIn(providers?.facebook.id)}>
+                  <Image src="/images/facebook.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
-                <IconButton
-                  className="outline-none"
-                  onClick={() => signIn(providers?.google.id)}>
-                  <Image
-                    src="/images/google.svg"
-                    alt="Facebook Login"
-                    height="32"
-                    width="32"
-                  />
+                <IconButton className="outline-none" onClick={() => signIn(providers?.google.id)}>
+                  <Image src="/images/google.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
               </div>
             </div>
@@ -128,21 +91,13 @@ const AuthDialog = ({
           </div>
         </Grid>
         <Hidden smDown>
-          <Grid
-            item
-            md={6}
-            className="overflow-hidden flex flex-col content-center items-start">
+          <Grid item md={6} className="overflow-hidden flex flex-col content-center items-start">
             <Typography variant="h6" component="h4" className="mb-2">
               All your study needs in one space.
             </Typography>
             <div className="w-11/12 max-w-lg relative">
               <div style={{ paddingTop: '100%' }}>
-                <Image
-                  src="/images/placeholder.jpg"
-                  alt="login screen picture"
-                  layout="fill"
-                  objectFit="cover"
-                />
+                <Image src="/images/placeholder.jpg" alt="login screen picture" layout="fill" objectFit="cover" />
               </div>
             </div>
           </Grid>
