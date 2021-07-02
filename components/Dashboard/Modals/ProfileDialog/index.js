@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mainForm: {
+    height: '100%',
     backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(2),
   },
@@ -69,6 +70,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
             editMode={editMode}
             saveChanges={saveChanges}
             setSaveChanges={setSaveChanges}
+            setEditMode={setEditMode}
           />
         );
       case tabComponents.CHANGE_PASSWORD:

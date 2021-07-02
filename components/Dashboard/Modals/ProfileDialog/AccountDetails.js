@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
+const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEditMode }) => {
   const classes = useStyles();
+  const [serverError, setServerError] = useState(false);
   const [userImage, setUserImage] = useState(session?.user?.image);
   const [username, setUsername] = useRecoilState(authState.username);
   const [email, setEmail] = useRecoilState(authState.email);
@@ -47,10 +48,16 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
   }, []);
 
   useEffect(() => {
-    if (saveChanges) {
-      // handleUpdateProfile();
-      setSaveChanges(false);
-    }
+    const save = async () => {
+      if (saveChanges) {
+        const passed = await handleUpdateProfile();
+        setSaveChanges(false);
+        if (!passed) {
+          setEditMode(true);
+        }
+      }
+    };
+    save();
   }, [editMode]);
 
   const handleUpdateImage = async () => {
@@ -64,37 +71,50 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
       formData.append(fileInputRef.current.name, file);
     });
 
-    formData.append('id', session.user._id);
+    formData.append('id', session?.user._id);
 
     // for (let key of formData.entries()) {
     //   console.log(key[0] + ', ' + key[1]);
     // }
 
-    const response = await axios.patch('/api/profile/update-image', formData, {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
-        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-      },
-    });
-    console.debug(response);
-    setUserImage(response.data.data.Location);
+    try {
+      const response = await axios.patch('/api/profile/update-image', formData, {
+        headers: { 'content-type': 'multipart/form-data' },
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+      setUserImage(response.data.data.Location);
+    } catch (err) {
+      console.debug(err);
+    }
 
     formRef.current?.reset();
   };
 
   const handleUpdateProfile = async () => {
     const jsonData = {
+      id: session?.user._id,
       username,
       email,
       phoneNumber,
     };
 
-    const response = await axios.patch('/api/profile/update-profile', jsonData, {
-      onUploadProgress: (event) => {
-        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-      },
-    });
-    console.debug(response);
+    try {
+      const response = await axios.patch('/api/profile/update-profile', jsonData, {
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+      setServerError(false);
+      return true;
+    } catch (err) {
+      setServerError(true);
+      alert(err?.response?.data?.message ?? 'Internal Server Error');
+      return false;
+    }
   };
 
   return (
@@ -118,6 +138,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={username}
+            error={serverError}
             onChange={(e) => setUsername(e.target.value)}
             className="mb-2"
           />
@@ -129,6 +150,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={email}
+            error={serverError}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2"
           />
@@ -140,6 +162,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={phoneNumber}
+            error={serverError}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
           />
@@ -156,6 +179,7 @@ AccountDetails.propTypes = {
   editMode: PropTypes.bool.isRequired,
   saveChanges: PropTypes.bool.isRequired,
   setSaveChanges: PropTypes.func.isRequired,
+  setEditMode: PropTypes.func.isRequired,
 };
 
 export default AccountDetails;
