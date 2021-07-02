@@ -37,6 +37,9 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
   const [username, setUsername] = useRecoilState(authState.username);
   const [email, setEmail] = useRecoilState(authState.email);
   const [phoneNumber, setPhoneNumber] = useRecoilState(authState.phoneNumber);
+  const validUsername = useRecoilValue(authState.validUsername);
+  const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
+  const validEmail = useRecoilValue(authState.validEmail);
 
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
@@ -59,6 +62,12 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     };
     save();
   }, [editMode]);
+
+  useEffect(() => {
+    if (serverError) {
+      setServerError(false);
+    }
+  }, [username, email, phoneNumber]);
 
   const handleUpdateImage = async () => {
     if (!fileInputRef.current.files?.length) {
@@ -108,7 +117,6 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         },
       });
       console.debug(response);
-      setServerError(false);
       return true;
     } catch (err) {
       setServerError(true);
@@ -138,7 +146,11 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={username}
-            error={serverError}
+            error={!validUsername || serverError}
+            helperText={
+              !validUsername &&
+              'Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent.'
+            }
             onChange={(e) => setUsername(e.target.value)}
             className="mb-2"
           />
@@ -150,7 +162,8 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={email}
-            error={serverError}
+            helperText={!validEmail && 'Must be a valid email.'}
+            error={!validEmail || serverError}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2"
           />
@@ -162,7 +175,8 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={phoneNumber}
-            error={serverError}
+            error={!validPhoneNumber || serverError}
+            helperText={!validPhoneNumber && 'Must be a valid phone number.'}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
           />

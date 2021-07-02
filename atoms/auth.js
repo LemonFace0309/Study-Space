@@ -65,7 +65,7 @@ export const validEmail = selector({
 
 export const validUsername = selector({
   key: 'auth-validUsername',
-  get: ({ get }) => /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(get(username)),
+  get: ({ get }) => /^(?=.{8,20}$)(?!.*[_.]{2})[a-zA-Z0-9._]+$/.test(get(username)),
 });
 
 export const validPhoneNumber = selector({

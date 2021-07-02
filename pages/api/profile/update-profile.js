@@ -21,8 +21,7 @@ router.use(
   body('phoneNumber').trim(),
   async (req, res, next) => {
     const { username, email, phoneNumber } = req.body;
-    const validUsername =
-      username === '' || /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(username);
+    const validUsername = username === '' || /^(?=.{8,20}$)(?!.*[_.]{2})[a-zA-Z0-9._]/.test(username);
     const validEmail =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
