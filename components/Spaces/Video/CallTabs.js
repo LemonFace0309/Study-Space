@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { Tabs, TabPanel } from 'react-tabs';
 
 import { IconButton, Grid, Paper } from '@material-ui/core';
-import { Chat as ChatIcon, People, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
+import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import Chat from '../Chat/'
+import People from '../StudySpace/People' 
 
 
 const callTabsIndex = {
@@ -52,7 +53,7 @@ function CallTabs({
               <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white">Mujic</Paper>
             </TabPanel>
             <TabPanel>
-              <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white">People</Paper>
+              <People />
             </TabPanel>
             <TabPanel>
               <Chat
@@ -73,7 +74,7 @@ function CallTabs({
           <LibraryMusic />
         </IconButton>
         <IconButton onClick={() => setTab(callTabsIndex.PEOPLE)}>
-          <People />
+          <PeopleIcon />
         </IconButton>
         <IconButton onClick={() => setTab(callTabsIndex.CHAT)}>
           <ChatIcon />
