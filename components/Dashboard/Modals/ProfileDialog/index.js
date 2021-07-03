@@ -62,6 +62,8 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [saveChanges, setSaveChanges] = useState(false);
+  const username = useRecoilValue(authState.username);
+  const phoneNumber = useRecoilValue(authState.phoneNumber);
   const validUsername = useRecoilValue(authState.validUsername);
   const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
   const validEmail = useRecoilValue(authState.validEmail);
@@ -104,10 +106,14 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   };
 
   const isEditButtonDisabled = () => {
-    if (tabIndex === 0 && editMode && (!validEmail || !validUsername || !validPhoneNumber)) {
+    if (
+      tabIndex === 0 &&
+      editMode &&
+      (!validEmail || (!validUsername && username !== '') || (!validPhoneNumber && phoneNumber !== ''))
+    ) {
       return true;
     }
-    if (tabIndex === 1 && editMode && !newPasswordsMatch) {
+    if (tabIndex === 1 && editMode && !validNewPassword && !newPasswordsMatch) {
       return true;
     }
     return false;

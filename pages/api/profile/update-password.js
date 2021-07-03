@@ -33,7 +33,7 @@ export default async (req, res) => {
     const newHashedPassword = await bcrypt.hash(newPassword2, 12);
     user.password = newHashedPassword;
     const result = await user.save();
-    return res.status(204).send(result);
+    return res.status(200).json({ message: 'Password succesfully updated 😃' });
   } catch (err) {
     return res.status(500).send(err);
   }

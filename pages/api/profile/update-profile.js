@@ -87,7 +87,7 @@ router.patch(async (req, res) => {
     console.log(err);
     return res.status(500).send(err);
   }
-  res.status(200).json({ message: 'user sucessfully updated' });
+  res.status(200).json({ message: 'You account info has been updated sucessfully 😃' });
 });
 
 export default router;

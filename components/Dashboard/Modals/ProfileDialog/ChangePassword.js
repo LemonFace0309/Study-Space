@@ -54,11 +54,23 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
         },
       });
       console.debug(response);
+      alert(response?.data.message ?? 'Password updated succesfully 😃');
+      setCurrentPassword('');
+      setNewPassword1('');
+      setNewPassword2('');
     } catch (err) {
       setServerError(true);
       alert(err?.response?.data?.message ?? 'Internal Server Error');
     }
   };
+
+  if (!session?.user.type || session?.user.type !== 'credentials') {
+    return (
+      <Typography variant="h6" className={classes.title}>
+        Cannot change password for users signed up through third party services like Google or Facebook.
+      </Typography>
+    );
+  }
 
   return (
     <Grid container direction="row" spacing={3}>

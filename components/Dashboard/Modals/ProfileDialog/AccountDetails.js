@@ -117,6 +117,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         },
       });
       console.debug(response);
+      alert(response?.data.message ?? 'You account info has been updated sucessfully 😃');
       return true;
     } catch (err) {
       setServerError(true);
@@ -146,7 +147,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={username}
-            error={!validUsername || serverError}
+            error={username !== '' && (!validUsername || serverError)}
             helperText={
               !validUsername &&
               'Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent.'
@@ -175,7 +176,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={phoneNumber}
-            error={!validPhoneNumber || serverError}
+            error={phoneNumber !== '' && (!validPhoneNumber || serverError)}
             helperText={!validPhoneNumber && 'Must be a valid phone number.'}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
