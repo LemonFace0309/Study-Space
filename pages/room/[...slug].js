@@ -9,9 +9,9 @@ import { Grid } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
-import CallOptions from '../../components/Spaces/Video/CallOptions'
-import CallTabs from '../../components/Spaces/Video/CallTabs'
-import LeaveCall from '../../components/Spaces/Video/LeaveCall'
+import CallOptions from '../../components/Spaces/Video/CallOptions';
+import CallTabs from '../../components/Spaces/Video/CallTabs';
+import LeaveCall from '../../components/Spaces/Video/LeaveCall';
 
 const PeerVideo = ({ peer }) => {
   const ref = useRef();
@@ -19,8 +19,12 @@ const PeerVideo = ({ peer }) => {
     peer.on('stream', (stream) => {
       ref.current.srcObject = stream;
     });
-  }, []);
-  return <video autoPlay ref={ref} height="400" width="400" />;
+  }, [peer]);
+  return (
+    <video autoPlay ref={ref} height="400" width="400">
+      <track kind="captions"></track>
+    </video>
+  );
 };
 
 PeerVideo.propTypes = {
@@ -34,10 +38,10 @@ const Room = () => {
   const peersRef = useRef([]);
   const router = useRouter();
   const roomID = router.query;
-  const [conversation, setConversation] = useState([])
-  const [userAudioShow, setUserAudioShow] = useState(true)
-  const [userVideoShow, setUserVideoShow] = useState(true)
-  const [showTabs, setShowTabs] = useState(true)
+  const [conversation, setConversation] = useState([]);
+  const [userAudioShow, setUserAudioShow] = useState(true);
+  const [userVideoShow, setUserVideoShow] = useState(true);
+  const [showTabs, setShowTabs] = useState(true);
 
   useEffect(() => {
     const initRoom = async () => {
@@ -58,57 +62,41 @@ const Room = () => {
         width: window.innerWidth / 2,
       };
 
-      socketRef.current = io(
-        process.env.NODE_SERVER || 'http://localhost:8080'
-      );
-      navigator.mediaDevices
-        .getUserMedia({ video: videoConstraints, audio: true })
-        .then((stream) => {
-          userVideo.current.srcObject = stream;
-          socketRef.current.emit('join room', roomID);
-          socketRef.current.on('all users', (users) => {
-            const peers = [];
-            users.forEach((userID) => {
-              const peer = createPeer(
-                userID,
-                socketRef.current.id,
-                stream,
-                currentUsername
-              );
-              peersRef.current.push({
-                peerID: userID,
-                peer,
-              });
-              peers.push(peer);
-            });
-            setPeers(peers);
-          });
-
-          socketRef.current.on('user joined', (payload) => {
-            const peer = addPeer(
-              payload.signal,
-              payload.callerID,
-              stream,
-              currentUsername
-            );
+      socketRef.current = io(process.env.NODE_SERVER || 'http://localhost:8080');
+      navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
+        userVideo.current.srcObject = stream;
+        socketRef.current.emit('join room', roomID);
+        socketRef.current.on('all users', (users) => {
+          const peers = [];
+          users.forEach((userID) => {
+            const peer = createPeer(userID, socketRef.current.id, stream, currentUsername);
             peersRef.current.push({
-              peerID: payload.callerID,
+              peerID: userID,
               peer,
             });
-
-            setPeers((users) => [...users, peer]);
+            peers.push(peer);
           });
-
-          socketRef.current.on('receiving returned signal', (payload) => {
-            const receivingPeerObj = peersRef.current.find(
-              (p) => p.peerID === payload.id
-            );
-            receivingPeerObj.peer.signal(payload.signal);
-          });
+          setPeers(peers);
         });
+
+        socketRef.current.on('user joined', (payload) => {
+          const peer = addPeer(payload.signal, payload.callerID, stream, currentUsername);
+          peersRef.current.push({
+            peerID: payload.callerID,
+            peer,
+          });
+
+          setPeers((users) => [...users, peer]);
+        });
+
+        socketRef.current.on('receiving returned signal', (payload) => {
+          const receivingPeerObj = peersRef.current.find((p) => p.peerID === payload.id);
+          receivingPeerObj.peer.signal(payload.signal);
+        });
+      });
     };
     initRoom();
-  }, []);
+  });
 
   function createPeer(userToSignal, callerID, stream, currentUsername) {
     const peer = new Peer({
@@ -157,20 +145,20 @@ const Room = () => {
 
   function leaveCall() {
     peersRef.current.forEach((peerObj) => {
-      peerObj.peer.destroy()
+      peerObj.peer.destroy();
     });
     router.push(`/room/`);
   }
 
   function toggleUserAudio() {
     const state = userVideo.current.srcObject.getAudioTracks()[0].enabled;
-    setUserAudioShow(!state)
+    setUserAudioShow(!state);
     userVideo.current.srcObject.getAudioTracks()[0].enabled = !state;
   }
 
   function toggleUserVideo() {
     const state = userVideo.current.srcObject.getVideoTracks()[0].enabled;
-    setUserVideoShow(!state)
+    setUserVideoShow(!state);
     userVideo.current.srcObject.getVideoTracks()[0].enabled = !state;
   }
 
@@ -186,13 +174,9 @@ const Room = () => {
         />
         <Grid item xs={12} md={showTabs ? 8 : 12}>
           <div className="p-5 flex flex-row flex-wrap justify-center items-center">
-            <video muted ref={userVideo} autoPlay
-              height="400"
-              width="400" />
+            <video muted ref={userVideo} autoPlay height="400" width="400" />
             {peers.map((peer, index) => {
-              return (
-                <PeerVideo key={index} peer={peer} />
-              );
+              return <PeerVideo key={index} peer={peer} />;
             })}
           </div>
         </Grid>
