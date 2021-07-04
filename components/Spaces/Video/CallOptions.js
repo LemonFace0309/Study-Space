@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { IconButton } from '@material-ui/core';
 import { Mic, MicOff, Videocam, VideocamOff } from '@material-ui/icons';
 
@@ -9,5 +10,12 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
     </div>
   );
 }
+
+CallOptions.propTypes = {
+  userAudioShow: PropTypes.bool.isRequired,
+  toggleUserAudio: PropTypes.func.isRequired,
+  userVideoShow: PropTypes.bool.isRequired,
+  toggleUserVideo: PropTypes.func.isRequired,
+};
 
 export default CallOptions;

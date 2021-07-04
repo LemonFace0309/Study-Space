@@ -1,27 +1,27 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { IconButton, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 
 import Conversation from './Conversation';
-import { useConversation } from '../../../context/ConversationProvider';
 
 const Chat = ({ conversation, setConversation, peersRef }) => {
-  const [text, setText] = useState('')
-  const [error, setError] = useState(false)
+  const [text, setText] = useState('');
+  const [error, setError] = useState(false);
 
   const submitHandler = (e) => {
-    e.preventDefault()
-    setConversation(prevConversation => {
-      return [...prevConversation, { text: text, fromMe: true }]
-    })
+    e.preventDefault();
+    setConversation((prevConversation) => {
+      return [...prevConversation, { text: text, fromMe: true }];
+    });
     peersRef.current.forEach((peerObj) => {
       if (peerObj && !peerObj.peer.destroyed) {
-        peerObj.peer.send(text)
+        peerObj.peer.send(text);
       }
     });
 
-    setText('')
+    setText('');
     setTimeout(() => {
       setError(false);
     }, 2000);
@@ -57,6 +57,12 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
       </Paper>
     </>
   );
+};
+
+Chat.propTypes = {
+  conversation: PropTypes.array.isRequired,
+  setConversation: PropTypes.func.isRequired,
+  peersRef: PropTypes.array.isRequired,
 };
 
 export default Chat;

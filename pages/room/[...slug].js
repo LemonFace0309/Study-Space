@@ -19,8 +19,12 @@ const PeerVideo = ({ peer }) => {
     peer.on('stream', (stream) => {
       ref.current.srcObject = stream;
     });
-  }, []);
-  return <video autoPlay ref={ref} height="400" width="400" />;
+  }, [peer]);
+  return (
+    <video autoPlay ref={ref} height="400" width="400">
+      <track kind="captions"></track>
+    </video>
+  );
 };
 
 PeerVideo.propTypes = {
@@ -92,7 +96,7 @@ const Room = () => {
       });
     };
     initRoom();
-  }, []);
+  }, [roomID]);
 
   function createPeer(userToSignal, callerID, stream, currentUsername) {
     const peer = new Peer({
