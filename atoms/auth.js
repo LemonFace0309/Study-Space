@@ -65,7 +65,7 @@ export const validEmail = selector({
 
 export const validUsername = selector({
   key: 'auth-validUsername',
-  get: ({ get }) => /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(get(username)),
+  get: ({ get }) => /^(?=.{8,20}$)(?!.*[_.]{2})[a-zA-Z0-9._]+$/.test(get(username)),
 });
 
 export const validPhoneNumber = selector({
@@ -85,9 +85,12 @@ export const validPassword = selector({
 
 export const validNewPassword = selector({
   key: 'auth-validNewPassword',
-  get: ({ get }) =>
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(newPassword2)) &&
-    get(newPassword1) === get(get(newPassword2)),
+  get: ({ get }) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(get(newPassword1)),
+});
+
+export const newPasswordsMatch = selector({
+  key: 'auth-newPasswordsMatch',
+  get: ({ get }) => get(newPassword1) === get(newPassword2),
 });
 
 export const validSignUp = selector({

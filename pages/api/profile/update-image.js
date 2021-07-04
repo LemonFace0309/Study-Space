@@ -1,10 +1,11 @@
 import nextConnect from 'next-connect';
 import multer from 'multer';
-const AWS = require('aws-sdk');
-const { v4: uuid } = require('uuid');
 
 import User from '../../../models/User';
 import dbConnect from '../../../utils/dbConnect';
+
+const AWS = require('aws-sdk');
+const { v4: uuid } = require('uuid');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ID,

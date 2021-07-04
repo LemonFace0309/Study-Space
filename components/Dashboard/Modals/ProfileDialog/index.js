@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useRecoilValue } from 'recoil';
 import Dialog from '@material-ui/core/Dialog';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
+import * as authState from '../../../../atoms/auth';
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mainForm: {
+    height: '100%',
     backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(2),
   },
@@ -59,6 +62,13 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [saveChanges, setSaveChanges] = useState(false);
+  const username = useRecoilValue(authState.username);
+  const phoneNumber = useRecoilValue(authState.phoneNumber);
+  const validUsername = useRecoilValue(authState.validUsername);
+  const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
+  const validEmail = useRecoilValue(authState.validEmail);
+  const validNewPassword = useRecoilValue(authState.validNewPassword);
+  const newPasswordsMatch = useRecoilValue(authState.newPasswordsMatch);
 
   const renderTabComponent = (component) => {
     switch (component) {
@@ -69,6 +79,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
             editMode={editMode}
             saveChanges={saveChanges}
             setSaveChanges={setSaveChanges}
+            setEditMode={setEditMode}
           />
         );
       case tabComponents.CHANGE_PASSWORD:
@@ -92,6 +103,20 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
       setSaveChanges(true);
     }
     setEditMode((prev) => !prev);
+  };
+
+  const isEditButtonDisabled = () => {
+    if (
+      tabIndex === 0 &&
+      editMode &&
+      (!validEmail || (!validUsername && username !== '') || (!validPhoneNumber && phoneNumber !== ''))
+    ) {
+      return true;
+    }
+    if (tabIndex === 1 && editMode && !validNewPassword && !newPasswordsMatch) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -136,7 +161,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
               </TabPanel>
             ))}
             <Grid container item justify="flex-end">
-              <Button onClick={toggleSaveMode}>{editMode ? 'Save' : 'Edit Profile'}</Button>
+              <Button onClick={toggleSaveMode} disabled={isEditButtonDisabled()}>
+                {editMode ? 'Save' : 'Edit Profile'}
+              </Button>
             </Grid>
           </Grid>
         </Grid>
