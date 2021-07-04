@@ -34,14 +34,7 @@ UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
 
-const SpaceCardModal = ({
-  handleClose,
-  open,
-  children,
-  friends,
-  participants,
-  hosts,
-}) => {
+const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts }) => {
   const theme = useTheme();
 
   return (
