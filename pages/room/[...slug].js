@@ -96,7 +96,7 @@ const Room = () => {
       });
     };
     initRoom();
-  });
+  }, [roomID]);
 
   function createPeer(userToSignal, callerID, stream, currentUsername) {
     const peer = new Peer({

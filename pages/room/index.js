@@ -16,7 +16,7 @@ const CreateRoom = () => {
       setSession(userSession);
     };
     initSession();
-  }, [session]);
+  }, []);
 
   function create() {
     const id = uuid();
@@ -42,7 +42,7 @@ const CreateRoom = () => {
           <Button fullWidth variant="contained" color="primary" onClick={() => router.push(`/room/${roomID}`)}>
             Join
           </Button>
-          {true && (
+          {session && (
             <Button fullWidth variant="contained" color="primary" className="my-2" onClick={create}>
               Create room
             </Button>
