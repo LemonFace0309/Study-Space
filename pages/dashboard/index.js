@@ -18,15 +18,16 @@ const Dashboard = ({ session }) => {
   console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
+  const [isSidebarCollapsed, setCollapsedSidebar] = useState(false);
 
   return (
-    <Grid container>
+    <Grid container direction="row">
       <Hidden smDown>
-        <Grid item md={2}>
-          <Sidebar />
+        <Grid item md={isSidebarCollapsed ? 1 : 2}>
+          <Sidebar isSidebarCollapsed={isSidebarCollapsed} setCollapsedSidebar={setCollapsedSidebar} />
         </Grid>
       </Hidden>
-      <Grid item xs={12} md={9} container>
+      <Grid item xs={12} md={isSidebarCollapsed ? 10 : 9} container direction="column" spacing={5}>
         <Grid item>
           <DashboardContainer />
         </Grid>

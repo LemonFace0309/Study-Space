@@ -1,12 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { React, useState } from 'react';
+import { React } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { Container, Box, Grid, Typography, Paper, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
-import SpaceCardModal from './Cards/SpaceCardModal';
-import SpaceCard from '../Shared/SpaceCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
@@ -18,6 +16,7 @@ const DashboardContainer = () => {
   return (
     <Card>
       <Container>
+        {/* Dashboard Join and Create Card Section */}
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
           <Grid container item xs={12}>
             <Grid item xs={12}>
@@ -36,16 +35,8 @@ const DashboardContainer = () => {
 
           {/* Dashboard Card Section */}
 
-          <Grid
-            container
-            direction="row"
-            item
-            alignContent="center"
-            alignItems="center"
-            justify="space-between"
-            spacing={3}
-            xs={12}>
-            <Grid item xs={12} md={6} container direction="column" spacing={3}>
+          <Grid container direction="row" item alignContent="center" justify="space-between" spacing={2} xs={12}>
+            <Grid item xs={12} md={6} container direction="column">
               <Grid item xs={12}>
                 <Typography variant="h6" color="textSecondary">
                   Need a space to study?
@@ -59,7 +50,7 @@ const DashboardContainer = () => {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12} md={6} container direction="column" spacing={3}>
+            <Grid item xs={12} md={6} container direction="column">
               <Grid item xs={12}>
                 <Typography variant="h6" color="textSecondary">
                   Have a space to study?
@@ -76,14 +67,11 @@ const DashboardContainer = () => {
           </Grid>
 
           {/* Space Card Section */}
-          <Grid container item xs={12} spacing={2} justify="space-between">
+          <Grid item container direction="row" justify="center" alignItems="stretch" spacing={2}>
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
                 <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
-                  <SpacePackage
-                    data={{ spaceName, description, headCount, music, friends, participants, hosts }}
-                    test={<div>test</div>}
-                  />
+                  <SpacePackage data={{ spaceName, description, headCount, music, friends, participants, hosts }} />
                 </Grid>
               );
             })}

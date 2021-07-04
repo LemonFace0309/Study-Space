@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
+import PropTypes from 'prop-types';
+import { React, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Box, Grid, Button, Typography, useTheme } from '@material-ui/core';
 
@@ -8,6 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import FriendCard from './Cards/FriendCard';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 const useStyles = makeStyles({
   button: {
@@ -25,17 +27,23 @@ const useStyles = makeStyles({
   },
 });
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar }) => {
   const classes = useStyles();
   const theme = useTheme();
+
   return (
-    <Box bgcolor={theme.palette.primary.dark} className="h-screen rounded-r-xl">
+    <Box bgcolor={theme.palette.primary.dark} width={1} height={1} className="rounded-r-xl">
       <Grid direction="column" container spacing={5}>
-        <Grid item container direction="row">
-          <Typography variant="subtitle1" align="left">
-            Dashboard😊
-          </Typography>
-          <MenuOpenIcon className="pt-2" style={{ color: '#BDACD4' }} />
+        <Grid item container direction="row" justify="flex-end">
+          <Grid item></Grid>
+          <Grid item>
+            <Button
+              onClick={() => {
+                setCollapsedSidebar(!isSidebarCollapsed);
+              }}
+              className={classes.button}
+              startIcon={<MenuOpenIcon />}></Button>
+          </Grid>
         </Grid>
         <Grid item container direction="column" spacing={1}>
           <Grid item>
@@ -61,6 +69,11 @@ const Sidebar = () => {
       </Grid>
     </Box>
   );
+};
+
+Sidebar.propTypes = {
+  isSidebarCollapsed: PropTypes.bool.isRequired,
+  setCollapsedSidebar: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
