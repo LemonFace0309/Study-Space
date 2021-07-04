@@ -83,9 +83,14 @@ const DashboardContainer = () => {
                   <div
                     onClick={() => {
                       setOpen(true);
-                    }}
-                    className="cursor-pointer transform hover:scale-110 transition ease-out duration-200">
-                    <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
+                    }}>
+                    <SpaceCard
+                      isClickable={true}
+                      spaceName={spaceName}
+                      description={description}
+                      headCount={headCount}
+                      music={music}
+                    />
                   </div>
                   <SpaceCardModal
                     open={open}

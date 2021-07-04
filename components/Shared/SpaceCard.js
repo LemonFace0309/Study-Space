@@ -9,15 +9,15 @@ import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
 import Card from './Card';
 
-const SpaceCard = ({ spaceName, description, headCount, music }) => {
+const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) => {
   const theme = useTheme();
   return (
-    <Card>
+    <Card isClickable={isClickable}>
       <Grid container direction="column">
         <Grid item container direction="row">
           <Grid item xs={11}>
             {/* Title and Description */}
-            <Box color={theme.palette.primary.dark} p={3}>
+            <Box color={theme.palette.primary.dark}>
               <Typography variant="h5" align="center">
                 {spaceName}
               </Typography>
@@ -60,6 +60,7 @@ const SpaceCard = ({ spaceName, description, headCount, music }) => {
 };
 
 SpaceCard.propTypes = {
+  isClickable: PropTypes.bool,
   spaceName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
