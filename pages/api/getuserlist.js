@@ -3,6 +3,12 @@ import User from '../../models/User';
 import Friends from '../../models/Friends';
 
 export default async (req, res) => {
+  const { method } = req;
+
+  if (method !== 'POST') {
+    return;
+  }
+
   const { name, email } = req.query;
 
   if (!name || !email) {

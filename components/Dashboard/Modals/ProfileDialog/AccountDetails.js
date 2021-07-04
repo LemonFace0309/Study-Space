@@ -30,12 +30,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
+const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEditMode }) => {
   const classes = useStyles();
+  const [serverError, setServerError] = useState(false);
   const [userImage, setUserImage] = useState(session?.user?.image);
   const [username, setUsername] = useRecoilState(authState.username);
   const [email, setEmail] = useRecoilState(authState.email);
   const [phoneNumber, setPhoneNumber] = useRecoilState(authState.phoneNumber);
+  const validUsername = useRecoilValue(authState.validUsername);
+  const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
+  const validEmail = useRecoilValue(authState.validEmail);
 
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
@@ -47,13 +51,25 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
   }, []);
 
   useEffect(() => {
-    if (saveChanges) {
-      // handleUpdateAccountProfile();
-      setSaveChanges(false);
-    }
+    const save = async () => {
+      if (saveChanges) {
+        const passed = await handleUpdateProfile();
+        setSaveChanges(false);
+        if (!passed) {
+          setEditMode(true);
+        }
+      }
+    };
+    save();
   }, [editMode]);
 
-  const handleUpdateAccountProfile = async () => {
+  useEffect(() => {
+    if (serverError) {
+      setServerError(false);
+    }
+  }, [username, email, phoneNumber]);
+
+  const handleUpdateImage = async () => {
     if (!fileInputRef.current.files?.length) {
       return;
     }
@@ -64,25 +80,50 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
       formData.append(fileInputRef.current.name, file);
     });
 
-    formData.append('id', session.user._id);
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('phoneNumber', phoneNumber);
+    formData.append('id', session?.user._id);
 
     // for (let key of formData.entries()) {
     //   console.log(key[0] + ', ' + key[1]);
     // }
 
-    const response = await axios.post('/api/profile/edit-profile', formData, {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
-        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-      },
-    });
-    console.debug(response);
-    setUserImage(response.data.data.Location);
+    try {
+      const response = await axios.patch('/api/profile/update-image', formData, {
+        headers: { 'content-type': 'multipart/form-data' },
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+      setUserImage(response.data.data.Location);
+    } catch (err) {
+      console.debug(err);
+    }
 
     formRef.current?.reset();
+  };
+
+  const handleUpdateProfile = async () => {
+    const jsonData = {
+      id: session?.user._id,
+      username,
+      email,
+      phoneNumber,
+    };
+
+    try {
+      const response = await axios.patch('/api/profile/update-profile', jsonData, {
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+      alert(response?.data.message ?? 'You account info has been updated sucessfully 😃');
+      return true;
+    } catch (err) {
+      setServerError(true);
+      alert(err?.response?.data?.message ?? 'Internal Server Error');
+      return false;
+    }
   };
 
   return (
@@ -106,6 +147,11 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={username}
+            error={username !== '' && (!validUsername || serverError)}
+            helperText={
+              !validUsername &&
+              'Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent.'
+            }
             onChange={(e) => setUsername(e.target.value)}
             className="mb-2"
           />
@@ -117,6 +163,8 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={email}
+            helperText={!validEmail && 'Must be a valid email.'}
+            error={!validEmail || serverError}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2"
           />
@@ -128,6 +176,8 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges }) => {
             variant="outlined"
             fullWidth
             value={phoneNumber}
+            error={phoneNumber !== '' && (!validPhoneNumber || serverError)}
+            helperText={!validPhoneNumber && 'Must be a valid phone number.'}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
           />
@@ -144,6 +194,7 @@ AccountDetails.propTypes = {
   editMode: PropTypes.bool.isRequired,
   saveChanges: PropTypes.bool.isRequired,
   setSaveChanges: PropTypes.func.isRequired,
+  setEditMode: PropTypes.func.isRequired,
 };
 
 export default AccountDetails;

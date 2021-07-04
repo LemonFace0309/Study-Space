@@ -4,6 +4,12 @@ import dbConnect from '../../utils/dbConnect';
 import User from '../../models/User';
 
 export default async (req, res) => {
+  const { method } = req;
+
+  if (method !== 'POST') {
+    return;
+  }
+
   const { name, email, password, friends, type } = req.body;
 
   if (!name || !email || !password) {
@@ -19,9 +25,7 @@ export default async (req, res) => {
       email,
     });
     if (existingUser) {
-      return res
-        .status(422)
-        .json({ message: 'User with that email already exists 😱' });
+      return res.status(422).json({ message: 'User with that email already exists 😱' });
     }
 
     const user = new User({

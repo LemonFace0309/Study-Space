@@ -30,17 +30,13 @@ const Auth = ({ providers }) => {
       );
     }
     return (
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => setModalOpen(true)}>
+      <Button variant="outlined" color="primary" onClick={() => setModalOpen(true)}>
         {isSignUp ? 'Login' : 'Signup'}
       </Button>
     );
   };
 
-  const validSignUp =
-    validFirstName && validLastName && validEmail && validPassword;
+  const validSignUp = validFirstName && validLastName && validEmail && validPassword;
   const validLogIn = validEmail && validPassword;
 
   const validateFirstName = (value) => {
@@ -60,12 +56,7 @@ const Auth = ({ providers }) => {
   };
 
   const validatePassword = (value) => {
-    setValidPassword(
-      !isSignUp ||
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-          value
-        )
-    );
+    setValidPassword(!isSignUp || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(value));
   };
 
   useEffect(async () => {
@@ -87,7 +78,7 @@ const Auth = ({ providers }) => {
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp && validSignUp) {
-      const result = await axios.post('/api/createnewuser', {
+      const result = await axios.post('/api/create-new-user', {
         name: firstName + ' ' + lastName,
         email,
         password,
@@ -109,9 +100,7 @@ const Auth = ({ providers }) => {
       label="Email Address"
       fullWidth
       error={submitted && !validEmail}
-      helperText={
-        submitted && !validEmail && 'Please enter a valid email address 🥺'
-      }
+      helperText={submitted && !validEmail && 'Please enter a valid email address 🥺'}
       className="mb-1"
       type="email"
       value={email}
@@ -138,9 +127,7 @@ const Auth = ({ providers }) => {
         label="First Name"
         fullWidth
         error={submitted && !validFirstName}
-        helperText={
-          submitted && !validFirstName && 'Please enter a valid first name 🥺'
-        }
+        helperText={submitted && !validFirstName && 'Please enter a valid first name 🥺'}
         className="mb-1"
         value={firstName}
         onChange={(e) => handleInputChange(e, setFirstName, validateFirstName)}
@@ -149,9 +136,7 @@ const Auth = ({ providers }) => {
         label="Last Name"
         fullWidth
         error={submitted && !validLastName}
-        helperText={
-          submitted && !validLastName && 'Please enter a valid last name 🥺'
-        }
+        helperText={submitted && !validLastName && 'Please enter a valid last name 🥺'}
         className="mb-1"
         value={lastName}
         onChange={(e) => handleInputChange(e, setLastName, validateLastName)}

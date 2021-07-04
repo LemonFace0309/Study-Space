@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -19,33 +19,58 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
   const classes = useStyles();
+  const [serverError, setServerError] = useState(false);
   const [currentPassword, setCurrentPassword] = useRecoilState(authState.password);
   const [newPassword1, setNewPassword1] = useRecoilState(authState.newPassword1);
   const [newPassword2, setNewPassword2] = useRecoilState(authState.newPassword2);
+  const validNewPassword = useRecoilValue(authState.validNewPassword);
+  const newPasswordsMatch = useRecoilValue(authState.newPasswordsMatch);
 
   useEffect(() => {
     if (saveChanges) {
-      // handleUpdatePassword();
+      handleUpdatePassword();
       setSaveChanges(false);
     }
   }, [editMode]);
 
+  useEffect(() => {
+    if (serverError) {
+      setServerError(false);
+    }
+  }, [currentPassword, newPassword1, newPassword2]);
+
   const handleUpdatePassword = async () => {
     const jsonData = {
-      id: session?.user?.id,
+      id: session?.user?._id,
       currentPassword,
       newPassword1,
       newPassword2,
     };
 
-    const response = await axios.post('/api/profile/edit-profile', jsonData, {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
-        console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-      },
-    });
-    console.debug(response);
+    try {
+      const response = await axios.patch('/api/profile/update-password', jsonData, {
+        onUploadProgress: (event) => {
+          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+        },
+      });
+      console.debug(response);
+      alert(response?.data.message ?? 'Password updated succesfully 😃');
+      setCurrentPassword('');
+      setNewPassword1('');
+      setNewPassword2('');
+    } catch (err) {
+      setServerError(true);
+      alert(err?.response?.data?.message ?? 'Internal Server Error');
+    }
   };
+
+  if (!session?.user.type || session?.user.type !== 'credentials') {
+    return (
+      <Typography variant="h6" className={classes.title}>
+        Cannot change password for users signed up through third party services like Google or Facebook.
+      </Typography>
+    );
+  }
 
   return (
     <Grid container direction="row" spacing={3}>
@@ -63,6 +88,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={currentPassword}
+            error={serverError}
             onChange={(e) => setCurrentPassword(e.target.value)}
             className="mb-2"
           />
@@ -75,6 +101,11 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword1}
+            error={(newPassword1 !== '' && !validNewPassword) || serverError}
+            helperText={
+              !validNewPassword &&
+              'Minimum eight characters. At least one letter, one number and one special character is required.'
+            }
             onChange={(e) => setNewPassword1(e.target.value)}
             className="mb-2"
           />
@@ -87,6 +118,8 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             fullWidth
             type="password"
             value={newPassword2}
+            error={(newPassword2 !== '' && !newPasswordsMatch) || serverError}
+            helperText={newPassword2 !== '' && !newPasswordsMatch && 'New passwords must match.'}
             onChange={(e) => setNewPassword2(e.target.value)}
             className="mb-2"
           />
