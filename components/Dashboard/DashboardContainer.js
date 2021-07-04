@@ -9,15 +9,15 @@ import SpaceCardModal from './Cards/SpaceCardModal';
 import SpaceCard from '../Shared/SpaceCard';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
-
+import Card from '../Shared/Card';
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Container>
-      <Paper elevatation={6} className="rounded-3xl">
+    <Card>
+      <Container>
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
           <Grid container item xs={12}>
             <Grid item xs={12}>
@@ -102,8 +102,8 @@ const DashboardContainer = () => {
             })}
           </Grid>
         </Grid>
-      </Paper>
-    </Container>
+      </Container>
+    </Card>
   );
 };
 

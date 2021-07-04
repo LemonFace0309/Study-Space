@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 
 const Card = ({ children }) => {
-  return <Paper className="rounded-xl">{children}</Paper>;
+  return (
+    <Paper elevation={5} className="rounded-xl overflow-hidden">
+      {children}
+    </Paper>
+  );
 };
 
 Card.propTypes = {
