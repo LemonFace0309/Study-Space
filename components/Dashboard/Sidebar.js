@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar }) => {
+const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar, friendData }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -48,23 +48,23 @@ const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar }) => {
         <Grid item container direction="column" spacing={1}>
           <Grid item>
             <Button className={classes.button} startIcon={<HomeIcon />}>
-              Home
+              {isSidebarCollapsed ? '' : 'Home'}
             </Button>
           </Grid>
           <Grid item>
             <Button className={classes.button} startIcon={<SearchIcon />}>
-              Browse
+              {isSidebarCollapsed ? '' : 'Browse'}
             </Button>
           </Grid>
           <Grid item>
             <Button className={classes.button} startIcon={<EqualizerIcon />}>
-              Statistics
+              {isSidebarCollapsed ? '' : 'Statistics'}
             </Button>
           </Grid>
         </Grid>
         <Grid item>
           <Typography variant="subtitle2">FRIEND ACTIVITY</Typography>
-          <FriendCard></FriendCard>
+          <FriendCard isSidebarCollapsed={isSidebarCollapsed} friendData={friendData}></FriendCard>
         </Grid>
       </Grid>
     </Box>

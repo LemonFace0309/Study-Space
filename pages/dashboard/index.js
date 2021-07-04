@@ -13,7 +13,7 @@ import LineChart from '../../components/Dashboard/Charts/LineChart';
 import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
 
-const Dashboard = ({ session }) => {
+const Dashboard = ({ session, friendData }) => {
   session = session !== '' && JSON.parse(session);
   console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
@@ -24,7 +24,11 @@ const Dashboard = ({ session }) => {
     <Grid container direction="row">
       <Hidden smDown>
         <Grid item md={isSidebarCollapsed ? 1 : 2}>
-          <Sidebar isSidebarCollapsed={isSidebarCollapsed} setCollapsedSidebar={setCollapsedSidebar} />
+          <Sidebar
+            isSidebarCollapsed={isSidebarCollapsed}
+            setCollapsedSidebar={setCollapsedSidebar}
+            friendData={friendData}
+          />
         </Grid>
       </Hidden>
       <Grid item xs={12} md={isSidebarCollapsed ? 10 : 9} container direction="column" spacing={5}>
@@ -60,6 +64,7 @@ const Dashboard = ({ session }) => {
 
 Dashboard.propTypes = {
   session: PropTypes.string.isRequired,
+  friendData: PropTypes.object,
 };
 
 export const getServerSideProps = async ({ req }) => {
@@ -79,6 +84,33 @@ export const getServerSideProps = async ({ req }) => {
   return {
     props: {
       session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
+      friendData: [
+        {
+          name: 'Yi Nan Zhang',
+          status: 'In Study Session',
+          image: '',
+        },
+        {
+          name: 'Charles Liu',
+          status: 'In Study Session',
+          image: '',
+        },
+        {
+          name: 'Jimmy Yang',
+          status: 'In Study Session',
+          image: '',
+        },
+        {
+          name: 'Mabel Kwok',
+          status: 'In Study Session',
+          image: '',
+        },
+        {
+          name: 'Eden Chan',
+          status: 'In Study Session',
+          image: '',
+        },
+      ],
     },
   };
 };
