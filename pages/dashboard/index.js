@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button } from '@material-ui/core';
+import { Grid, Hidden, Button, SwipeableDrawer } from '@material-ui/core';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -12,6 +12,7 @@ import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
 import LineChart from '../../components/Dashboard/Charts/LineChart';
 import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
+import React from 'react';
 
 const Dashboard = ({ session, friendData }) => {
   session = session !== '' && JSON.parse(session);
@@ -29,6 +30,18 @@ const Dashboard = ({ session, friendData }) => {
             setCollapsedSidebar={setCollapsedSidebar}
             friendData={friendData}
           />
+          <SwipeableDrawer
+            disableBackdropTransition={false}
+            anchor="left"
+            open={!isSidebarCollapsed}
+            onClose={() => setCollapsedSidebar(true)}
+            onOpen={() => setCollapsedSidebar(false)}>
+            <Sidebar
+              isSidebarCollapsed={isSidebarCollapsed}
+              setCollapsedSidebar={setCollapsedSidebar}
+              friendData={friendData}
+            />
+          </SwipeableDrawer>
         </Grid>
       </Hidden>
       <Grid item xs={12} md={isSidebarCollapsed ? 10 : 9} container direction="column" spacing={5}>

@@ -74,6 +74,7 @@ const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar, friendData }) => {
 Sidebar.propTypes = {
   isSidebarCollapsed: PropTypes.bool.isRequired,
   setCollapsedSidebar: PropTypes.func.isRequired,
+  friendData: PropTypes.array,
 };
 
 export default Sidebar;
