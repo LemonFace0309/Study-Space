@@ -7,17 +7,17 @@ import { Container, Box, Grid, Typography, Paper, useTheme } from '@material-ui/
 import DashboardCard from './Cards/DashboardCard';
 import SpaceCardModal from './Cards/SpaceCardModal';
 import SpaceCard from '../Shared/SpaceCard';
+import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
-
+import Card from '../Shared/Card';
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
-  const [open, setOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Container>
-      <Paper elevatation={6} className="rounded-3xl">
+    <Card>
+      <Container>
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
           <Grid container item xs={12}>
             <Grid item xs={12}>
@@ -80,30 +80,17 @@ const DashboardContainer = () => {
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
                 <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
-                  <div
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                    className="cursor-pointer transform hover:scale-110 transition ease-out duration-200">
-                    <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
-                  </div>
-                  <SpaceCardModal
-                    open={open}
-                    handleClose={() => {
-                      setOpen(false);
-                    }}
-                    friends={friends}
-                    participants={participants}
-                    hosts={hosts}>
-                    <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
-                  </SpaceCardModal>
+                  <SpacePackage
+                    data={{ spaceName, description, headCount, music, friends, participants, hosts }}
+                    test={<div>test</div>}
+                  />
                 </Grid>
               );
             })}
           </Grid>
         </Grid>
-      </Paper>
-    </Container>
+      </Container>
+    </Card>
   );
 };
 
