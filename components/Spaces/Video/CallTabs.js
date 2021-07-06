@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, TabPanel } from 'react-tabs';
+import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import Chat from '../Chat/';
 import People from '../StudySpace/People';
 
+// https://github.com/reactjs/react-tabs#api
+resetIdCounter();
 const callTabsIndex = {
   EMPTY_TAB: 0,
   MUSIC_QUEUE: 1,
@@ -15,7 +17,7 @@ const callTabsIndex = {
   CHAT: 4,
 };
 
-function CallTabs({ peersRef, conversation, setConversation, showTabs, setShowTabs }) {
+function CallTabs({ username, socketRef, conversation, setConversation, showTabs, setShowTabs }) {
   const [tabIndex, setTabIndex] = useState(callTabsIndex.CHAT);
 
   function setTab(newTabIndex) {
@@ -32,7 +34,16 @@ function CallTabs({ peersRef, conversation, setConversation, showTabs, setShowTa
     <>
       {showTabs && (
         <Grid item xs={12} md={4} className="h-full p-5 flex flex-col items-center justify-items-center">
-          <Tabs selectedIndex={tabIndex}>
+          <Tabs selectedIndex={tabIndex} onSelect={() => null}>
+            {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
+            <TabList>
+              <Tab></Tab>
+              <Tab></Tab>
+              <Tab></Tab>
+              <Tab></Tab>
+              <Tab></Tab>
+            </TabList>
+
             {/* The empty tab  */}
             <TabPanel></TabPanel>
             <TabPanel>
@@ -49,7 +60,12 @@ function CallTabs({ peersRef, conversation, setConversation, showTabs, setShowTa
               <People />
             </TabPanel>
             <TabPanel>
-              <Chat peersRef={peersRef} conversation={conversation} setConversation={setConversation} />
+              <Chat
+                username={username}
+                socketRef={socketRef}
+                conversation={conversation}
+                setConversation={setConversation}
+              />
             </TabPanel>
           </Tabs>
         </Grid>
@@ -74,7 +90,8 @@ function CallTabs({ peersRef, conversation, setConversation, showTabs, setShowTa
 }
 
 CallTabs.propTypes = {
-  peersRef: PropTypes.array,
+  username: PropTypes.string,
+  socketRef: PropTypes.object,
   conversation: PropTypes.array,
   setConversation: PropTypes.func,
   showTabs: PropTypes.bool,
