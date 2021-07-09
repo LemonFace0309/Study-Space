@@ -15,6 +15,11 @@ import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
 import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
+import { styled } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
+const MyPaper = styled(Paper)({ borderRadius: 20, borderColor: '#000', padding: 50 });
+
 const Dashboard = ({ session, friendData }) => {
   session = session !== '' && JSON.parse(session);
   console.debug(session);
@@ -27,7 +32,12 @@ const Dashboard = ({ session, friendData }) => {
       {/* Swipable Drawer on Smaller Screens */}
       <Hidden mdUp>
         <Grid item md={1}>
-          <SwipeableDrawer anchor="left" open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+          <SwipeableDrawer
+            anchor="left"
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            PaperProps={{ background: 'red' }}>
             <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
           </SwipeableDrawer>
         </Grid>

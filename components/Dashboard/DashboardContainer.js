@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { React } from 'react';
 import uniqueId from 'lodash/uniqueId';
-import { Container, Box, Grid, Typography, Paper, useTheme } from '@material-ui/core';
+import { Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 import Card from '../Shared/Card';
+
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
