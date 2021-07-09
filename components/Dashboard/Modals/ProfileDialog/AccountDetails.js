@@ -73,6 +73,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
   const [userImage, setUserImage] = useState(session?.user?.image);
+  const [newImage, setNewImage] = useState(null);
   const [username, setUsername] = useRecoilState(authState.username);
   const [email, setEmail] = useRecoilState(authState.email);
   const [phoneNumber, setPhoneNumber] = useRecoilState(authState.phoneNumber);
@@ -80,8 +81,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
   const validPhoneNumber = useRecoilValue(authState.validPhoneNumber);
   const validEmail = useRecoilValue(authState.validEmail);
 
-  const fileInputRef = useRef(null);
-  const formRef = useRef(null);
+  const fileRef = useRef();
 
   useEffect(() => {
     setUsername(session?.user?.username ?? '');
@@ -92,10 +92,14 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
   useEffect(() => {
     const save = async () => {
       if (saveChanges) {
-        const passed = await handleUpdateProfile();
+        const [passed, message] = await handleUpdateProfile();
+        if (newImage) await handleUpdateImage();
         setSaveChanges(false);
         if (!passed) {
+          alert(message ?? 'You account info has been updated sucessfully 😃');
           setEditMode(true);
+        } else {
+          alert(message ?? 'Internal Server Error');
         }
       }
     };
@@ -108,22 +112,22 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     }
   }, [username, email, phoneNumber]);
 
-  const handleUpdateImage = async () => {
-    if (!fileInputRef.current.files?.length) {
-      return;
-    }
+  const handleImagePreview = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setNewImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    fileRef.current = e.target.files[0];
+  };
 
+  const handleUpdateImage = async () => {
     const formData = new FormData();
 
-    Array.from(fileInputRef.current.files).forEach((file) => {
-      formData.append(fileInputRef.current.name, file);
-    });
-
+    formData.append('image', fileRef.current);
     formData.append('id', session?.user._id);
-
-    // for (let key of formData.entries()) {
-    //   console.log(key[0] + ', ' + key[1]);
-    // }
 
     try {
       const response = await axios.patch('/api/profile/update-image', formData, {
@@ -138,7 +142,9 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
       console.debug(err);
     }
 
-    formRef.current?.reset();
+    console.debug(fileRef.current);
+    fileRef.current = null;
+    setNewImage(null);
   };
 
   const handleUpdateProfile = async () => {
@@ -156,12 +162,10 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         },
       });
       console.debug(response);
-      alert(response?.data.message ?? 'You account info has been updated sucessfully 😃');
-      return true;
+      return [true, response?.data.message];
     } catch (err) {
       setServerError(true);
-      alert(err?.response?.data?.message ?? 'Internal Server Error');
-      return false;
+      return [false, err?.response?.data?.message];
     }
   };
 
@@ -177,13 +181,21 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         <Grid container item xs={12} sm={5} justify="center" alignItems="center">
           <div className={classes.imageContainer}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="Your Profile Pic" src={userImage} className={classes.largeAvatar} />
-            <div className={classes.imageOverlay}>
-              <Typography variant="subtitle1" className="uppercase p-2 text-center">
-                Change Profile Picture
-              </Typography>
-              <input type="file" name="image-upload" accept="image/*" className="absolute w-full h-full opacity-0" />
-            </div>
+            <img alt="Your Profile Pic" src={newImage ?? userImage} className={classes.largeAvatar} />
+            {editMode && (
+              <div className={classes.imageOverlay}>
+                <Typography variant="subtitle1" className="uppercase p-2 text-center">
+                  Change Profile Picture
+                </Typography>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  className="absolute w-full h-full opacity-0"
+                  onChange={handleImagePreview}
+                />
+              </div>
+            )}
           </div>
         </Grid>
         <Grid item xs={12} sm={7} className="pr-4">
