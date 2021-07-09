@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, SwipeableDrawer, makeStyles } from '@material-ui/core';
+import { Grid, Hidden, Button, Drawer, SwipeableDrawer, makeStyles, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 const Dashboard = ({ session, friendData }) => {
-  const customSwipeableDrawerStyle = useStyles();
+  const customDrawerStyle = useStyles();
 
   session = session !== '' && JSON.parse(session);
   console.debug(session);
@@ -32,57 +33,72 @@ const Dashboard = ({ session, friendData }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Grid container direction="row" justify="flex-start">
-      {/* Swipable Drawer on Smaller Screens */}
-      <Hidden mdUp>
-        <Grid item md={1}>
-          <SwipeableDrawer
-            anchor="left"
-            open={open}
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            classes={{ paper: customSwipeableDrawerStyle.paper }}>
-            <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
-          </SwipeableDrawer>
-        </Grid>
-      </Hidden>
+    <>
+      <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
+        <AddIcon />
+      </Fab>
 
-      {/* Collapsable Drawer on Medium and Up */}
-      <Hidden smDown>
-        <Grid item md={open ? 2 : 1}>
-          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-            <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
-          </CollapsableDrawer>
-        </Grid>
-      </Hidden>
-      <Grid item xs={12} md={open ? 10 : 9} container direction="column" spacing={5}>
-        <Grid item>
-          <DashboardContainer />
-        </Grid>
-        <Grid item container>
-          <Grid item xs={12} md={6}>
-            <ChartCard
-              title={peakStudyTimes.title}
-              date={peakStudyTimes.date}
-              chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
-            />
+      <Grid container direction="row" justify="flex-start">
+        {/* Swipable Drawer on Smaller Screens */}
+        <Hidden mdUp>
+          <Grid item md={1}>
+            <Drawer
+              anchor="left"
+              open={open}
+              onClose={() => setOpen(false)}
+              classes={{ paper: customDrawerStyle.paper }}>
+              <Sidebar
+                open={open}
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                friendData={friendData}
+              />
+            </Drawer>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <ChartCard
-              title={studyTimes.title}
-              date={studyTimes.date}
-              chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
-            />
+        </Hidden>
+
+        {/* Collapsable Drawer on Medium and Up */}
+        <Hidden smDown>
+          <Grid item md={open ? 2 : 1}>
+            <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+              <Sidebar
+                open={open}
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                friendData={friendData}
+              />
+            </CollapsableDrawer>
+          </Grid>
+        </Hidden>
+        <Grid item xs={12} md={open ? 10 : 9} container direction="column" spacing={5}>
+          <Grid item>
+            <DashboardContainer />
+          </Grid>
+          <Grid item container>
+            <Grid item xs={12} md={6}>
+              <ChartCard
+                title={peakStudyTimes.title}
+                date={peakStudyTimes.date}
+                chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <ChartCard
+                title={studyTimes.title}
+                date={studyTimes.date}
+                chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
+              />
+            </Grid>
           </Grid>
         </Grid>
+        {session && (
+          <>
+            <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
+            <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+          </>
+        )}
       </Grid>
-      {session && (
-        <>
-          <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
-          <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-        </>
-      )}
-    </Grid>
+    </>
   );
 };
 
