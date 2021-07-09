@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    overflowX: 'hidden',
+    overflowY: 'hidden',
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    overflowY: 'hidden',
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
