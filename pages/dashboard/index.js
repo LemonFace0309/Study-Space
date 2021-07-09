@@ -34,13 +34,12 @@ const Dashboard = ({ session, friendData }) => {
 
   return (
     <>
-      <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
-        <AddIcon />
-      </Fab>
-
       <Grid container direction="row" justify="flex-start">
         {/* Swipable Drawer on Smaller Screens */}
         <Hidden mdUp>
+          <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
+            <AddIcon />
+          </Fab>
           <Grid item md={1}>
             <Drawer
               anchor="left"
