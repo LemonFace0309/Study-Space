@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -16,9 +15,44 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  largeAvatar: {
+  imageContainer: {
     width: theme.spacing(32),
     height: theme.spacing(32),
+    overflow: 'hidden',
+    borderRadius: '50%',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageOverlay: {
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: theme.palette.primary.contrastText,
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    transition: 'all 0.2s ease-in-out',
+    '& > h6': {
+      display: 'none',
+      transition: 'all 0.2s ease-in-out',
+    },
+    '&:hover': {
+      cursor: 'pointer',
+      background: 'rgba(0,0,0,0.4)',
+      '& > h6': {
+        display: 'block',
+      },
+    },
+  },
+  largeAvatar: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
     [theme.breakpoints.down('md')]: {
       width: theme.spacing(24),
       height: theme.spacing(24),
@@ -26,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       width: theme.spacing(16),
       height: theme.spacing(16),
+    },
+    '&:hover': {
+      backgroundColor: 'rgba(128,128,128,0.75)',
     },
   },
 }));
@@ -136,7 +173,15 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
       <Grid item sm={7} />
       <Grid container spacing={3} className="mb-4">
         <Grid container item xs={12} sm={5} justify="center" alignItems="center">
-          <Avatar alt="Your Profile Picture" src={userImage} className={classes.largeAvatar} />
+          <div className={classes.imageContainer}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img alt="Your Profile Pic" src={userImage} className={classes.largeAvatar} />
+            <div className={classes.imageOverlay}>
+              <Typography variant="subtitle1" className="uppercase p-2 text-center">
+                Change Profile Picture
+              </Typography>
+            </div>
+          </div>
         </Grid>
         <Grid item xs={12} sm={7} className="pr-4">
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
