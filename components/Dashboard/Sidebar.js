@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar, friendData }) => {
+const Sidebar = ({ open, onClose, onOpen, friendData }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -37,34 +37,29 @@ const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar, friendData }) => {
         <Grid item container direction="row" justify="flex-end">
           <Grid item></Grid>
           <Grid item>
-            <Button
-              onClick={() => {
-                setCollapsedSidebar(!isSidebarCollapsed);
-              }}
-              className={classes.button}
-              startIcon={<MenuOpenIcon />}></Button>
+            <Button onClick={open ? onClose : onOpen} className={classes.button} startIcon={<MenuOpenIcon />}></Button>
           </Grid>
         </Grid>
         <Grid item container direction="column" spacing={1}>
           <Grid item>
             <Button className={classes.button} startIcon={<HomeIcon />}>
-              {isSidebarCollapsed ? '' : 'Home'}
+              {open && 'Home'}
             </Button>
           </Grid>
           <Grid item>
             <Button className={classes.button} startIcon={<SearchIcon />}>
-              {isSidebarCollapsed ? '' : 'Browse'}
+              {open && 'Browse'}
             </Button>
           </Grid>
           <Grid item>
             <Button className={classes.button} startIcon={<EqualizerIcon />}>
-              {isSidebarCollapsed ? '' : 'Statistics'}
+              {open && 'Statistics'}
             </Button>
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant="subtitle2">FRIEND ACTIVITY</Typography>
-          <FriendCard isSidebarCollapsed={isSidebarCollapsed} friendData={friendData}></FriendCard>
+          <Typography variant="subtitle2">FRIENDS</Typography>
+          <FriendCard open={open} friendData={friendData}></FriendCard>
         </Grid>
       </Grid>
     </Box>
@@ -72,8 +67,9 @@ const Sidebar = ({ isSidebarCollapsed, setCollapsedSidebar, friendData }) => {
 };
 
 Sidebar.propTypes = {
-  isSidebarCollapsed: PropTypes.bool.isRequired,
-  setCollapsedSidebar: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   friendData: PropTypes.array,
 };
 

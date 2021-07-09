@@ -15,27 +15,16 @@ const FriendCard = ({ isSidebarCollapsed, friendData }) => {
   return (
     <Box bgcolor={theme.palette.primary.main} className="rounded-r-xl">
       <List>
-        {isSidebarCollapsed
-          ? friendData.map(({ name, status, image }) => {
-              return (
-                <ListItem key={uniqueId(name)}>
-                  <ListItemAvatar>
-                    <Avatar />
-                  </ListItemAvatar>
-                </ListItem>
-              );
-            })
-          : friendData.map(({ name, status, image }) => {
-              return (
-                <ListItem key={uniqueId(name)}>
-                  <ListItemAvatar>
-                    <Avatar />
-                  </ListItemAvatar>
-
-                  <ListItemText primary={name} secondary={status} />
-                </ListItem>
-              );
-            })}
+        {friendData.map(({ name, status, image }) => {
+          return (
+            <ListItem key={uniqueId(name)}>
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              {!isSidebarCollapsed && <ListItemText primary={name} secondary={status} />}
+            </ListItem>
+          );
+        })}
       </List>
     </Box>
   );
