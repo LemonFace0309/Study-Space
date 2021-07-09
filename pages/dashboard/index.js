@@ -84,7 +84,7 @@ const Dashboard = ({ session, friendData }) => {
 
 Dashboard.propTypes = {
   session: PropTypes.string.isRequired,
-  friendData: PropTypes.object,
+  friendData: PropTypes.array.isRequired,
 };
 
 export const getServerSideProps = async ({ req }) => {
