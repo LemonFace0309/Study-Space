@@ -42,10 +42,12 @@ const useStyles = makeStyles((theme) => ({
       transition: 'all 0.2s ease-in-out',
     },
     '&:hover': {
-      cursor: 'pointer',
       background: 'rgba(0,0,0,0.4)',
       '& > h6': {
         display: 'block',
+      },
+      '& > input': {
+        cursor: 'pointer',
       },
     },
   },
@@ -180,6 +182,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
               <Typography variant="subtitle1" className="uppercase p-2 text-center">
                 Change Profile Picture
               </Typography>
+              <input type="file" name="image-upload" accept="image/*" className="absolute w-full h-full opacity-0" />
             </div>
           </div>
         </Grid>
