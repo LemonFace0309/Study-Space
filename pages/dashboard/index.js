@@ -1,8 +1,8 @@
+import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, SwipeableDrawer, Drawer, makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
+import { Grid, Hidden, Button, SwipeableDrawer } from '@material-ui/core';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -13,63 +13,8 @@ import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
 import LineChart from '../../components/Dashboard/Charts/LineChart';
 import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
-import React from 'react';
+import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-
-const drawerWidth = 180;
-
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-    overflowY: 'hidden',
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    overflowY: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-}));
-
-const MiniDrawer = ({ children, open }) => {
-  const classes = useStyles();
-  return (
-    <Drawer
-      variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        }),
-      }}>
-      {children}
-    </Drawer>
-  );
-};
 const Dashboard = ({ session, friendData }) => {
   session = session !== '' && JSON.parse(session);
   console.debug(session);
@@ -91,9 +36,9 @@ const Dashboard = ({ session, friendData }) => {
       {/* Collapsable Drawer on Medium and Up */}
       <Hidden smDown>
         <Grid item md={open ? 2 : 1}>
-          <MiniDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
             <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
-          </MiniDrawer>
+          </CollapsableDrawer>
         </Grid>
       </Hidden>
       <Grid item xs={12} md={open ? 10 : 9} container direction="column" spacing={5}>

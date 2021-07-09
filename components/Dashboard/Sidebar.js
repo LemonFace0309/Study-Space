@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import PropTypes from 'prop-types';
-import { React, useState } from 'react';
+import { React } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Box, Grid, Button, Typography, useTheme } from '@material-ui/core';
 
