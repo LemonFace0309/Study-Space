@@ -6,11 +6,6 @@ import { Drawer, makeStyles } from '@material-ui/core';
 const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -19,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     overflowX: 'hidden',
     overflowY: 'hidden',
+    'border-radius': '0px 15px 15px 0px',
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -27,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     overflowX: 'hidden',
     overflowY: 'hidden',
+    'border-radius': '0px 15px 15px 0px',
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
@@ -38,10 +35,6 @@ const CollapsableDrawer = ({ children, open }) => {
   return (
     <Drawer
       variant="permanent"
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
-      })}
       classes={{
         paper: clsx({
           [classes.drawerOpen]: open,

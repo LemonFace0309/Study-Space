@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, SwipeableDrawer } from '@material-ui/core';
+import { Grid, Hidden, Button, SwipeableDrawer, makeStyles } from '@material-ui/core';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -15,12 +15,16 @@ import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
 import { chartData } from '../../data/chartData';
 import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
-import { styled } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-
-const MyPaper = styled(Paper)({ borderRadius: 20, borderColor: '#000', padding: 50 });
+// Custom styles for SwipeableDrawer component
+const useStyles = makeStyles({
+  paper: {
+    'border-radius': '0px 15px 15px 0px',
+  },
+});
 
 const Dashboard = ({ session, friendData }) => {
+  const customSwipeableDrawerStyle = useStyles();
+
   session = session !== '' && JSON.parse(session);
   console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
@@ -37,7 +41,7 @@ const Dashboard = ({ session, friendData }) => {
             open={open}
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
-            PaperProps={{ background: 'red' }}>
+            classes={{ paper: customSwipeableDrawerStyle.paper }}>
             <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
           </SwipeableDrawer>
         </Grid>
