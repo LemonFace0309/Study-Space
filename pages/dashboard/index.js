@@ -27,7 +27,12 @@ const Dashboard = ({ session, friendData }) => {
       {/* Swipable Drawer on Smaller Screens */}
       <Hidden mdUp>
         <Grid item md={1}>
-          <SwipeableDrawer anchor="left" open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+          <SwipeableDrawer
+            anchor="left"
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            className="overflow-hidden">
             <Sidebar open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} friendData={friendData} />
           </SwipeableDrawer>
         </Grid>
@@ -41,7 +46,7 @@ const Dashboard = ({ session, friendData }) => {
           </CollapsableDrawer>
         </Grid>
       </Hidden>
-      <Grid item xs={12} md={open ? 10 : 9} container direction="column" spacing={5}>
+      <Grid item xs={12} md={open ? 10 : 11} container direction="column" spacing={5}>
         <Grid item>
           <DashboardContainer />
         </Grid>

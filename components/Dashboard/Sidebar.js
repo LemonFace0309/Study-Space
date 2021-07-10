@@ -32,7 +32,7 @@ const Sidebar = ({ open, onClose, onOpen, friendData }) => {
   const theme = useTheme();
 
   return (
-    <Box bgcolor={theme.palette.primary.dark} width={1} height={1} className="rounded-r-xl">
+    <Box bgcolor={theme.palette.primary.dark} height={1}>
       <Grid direction="column" container spacing={5}>
         <Grid item container direction="row" justify="flex-end">
           <Grid item></Grid>
