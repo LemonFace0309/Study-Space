@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import uniqueId from 'lodash/uniqueId';
 
-const FriendCard = ({ isSidebarCollapsed, friendData }) => {
+const FriendCard = ({ open, friendData }) => {
   const theme = useTheme();
   return (
     <Box bgcolor={theme.palette.primary.main} className="rounded-r-xl">
@@ -21,7 +21,7 @@ const FriendCard = ({ isSidebarCollapsed, friendData }) => {
               <ListItemAvatar>
                 <Avatar />
               </ListItemAvatar>
-              {!isSidebarCollapsed && <ListItemText primary={name} secondary={status} />}
+              {open && <ListItemText primary={name} secondary={status} />}
             </ListItem>
           );
         })}
@@ -31,7 +31,7 @@ const FriendCard = ({ isSidebarCollapsed, friendData }) => {
 };
 
 FriendCard.propTypes = {
-  isSidebarCollapsed: PropTypes.bool.isRequired,
-  friendData: PropTypes.obj,
+  open: PropTypes.bool.isRequired,
+  friendData: PropTypes.array.isRequired,
 };
 export default FriendCard;

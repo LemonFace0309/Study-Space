@@ -70,7 +70,7 @@ Sidebar.propTypes = {
   open: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  friendData: PropTypes.array,
+  friendData: PropTypes.array.isRequired,
 };
 
 export default Sidebar;
