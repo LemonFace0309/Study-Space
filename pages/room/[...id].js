@@ -67,13 +67,14 @@ const Room = () => {
       socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
         userVideo.current.srcObject = stream;
-        socketRef.current.emit('join room', roomID);
+        socketRef.current.emit('join room', { roomID, username: currentUsername });
         socketRef.current.on('all users', (users) => {
           const peers = [];
-          users.forEach((userID) => {
-            const peer = createPeer(userID, socketRef.current.id, stream);
+          console.log(users);
+          users.forEach((user) => {
+            const peer = createPeer(user.socketID, socketRef.current.id, stream);
             peersRef.current.push({
-              peerID: userID,
+              peerID: user.socketID,
               peer,
             });
             peers.push(peer);
@@ -105,6 +106,20 @@ const Room = () => {
               { text: payload.message, sender: payload.username, fromMe: payload.username == currentUsername },
             ];
           });
+        });
+
+        socketRef.current.on('user disconnect', (payload) => {
+          console.log(payload.users);
+          const usersPeerID = payload.users.map((user) => user.socketID);
+          console.log(usersPeerID);
+          peersRef.current.forEach((peerRef) => {
+            if (usersPeerID.length > 0 && !usersPeerID.includes(peerRef.peerID)) {
+              const removePeerChannelName = peerRef.peer.channelName;
+              setPeers((prevPeers) => prevPeers.filter((peer) => peer.channelName !== removePeerChannelName));
+              peerRef.peer.destroy();
+            }
+          });
+          console.log(peers);
         });
       });
     };
@@ -165,6 +180,14 @@ const Room = () => {
     <>
       <Grid container className="p-10 relative flex-row justify-between h-screen" style={{ background: '#f8ebf8' }}>
         <LeaveCall leaveCall={leaveCall} />
+        <button
+          onClick={() => {
+            console.log(socketRef);
+            console.log(peersRef);
+            console.log(peers);
+          }}>
+          as
+        </button>
         <CallOptions
           userAudioShow={userAudioShow}
           userVideoShow={userVideoShow}
