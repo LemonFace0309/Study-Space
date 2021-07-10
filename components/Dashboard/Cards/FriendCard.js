@@ -10,18 +10,28 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import uniqueId from 'lodash/uniqueId';
 
+const useStyles = makeStyles((theme) => ({
+  statusText: {
+    '& > p': {
+      color: theme.palette.primary.contrastText,
+    },
+  },
+}));
+
 const FriendCard = ({ open, friendData }) => {
   const theme = useTheme();
+  const classes = useStyles();
+
   return (
     <Box bgcolor={theme.palette.primary.main} className="rounded-r-xl">
       <List>
         {friendData.map(({ name, status, image }) => {
           return (
-            <ListItem key={uniqueId(name)}>
+            <ListItem className="whitespace-normal" key={uniqueId(name)}>
               <ListItemAvatar>
                 <Avatar />
               </ListItemAvatar>
-              {open && <ListItemText primary={name} secondary={status} />}
+              {open && <ListItemText primary={name} secondary={status} className={classes.statusText} />}
             </ListItem>
           );
         })}

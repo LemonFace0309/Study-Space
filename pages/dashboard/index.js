@@ -18,14 +18,15 @@ import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
 // Custom styles for SwipeableDrawer component
 const useStyles = makeStyles({
-  paper: {
+  fabDrawer: {
     borderRadius: '0px 15px 15px 0px',
     overflow: 'hidden',
+    width: '40vw',
   },
 });
 
 const Dashboard = ({ session, friendData }) => {
-  const customDrawerStyle = useStyles();
+  const classes = useStyles();
 
   session = session !== '' && JSON.parse(session);
   console.debug(session);
@@ -42,11 +43,7 @@ const Dashboard = ({ session, friendData }) => {
             <AddIcon />
           </Fab>
           <Grid item md={1}>
-            <Drawer
-              anchor="left"
-              open={open}
-              onClose={() => setOpen(false)}
-              classes={{ paper: customDrawerStyle.paper }}>
+            <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
               <Sidebar
                 open={open}
                 onClose={() => setOpen(false)}
@@ -92,10 +89,10 @@ const Dashboard = ({ session, friendData }) => {
           </Grid>
         </Grid>
         {session && (
-          <>
+          <Grid container item xs={12} justify="center">
             <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
             <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-          </>
+          </Grid>
         )}
       </Grid>
     </>
