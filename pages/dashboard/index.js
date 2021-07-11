@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, Drawer, SwipeableDrawer, makeStyles, Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Grid, Hidden, Button, Drawer, makeStyles, Fab } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     borderRadius: '0px 15px 15px 0px',
     overflow: 'hidden',
     width: '40vw',
+    height: '100vh',
   },
 });
 
@@ -36,13 +37,13 @@ const Dashboard = ({ session, friendData }) => {
 
   return (
     <>
-      <Grid container direction="row" justify="flex-start">
+      <Grid container direction="row">
         {/* Swipable Drawer on Smaller Screens */}
         <Hidden mdUp>
           <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
-            <AddIcon />
+            <MenuIcon />
           </Fab>
-          <Grid item md={1}>
+          <Grid item xs={1}>
             <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
               <Sidebar
                 open={open}
@@ -87,13 +88,13 @@ const Dashboard = ({ session, friendData }) => {
               />
             </Grid>
           </Grid>
+          {session && (
+            <Grid container item xs={12} justify="center">
+              <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
+              <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+            </Grid>
+          )}
         </Grid>
-        {session && (
-          <Grid container item xs={12} justify="center">
-            <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
-            <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-          </Grid>
-        )}
       </Grid>
     </>
   );

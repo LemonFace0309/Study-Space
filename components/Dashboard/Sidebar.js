@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { React } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { Box, Grid, Button, IconButton, Typography, useTheme } from '@material-ui/core';
+import { Grid, Button, IconButton, Typography } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -11,6 +11,11 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import FriendCard from './Cards/FriendCard';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundColor: theme.palette.primary.dark,
+    height: '100%',
+    flexWrap: 'nowrap',
+  },
   iconButton: {
     color: theme.palette.primary.contrastText,
     marginLeft: 'auto',
@@ -28,45 +33,51 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff',
     },
   },
+  friendsSection: {
+    flex: '1',
+    flexWrap: 'nowrap',
+    overflow: 'scroll',
+    padding: (open) => open && theme.spacing(0, 1.5),
+    '& > ul': {
+      flexGrow: '1',
+    },
+  },
 }));
 
 const Sidebar = ({ open, onClose, onOpen, friendData }) => {
-  const classes = useStyles();
-  const theme = useTheme();
+  const classes = useStyles(open);
 
   return (
-    <Box bgcolor={theme.palette.primary.dark} height={1}>
-      <Grid container direction="row" spacing={5}>
-        <Grid container item xs={12}>
-          <IconButton className={classes.iconButton} onClick={open ? onClose : onOpen}>
-            <MenuIcon />
-          </IconButton>
+    <Grid container direction="column" className={classes.container}>
+      <Grid container item className="mb-16">
+        <IconButton className={classes.iconButton} onClick={open ? onClose : onOpen}>
+          <MenuIcon />
+        </IconButton>
+      </Grid>
+      <Grid container item className="mb-16" direction="column">
+        <Grid item>
+          <Button className={classes.button} startIcon={<HomeIcon />}>
+            {open && 'Home'}
+          </Button>
         </Grid>
-        <Grid container item xs={12} direction="column">
-          <Grid item>
-            <Button className={classes.button} startIcon={<HomeIcon />}>
-              {open && 'Home'}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button className={classes.button} startIcon={<SearchIcon />}>
-              {open && 'Browse'}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button className={classes.button} startIcon={<EqualizerIcon />}>
-              {open && 'Statistics'}
-            </Button>
-          </Grid>
+        <Grid item>
+          <Button className={classes.button} startIcon={<SearchIcon />}>
+            {open && 'Browse'}
+          </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="subtitle2" color="secondary">
-            {open && 'FRIENDS'}
-          </Typography>
-          <FriendCard open={open} friendData={friendData}></FriendCard>
+        <Grid item>
+          <Button className={classes.button} startIcon={<EqualizerIcon />}>
+            {open && 'Statistics'}
+          </Button>
         </Grid>
       </Grid>
-    </Box>
+      <Grid container item direction="column" className={classes.friendsSection}>
+        <Typography variant="subtitle2" color="secondary">
+          {open && 'FRIENDS'}
+        </Typography>
+        <FriendCard open={open} friendData={friendData}></FriendCard>
+      </Grid>
+    </Grid>
   );
 };
 

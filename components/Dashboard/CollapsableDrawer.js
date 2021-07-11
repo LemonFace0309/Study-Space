@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    height: '100%',
+    height: '100vh',
   },
   drawerOpen: {
     transition: theme.transitions.create('width', {
@@ -36,6 +36,7 @@ const CollapsableDrawer = ({ children, open }) => {
   return (
     <Drawer
       variant="permanent"
+      className="h-full"
       classes={{
         paper: clsx(classes.drawerPaper, {
           [classes.drawerOpen]: open,
