@@ -36,16 +36,23 @@ const useStyles = makeStyles((theme) => ({
   friendsSection: {
     flex: '1',
     flexWrap: 'nowrap',
-    overflow: 'scroll',
-    padding: (open) => open && theme.spacing(0, 1.5),
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    padding: ({ open }) => open && theme.spacing(0, 1.5),
     '& > ul': {
       flexGrow: '1',
     },
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    '&::-webkit-scrollbar': {
+      display: ({ isSmallScreen }) => !isSmallScreen && 'none',
+    },
+    '-ms-overflow-style': 'none' /* IE and Edge */,
+    scrollbarWidth: ({ isSmallScreen }) => !isSmallScreen && 'none' /* Firefox */,
   },
 }));
 
-const Sidebar = ({ open, onClose, onOpen, friendData }) => {
-  const classes = useStyles(open);
+const Sidebar = ({ open, onClose, onOpen, friendData, isSmallScreen }) => {
+  const classes = useStyles({ open, isSmallScreen });
 
   return (
     <Grid container direction="column" className={classes.container}>
@@ -86,6 +93,11 @@ Sidebar.propTypes = {
   onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   friendData: PropTypes.array.isRequired,
+  isSmallScreen: PropTypes.bool,
+};
+
+Sidebar.defaultProps = {
+  isSmallScreen: false,
 };
 
 export default Sidebar;

@@ -19,7 +19,7 @@ import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 // Custom styles for SwipeableDrawer component
 const useStyles = makeStyles({
   fabDrawer: {
-    borderRadius: '0px 15px 15px 0px',
+    borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
     width: '40vw',
     height: '100vh',
@@ -38,7 +38,7 @@ const Dashboard = ({ session, friendData }) => {
   return (
     <>
       <Grid container direction="row">
-        {/* Swipable Drawer on Smaller Screens */}
+        {/* Fab Drawer on Smaller Screens */}
         <Hidden mdUp>
           <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
             <MenuIcon />
@@ -50,6 +50,7 @@ const Dashboard = ({ session, friendData }) => {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 friendData={friendData}
+                isSmallScreen={true}
               />
             </Drawer>
           </Grid>
@@ -64,6 +65,7 @@ const Dashboard = ({ session, friendData }) => {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 friendData={friendData}
+                isSmallScreen={false}
               />
             </CollapsableDrawer>
           </Grid>
