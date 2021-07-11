@@ -3,7 +3,7 @@ import { React } from 'react';
 import clsx from 'clsx';
 import { Drawer, makeStyles } from '@material-ui/core';
 
-const drawerWidth = 180;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
