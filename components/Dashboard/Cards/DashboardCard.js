@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Paper, Box, Typography, Grid, Hidden } from '@material-ui/core';
+import { Box, Typography, Grid, Hidden } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Card from '../../Shared/Card';
 const DashboardCard = ({ spaceName, description, variant }) => {
