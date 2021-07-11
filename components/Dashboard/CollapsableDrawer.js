@@ -8,7 +8,7 @@ const drawerWidth = 180;
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
-    borderRadius: '0px 15px 15px 0px',
+    borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
     flexShrink: 0,
     whiteSpace: 'nowrap',
