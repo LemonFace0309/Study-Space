@@ -43,6 +43,7 @@ const Room = () => {
   const [userVideoShow, setUserVideoShow] = useState(true);
   const [showTabs, setShowTabs] = useState(true);
   const [username, setUsername] = useState();
+  const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
     const initRoom = async () => {
@@ -70,16 +71,19 @@ const Room = () => {
         socketRef.current.emit('join room', { roomID, username: currentUsername });
         socketRef.current.on('all users', (users) => {
           const peers = [];
-          console.log(users);
+          const newParticipants = [];
+          newParticipants.push(currentUsername);
           users.forEach((user) => {
-            const peer = createPeer(user.socketID, socketRef.current.id, stream);
+            const peer = createPeer(user.socketID, currentUsername, socketRef.current.id, stream);
             peersRef.current.push({
               peerID: user.socketID,
               peer,
             });
             peers.push(peer);
+            newParticipants.push(user.username);
           });
           setPeers(peers);
+          setParticipants([...newParticipants]);
         });
 
         socketRef.current.on('user joined', (payload) => {
@@ -90,6 +94,7 @@ const Room = () => {
           });
 
           setPeers((users) => [...users, peer]);
+          setParticipants((curParticipants) => [...curParticipants, payload.username]);
         });
 
         socketRef.current.on('receiving returned signal', (payload) => {
@@ -98,8 +103,6 @@ const Room = () => {
         });
 
         socketRef.current.on('return message', (payload) => {
-          console.log(payload.username);
-          console.log(currentUsername);
           setConversation((prevConversation) => {
             return [
               ...prevConversation,
@@ -109,24 +112,29 @@ const Room = () => {
         });
 
         socketRef.current.on('user disconnect', (payload) => {
-          console.log(payload.users);
-          const usersPeerID = payload.users.map((user) => user.socketID);
-          console.log(usersPeerID);
+          let usersPeerID = [];
+          let participantNames = [];
+          if (payload.users) {
+            usersPeerID = payload.users.map((user) => user.socketID);
+            participantNames = payload.users.map((user) => user.username);
+          }
           peersRef.current.forEach((peerRef) => {
             if (usersPeerID.length > 0 && !usersPeerID.includes(peerRef.peerID)) {
               const removePeerChannelName = peerRef.peer.channelName;
               setPeers((prevPeers) => prevPeers.filter((peer) => peer.channelName !== removePeerChannelName));
+              setParticipants((prevParticipants) =>
+                prevParticipants.filter((participant) => participantNames.indexOf(participant) >= 0)
+              );
               peerRef.peer.destroy();
             }
           });
-          console.log(peers);
         });
       });
     };
     initRoom();
   }, []);
 
-  function createPeer(userToSignal, callerID, stream) {
+  function createPeer(userToSignal, username, callerID, stream) {
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -135,6 +143,7 @@ const Room = () => {
     peer.on('signal', (signal) => {
       socketRef.current.emit('sending signal', {
         userToSignal,
+        username,
         callerID,
         signal,
       });
@@ -180,14 +189,6 @@ const Room = () => {
     <>
       <Grid container className="p-10 relative flex-row justify-between h-screen" style={{ background: '#f8ebf8' }}>
         <LeaveCall leaveCall={leaveCall} />
-        <button
-          onClick={() => {
-            console.log(socketRef);
-            console.log(peersRef);
-            console.log(peers);
-          }}>
-          as
-        </button>
         <CallOptions
           userAudioShow={userAudioShow}
           userVideoShow={userVideoShow}
@@ -204,6 +205,7 @@ const Room = () => {
         </Grid>
         <CallTabs
           username={username}
+          participants={participants}
           socketRef={socketRef}
           conversation={conversation}
           setConversation={setConversation}
