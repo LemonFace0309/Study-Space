@@ -43,7 +43,7 @@ const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) =>
           <Box
             bgcolor={theme.palette.primary.light}
             color={theme.palette.primary.main}
-            className="flex flex-row text-sm rounded-bl-xl rounded-br-xl p-2 space-x-2">
+            className="flex rounded-bl-xl rounded-br-xl p-2 space-x-2">
             <Box>
               <PeopleIcon />
               {headCount}

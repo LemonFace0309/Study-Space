@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import PropTypes from 'prop-types';
 import { React } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';

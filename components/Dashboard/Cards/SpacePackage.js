@@ -14,6 +14,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
   return (
     <>
       <div
+        className="h-full"
         onClick={() => {
           setOpen(true);
         }}>

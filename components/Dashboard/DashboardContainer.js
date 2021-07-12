@@ -35,33 +35,25 @@ const DashboardContainer = () => {
           {/* Dashboard Card Section */}
 
           <Grid container direction="row" item alignContent="center" justify="space-between" spacing={2} xs={12}>
-            <Grid item xs={12} md={6} container direction="column">
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Need a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="dark"
-                  spaceName="Create a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" color="textSecondary">
+                Need a space to study?
+              </Typography>
+              <DashboardCard
+                variant="dark"
+                spaceName="Create a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
-            <Grid item xs={12} md={6} container direction="column">
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Have a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="light"
-                  spaceName="Join a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" color="textSecondary">
+                Have a space to study?
+              </Typography>
+              <DashboardCard
+                variant="light"
+                spaceName="Join a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
           </Grid>
 
