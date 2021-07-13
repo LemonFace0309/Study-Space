@@ -15,26 +15,6 @@ import { useTheme, makeStyles } from '@material-ui/core/styles';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-const UserList = ({ users }) => {
-  return (
-    <List>
-      {users.map((user) => (
-        <ListItem key={user.name}>
-          <ListItemAvatar>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={user.name} secondary={user.status} />
-        </ListItem>
-      ))}
-    </List>
-  );
-};
-UserList.propTypes = {
-  users: PropTypes.array.isRequired,
-};
-
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
@@ -51,6 +31,39 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
 }));
+
+const UserList = ({ users }) => {
+  const classes = useStyles();
+  return (
+    <List>
+      {users.map((user) => (
+        <ListItem key={user.name}>
+          <ListItemAvatar>
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            disableTypography
+            primary={
+              <Typography variant="body1" color="textPrimary">
+                {user.name}
+              </Typography>
+            }
+            secondary={
+              <Typography variant="body1" color="primary">
+                {user.status}
+              </Typography>
+            }
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
+};
+UserList.propTypes = {
+  users: PropTypes.array.isRequired,
+};
 const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -66,25 +79,24 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
         <Grid item container xs={12} spacing={3}>
           {/* Friends and Participants Section*/}
           <Grid item xs={12} sm={6}>
-            <Box bgcolor={theme.palette.primary.extraLight} color={theme.palette.primary.contrastText}>
-              <Typography variant="body1" color="textSecondary">
-                Friends
-              </Typography>
+            <Box bgcolor={theme.palette.primary.extraLight} p="1rem" borderRadius="1rem">
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Friends</Typography>
+              </Box>
               <UserList users={friends} />
-
-              <Typography variant="body1" color="textSecondary">
-                Participants
-              </Typography>
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Participants</Typography>
+              </Box>
               <UserList users={participants} />
             </Box>
           </Grid>
 
           {/* Host Section */}
           <Grid item xs={12} sm={6}>
-            <Box>
-              <Typography variant="body1" color="textSecondary">
-                Host&#40;s&#41;
-              </Typography>
+            <Box p="1rem" borderRadius="1rem">
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Host&#40;s&#41;</Typography>
+              </Box>
               <UserList users={hosts} />
               <Button variant="contained" color="primary" className={classes.containedPrimary}>
                 <ArrowForwardIcon /> Join Space

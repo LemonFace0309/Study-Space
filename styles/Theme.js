@@ -28,6 +28,7 @@ export default createMuiTheme({
       primary: '#111111', // black
       secondary: '#888888', // medium gray
       disabled: '#C4C4C4', // light gray
+      bluegray: '#607D8B', // blue gray
     },
 
     error: {
