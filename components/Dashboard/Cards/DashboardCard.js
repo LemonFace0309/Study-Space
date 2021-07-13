@@ -45,29 +45,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 const DashboardCard = ({ spaceName, description, variant }) => {
   const theme = useTheme();
+  const classes = useStyles();
+
   return (
     <Card>
       <Grid
-        spacing={5}
         container
         direction="row"
-        className="rounded-lg"
         style={{
           background: variant === 'dark' ? theme.palette.primary.mainGradient : theme.palette.secondary.mainGradient,
-        }}>
-        <Hidden mdDown>
-          <Grid item xs={4}>
-            <Box bgcolor="text.disabled" width={1} height={1}></Box>
+        }}
+        className={classes.container}>
+        <Hidden SmDown>
+          <Grid item container xs={4} alignItems="center" justifyContent="center">
+            <Grid item>
+              <Box bgcolor="text.disabled" width={80} height={80} m={2}></Box>
+            </Grid>
           </Grid>
         </Hidden>
 
-        <Grid item xs={8}>
-          <Box color={variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark}>
-            <Typography variant="h5" align="left">
-              {spaceName}
-            </Typography>
-            <Typography variant="body2">{description}</Typography>
-          </Box>
+        <Grid item container xs={8}>
+          <Grid item container xs={12}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              color={variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark}>
+              <Box>
+                <Typography variant="h5">{spaceName}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="body2">{description}</Typography>
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
     </Card>

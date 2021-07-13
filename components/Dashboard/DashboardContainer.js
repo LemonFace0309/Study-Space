@@ -17,24 +17,18 @@ const DashboardContainer = () => {
       <Container>
         {/* Dashboard Join and Create Card Section */}
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
-          <Grid container item xs={12}>
-            <Grid item xs={12}>
-              <Box color={theme.palette.primary.dark}>
-                <Typography variant="h4">Hey Charles!</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box color={theme.palette.text.secondary}>
-                <Typography variant="h6">
-                  The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
-                </Typography>
-              </Box>
-            </Grid>
+          <Grid item xs={12}>
+            <Box color={theme.palette.primary.dark}>
+              <Typography variant="h4">Hey Charles!</Typography>
+            </Box>
+            <Typography variant="h6" color="textSecondary">
+              The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
+            </Typography>
           </Grid>
 
           {/* Dashboard Card Section */}
 
-          <Grid container direction="row" item alignContent="center" justify="space-between" spacing={2} xs={12}>
+          <Grid item container direction="row" spacing={5} xs={12}>
             <Grid item xs={12} md={6}>
               <Typography variant="h6" color="textSecondary">
                 Need a space to study?
@@ -61,7 +55,7 @@ const DashboardContainer = () => {
           <Grid item container direction="row" justify="center" alignItems="stretch" spacing={2}>
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
+                <Grid item key={uniqueId(spaceName)} xs={12} md={4}>
                   <SpacePackage
                     spaceCardData={{ spaceName, description, headCount, music }}
                     spaceCardModalData={{ friends, participants, hosts }}
