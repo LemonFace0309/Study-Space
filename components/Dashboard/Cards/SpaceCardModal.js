@@ -39,9 +39,7 @@ const UserList = ({ users }) => {
       {users.map((user) => (
         <ListItem key={user.name}>
           <ListItemAvatar>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
+            <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
           </ListItemAvatar>
           <ListItemText
             disableTypography
