@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+
 import SpaceCardModal from './SpaceCardModal';
 import SpaceCard from '../../Shared/SpaceCard';
 

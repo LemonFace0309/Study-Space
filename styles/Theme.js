@@ -10,6 +10,7 @@ export default createMuiTheme({
   palette: {
     primary: {
       // purple
+      extraLight: '#F8F7FB',
       light: '#BDACD4',
       main: '#977BBF',
       dark: '#4E3276',
