@@ -7,10 +7,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: theme.palette.primary.dark,
     height: '100%',
+    width: '100%',
     flexWrap: 'nowrap',
-    padding: '1rem',
-    paddingLeft: '1.5rem',
-    paddingRight: '1.5rem',
+    padding: '2rem',
   },
   iconButton: {
     color: theme.palette.primary.contrastText,
@@ -62,7 +61,7 @@ const DashboardCard = ({ spaceName, description, variant }) => {
         <Hidden smDown>
           <Grid item sm={4}>
             <Box display="flex" alignItems="center" justifyContent="center" height={1} width={1}>
-              <Box bgcolor="text.disabled" height={0.8} width={0.8}></Box>
+              <Box bgcolor="text.disabled" height="5rem" width="5rem"></Box>
             </Box>
           </Grid>
         </Hidden>
