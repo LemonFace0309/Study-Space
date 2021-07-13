@@ -128,27 +128,27 @@ export const getServerSideProps = async ({ req }) => {
         {
           name: 'Yi Nan Zhang',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Charles Liu',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Jimmy Yang',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Mabel Kwok',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Eden Chan',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
       ],
     },

@@ -30,7 +30,7 @@ const FriendCard = ({ open, friendData }) => {
         return (
           <ListItem className="whitespace-normal" key={uniqueId(name)}>
             <ListItemAvatar>
-              <Avatar />
+              <Avatar alt="profile picture" src={image} />
             </ListItemAvatar>
             {open && <ListItemText primary={name} secondary={status} className={classes.statusText} />}
           </ListItem>
