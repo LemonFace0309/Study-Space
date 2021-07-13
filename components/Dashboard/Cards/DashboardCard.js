@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.dark,
     height: '100%',
     flexWrap: 'nowrap',
+    padding: '1rem',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
   },
   iconButton: {
     color: theme.palette.primary.contrastText,
@@ -56,29 +59,31 @@ const DashboardCard = ({ spaceName, description, variant }) => {
           background: variant === 'dark' ? theme.palette.primary.mainGradient : theme.palette.secondary.mainGradient,
         }}
         className={classes.container}>
-        <Hidden SmDown>
-          <Grid item container xs={4} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Box bgcolor="text.disabled" width={80} height={80} m={2}></Box>
-            </Grid>
+        <Hidden smDown>
+          <Grid item sm={4}>
+            <Box display="flex" alignItems="center" justifyContent="center" height={1} width={1}>
+              <Box display="flex" bgcolor="text.disabled" height={0.8} width={0.8}></Box>
+            </Box>
           </Grid>
         </Hidden>
 
-        <Grid item container xs={8}>
-          <Grid item container xs={12}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              color={variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark}>
-              <Box>
-                <Typography variant="h5">{spaceName}</Typography>
-              </Box>
-              <Box>
-                <Typography variant="body2">{description}</Typography>
-              </Box>
+        <Grid item xs={12} sm={12}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="flex-start"
+            height={1}
+            width={1}
+            paddingLeft="1rem"
+            color={variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark}>
+            <Box>
+              <Typography variant="h5">{spaceName}</Typography>
             </Box>
-          </Grid>
+            <Box>
+              <Typography variant="body2">{description}</Typography>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
     </Card>
