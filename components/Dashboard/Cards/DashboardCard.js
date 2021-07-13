@@ -62,7 +62,7 @@ const DashboardCard = ({ spaceName, description, variant }) => {
         <Hidden smDown>
           <Grid item sm={4}>
             <Box display="flex" alignItems="center" justifyContent="center" height={1} width={1}>
-              <Box display="flex" bgcolor="text.disabled" height={0.8} width={0.8}></Box>
+              <Box bgcolor="text.disabled" height={0.8} width={0.8}></Box>
             </Box>
           </Grid>
         </Hidden>
