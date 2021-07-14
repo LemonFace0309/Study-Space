@@ -10,6 +10,7 @@ export default createMuiTheme({
   palette: {
     primary: {
       // purple
+      extraLight: '#F8F7FB',
       light: '#BDACD4',
       main: '#977BBF',
       dark: '#4E3276',
@@ -27,6 +28,7 @@ export default createMuiTheme({
       primary: '#111111', // black
       secondary: '#888888', // medium gray
       disabled: '#C4C4C4', // light gray
+      bluegray: '#607D8B', // blue gray
     },
 
     error: {

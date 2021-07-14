@@ -22,7 +22,6 @@ const useStyles = makeStyles({
     borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
     width: '40vw',
-    height: '100vh',
   },
 });
 
@@ -40,7 +39,7 @@ const Dashboard = ({ session, friendData }) => {
       <Grid container direction="row">
         {/* Fab Drawer on Smaller Screens */}
         <Hidden mdUp>
-          <Fab onClick={() => setOpen(!open)} color="primary" aria-label="add" className="fixed top-9/10 left-4/5 z-40">
+          <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
             <MenuIcon />
           </Fab>
           <Grid item xs={1}>
@@ -70,11 +69,13 @@ const Dashboard = ({ session, friendData }) => {
             </CollapsableDrawer>
           </Grid>
         </Hidden>
-        <Grid item xs={12} md={open ? 10 : 11} container direction="column" spacing={5}>
-          <Grid item>
+
+        {/* Body */}
+        <Grid item xs={12} md={open ? 10 : 11} container direction="row" justify="center">
+          <Grid item xs={12} className="m-4">
             <DashboardContainer />
           </Grid>
-          <Grid item container>
+          <Grid item container className="m-4">
             <Grid item xs={12} md={6}>
               <ChartCard
                 title={peakStudyTimes.title}
@@ -128,27 +129,27 @@ export const getServerSideProps = async ({ req }) => {
         {
           name: 'Yi Nan Zhang',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Charles Liu',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Jimmy Yang',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Mabel Kwok',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
         {
           name: 'Eden Chan',
           status: 'In Study Session',
-          image: '',
+          image: '/images/avatar/cartoon.png',
         },
       ],
     },

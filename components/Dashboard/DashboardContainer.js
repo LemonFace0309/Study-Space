@@ -12,64 +12,48 @@ const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
   const theme = useTheme();
+
   return (
     <Card>
-      <Container>
-        {/* Dashboard Join and Create Card Section */}
+      <Container className="py-4">
+        {/* Greeting */}
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
-          <Grid container item xs={12}>
-            <Grid item xs={12}>
-              <Box color={theme.palette.primary.dark}>
-                <Typography variant="h4">Hey Charles!</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box color={theme.palette.text.secondary}>
-                <Typography variant="h6">
-                  The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
-                </Typography>
-              </Box>
-            </Grid>
+          <Grid item xs={12}>
+            <Box color={theme.palette.primary.dark}>
+              <Typography variant="h4">Hey Charles!</Typography>
+            </Box>
+            <Typography variant="h6" color="textSecondary">
+              The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
+            </Typography>
           </Grid>
 
           {/* Dashboard Card Section */}
 
-          <Grid container direction="row" item alignContent="center" justify="space-between" spacing={2} xs={12}>
-            <Grid item xs={12} md={6} container direction="column">
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Need a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="dark"
-                  spaceName="Create a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+          <Grid item container direction="row" spacing={2}>
+            <Grid item sm={12} md={6}>
+              {/* <Typography variant="h6" color="textSecondary">
+                Need a space to study?
+              </Typography> */}
+              <DashboardCard
+                variant="dark"
+                spaceName="Create a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
-            <Grid item xs={12} md={6} container direction="column">
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Have a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="light"
-                  spaceName="Join a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+            <Grid item sm={12} md={6}>
+              {/* <Typography variant="h6" color="textSecondary">
+                Have a space to study?
+              </Typography> */}
+              <DashboardCard
+                variant="light"
+                spaceName="Join a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
-          </Grid>
-
-          {/* Space Card Section */}
-          <Grid item container direction="row" justify="center" alignItems="stretch" spacing={2}>
+            {/* Space Card Section */}
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
+                <Grid item key={uniqueId(spaceName)} xs={12} sm={6} md={4}>
                   <SpacePackage
                     spaceCardData={{ spaceName, description, headCount, music }}
                     spaceCardModalData={{ friends, participants, hosts }}
