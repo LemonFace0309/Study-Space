@@ -2,14 +2,7 @@ import React from 'react';
 import Timer from '../../components/Spaces/StudySpace/Timer';
 import User from '../../components/Spaces/StudySpace/User';
 
-import {
-  Container,
-  Box,
-  Grid,
-  Button,
-  Typography,
-  createMuiTheme,
-} from '@material-ui/core';
+import { Container, Box, Grid, Button, Typography, createMuiTheme } from '@material-ui/core';
 
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import MicIcon from '@material-ui/icons/Mic';
@@ -38,10 +31,7 @@ const StudySpaceDemo = () => {
   return (
     <Container className="mt-10">
       <Grid className="grid grid-cols-12">
-        <Grid
-          item
-          color={theme.palette.primary.dark}
-          className="flex flex-row  rounded-full space-x-5 col-span-4">
+        <Grid item color={theme.palette.primary.dark} className="flex flex-row  rounded-full space-x-5 col-span-4">
           <Box>
             <Button
               variant="outlined"
@@ -73,9 +63,7 @@ const StudySpaceDemo = () => {
         </Grid>
 
         <Grid className="flex justify-start items-end col-span-2 px-8 ">
-          <Box
-            color={theme.palette.primary.dark}
-            className="flex flex-row space-x-5 ">
+          <Box color={theme.palette.primary.dark} className="flex flex-row space-x-5 ">
             <VideocamOffIcon />
             <MicIcon />
           </Box>
@@ -95,9 +83,7 @@ const StudySpaceDemo = () => {
           </Container>
         </Grid>
         <Grid className="flex justify-end items-end col-span-2 px-8 ">
-          <Box
-            color={theme.palette.primary.dark}
-            className="flex flex-row space-x-5 ">
+          <Box color={theme.palette.primary.dark} className="flex flex-row space-x-5 ">
             <LibraryMusicIcon />
             <PeopleIcon />
             <ChatIcon />

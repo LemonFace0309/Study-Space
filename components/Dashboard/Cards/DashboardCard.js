@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: '100%',
-    fontSize: '18px',
+    fontSize: '1.5rem',
     '&:focus': {
       outline: 'none',
     },
@@ -50,7 +50,7 @@ const DashboardCard = ({ spaceName, description, variant }) => {
   const classes = useStyles();
 
   return (
-    <Card>
+    <Card isClickable={true}>
       <Grid
         container
         direction="row"
@@ -66,23 +66,15 @@ const DashboardCard = ({ spaceName, description, variant }) => {
           </Grid>
         </Hidden>
 
-        <Grid item xs={12} sm={12}>
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="flex-start"
-            height={1}
-            width={1}
-            paddingLeft="1rem"
-            color={variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark}>
-            <Box>
-              <Typography variant="h5">{spaceName}</Typography>
-            </Box>
-            <Box>
-              <Typography variant="body2">{description}</Typography>
-            </Box>
-          </Box>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          style={{
+            color: variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark,
+          }}>
+          <Typography variant="h4">{spaceName}</Typography>
+          <Typography variant="body1">{description}</Typography>
         </Grid>
       </Grid>
     </Card>
