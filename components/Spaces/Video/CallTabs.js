@@ -90,13 +90,13 @@ function CallTabs({ username, participants, socketRef, conversation, setConversa
 }
 
 CallTabs.propTypes = {
-  username: PropTypes.string,
-  participants: PropTypes.array,
-  socketRef: PropTypes.object,
-  conversation: PropTypes.array,
-  setConversation: PropTypes.func,
-  showTabs: PropTypes.bool,
-  setShowTabs: PropTypes.func,
+  username: PropTypes.string.isRequired,
+  participants: PropTypes.array.isRequired,
+  socketRef: PropTypes.object.isRequired,
+  conversation: PropTypes.array.isRequired,
+  setConversation: PropTypes.func.isRequired,
+  showTabs: PropTypes.bool.isRequired,
+  setShowTabs: PropTypes.func.isRequired,
 };
 
 export default CallTabs;
