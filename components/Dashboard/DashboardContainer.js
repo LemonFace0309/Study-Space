@@ -15,7 +15,7 @@ const DashboardContainer = () => {
 
   return (
     <Card>
-      <Container>
+      <Container className="py-4">
         {/* Greeting */}
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
           <Grid item xs={12}>
@@ -30,7 +30,7 @@ const DashboardContainer = () => {
           {/* Dashboard Card Section */}
 
           <Grid item container direction="row" spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={12} md={6}>
               {/* <Typography variant="h6" color="textSecondary">
                 Need a space to study?
               </Typography> */}
@@ -40,7 +40,7 @@ const DashboardContainer = () => {
                 description="insert some sort of tagline or feature description "
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={12} md={6}>
               {/* <Typography variant="h6" color="textSecondary">
                 Have a space to study?
               </Typography> */}
@@ -53,7 +53,7 @@ const DashboardContainer = () => {
             {/* Space Card Section */}
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid item key={uniqueId(spaceName)} xs={12} sm={4} md={4}>
+                <Grid item key={uniqueId(spaceName)} xs={12} sm={6} md={4}>
                   <SpacePackage
                     spaceCardData={{ spaceName, description, headCount, music }}
                     spaceCardModalData={{ friends, participants, hosts }}

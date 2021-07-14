@@ -1,64 +1,73 @@
 import PropTypes from 'prop-types';
-import { Grid, Box, Typography } from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import MicIcon from '@material-ui/icons/Mic';
 import ChatIcon from '@material-ui/icons/Chat';
 import PeopleIcon from '@material-ui/icons/People';
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 
-import Card from './Card';
+import SpaceCardContainer from './Card';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: '1rem',
+  body: {
+    color: theme.palette.primary.main,
+  },
+  icons: {
+    color: theme.palette.primary.main,
+  },
+  footer: {
+    background: theme.palette.primary.light,
+    color: theme.palette.primary.main,
+    flexBasis: 'auto',
+    padding: theme.spacing(1),
+    flexWrap: 'nowrap',
+    '& > *': {
+      transition: 'all 3s linear',
+    },
+  },
+  footerWording: {
+    paddingLeft: theme.spacing(2),
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 }));
+
 const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) => {
-  const theme = useTheme();
   const classes = useStyles();
+
   return (
-    <Card isClickable={isClickable}>
-      <Grid container direction="column">
-        <Grid item container direction="row" xs={12} className={classes.container}>
-          <Grid item xs={11}>
+    <SpaceCardContainer isClickable={isClickable}>
+      <Grid container direction="column" className="h-full">
+        <Grid item container direction="row" xs={12} className="p-4 flex-1">
+          <Grid item xs={11} className={classes.body}>
             {/* Title and Description */}
-            <Box color={theme.palette.primary.dark}>
-              <Typography variant="h5" align="center">
-                {spaceName}
-              </Typography>
-              <Typography color="textSecondary" variant="body1">
-                {description}
-              </Typography>
-            </Box>
+            <Typography variant="h5" align="center">
+              {spaceName}
+            </Typography>
+            <Typography color="textSecondary" variant="body1">
+              {description}
+            </Typography>
           </Grid>
 
           {/* Video, Mic, and Chat Icons */}
-          <Grid item xs={1}>
-            <Box color={theme.palette.primary.main}>
-              <VideocamOffIcon />
-              <MicIcon />
-              <ChatIcon />
-            </Box>
+          <Grid item xs={1} className={classes.icons}>
+            <VideocamOffIcon />
+            <MicIcon />
+            <ChatIcon />
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Box
-            display="flex"
-            flexDirection="row"
-            bgcolor={theme.palette.primary.light}
-            color={theme.palette.primary.main}
-            p={1}>
-            <Box>
-              <PeopleIcon />
-              {headCount}
-              <LibraryMusicIcon />
-              {music}
-            </Box>
-          </Box>
+        <Grid container item xs={12} className={classes.footer}>
+          <PeopleIcon />
+          {headCount}
+          <div className={classes.footerWording}>
+            <LibraryMusicIcon />
+            {music}
+          </div>
         </Grid>
       </Grid>
-    </Card>
+    </SpaceCardContainer>
   );
 };
 

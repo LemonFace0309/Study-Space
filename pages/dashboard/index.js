@@ -73,7 +73,6 @@ const Dashboard = ({ session, friendData }) => {
         {/* Body */}
         <Grid item xs={12} md={open ? 10 : 11} container direction="row" justify="center">
           <Grid item xs={12} className="m-4">
-            {/* causing the side and top scrolling behaviour */}
             <DashboardContainer />
           </Grid>
           <Grid item container className="m-4">
