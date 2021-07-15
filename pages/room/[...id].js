@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { getSession } from 'next-auth/client';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { intersection } from 'lodash';
 
 import { Grid } from '@material-ui/core';
 
@@ -42,7 +43,8 @@ const Room = () => {
   const [userAudioShow, setUserAudioShow] = useState(true);
   const [userVideoShow, setUserVideoShow] = useState(true);
   const [showTabs, setShowTabs] = useState(true);
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState('');
+  const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
     const initRoom = async () => {
@@ -67,20 +69,35 @@ const Room = () => {
       socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
         userVideo.current.srcObject = stream;
-        socketRef.current.emit('join room', roomID);
+
+        /**
+         * Notifiy users in the room that this new user joined
+         */
+        socketRef.current.emit('join room', { roomID, username: currentUsername });
+
+        /**
+         * Get information of all users in the room and add them as peers
+         */
         socketRef.current.on('all users', (users) => {
           const peers = [];
-          users.forEach((userID) => {
-            const peer = createPeer(userID, socketRef.current.id, stream);
+          const newParticipants = [];
+          newParticipants.push(currentUsername);
+          users.forEach((user) => {
+            const peer = createPeer(user.socketID, currentUsername, socketRef.current.id, stream);
             peersRef.current.push({
-              peerID: userID,
+              peerID: user.socketID,
               peer,
             });
             peers.push(peer);
+            newParticipants.push(user.username);
           });
           setPeers(peers);
+          setParticipants([...newParticipants]);
         });
 
+        /**
+         * Add new user that joins after you as peer
+         */
         socketRef.current.on('user joined', (payload) => {
           const peer = addPeer(payload.signal, payload.callerID, stream);
           peersRef.current.push({
@@ -89,16 +106,21 @@ const Room = () => {
           });
 
           setPeers((users) => [...users, peer]);
+          setParticipants((curParticipants) => [...curParticipants, payload.username]);
         });
 
+        /**
+         * Load signal of new user
+         */
         socketRef.current.on('receiving returned signal', (payload) => {
           const receivingPeerObj = peersRef.current.find((p) => p.peerID === payload.id);
           receivingPeerObj.peer.signal(payload.signal);
         });
 
+        /**
+         * Receiving message and update conversation
+         */
         socketRef.current.on('return message', (payload) => {
-          console.log(payload.username);
-          console.log(currentUsername);
           setConversation((prevConversation) => {
             return [
               ...prevConversation,
@@ -106,12 +128,34 @@ const Room = () => {
             ];
           });
         });
+
+        /**
+         * Remove user as a peer and participant when disconnected
+         */
+        socketRef.current.on('user disconnect', (payload) => {
+          let usersPeerID = [];
+          let participantNames = [];
+          if (payload.users) {
+            usersPeerID = payload.users.map((user) => user.socketID);
+            participantNames = payload.users.map((user) => user.username);
+          }
+          if (usersPeerID.length > 0) {
+            peersRef.current.forEach((peerRef) => {
+              if (!usersPeerID.includes(peerRef.peerID)) {
+                const removePeerChannelName = peerRef.peer.channelName;
+                setPeers((prevPeers) => prevPeers.filter((peer) => peer.channelName !== removePeerChannelName));
+                setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));
+                peerRef.peer.destroy();
+              }
+            });
+          }
+        });
       });
     };
     initRoom();
   }, []);
 
-  function createPeer(userToSignal, callerID, stream) {
+  function createPeer(userToSignal, username, callerID, stream) {
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -120,6 +164,7 @@ const Room = () => {
     peer.on('signal', (signal) => {
       socketRef.current.emit('sending signal', {
         userToSignal,
+        username,
         callerID,
         signal,
       });
@@ -147,6 +192,9 @@ const Room = () => {
       peerObj.peer.destroy();
     });
     router.push(`/room/`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   }
 
   function toggleUserAudio() {
@@ -181,6 +229,7 @@ const Room = () => {
         </Grid>
         <CallTabs
           username={username}
+          participants={participants}
           socketRef={socketRef}
           conversation={conversation}
           setConversation={setConversation}

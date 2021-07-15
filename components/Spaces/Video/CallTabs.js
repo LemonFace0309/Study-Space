@@ -17,7 +17,7 @@ const callTabsIndex = {
   CHAT: 4,
 };
 
-function CallTabs({ username, socketRef, conversation, setConversation, showTabs, setShowTabs }) {
+function CallTabs({ username, participants, socketRef, conversation, setConversation, showTabs, setShowTabs }) {
   const [tabIndex, setTabIndex] = useState(callTabsIndex.CHAT);
 
   function setTab(newTabIndex) {
@@ -57,7 +57,7 @@ function CallTabs({ username, socketRef, conversation, setConversation, showTabs
               </Paper>
             </TabPanel>
             <TabPanel>
-              <People />
+              <People username={username} participants={participants} />
             </TabPanel>
             <TabPanel>
               <Chat
@@ -90,12 +90,13 @@ function CallTabs({ username, socketRef, conversation, setConversation, showTabs
 }
 
 CallTabs.propTypes = {
-  username: PropTypes.string,
-  socketRef: PropTypes.object,
-  conversation: PropTypes.array,
-  setConversation: PropTypes.func,
-  showTabs: PropTypes.bool,
-  setShowTabs: PropTypes.func,
+  username: PropTypes.string.isRequired,
+  participants: PropTypes.array.isRequired,
+  socketRef: PropTypes.object.isRequired,
+  conversation: PropTypes.array.isRequired,
+  setConversation: PropTypes.func.isRequired,
+  showTabs: PropTypes.bool.isRequired,
+  setShowTabs: PropTypes.func.isRequired,
 };
 
 export default CallTabs;

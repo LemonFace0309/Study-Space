@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, Grid, Paper, Dialog, Typography } from '@material-ui/core';
 import { Assignment } from '@material-ui/icons';
 
-function People() {
+function People({ participants, username }) {
   const router = useRouter();
   const roomID = router.query;
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,6 +17,11 @@ function People() {
         <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
           Invite
         </Button>
+        {participants.map((p) => (
+          <p key={p}>
+            {p} {username == p ? '(You)' : ''}
+          </p>
+        ))}
       </Paper>
 
       <Dialog open={modalOpen} onClose={() => setModalOpen(false)} fullWidth fullHeight maxWidth="lg" maxHeight="lg">
@@ -37,5 +43,10 @@ function People() {
     </>
   );
 }
+
+People.propTypes = {
+  username: PropTypes.string,
+  participants: PropTypes.array,
+};
 
 export default People;
