@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# redis
+.dump.rdb
+
 # next.js
 /.next/
 /out/
