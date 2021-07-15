@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import uniqueId from 'lodash/uniqueId';
 import {
   Button,
   Grid,
@@ -12,7 +13,6 @@ import {
   Avatar,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import PersonIcon from '@material-ui/icons/Person';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,11 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserList = ({ users }) => {
-  const classes = useStyles();
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={user.name}>
+        <ListItem key={uniqueId()}>
           <ListItemAvatar>
             <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
           </ListItemAvatar>
