@@ -47,5 +47,57 @@ export default createMuiTheme({
   },
   typography: {
     fontFamily: 'Ubuntu',
+    h1: {
+      fontWeight: medium,
+      fontSize: '6rem',
+    },
+    h2: {
+      fontWeight: medium,
+      fontSize: '3.75rem',
+    },
+    h3: {
+      fontWeight: medium,
+      fontSize: '3rem',
+    },
+    h4: {
+      fontWeight: medium,
+      fontSize: '2.125rem',
+    },
+    h5: {
+      fontWeight: medium,
+      fontSize: '1.5rem',
+    },
+    h6: {
+      fontWeight: medium,
+      fontSize: '1.25rem',
+    },
+    subtitle1: {
+      fontWeight: medium,
+      fontSize: '1.125rem',
+    },
+    subtitle2: {
+      fontWeight: medium,
+      fontSize: '0.875rem',
+    },
+    body1: {
+      fontWeight: regular,
+      fontSize: '1rem',
+    },
+    body2: {
+      fontWeight: regular,
+      fontSize: '0.875rem',
+    },
+    button: {
+      fontWeight: medium,
+      fontSize: '1rem',
+    },
+    caption: {
+      fontWeight: regular,
+      fontSize: '0.75rem',
+    },
+    overline: {
+      fontWeight: bold,
+      fontSize: '0.875rem',
+    },
   },
 });
