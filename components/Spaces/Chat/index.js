@@ -6,21 +6,16 @@ import SendIcon from '@material-ui/icons/Send';
 
 import Conversation from './Conversation';
 
-const Chat = ({ conversation, setConversation, peersRef }) => {
+const Chat = ({ conversation, socketRef, username }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setConversation((prevConversation) => {
-      return [...prevConversation, { text: text, fromMe: true }];
+    socketRef.current.emit('send message', {
+      message: text,
+      username: username,
     });
-    peersRef.current.forEach((peerObj) => {
-      if (peerObj && !peerObj.peer.destroyed) {
-        peerObj.peer.send(text);
-      }
-    });
-
     setText('');
     setTimeout(() => {
       setError(false);
@@ -60,9 +55,10 @@ const Chat = ({ conversation, setConversation, peersRef }) => {
 };
 
 Chat.propTypes = {
+  username: PropTypes.string,
   conversation: PropTypes.array.isRequired,
   setConversation: PropTypes.func.isRequired,
-  peersRef: PropTypes.array.isRequired,
+  socketRef: PropTypes.object.isRequired,
 };
 
 export default Chat;

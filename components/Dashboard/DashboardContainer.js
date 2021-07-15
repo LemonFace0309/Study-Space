@@ -1,88 +1,62 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { React, useState } from 'react';
+import { React } from 'react';
 import uniqueId from 'lodash/uniqueId';
-import { Container, Box, Grid, Typography, Paper, useTheme } from '@material-ui/core';
+import { Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
-import SpaceCardModal from './Cards/SpaceCardModal';
-import SpaceCard from '../Shared/SpaceCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 import Card from '../Shared/Card';
+
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
   const theme = useTheme();
+
   return (
     <Card>
-      <Container>
+      <Container className="py-4">
+        {/* Greeting */}
         <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
-          <Grid container item xs={12}>
-            <Grid item xs={12}>
-              <Box color={theme.palette.primary.dark}>
-                <Typography variant="h4">Hey Charles!</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box color={theme.palette.text.secondary}>
-                <Typography variant="h6">
-                  The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
-                </Typography>
-              </Box>
-            </Grid>
+          <Grid item xs={12}>
+            <Box color={theme.palette.primary.dark}>
+              <Typography variant="h4">Hey Charles!</Typography>
+            </Box>
+            <Typography variant="h6" color="textSecondary">
+              The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
+            </Typography>
           </Grid>
 
           {/* Dashboard Card Section */}
 
-          <Grid
-            container
-            direction="row"
-            item
-            alignContent="center"
-            alignItems="center"
-            justify="space-between"
-            spacing={3}
-            xs={12}>
-            <Grid item xs={12} md={6} container direction="column" spacing={3}>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Need a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="dark"
-                  spaceName="Create a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+          <Grid item container direction="row" spacing={2}>
+            <Grid item sm={12} md={6}>
+              {/* <Typography variant="h6" color="textSecondary">
+                Need a space to study?
+              </Typography> */}
+              <DashboardCard
+                variant="dark"
+                spaceName="Create a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
-            <Grid item xs={12} md={6} container direction="column" spacing={3}>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="textSecondary">
-                  Have a space to study?
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <DashboardCard
-                  variant="light"
-                  spaceName="Join a Space"
-                  description="insert some sort of tagline or feature description "
-                />
-              </Grid>
+            <Grid item sm={12} md={6}>
+              {/* <Typography variant="h6" color="textSecondary">
+                Have a space to study?
+              </Typography> */}
+              <DashboardCard
+                variant="light"
+                spaceName="Join a Space"
+                description="insert some sort of tagline or feature description "
+              />
             </Grid>
-          </Grid>
-
-          {/* Space Card Section */}
-          <Grid container item xs={12} spacing={2} justify="space-between">
+            {/* Space Card Section */}
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
-                <Grid key={uniqueId(spaceName)} item xs={12} md={4}>
+                <Grid item key={uniqueId(spaceName)} xs={12} sm={6} md={4}>
                   <SpacePackage
-                    data={{ spaceName, description, headCount, music, friends, participants, hosts }}
-                    test={<div>test</div>}
+                    spaceCardData={{ spaceName, description, headCount, music }}
+                    spaceCardModalData={{ friends, participants, hosts }}
                   />
                 </Grid>
               );

@@ -25,9 +25,9 @@ function People() {
             component="h1"
             style={{ color: '#4E3276', textAlign: 'center' }}
             className="font-bold">
-            {roomID.slug}
+            {roomID.id}
           </Typography>
-          <CopyToClipboard text={roomID.slug}>
+          <CopyToClipboard text={roomID.id}>
             <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
               Copy Room ID
             </Button>

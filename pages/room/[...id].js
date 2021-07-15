@@ -42,6 +42,7 @@ const Room = () => {
   const [userAudioShow, setUserAudioShow] = useState(true);
   const [userVideoShow, setUserVideoShow] = useState(true);
   const [showTabs, setShowTabs] = useState(true);
+  const [username, setUsername] = useState();
 
   useEffect(() => {
     const initRoom = async () => {
@@ -57,6 +58,7 @@ const Room = () => {
         });
         currentUsername = randomName;
       }
+      setUsername(currentUsername);
       const videoConstraints = {
         height: window.innerHeight / 2,
         width: window.innerWidth / 2,
@@ -69,7 +71,7 @@ const Room = () => {
         socketRef.current.on('all users', (users) => {
           const peers = [];
           users.forEach((userID) => {
-            const peer = createPeer(userID, socketRef.current.id, stream, currentUsername);
+            const peer = createPeer(userID, socketRef.current.id, stream);
             peersRef.current.push({
               peerID: userID,
               peer,
@@ -80,7 +82,7 @@ const Room = () => {
         });
 
         socketRef.current.on('user joined', (payload) => {
-          const peer = addPeer(payload.signal, payload.callerID, stream, currentUsername);
+          const peer = addPeer(payload.signal, payload.callerID, stream);
           peersRef.current.push({
             peerID: payload.callerID,
             peer,
@@ -93,12 +95,23 @@ const Room = () => {
           const receivingPeerObj = peersRef.current.find((p) => p.peerID === payload.id);
           receivingPeerObj.peer.signal(payload.signal);
         });
+
+        socketRef.current.on('return message', (payload) => {
+          console.log(payload.username);
+          console.log(currentUsername);
+          setConversation((prevConversation) => {
+            return [
+              ...prevConversation,
+              { text: payload.message, sender: payload.username, fromMe: payload.username == currentUsername },
+            ];
+          });
+        });
       });
     };
     initRoom();
-  }, [roomID]);
+  }, []);
 
-  function createPeer(userToSignal, callerID, stream, currentUsername) {
+  function createPeer(userToSignal, callerID, stream) {
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -111,17 +124,10 @@ const Room = () => {
         signal,
       });
     });
-
-    peer.on('data', (data) => {
-      data = new TextDecoder('utf-8').decode(data);
-      setConversation((prevConversation) => {
-        return [...prevConversation, { text: data, sender: currentUsername }];
-      });
-    });
     return peer;
   }
 
-  function addPeer(incomingSignal, callerID, stream, currentUsername) {
+  function addPeer(incomingSignal, callerID, stream) {
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -130,13 +136,6 @@ const Room = () => {
 
     peer.on('signal', (signal) => {
       socketRef.current.emit('returning signal', { signal, callerID });
-    });
-
-    peer.on('data', (data) => {
-      data = new TextDecoder('utf-8').decode(data);
-      setConversation((prevConversation) => {
-        return [...prevConversation, { text: data, sender: currentUsername }];
-      });
     });
 
     peer.signal(incomingSignal);
@@ -181,7 +180,8 @@ const Room = () => {
           </div>
         </Grid>
         <CallTabs
-          peersRef={peersRef}
+          username={username}
+          socketRef={socketRef}
           conversation={conversation}
           setConversation={setConversation}
           showTabs={showTabs}
