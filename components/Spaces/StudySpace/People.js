@@ -24,7 +24,7 @@ function People({ participants, username }) {
         ))}
       </Paper>
 
-      <Dialog open={modalOpen} onClose={() => setModalOpen(false)} fullWidth fullHeight maxWidth="lg" maxHeight="lg">
+      <Dialog open={modalOpen} onClose={() => setModalOpen(false)} fullWidth maxWidth="lg">
         <Grid className="p-5 flex flex-col align-items-center justify-items-center">
           <Typography
             variant="h6"

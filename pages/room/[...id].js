@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { getSession } from 'next-auth/client';
@@ -31,13 +31,14 @@ PeerVideo.propTypes = {
   peer: PropTypes.object.isRequired,
 };
 
-const Room = () => {
+const Room = ({ roomID }) => {
+  console.debug('ROOM ID:', roomID);
+
+  const router = useRouter();
   const [peers, setPeers] = useState([]);
   const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
-  const router = useRouter();
-  const roomID = router.query;
   const [conversation, setConversation] = useState([]);
   const [userAudioShow, setUserAudioShow] = useState(true);
   const [userVideoShow, setUserVideoShow] = useState(true);
@@ -75,8 +76,9 @@ const Room = () => {
 
     /**
      * Get information of all users in the room and add them as peers
+     * Also populates conversation with redis cache
      */
-    socketRef.current.on('all users', (users) => {
+    socketRef.current.on('all users', ({ users, conversation }) => {
       const peers = [];
       const newParticipants = [];
       newParticipants.push(currentUsername);
@@ -91,6 +93,7 @@ const Room = () => {
       });
       setPeers(peers);
       setParticipants([...newParticipants]);
+      conversation && setConversation(JSON.parse(JSON.stringify(conversation)));
     });
 
     /**
@@ -116,7 +119,7 @@ const Room = () => {
     });
 
     /**
-     * Receiving message and update conversation
+     * Receiving message and updating conversation
      */
     socketRef.current.on('return message', (payload) => {
       setConversation((prevConversation) => {
@@ -230,6 +233,7 @@ const Room = () => {
           username={username}
           participants={participants}
           socketRef={socketRef}
+          roomID={roomID}
           conversation={conversation}
           setConversation={setConversation}
           showTabs={showTabs}
@@ -240,4 +244,14 @@ const Room = () => {
   );
 };
 
+Room.propTypes = {
+  roomID: PropTypes.string.isRequired,
+};
+
 export default Room;
+
+export async function getServerSideProps({ params }) {
+  return {
+    props: { roomID: params.id[0] },
+  };
+}
