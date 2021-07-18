@@ -32,8 +32,6 @@ PeerVideo.propTypes = {
 };
 
 const Room = ({ roomID }) => {
-  console.debug('ROOM ID:', roomID);
-
   const router = useRouter();
   const [peers, setPeers] = useState([]);
   const socketRef = useRef();
@@ -45,6 +43,7 @@ const Room = ({ roomID }) => {
   const [showTabs, setShowTabs] = useState(true);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
+  console.debug(conversation);
 
   const initRoom = async () => {
     const userSession = await getSession();
@@ -93,7 +92,12 @@ const Room = ({ roomID }) => {
       });
       setPeers(peers);
       setParticipants([...newParticipants]);
-      conversation && setConversation(JSON.parse(JSON.stringify(conversation)));
+      conversation = JSON.parse(conversation).map((obj) => {
+        obj = JSON.parse(obj);
+        return { text: obj.message, sender: obj.username, fromMe: obj.username == currentUsername };
+      });
+      console.debug(conversation);
+      conversation && setConversation(conversation);
     });
 
     /**
