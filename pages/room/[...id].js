@@ -13,6 +13,8 @@ import CallOptions from '../../components/Spaces/Video/CallOptions';
 import CallTabs from '../../components/Spaces/Video/CallTabs';
 import LeaveCall from '../../components/Spaces/Video/LeaveCall';
 
+const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
+
 const PeerVideo = ({ peer }) => {
   const ref = useRef();
   useEffect(() => {
@@ -21,7 +23,7 @@ const PeerVideo = ({ peer }) => {
     });
   }, [peer]);
   return (
-    <video autoPlay ref={ref} height="400" width="400">
+    <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
       <track kind="captions"></track>
     </video>
   );
@@ -43,7 +45,6 @@ const Room = ({ roomID }) => {
   const [showTabs, setShowTabs] = useState(true);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
-  console.debug(conversation);
 
   const initRoom = async () => {
     const userSession = await getSession();
@@ -62,11 +63,18 @@ const Room = ({ roomID }) => {
     const videoConstraints = {
       height: window.innerHeight / 2,
       width: window.innerWidth / 2,
+      frameRate: { ideal: 15, max: 30 },
     };
 
     socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
-    const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
-    userVideo.current.srcObject = stream;
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
+      userVideo.current.srcObject = stream;
+      localStorage.setItem(USER_MEDIA_ACTIVE, true);
+    } catch (err) {
+      console.warn(err);
+    }
 
     /**
      * Notifiy users in the room that this new user joined
@@ -92,12 +100,16 @@ const Room = ({ roomID }) => {
       });
       setPeers(peers);
       setParticipants([...newParticipants]);
-      conversation = JSON.parse(conversation).map((obj) => {
-        obj = JSON.parse(obj);
-        return { text: obj.message, sender: obj.username, fromMe: obj.username == currentUsername };
-      });
-      console.debug(conversation);
-      conversation && setConversation(conversation);
+      if (conversation) {
+        conversation = JSON.parse(conversation).map((obj) => {
+          if (!obj) return {};
+          obj = JSON.parse(obj);
+          if (!obj?.message || !obj?.username) return {};
+          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == currentUsername };
+        });
+        conversation = conversation.filter((obj) => obj !== {});
+      }
+      conversation && setConversation(conversation ?? []);
     });
 
     /**
@@ -145,12 +157,13 @@ const Room = ({ roomID }) => {
         participantNames = payload.users.map((user) => user.username);
       }
       if (usersPeerID.length > 0) {
-        peersRef.current.forEach((peerRef) => {
+        peersRef.current.forEach((peerRef, index) => {
           if (!usersPeerID.includes(peerRef.peerID)) {
             const removePeerChannelName = peerRef.peer.channelName;
+            peerRef.peer.destroy();
+            peersRef.current.splice(index, 1);
             setPeers((prevPeers) => prevPeers.filter((peer) => peer.channelName !== removePeerChannelName));
             setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));
-            peerRef.peer.destroy();
           }
         });
       }
@@ -197,7 +210,7 @@ const Room = ({ roomID }) => {
     peersRef.current.forEach((peerObj) => {
       peerObj.peer.destroy();
     });
-    router.push(`/room/`);
+    router.push(`/room`);
     setTimeout(() => {
       window.location.reload();
     }, 2000);
@@ -228,8 +241,8 @@ const Room = ({ roomID }) => {
         <Grid item xs={12} md={showTabs ? 8 : 12}>
           <div className="p-5 flex flex-row flex-wrap justify-center items-center">
             <video muted ref={userVideo} autoPlay height="400" width="400" />
-            {peers.map((peer, index) => {
-              return <PeerVideo key={index} peer={peer} />;
+            {peers.map((peer) => {
+              return <PeerVideo key={peer._id} peer={peer} />;
             })}
           </div>
         </Grid>
