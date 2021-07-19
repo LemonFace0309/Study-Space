@@ -4,6 +4,7 @@ import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
+import renderComponent from 'utils/renderComponent';
 import Music from '../Music';
 import ChatPanel from '../Chat';
 import People from '../StudySpace/People';
@@ -49,13 +50,6 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
       },
     },
   ];
-
-  const renderComponent = (Component, props = {}) => {
-    if (typeof props !== 'object') {
-      props = {};
-    }
-    return <Component {...props} />;
-  };
 
   const [tabIndex, setTabIndex] = useState(callTabs.length - 1);
 
