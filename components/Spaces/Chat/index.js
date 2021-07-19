@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, TextField } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 
 import Conversation from './Conversation';
@@ -30,7 +29,7 @@ const Chat = ({ conversation, socketRef, roomID, username }) => {
   };
 
   return (
-    <Paper className="flex flex-col h-96 min-h-full max-w-lg" elevation={3}>
+    <div className="flex flex-col h-96 min-h-full w-full max-w-lg">
       <Conversation conversation={conversation} />
       <form onSubmit={submitHandler} className="flex items-center mt-2">
         <TextField
@@ -49,7 +48,7 @@ const Chat = ({ conversation, socketRef, roomID, username }) => {
           <SendIcon />
         </IconButton>
       </form>
-    </Paper>
+    </div>
   );
 };
 
