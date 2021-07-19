@@ -86,7 +86,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
               if (!tabObj.panel) return <TabPanel key={tabObj.key + '_PANEL'} />;
               return (
                 <TabPanel key={tabObj.key + '_PANEL'}>
-                  <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white">
+                  <Paper elevation={2} className="w-90 h-full p-2 font-bold bg-white">
                     {renderComponent(tabObj.panel, tabObj.panelProps ?? {})}
                   </Paper>
                 </TabPanel>
