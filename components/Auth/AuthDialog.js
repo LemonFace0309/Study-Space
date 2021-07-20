@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-import styles from '../../styles/Auth/Auth.module.css';
+import styles from './Auth.module.css';
 
 const AuthDialog = ({
   modalOpen,

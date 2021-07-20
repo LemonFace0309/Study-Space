@@ -5,25 +5,22 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, Grid, Paper, Dialog, Typography } from '@material-ui/core';
 import { Assignment } from '@material-ui/icons';
 
-function People({ participants, username }) {
+const People = ({ participants, username }) => {
   const router = useRouter();
   const roomID = router.query;
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
-      <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white m-4">
-        People
-        <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
-          Invite
-        </Button>
-        {participants.map((p) => (
-          <p key={p}>
-            {p} {username == p ? '(You)' : ''}
-          </p>
-        ))}
-      </Paper>
-
+      People
+      <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
+        Invite
+      </Button>
+      {participants.map((p) => (
+        <p key={p}>
+          {p} {username == p ? '(You)' : ''}
+        </p>
+      ))}
       <Dialog open={modalOpen} onClose={() => setModalOpen(false)} fullWidth maxWidth="lg">
         <Grid className="p-5 flex flex-col align-items-center justify-items-center">
           <Typography
@@ -42,7 +39,7 @@ function People({ participants, username }) {
       </Dialog>
     </>
   );
-}
+};
 
 People.propTypes = {
   username: PropTypes.string,
