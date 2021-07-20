@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
 import { Grid, Hidden, Button, Drawer, Fab, Box } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
@@ -35,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.paper,
   },
   settingsIcons: {
-    color: theme.palette.primary.dark,
+    margin: theme.spacing(1),
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -108,19 +111,26 @@ const Dashboard = ({ session, friendData }) => {
         </Grid>
 
         {/* Right Settings Bar */}
-        <Grid item xs={12} md={1} container direction="row" justify="center" alignItems="flex-start">
+        <Grid item xs={12} md={1} container direction="row" justify="flex-end" alignItems="flex-start">
           {session && (
-            <Grid container xs={12} width={3} direction="column" justify="center" className={classes.rightSettingsBar}>
-              <Button onClick={() => setProfileOpen((prev) => !prev)}>
+            <Grid
+              container
+              xs={5}
+              width={1}
+              direction="column"
+              alignContent="center"
+              justify="flex-end"
+              className={classNames(['rounded-br-xl', classes.rightSettingsBar])}>
+              <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
                 <SettingsIcon className={classes.settingsIcons} />
-              </Button>
-              <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-              <Button>
+              </IconButton>
+              <IconButton aria-label="theme">
                 <PaletteIcon className={classes.settingsIcons} />
-              </Button>
-              <Button>
+              </IconButton>
+              <IconButton aria-label="friends">
                 <GroupIcon className={classes.settingsIcons} />
-              </Button>
+              </IconButton>
+              <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
             </Grid>
           )}
         </Grid>
