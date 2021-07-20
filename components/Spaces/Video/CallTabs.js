@@ -6,6 +6,7 @@ import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck 
 
 import Chat from '../Chat/';
 import People from '../StudySpace/People';
+import CallTabPanel from './CallTabPanel';
 
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
@@ -33,7 +34,7 @@ function CallTabs({ username, participants, socketRef, conversation, setConversa
   return (
     <>
       {showTabs && (
-        <Grid item xs={12} md={4} className="h-full p-5 flex flex-col items-center justify-items-center">
+        <Grid item xs={12} md={4} className="p-5 flex flex-col items-center justify-items-center">
           <Tabs selectedIndex={tabIndex} onSelect={() => null}>
             {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
             <TabList>
@@ -47,25 +48,25 @@ function CallTabs({ username, participants, socketRef, conversation, setConversa
             {/* The empty tab  */}
             <TabPanel></TabPanel>
             <TabPanel>
-              <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white">
-                Add Queue
-              </Paper>
+              <CallTabPanel tabTitle="To-do list"></CallTabPanel>
             </TabPanel>
             <TabPanel>
-              <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white">
-                Mujic
-              </Paper>
+              <CallTabPanel tabTitle="Music Library"></CallTabPanel>
             </TabPanel>
             <TabPanel>
-              <People username={username} participants={participants} />
+              <CallTabPanel tabTitle="Participants">
+                <People username={username} participants={participants} />
+              </CallTabPanel>
             </TabPanel>
             <TabPanel>
-              <Chat
-                username={username}
-                socketRef={socketRef}
-                conversation={conversation}
-                setConversation={setConversation}
-              />
+              <CallTabPanel tabTitle="Chat">
+                <Chat
+                  username={username}
+                  socketRef={socketRef}
+                  conversation={conversation}
+                  setConversation={setConversation}
+                />
+              </CallTabPanel>
             </TabPanel>
           </Tabs>
         </Grid>

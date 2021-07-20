@@ -9,6 +9,7 @@ import { Grid } from '@material-ui/core';
 
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTheme } from '@material-ui/core';
 
 import CallOptions from '../../components/Spaces/Video/CallOptions';
 import CallTabs from '../../components/Spaces/Video/CallTabs';
@@ -38,13 +39,13 @@ const Room = () => {
   const userVideo = useRef();
   const peersRef = useRef([]);
   const router = useRouter();
-  const roomID = router.query;
   const [conversation, setConversation] = useState([]);
   const [userAudioShow, setUserAudioShow] = useState(true);
   const [userVideoShow, setUserVideoShow] = useState(true);
   const [showTabs, setShowTabs] = useState(true);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     const initRoom = async () => {
@@ -69,20 +70,20 @@ const Room = () => {
       socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
       navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
         userVideo.current.srcObject = stream;
-
+        const roomID = window.location.pathname.replace('/room/', '');
         /**
          * Notifiy users in the room that this new user joined
          */
-        socketRef.current.emit('join room', { roomID, username: currentUsername });
+        socketRef.current.emit('join room', { roomID: roomID, username: currentUsername });
 
         /**
          * Get information of all users in the room and add them as peers
          */
-        socketRef.current.on('all users', (users) => {
+        socketRef.current.on('all users', (payload) => {
           const peers = [];
           const newParticipants = [];
           newParticipants.push(currentUsername);
-          users.forEach((user) => {
+          payload.users.forEach((user) => {
             const peer = createPeer(user.socketID, currentUsername, socketRef.current.id, stream);
             peersRef.current.push({
               peerID: user.socketID,
@@ -211,7 +212,7 @@ const Room = () => {
 
   return (
     <>
-      <Grid container className="p-10 relative flex-row justify-between h-screen" style={{ background: '#f8ebf8' }}>
+      <Grid container className="p-10 relative flex-row justify-between min-h-screen">
         <LeaveCall leaveCall={leaveCall} />
         <CallOptions
           userAudioShow={userAudioShow}

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Grid, Paper, Dialog, Typography } from '@material-ui/core';
-import { Assignment } from '@material-ui/icons';
+import { Button, Grid, Paper, Dialog, Typography, IconButton } from '@material-ui/core';
+import { Assignment, Mic, MicOff, Videocam, VideocamOff } from '@material-ui/icons';
 
 function People({ participants, username }) {
   const router = useRouter();
@@ -12,15 +12,25 @@ function People({ participants, username }) {
 
   return (
     <>
-      <Paper elevation={2} className="w-90 h-full p-5 font-bold bg-white m-4">
-        People
+      <Paper elevation={2} className="w-90 h-full p-2 font-bold bg-white">
         <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
           Invite
         </Button>
+        <h1> Participants ({participants.length})</h1>
         {participants.map((p) => (
-          <p key={p}>
-            {p} {username == p ? '(You)' : ''}
-          </p>
+          <div className="flex items-center justify-between" key={p}>
+            <p className="h-full">
+              {p} {username == p ? '(You)' : ''}
+            </p>
+            <div>
+              <IconButton>
+                <Videocam />
+              </IconButton>
+              <IconButton>
+                <Mic />
+              </IconButton>
+            </div>
+          </div>
         ))}
       </Paper>
 
