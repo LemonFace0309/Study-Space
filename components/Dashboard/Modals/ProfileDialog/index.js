@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
-import SettingsIcon from '@material-ui/icons/Settings';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AccountDetails from './AccountDetails';
@@ -23,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
   mainForm: {
     height: '100%',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: '#FFFFFF',
     padding: theme.spacing(2),
   },
   mainFormBody: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.palette.primary.light,
+    backgroundOpacity: 0.5,
     padding: theme.spacing(3),
     borderRadius: '16px',
     position: 'relative',
@@ -42,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
   tabTitle: {
     color: theme.palette.primary.dark,
   },
-  settingsIcon: {
-    fontSize: '70px',
+  closeIcon: {
     position: 'absolute',
     top: '12px',
     right: '12px',
@@ -154,7 +154,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                   <Grid item xs={12} className={classes.mainFormBody}>
                     {renderTabComponent(tab.component)}
                     <Hidden smDown>
-                      <SettingsIcon className={classes.settingsIcon} />
+                      <CloseIcon className={classes.closeIcon} />
                     </Hidden>
                   </Grid>
                 </Grid>
