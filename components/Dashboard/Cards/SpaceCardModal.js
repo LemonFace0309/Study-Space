@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import uniqueId from 'lodash/uniqueId';
 import {
-  Container,
+  Button,
   Grid,
   Box,
   Typography,
@@ -10,21 +11,48 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  useTheme,
 } from '@material-ui/core';
-import PersonIcon from '@material-ui/icons/Person';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+const useStyles = makeStyles((theme) => ({
+  dialogPaper: {
+    borderRadius: '1rem',
+  },
+  container: {
+    padding: '2rem',
+  },
+  paper: {
+    borderRadius: '50%',
+  },
+  containedPrimary: {
+    background: theme.palette.primary.dark,
+    borderRadius: '2rem',
+    width: '100%',
+  },
+}));
 
 const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={user.name}>
+        <ListItem key={uniqueId()}>
           <ListItemAvatar>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
+            <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
           </ListItemAvatar>
-          <ListItemText primary={user.name} secondary={user.status} />
+          <ListItemText
+            disableTypography
+            primary={
+              <Typography variant="body1" color="textPrimary">
+                {user.name}
+              </Typography>
+            }
+            secondary={
+              <Typography variant="body1" color="primary">
+                {user.status}
+              </Typography>
+            }
+          />
         </ListItem>
       ))}
     </List>
@@ -33,47 +61,47 @@ const UserList = ({ users }) => {
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
-
 const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts }) => {
   const theme = useTheme();
+  const classes = useStyles();
 
   return (
-    <Dialog onClose={() => handleClose()} open={open}>
-      <Container>
-        <Grid container spacing={3}>
-          {/* Space Card */}
-          <Grid item xs={12}>
-            {children}
+    <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
+      <Grid container spacing={3} className={classes.container}>
+        {/* Space Card */}
+        <Grid item xs={12}>
+          {children}
+        </Grid>
+
+        <Grid item container xs={12} spacing={3}>
+          {/* Friends and Participants Section*/}
+          <Grid item xs={12} sm={6}>
+            <Box bgcolor={theme.palette.primary.extraLight} p="1rem" borderRadius="1rem">
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Friends</Typography>
+              </Box>
+              <UserList users={friends} />
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Participants</Typography>
+              </Box>
+              <UserList users={participants} />
+            </Box>
           </Grid>
 
-          <Grid item container xs={12} spacing={3}>
-            {/* Friends and Participants Section*/}
-            <Grid item xs={12} sm={6}>
-              <Box bgcolor={theme.palette.primary.light}>
-                <Typography variant="body1" color="textSecondary">
-                  Friends
-                </Typography>
-                <UserList users={friends} />
-
-                <Typography variant="body1" color="textSecondary">
-                  Participants
-                </Typography>
-                <UserList users={participants} />
+          {/* Host Section */}
+          <Grid item xs={12} sm={6}>
+            <Box p="1rem" borderRadius="1rem">
+              <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
+                <Typography variant="body1">Host&#40;s&#41;</Typography>
               </Box>
-            </Grid>
-
-            {/* Host Section */}
-            <Grid item xs={12} sm={6}>
-              <Box>
-                <Typography variant="body1" color="textSecondary">
-                  Host&#40;s&#41;
-                </Typography>
-                <UserList users={hosts} />
-              </Box>
-            </Grid>
+              <UserList users={hosts} />
+              <Button variant="contained" color="primary" className={classes.containedPrimary}>
+                <ArrowForwardIcon /> Join Space
+              </Button>
+            </Box>
           </Grid>
         </Grid>
-      </Container>
+      </Grid>
     </Dialog>
   );
 };

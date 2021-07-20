@@ -25,7 +25,7 @@ const router = nextConnect({
 
 router.use(multer({ storage }).single('image'));
 
-router.post(async (req, res) => {
+router.patch(async (req, res) => {
   const reqBody = JSON.parse(JSON.stringify(req.body));
   const userId = reqBody?.id;
   if (!userId) {

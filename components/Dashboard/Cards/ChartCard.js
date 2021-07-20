@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
+
 import Card from '../../Shared/Card';
 
 const ChartCard = ({ title, date, chart }) => {

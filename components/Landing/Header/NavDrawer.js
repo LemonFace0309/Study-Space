@@ -58,10 +58,7 @@ const NavDrawer = ({ isOpen, setIsOpen, handleSignUp, handleLogIn }) => {
         </List>
       </div>
       <div>
-        <ListItem
-          button
-          className="py-8 hover:bg-red-500"
-          onClick={() => setIsOpen(false)}>
+        <ListItem button className="py-8 hover:bg-red-500" onClick={() => setIsOpen(false)}>
           <ListItemIcon className="m-auto min-w-0">
             <ClearIcon fontSize="large" color="secondary" />
           </ListItemIcon>
@@ -71,11 +68,7 @@ const NavDrawer = ({ isOpen, setIsOpen, handleSignUp, handleLogIn }) => {
   );
 
   return (
-    <SwipeableDrawer
-      anchor="left"
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      onOpen={() => setIsOpen(true)}>
+    <SwipeableDrawer anchor="left" open={isOpen} onClose={() => setIsOpen(false)} onOpen={() => setIsOpen(true)}>
       {content}
     </SwipeableDrawer>
   );
