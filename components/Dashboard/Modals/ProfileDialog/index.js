@@ -226,11 +226,13 @@ ProfileDialog.defaultProps = {
       title: 'Change Your Password',
       component: tabComponents.CHANGE_PASSWORD,
     },
+    /*
     {
       tabName: 'Privacy',
       title: 'Edit Privacy Settings',
       component: tabComponents.PRIVACY,
     },
+    */
   ],
 };
 
