@@ -17,7 +17,7 @@ const DashboardContainer = () => {
     <Card>
       <Container className="py-4">
         {/* Greeting */}
-        <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
+        <Grid container direction="column" justify="left" spacing={6}>
           <Grid item xs={12}>
             <Box color={theme.palette.primary.dark}>
               <Typography variant="h4">Hey Charles!</Typography>

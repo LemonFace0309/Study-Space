@@ -2,8 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, Drawer, makeStyles, Fab } from '@material-ui/core';
+import { Grid, Hidden, Button, Drawer, Fab, Box } from '@material-ui/core';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+
 import MenuIcon from '@material-ui/icons/Menu';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PaletteIcon from '@material-ui/icons/Palette';
+import GroupIcon from '@material-ui/icons/Group';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -17,13 +22,22 @@ import { chartData } from '../../data/chartData';
 import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
 // Custom styles for SwipeableDrawer component
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
     width: '40vw',
   },
-});
+  dashboardBackground: {
+    background: theme.palette.secondary.dashboardGradient,
+  },
+  rightSettingsBar: {
+    background: theme.palette.background.paper,
+  },
+  settingsIcons: {
+    color: theme.palette.primary.dark,
+  },
+}));
 
 const Dashboard = ({ session, friendData }) => {
   const classes = useStyles();
@@ -36,7 +50,7 @@ const Dashboard = ({ session, friendData }) => {
 
   return (
     <>
-      <Grid container direction="row">
+      <Grid container direction="row" className={classes.dashboardBackground}>
         {/* Fab Drawer on Smaller Screens */}
         <Hidden mdUp>
           <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
@@ -70,8 +84,8 @@ const Dashboard = ({ session, friendData }) => {
           </Grid>
         </Hidden>
 
-        {/* Body */}
-        <Grid item xs={12} md={open ? 10 : 11} container direction="row" justify="center">
+        {/* Dashboard Body */}
+        <Grid item xs={12} md={open ? 9 : 10} container direction="row" justify="center">
           <Grid item xs={12} className="m-4">
             <DashboardContainer />
           </Grid>
@@ -91,10 +105,22 @@ const Dashboard = ({ session, friendData }) => {
               />
             </Grid>
           </Grid>
+        </Grid>
+
+        {/* Right Settings Bar */}
+        <Grid item xs={12} md={1} container direction="row" justify="center" alignItems="flex-start">
           {session && (
-            <Grid container item xs={12} justify="center">
-              <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
+            <Grid container xs={12} width={3} direction="column" justify="center" className={classes.rightSettingsBar}>
+              <Button onClick={() => setProfileOpen((prev) => !prev)}>
+                <SettingsIcon className={classes.settingsIcons} />
+              </Button>
               <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+              <Button>
+                <PaletteIcon className={classes.settingsIcons} />
+              </Button>
+              <Button>
+                <GroupIcon className={classes.settingsIcons} />
+              </Button>
             </Grid>
           )}
         </Grid>
