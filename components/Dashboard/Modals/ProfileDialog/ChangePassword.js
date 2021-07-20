@@ -73,10 +73,12 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
   }
 
   return (
-    <Grid container direction="row" spacing={3}>
-      <Typography variant="h6" className={classes.title}>
-        Enter your current and new password
-      </Typography>
+    <Grid container direction="column" spacing={3}>
+      <Grid item xs={12} md={6}>
+        <Typography variant="h6" className={classes.title}>
+          Enter your current and new password
+        </Typography>
+      </Grid>
       <Grid item xs={12} md={6}>
         <form>
           <Typography className="capitalize" variant="subtitle1" gutterBottom>

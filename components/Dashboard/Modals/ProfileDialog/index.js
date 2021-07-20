@@ -8,8 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
-import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
+
+import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
 
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
@@ -27,11 +30,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   mainFormBody: {
-    backgroundColor: theme.palette.primary.light,
-    backgroundOpacity: 0.5,
+    backgroundColor: theme.palette.primary.extraLight,
     padding: theme.spacing(3),
     borderRadius: '16px',
     position: 'relative',
+  },
+  tab: {
+    textTransform: 'none',
   },
   activeTab: {
     background: theme.palette.primary.main,
@@ -45,9 +50,13 @@ const useStyles = makeStyles((theme) => ({
   },
   closeIcon: {
     position: 'absolute',
-    top: '12px',
-    right: '12px',
+    top: '25px',
+    right: '25px',
     color: theme.palette.primary.dark,
+  },
+  containedPrimary: {
+    background: theme.palette.primary.dark,
+    borderRadius: '2rem',
   },
 }));
 
@@ -129,39 +138,61 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
       aria-labelledby="Edit Profile Dialog"
       aria-describedby="Dialog to Edit Profile">
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-        <Grid container direction="row">
+        <Grid container direction="row" className="pt-4">
+          {/* sidebar */}
           <Grid container item xs={12} md={3} className="p-4">
             <TabList className="w-full">
               {tabs.map((tab, index) => (
-                <Tab key={tab.tabName}>
+                <Tab key={tab.tabName} className="pl-2">
                   <Button
                     fullWidth
                     disableRipple
-                    className={classNames(['justify-start', 'pb-2', index === tabIndex && classes.activeTab])}>
+                    className={classNames([
+                      'justify-start',
+                      'pb-2',
+                      'pl-4',
+                      classes.tab,
+                      index === tabIndex && classes.activeTab,
+                    ])}>
                     {tab.tabName}
                   </Button>
                 </Tab>
               ))}
             </TabList>
+            <Grid
+              container
+              direction="column"
+              alignItems="baseline"
+              justify="flex-end"
+              classname={classes.mainFormBody}>
+              <Button>Privacy</Button>
+              <Button>Logout</Button>
+            </Grid>
           </Grid>
           <Grid container item direction="row" xs={12} md={9} className={classes.mainForm}>
             {tabs.map((tab, index) => (
               <TabPanel key={index} className="w-full">
                 <Grid container item direction="row" xs={12} className="p-4">
-                  <Typography variant="h6" gutterBottom className={classes.tabTitle}>
+                  <Typography variant="h3" gutterBottom className={classes.tabTitle}>
                     {tab.title}
                   </Typography>
+                  <Hidden smDown>
+                    <CloseIcon className={classes.closeIcon} />
+                  </Hidden>
                   <Grid item xs={12} className={classes.mainFormBody}>
                     {renderTabComponent(tab.component)}
-                    <Hidden smDown>
-                      <CloseIcon className={classes.closeIcon} />
-                    </Hidden>
                   </Grid>
                 </Grid>
               </TabPanel>
             ))}
-            <Grid container item justify="flex-end">
-              <Button onClick={toggleSaveMode} disabled={isEditButtonDisabled()}>
+            <Grid container item justify="flex-end" className="p-4">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.containedPrimary}
+                startIcon={editMode ? <CheckIcon /> : <EditIcon />}
+                onClick={toggleSaveMode}
+                disabled={isEditButtonDisabled()}>
                 {editMode ? 'Save' : 'Edit Profile'}
               </Button>
             </Grid>
