@@ -171,7 +171,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
 
   return (
     <Grid container direction="row" spacing={3}>
-      <Grid container item xs={12} sm={5} justify="left" alignItems="flex-end">
+      <Grid container item xs={12} sm={5} alignItems="flex-end">
         <Typography className={classes.title} variant="h5">
           {session?.user?.name}
         </Typography>

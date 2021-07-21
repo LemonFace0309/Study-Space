@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dashboardBackground: {
     background: theme.palette.secondary.dashboardGradient,
+    minHeight: '100vh',
   },
   rightSettingsBar: {
     background: theme.palette.background.paper,
@@ -52,47 +53,47 @@ const Dashboard = ({ session, friendData }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <Grid container direction="row" className={classes.dashboardBackground}>
-        {/* Fab Drawer on Smaller Screens */}
-        <Hidden mdUp>
-          <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
-            <MenuIcon />
-          </Fab>
-          <Grid item xs={1}>
-            <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
-              <Sidebar
-                open={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-                friendData={friendData}
-                isSmallScreen={true}
-              />
-            </Drawer>
-          </Grid>
-        </Hidden>
+    <Grid container direction="row" className={classes.dashboardBackground}>
+      {/* Fab Drawer on Smaller Screens */}
+      <Hidden mdUp>
+        <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
+          <MenuIcon />
+        </Fab>
+        <Grid item xs={1}>
+          <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
+            <Sidebar
+              open={open}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              friendData={friendData}
+              isSmallScreen={true}
+            />
+          </Drawer>
+        </Grid>
+      </Hidden>
 
-        {/* Collapsable Drawer on Medium and Up */}
-        <Hidden smDown>
-          <Grid item md={open ? 2 : 1}>
-            <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-              <Sidebar
-                open={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-                friendData={friendData}
-                isSmallScreen={false}
-              />
-            </CollapsableDrawer>
-          </Grid>
-        </Hidden>
+      {/* Collapsable Drawer on Medium and Up */}
+      <Hidden smDown>
+        <Grid item md={open ? 2 : 1}>
+          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+            <Sidebar
+              open={open}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              friendData={friendData}
+              isSmallScreen={false}
+            />
+          </CollapsableDrawer>
+        </Grid>
+      </Hidden>
 
-        {/* Dashboard Body */}
-        <Grid item xs={12} md={open ? 9 : 10} container direction="row" justify="center">
-          <Grid item xs={12} className="m-4">
+      {/* Dashboard Body */}
+      <Grid item xs={12} md={open ? 10 : 11} container direction="row">
+        <Grid container item xs={11} direction="row" justify="center">
+          <Grid item xs={12} className="mb-4">
             <DashboardContainer />
           </Grid>
-          <Grid item container className="m-4">
+          <Grid item container spacing={2} className="mt-2">
             <Grid item xs={12} md={6}>
               <ChartCard
                 title={peakStudyTimes.title}
@@ -108,19 +109,19 @@ const Dashboard = ({ session, friendData }) => {
               />
             </Grid>
           </Grid>
+          <Grid item xs={12} className="h-4" />
         </Grid>
 
         {/* Right Settings Bar */}
-        <Grid item xs={12} md={1} container direction="row" justify="flex-end" alignItems="flex-start">
+        <Grid item md={1}>
           {session && (
             <Grid
               container
-              xs={5}
-              width={1}
+              item
+              xs={12}
               direction="column"
-              alignContent="center"
-              justify="flex-end"
-              className={classNames(['rounded-br-xl', classes.rightSettingsBar])}>
+              alignItems="center"
+              className={classNames(['rounded-br-2xl', classes.rightSettingsBar])}>
               <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
                 <SettingsIcon className={classes.settingsIcons} />
               </IconButton>
@@ -135,7 +136,7 @@ const Dashboard = ({ session, friendData }) => {
           )}
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

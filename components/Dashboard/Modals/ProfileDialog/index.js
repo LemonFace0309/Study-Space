@@ -159,12 +159,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                 </Tab>
               ))}
             </TabList>
-            <Grid
-              container
-              direction="column"
-              alignItems="baseline"
-              justify="flex-end"
-              classname={classes.mainFormBody}>
+            <Grid container direction="column" alignItems="baseline" justify="flex-end">
               <Button>Privacy</Button>
               <Button>Logout</Button>
             </Grid>

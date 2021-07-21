@@ -7,6 +7,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
+    border: 'none',
     width: drawerWidth,
     borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
