@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
-import { IconButton, Grid, Paper } from '@material-ui/core';
+import { IconButton, Grid } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import renderComponent from 'utils/renderComponent';
@@ -22,16 +22,19 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     },
     {
       key: 'MUSIC_QUEUE',
+      title: 'To-Do List',
       icon: PlaylistAddCheck,
       panel: Music,
     },
     {
       key: 'MUSIC_LIBRARY',
+      title: 'Music Library',
       icon: LibraryMusic,
       panel: Music,
     },
     {
       key: 'PEOPLE',
+      title: 'Participants',
       icon: PeopleIcon,
       panel: People,
       panelProps: {
@@ -41,6 +44,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     },
     {
       key: 'CHAT',
+      title: 'Chat',
       icon: ChatIcon,
       panel: ChatPanel, // change to chat later
       panelProps: {
@@ -81,9 +85,9 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
               if (!tabObj.panel) return <TabPanel key={tabObj.key + '_PANEL'} />;
               return (
                 <TabPanel key={tabObj.key + '_PANEL'}>
-                  <Paper elevation={2} className="w-90 h-full p-2 font-bold bg-white">
+                  <CallTabPanel tabTitle={tabObj.title ?? ''}>
                     {renderComponent(tabObj.panel, tabObj.panelProps ?? {})}
-                  </Paper>
+                  </CallTabPanel>
                 </TabPanel>
               );
             })}

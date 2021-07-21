@@ -230,7 +230,7 @@ const Room = ({ roomID }) => {
 
   return (
     <>
-      <Grid container className="p-10 relative flex-row justify-between min-h-screen">
+      <Grid container className="p-10 relative flex-row justify-between min-h-screen bg-gray-50">
         <LeaveCall leaveCall={leaveCall} />
         <CallOptions
           userAudioShow={userAudioShow}

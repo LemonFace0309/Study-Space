@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    padding: '5px',
+    padding: '5px 10px',
     color: 'white',
     fontWeight: 'bold',
     backgroundColor: theme.palette.primary.dark,
@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
 const CallTabPanel = ({ tabTitle, children }) => {
   const classes = useStyles();
   return (
-    <div className="h-full bg-white rounded">
+    <Paper elevation={2} className="flex flex-col w-90 h-full overflow-hidden rounded-xl">
       <h1 className={classes.title}>{tabTitle}</h1>
-      {children}
-    </div>
+      <div className="h-full p-2 bg-gray-100">{children}</div>
+    </Paper>
   );
 };
 
