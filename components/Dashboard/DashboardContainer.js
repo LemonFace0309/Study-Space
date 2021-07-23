@@ -1,12 +1,11 @@
 import { React } from 'react';
 import uniqueId from 'lodash/uniqueId';
-import { Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
+import { Card, Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
-import Card from '../Shared/Card';
 
 const DashboardContainer = () => {
   const { friends, participants, hosts } = spaceCardModalTestData;
@@ -14,10 +13,10 @@ const DashboardContainer = () => {
   const theme = useTheme();
 
   return (
-    <Card>
+    <Card className="h-full rounded-none rounded-b-2xl">
       <Container className="py-4">
         {/* Greeting */}
-        <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
+        <Grid container direction="column" spacing={6}>
           <Grid item xs={12}>
             <Box color={theme.palette.primary.dark}>
               <Typography variant="h4">Hey Charles!</Typography>

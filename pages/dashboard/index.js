@@ -2,8 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, Drawer, makeStyles, Fab } from '@material-ui/core';
+import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+
 import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PaletteIcon from '@material-ui/icons/Palette';
+import GroupIcon from '@material-ui/icons/Group';
 
 import User from '../../models/User';
 import dbConnect from '../../utils/dbConnect';
@@ -17,13 +24,24 @@ import { chartData } from '../../data/chartData';
 import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
 // Custom styles for SwipeableDrawer component
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
     width: '40vw',
   },
-});
+  dashboardBackground: {
+    background: theme.palette.secondary.dashboardGradient,
+    minHeight: '100vh',
+  },
+  rightSettingsBar: {
+    background: theme.palette.background.paper,
+  },
+  settingsIcons: {
+    margin: theme.spacing(1),
+    color: theme.palette.primary.main,
+  },
+}));
 
 const Dashboard = ({ session, friendData }) => {
   const classes = useStyles();
@@ -35,47 +53,47 @@ const Dashboard = ({ session, friendData }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <Grid container direction="row">
-        {/* Fab Drawer on Smaller Screens */}
-        <Hidden mdUp>
-          <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
-            <MenuIcon />
-          </Fab>
-          <Grid item xs={1}>
-            <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
-              <Sidebar
-                open={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-                friendData={friendData}
-                isSmallScreen={true}
-              />
-            </Drawer>
-          </Grid>
-        </Hidden>
+    <Grid container direction="row" className={classes.dashboardBackground}>
+      {/* Fab Drawer on Smaller Screens */}
+      <Hidden mdUp>
+        <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
+          <MenuIcon />
+        </Fab>
+        <Grid item xs={1}>
+          <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
+            <Sidebar
+              open={open}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              friendData={friendData}
+              isSmallScreen={true}
+            />
+          </Drawer>
+        </Grid>
+      </Hidden>
 
-        {/* Collapsable Drawer on Medium and Up */}
-        <Hidden smDown>
-          <Grid item md={open ? 2 : 1}>
-            <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-              <Sidebar
-                open={open}
-                onClose={() => setOpen(false)}
-                onOpen={() => setOpen(true)}
-                friendData={friendData}
-                isSmallScreen={false}
-              />
-            </CollapsableDrawer>
-          </Grid>
-        </Hidden>
+      {/* Collapsable Drawer on Medium and Up */}
+      <Hidden smDown>
+        <Grid item md={open ? 2 : 1}>
+          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+            <Sidebar
+              open={open}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              friendData={friendData}
+              isSmallScreen={false}
+            />
+          </CollapsableDrawer>
+        </Grid>
+      </Hidden>
 
-        {/* Body */}
-        <Grid item xs={12} md={open ? 10 : 11} container direction="row" justify="center">
-          <Grid item xs={12} className="m-4">
+      {/* Dashboard Body */}
+      <Grid item xs={12} md={open ? 10 : 11} container direction="row">
+        <Grid container item xs={11} direction="row" justify="center">
+          <Grid item xs={12} className="mb-4">
             <DashboardContainer />
           </Grid>
-          <Grid item container className="m-4">
+          <Grid item container spacing={2} className="mt-2">
             <Grid item xs={12} md={6}>
               <ChartCard
                 title={peakStudyTimes.title}
@@ -91,15 +109,34 @@ const Dashboard = ({ session, friendData }) => {
               />
             </Grid>
           </Grid>
+          <Grid item xs={12} className="h-4" />
+        </Grid>
+
+        {/* Right Settings Bar */}
+        <Grid item md={1}>
           {session && (
-            <Grid container item xs={12} justify="center">
-              <Button onClick={() => setProfileOpen((prev) => !prev)}>Profile</Button>
+            <Grid
+              container
+              item
+              xs={12}
+              direction="column"
+              alignItems="center"
+              className={classNames(['rounded-br-2xl', classes.rightSettingsBar])}>
+              <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
+                <SettingsIcon className={classes.settingsIcons} />
+              </IconButton>
+              <IconButton aria-label="theme">
+                <PaletteIcon className={classes.settingsIcons} />
+              </IconButton>
+              <IconButton aria-label="friends">
+                <GroupIcon className={classes.settingsIcons} />
+              </IconButton>
               <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
             </Grid>
           )}
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 
