@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
-import { Grid, Hidden, Button, Drawer, Fab, Box } from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
 import MenuIcon from '@material-ui/icons/Menu';
