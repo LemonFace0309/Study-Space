@@ -41,7 +41,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       key: 'CHAT',
       icon: ChatIcon,
-      panel: ChatPanel, // change to chat later
+      panel: ChatPanel,
       panelProps: {
         username,
         socketRef,
