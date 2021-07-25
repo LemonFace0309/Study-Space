@@ -26,7 +26,7 @@ const Youtube = () => {
   const classes = useStyles();
 
   return (
-    <div className="px-4">
+    <div className="p-4">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
         We’ll fetch the first Youtube search result and add that to the queue.
       </Alert>

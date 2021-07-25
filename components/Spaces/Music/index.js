@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     height: 'auto',
     padding: theme.spacing(1),
+    overflow: 'auto',
     '& > div': {
       height: 'auto',
     },
