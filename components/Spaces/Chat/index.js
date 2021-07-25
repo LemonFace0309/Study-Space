@@ -29,7 +29,7 @@ const Chat = ({ conversation, socketRef, roomID, username }) => {
   };
 
   return (
-    <div className="flex flex-col h-96 min-h-full w-full max-w-lg">
+    <div className="flex p-2 flex-col flex-1 h-96 w-full max-w-lg">
       <Conversation conversation={conversation} />
       <form onSubmit={submitHandler} className="flex items-center mt-2">
         <TextField
