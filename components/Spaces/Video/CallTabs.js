@@ -66,7 +66,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
   return (
     <>
       {showTabs && (
-        <Grid item xs={12} md={4} className="h-full p-5 flex flex-col items-center justify-items-center">
+        <Grid item xs={12} md={6} xl={4} className="h-full p-5 flex flex-col items-center justify-items-center">
           <Tabs selectedIndex={tabIndex} onSelect={() => null}>
             {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
             <TabList>
