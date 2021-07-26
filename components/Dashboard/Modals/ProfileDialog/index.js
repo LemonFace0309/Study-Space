@@ -12,6 +12,7 @@ import Hidden from '@material-ui/core/Hidden';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
@@ -70,6 +71,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [saveChanges, setSaveChanges] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const username = useRecoilValue(authState.username);
   const phoneNumber = useRecoilValue(authState.phoneNumber);
   const validUsername = useRecoilValue(authState.validUsername);
@@ -127,6 +129,10 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
     return false;
   };
 
+  const toggleSettings = () => {
+    showSettings ? setShowSettings(false) : setShowSettings(true);
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -138,58 +144,99 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
       aria-describedby="Dialog to Edit Profile">
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <Grid container direction="row" className="pt-4">
-          {/* sidebar */}
-          <Grid container item xs={12} md={3} className="p-4">
-            <TabList className="w-full">
-              {tabs.map((tab, index) => (
-                <Tab key={tab.tabName} className="pl-2">
-                  <Button
-                    fullWidth
-                    disableRipple
-                    className={classNames([
-                      'justify-start',
-                      'pb-2',
-                      'pl-4',
-                      classes.tab,
-                      index === tabIndex && classes.activeTab,
-                    ])}>
-                    {tab.tabName}
-                  </Button>
-                </Tab>
-              ))}
-            </TabList>
-            <Grid container direction="column" alignItems="baseline" justify="flex-end">
-              <Button>Privacy</Button>
-              <Button>Logout</Button>
+          {/* Left sidebar for md+ */}
+          <Hidden smDown>
+            <Grid container item xs={12} md={3} className="p-4">
+              <TabList className="w-full">
+                {tabs.map((tab, index) => (
+                  <Tab key={tab.tabName} className="pl-2">
+                    <Button
+                      fullWidth
+                      disableRipple
+                      className={classNames([
+                        'justify-start',
+                        'pb-2',
+                        'pl-4',
+                        classes.tab,
+                        index === tabIndex && classes.activeTab,
+                      ])}>
+                      {tab.tabName}
+                    </Button>
+                  </Tab>
+                ))}
+              </TabList>
+              <Grid container direction="column" alignItems="baseline" justify="flex-end">
+                <Button>Privacy</Button>
+                <Button>Logout</Button>
+              </Grid>
             </Grid>
-          </Grid>
+          </Hidden>
+
+          {/* TITLE */}
           <Grid container item direction="row" xs={12} md={9} className={classes.mainForm}>
             {tabs.map((tab, index) => (
               <TabPanel key={index} className="w-full">
-                <Grid container item direction="row" xs={12} className="p-4">
-                  <Typography variant="h3" gutterBottom className={classes.tabTitle}>
-                    {tab.title}
-                  </Typography>
-                  <Hidden smDown>
-                    <CloseIcon className={classes.closeIcon} />
+                {/* Settings Nav for Small Screens */}
+                {showSettings ? (
+                  <Hidden mdUp>
+                    <Grid container item xs={12} md={3} className="p-4">
+                      <TabList className="w-full">
+                        {tabs.map((tab, index) => (
+                          <Tab key={tab.tabName} className="pl-2">
+                            <Button
+                              fullWidth
+                              disableRipple
+                              onClick={toggleSettings}
+                              className={classNames([
+                                'justify-start',
+                                'pb-2',
+                                'pl-4',
+                                classes.tab,
+                                index === tabIndex && classes.activeTab,
+                              ])}>
+                              {tab.tabName}
+                            </Button>
+                          </Tab>
+                        ))}
+                      </TabList>
+                      <Grid container direction="column" alignItems="baseline" justify="flex-end">
+                        <Button>Privacy</Button>
+                        <Button>Logout</Button>
+                      </Grid>
+                    </Grid>
                   </Hidden>
-                  <Grid item xs={12} className={classes.mainFormBody}>
-                    {renderTabComponent(tab.component)}
+                ) : (
+                  /* GREY AREA */
+                  <Grid container item direction="row" xs={12} className="p-4">
+                    <Hidden mdUp>
+                      <ArrowBackIosIcon onClick={toggleSettings}></ArrowBackIosIcon>
+                    </Hidden>
+                    <Typography variant="h3" gutterBottom className={classes.tabTitle}>
+                      {tab.title}
+                    </Typography>
+                    <Hidden smDown>
+                      <CloseIcon className={classes.closeIcon} />
+                    </Hidden>
+                    <Grid item xs={12} className={classes.mainFormBody}>
+                      {renderTabComponent(tab.component)}
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
               </TabPanel>
             ))}
-            <Grid container item justify="flex-end" className="p-4">
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.containedPrimary}
-                startIcon={editMode ? <CheckIcon /> : <EditIcon />}
-                onClick={toggleSaveMode}
-                disabled={isEditButtonDisabled()}>
-                {editMode ? 'Save' : 'Edit Profile'}
-              </Button>
-            </Grid>
+            {showSettings ? null : (
+              <Grid container item justify="flex-end" className="p-4">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.containedPrimary}
+                  startIcon={editMode ? <CheckIcon /> : <EditIcon />}
+                  onClick={toggleSaveMode}
+                  disabled={isEditButtonDisabled()}>
+                  {editMode ? 'Save' : 'Edit Profile'}
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Tabs>

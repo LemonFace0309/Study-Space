@@ -49,7 +49,7 @@ const DashboardContainer = () => {
                 description="insert some sort of tagline or feature description "
               />
             </Grid>
-            {/* Space Card Section */}
+            {/* Space Cards Section */}
             {cardData.map(({ spaceName, description, headCount, music }) => {
               return (
                 <Grid item key={uniqueId(spaceName)} xs={12} sm={6} md={4}>
