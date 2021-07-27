@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
+import axios from 'axios';
 
 import { Button, Paper, Typography, TextField } from '@material-ui/core';
 
@@ -18,8 +19,13 @@ const CreateRoom = () => {
     initSession();
   }, []);
 
-  function create() {
+  async function create() {
     const id = uuid();
+    const result = await axios.post('/api/create-new-room', {
+      name: 'test name',
+      description: 'test descritpion',
+      roomId: id,
+    });
     router.push(`/room/${id}`);
   }
 

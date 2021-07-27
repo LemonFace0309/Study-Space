@@ -12,12 +12,12 @@ const RoomSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    friends: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Friends',
-      },
-    ],
+    // friends: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Friends',
+    //   },
+    // ],
   },
   {
     timestamps: true,
