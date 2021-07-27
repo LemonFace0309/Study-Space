@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Button, Paper, Typography, TextField } from '@material-ui/core';
 
 const CreateRoom = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
   const [session, setSession] = useState();
@@ -52,5 +55,11 @@ const CreateRoom = () => {
     </>
   );
 };
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common', 'spaces'])),
+  },
+});
 
 export default CreateRoom;

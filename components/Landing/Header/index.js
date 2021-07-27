@@ -87,7 +87,7 @@ const Header = (props) => {
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp && validSignUp) {
-      const result = await axios.post('/api/create-new-user', {
+      const result = await axios.post('/api/user/create-new-user', {
         name: firstName + ' ' + lastName,
         email,
         password,
