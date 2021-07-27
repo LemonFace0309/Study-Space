@@ -27,10 +27,10 @@ const CreateRoom = () => {
   }
 
   return (
-    <>
+    <div className="h-screen w-screen grid place-items-center">
       <Paper className="w-80">
         <Typography component="h1" variant="h5">
-          Join A Space
+          {t('LABEL_JOIN_A_SPACE')}
         </Typography>
         <div>
           <TextField
@@ -43,16 +43,16 @@ const CreateRoom = () => {
             onChange={(e) => setRoomID(e.target.value)}
           />
           <Button fullWidth variant="contained" color="primary" onClick={() => router.push(`/room/${roomID}`)}>
-            Join
+            {t('LABEL_JOIN_SPACE')}
           </Button>
           {session && (
             <Button fullWidth variant="contained" color="primary" className="my-2" onClick={create}>
-              Create room
+              {t('LABEL_CREATE_SPACE')}
             </Button>
           )}
         </div>
       </Paper>
-    </>
+    </div>
   );
 };
 
