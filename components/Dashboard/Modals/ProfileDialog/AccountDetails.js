@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: theme.spacing(32),
     height: theme.spacing(32),
+    [theme.breakpoints.down('md')]: {
+      width: theme.spacing(24),
+      height: theme.spacing(24),
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: theme.spacing(16),
+      height: theme.spacing(16),
+    },
     overflow: 'hidden',
     borderRadius: '50%',
     position: 'relative',
@@ -55,14 +63,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     width: '100%',
     display: 'flex',
-    [theme.breakpoints.down('md')]: {
-      width: theme.spacing(24),
-      height: theme.spacing(24),
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
     '&:hover': {
       backgroundColor: 'rgba(128,128,128,0.75)',
     },
