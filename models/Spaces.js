@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-
-const SpacesSchema = mongoose.Schema(
+import User from './User';
+const SpaceSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -12,7 +12,7 @@ const SpacesSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    roomId: {
+    spaceId: {
       type: String,
       required: true,
     },
@@ -20,11 +20,11 @@ const SpacesSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    participants: [{}],
+    participants: [],
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose?.models?.Spaces || mongoose.model('Spaces', SpacesSchema);
+export default mongoose?.models?.Spaces || mongoose.model('Spaces', SpaceSchema);

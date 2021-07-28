@@ -1,5 +1,6 @@
 import dbConnect from '../../../utils/dbConnect';
-import Spaces from '../../../models/Spaces';
+import Space from '../../../models/Spaces';
+import User from '../../../models/User';
 
 export default async (req, res) => {
   const { method } = req;
@@ -8,21 +9,24 @@ export default async (req, res) => {
     return;
   }
 
-  const { name, description, isActive, participants, roomId } = req.body;
+  const { name, description, isActive, participants, spaceId } = req.body;
 
   if (!name || !description) {
     return res.status(422).json({ message: 'Invalid input' });
   }
-
   await dbConnect();
 
   try {
-    const room = new Spaces({
+    const room = new Space({
       name,
       description,
+      spaceId,
+      participants,
+      isActive,
     });
-    const result = await room.save();
-    res.status(201).json({ message: 'Space created!', roomId: result._id });
+
+    const result = room.save();
+    res.status(201).json({ message: 'Space created!', _id: result._id });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

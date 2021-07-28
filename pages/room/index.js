@@ -28,7 +28,8 @@ const CreateRoom = () => {
       participants: [],
       roomId: id,
     });
-    router.push(`/room/${id}`);
+    console.log(result);
+    // router.push(`/room/${id}`);
   }
 
   return (
