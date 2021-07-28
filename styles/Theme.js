@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 // Ubuntu guide for weight
 const light = 300;
@@ -6,7 +6,7 @@ const regular = 400;
 const medium = 500;
 const bold = 700;
 
-export default createMuiTheme({
+export default createTheme({
   palette: {
     primary: {
       // purple

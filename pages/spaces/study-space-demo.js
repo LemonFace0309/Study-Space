@@ -2,7 +2,7 @@ import React from 'react';
 import Timer from '../../components/Spaces/StudySpace/Timer';
 import User from '../../components/Spaces/StudySpace/User';
 
-import { Container, Box, Grid, Button, Typography, createMuiTheme } from '@material-ui/core';
+import { Container, Box, Grid, Button, Typography, createTheme } from '@material-ui/core';
 
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import MicIcon from '@material-ui/icons/Mic';
@@ -12,7 +12,7 @@ import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
 import CreateIcon from '@material-ui/icons/Create';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       dark: '#614885',
