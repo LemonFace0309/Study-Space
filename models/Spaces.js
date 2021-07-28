@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import { User } from './User';
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const Any = new Schema({ any: {} });
 const SpaceSchema = mongoose.Schema(
   {
     name: {
@@ -22,7 +21,7 @@ const SpaceSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    participants: [ObjectId],
+    participants: [Any], // Mixed Type
   },
   {
     timestamps: true,
