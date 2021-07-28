@@ -22,15 +22,24 @@ const CreateRoom = () => {
 
   async function create() {
     const id = uuid();
+    const currentUser = await axios.get('/api/get-user', {
+      params: {
+        name: 'Eden Chan',
+        email: 'edenchan717@gmail.com',
+      },
+    });
+
+    const currentUserId = currentUser.data.user._id;
 
     const result = await axios.post('/api/spaces/create-new-space', {
       name: 'test name',
       description: 'test descritpion',
       isActive: true,
-      participants: [],
+      participants: [currentUserId],
       spaceId: id,
     });
-    // console.log(result);
+    console.log(result);
+    console.log(currentUserId);
     router.push(`/room/${id}`);
   }
 

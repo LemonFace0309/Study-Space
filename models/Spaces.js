@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { User } from './User';
 
-const ObjectId = mongoose.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const SpaceSchema = mongoose.Schema(
   {
     name: {
@@ -22,7 +22,7 @@ const SpaceSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    participants: [],
+    participants: [ObjectId],
   },
   {
     timestamps: true,
