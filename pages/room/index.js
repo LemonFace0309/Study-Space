@@ -40,7 +40,6 @@ const CreateRoom = () => {
       participants: [{ currentUserId }],
       spaceId: id,
     });
-    console.log(result);
     router.push(`/room/${id}`);
   };
 
