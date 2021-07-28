@@ -3,7 +3,6 @@ import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import axios from 'axios';
-import { User } from '../../models/User';
 
 import { Button, Paper, Typography, TextField } from '@material-ui/core';
 
