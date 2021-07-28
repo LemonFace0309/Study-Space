@@ -17,7 +17,7 @@ export default async (req, res) => {
   await dbConnect();
 
   try {
-    const room = new Space({
+    const space = new Space({
       name,
       description,
       spaceId,
@@ -25,7 +25,7 @@ export default async (req, res) => {
       isActive,
     });
 
-    const result = room.save();
+    const result = space.save();
     res.status(201).json({ message: 'Space created!', _id: result._id });
   } catch (err) {
     return res.status(500).json({ message: err.message });

@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-import User from './User';
+import { User } from './User';
+
+const ObjectId = mongoose.Types.ObjectId;
 const SpaceSchema = mongoose.Schema(
   {
     name: {
