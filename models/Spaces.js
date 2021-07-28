@@ -22,6 +22,10 @@ const SpaceSchema = Schema(
       type: Boolean,
       required: true,
     },
+    music: {
+      type: String,
+      required: false,
+    },
     participants: {
       type: [Any],
       required: false,

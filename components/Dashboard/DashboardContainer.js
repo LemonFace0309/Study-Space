@@ -7,7 +7,7 @@ import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 import { spaceCardTestData } from '../../data/spaceCardTestData';
 
-const DashboardContainer = () => {
+const DashboardContainer = ({}) => {
   const { friends, participants, hosts } = spaceCardModalTestData;
   const { cardData } = spaceCardTestData;
   const theme = useTheme();

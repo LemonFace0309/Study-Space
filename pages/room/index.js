@@ -24,7 +24,9 @@ const CreateRoom = () => {
     setLoading(true);
 
     const id = uuid();
-    const currentUser = await axios.get('/api/get-user', {
+
+    // TODO: Use session to get current user
+    const currentUser = await axios.get('/api/users', {
       params: {
         name: 'Eden Chan',
         email: 'edenchan717@gmail.com',
@@ -33,13 +35,15 @@ const CreateRoom = () => {
 
     const currentUserId = currentUser.data.user._id;
 
-    const result = await axios.post('/api/spaces/create-new-space', {
-      name: 'test name',
-      description: 'test descritpion',
+    const result = await axios.post('/api/spaces', {
+      name: 'Capstone Grind 25',
+      description: 'writing your report, making your presentation, setting up data',
+      music: 'lofi 2',
       isActive: true,
       participants: [{ currentUserId }],
       spaceId: id,
     });
+
     router.push(`/room/${id}`);
   };
 
