@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import axios from 'axios';
 
-import { Button, Paper, Typography, TextField } from '@material-ui/core';
+import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
 
 const CreateRoom = () => {
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
   const [session, setSession] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const initSession = async () => {
@@ -19,7 +20,9 @@ const CreateRoom = () => {
     initSession();
   }, []);
 
-  async function create() {
+  const createNewSpace = async () => {
+    setLoading(true);
+
     const id = uuid();
     const currentUser = await axios.get('/api/get-user', {
       params: {
@@ -34,13 +37,12 @@ const CreateRoom = () => {
       name: 'test name',
       description: 'test descritpion',
       isActive: true,
-      participants: [currentUserId],
+      participants: [{ currentUserId }],
       spaceId: id,
     });
     console.log(result);
-    console.log(currentUserId);
     router.push(`/room/${id}`);
-  }
+  };
 
   return (
     <>
@@ -62,10 +64,11 @@ const CreateRoom = () => {
             Join
           </Button>
           {session && (
-            <Button fullWidth variant="contained" color="primary" className="my-2" onClick={create}>
+            <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>
               Create room
             </Button>
           )}
+          {loading && <CircularProgress />}
         </div>
       </Paper>
     </>

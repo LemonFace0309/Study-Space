@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
+const Schema = mongoose.Schema;
 const Any = new Schema({ any: {} });
-const SpaceSchema = mongoose.Schema(
+const SpaceSchema = Schema(
   {
     name: {
       type: String,
@@ -21,7 +22,10 @@ const SpaceSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    participants: [Any], // Mixed Type
+    participants: {
+      type: [Any],
+      required: false,
+    },
   },
   {
     timestamps: true,
