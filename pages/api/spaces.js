@@ -6,7 +6,7 @@ export default async (req, res) => {
   const { method } = req;
 
   if (method === 'POST') {
-    const { name, description, isActive, participants, spaceId } = req.body;
+    const { name, description, isActive, participants, music, spaceId } = req.body;
 
     if (!name || !description || !isActive || !participants || !spaceId) {
       return res.status(422).json({ message: 'Invalid input' });
@@ -17,6 +17,7 @@ export default async (req, res) => {
       const space = new Space({
         name,
         description,
+        music,
         spaceId,
         participants,
         isActive,

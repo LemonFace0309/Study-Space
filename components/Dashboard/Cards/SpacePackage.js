@@ -10,7 +10,7 @@ import SpaceCard from '../../Shared/SpaceCard';
 const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
   const [open, setOpen] = useState(false);
 
-  const { spaceName, description, headCount, music } = spaceCardData;
+  const { name, description, headCount, music } = spaceCardData;
   const { friends, participants, hosts } = spaceCardModalData;
   return (
     <>
@@ -19,13 +19,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         onClick={() => {
           setOpen(true);
         }}>
-        <SpaceCard
-          isClickable={true}
-          spaceName={spaceName}
-          description={description}
-          headCount={headCount}
-          music={music}
-        />
+        <SpaceCard isClickable={true} name={name} description={description} headCount={headCount} music={music} />
       </div>
       <SpaceCardModal
         open={open}
@@ -35,7 +29,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         friends={friends}
         participants={participants}
         hosts={hosts}>
-        <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
+        <SpaceCard name={name} description={description} headCount={headCount} music={music} />
       </SpaceCardModal>
     </>
   );
@@ -43,7 +37,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
 
 SpacePackage.propTypes = {
   spaceCardData: PropTypes.shape({
-    spaceName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     music: PropTypes.string.isRequired,

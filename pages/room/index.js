@@ -36,9 +36,9 @@ const CreateRoom = () => {
     const currentUserId = currentUser.data.user._id;
 
     const result = await axios.post('/api/spaces', {
-      name: 'Capstone Grind 25',
-      description: 'writing your report, making your presentation, setting up data',
-      music: 'lofi 2',
+      name: 'TA Session',
+      description: 'finals grind, upper years available in chat for help with past exams',
+      music: 'none',
       isActive: true,
       participants: [{ currentUserId }],
       spaceId: id,

@@ -13,6 +13,7 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 
 import User from '../../models/User';
+import Space from '../../models/Spaces';
 import dbConnect from '../../utils/dbConnect';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import DashboardContainer from '../../components/Dashboard/DashboardContainer';
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ session, friendData }) => {
+const Dashboard = ({ session, friendData, spaceCardData }) => {
   const classes = useStyles();
 
   session = session !== '' && JSON.parse(session);
@@ -91,7 +92,7 @@ const Dashboard = ({ session, friendData }) => {
       <Grid item xs={12} md={open ? 10 : 11} container direction="row">
         <Grid container item xs={11} direction="row" justify="center">
           <Grid item xs={12} className="mb-4">
-            <DashboardContainer />
+            <DashboardContainer spaceCardData={spaceCardData} />
           </Grid>
           <Grid item container spacing={2} className="mt-2">
             <Grid item xs={12} md={6}>
@@ -143,6 +144,7 @@ const Dashboard = ({ session, friendData }) => {
 Dashboard.propTypes = {
   session: PropTypes.string.isRequired,
   friendData: PropTypes.array.isRequired,
+  spaceCardData: PropTypes.array.isRequired,
 };
 
 export const getServerSideProps = async ({ req }) => {
@@ -159,9 +161,21 @@ export const getServerSideProps = async ({ req }) => {
     console.log('Session:', newSession);
   }
 
+  let spaceCardData;
+  try {
+    const spaces = await Space.find({});
+    spaceCardData = spaces.map(({ name, description, music, spaceId, participants, isActive }) => {
+      return { name, description, music, spaceId, participants, isActive };
+    });
+
+    console.log(JSON.stringify(spaceCardData));
+  } catch (error) {
+    console.error(error);
+  }
   return {
     props: {
       session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
+      spaceCardData: JSON.stringify(spaceCardData) ?? '',
       friendData: [
         {
           name: 'Yi Nan Zhang',
