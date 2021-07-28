@@ -1,0 +1,16 @@
+{
+  "LABEL_JOIN_A_SPACE": "Rejoindre un espace",
+  "LABEL_JOIN_SPACE": "Rejoindre l'espace",
+  "LABEL_CREATE_SPACE": "Créer un espace",
+  "LABEL_SIGNOUT": "Déconnexion",
+  "LABEL_SIGNUP": "Inscrivez-vous",
+  "LABEL_LOGIN": "Connexion",
+  "LABEL_JUST_YOU": "Juste toi",
+  "LABEL_WITH_FRIENDS": "Avec des amis",
+  "LABEL_LARGE_GROUPS": "Grands groupes",
+  "LABEL_ALREADY_HAVE_ACCOUNT": "Vous avez déjà un compte ? ",
+  "LABEL_DONT_HAVE_ACCOUNT": "Vous n'avez pas de compte ? ",
+  "LABEL_SIGN_UP_WITH": "Inscrivez-vous avec",
+  "LABEL_LOG_IN_WITH": "Connectez-vous avec",
+  "LABEL_EMAIL_ADDRESS": "Adresse e-mail"
+}

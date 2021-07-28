@@ -8,7 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField } from '@material-ui/core';
 
 const CreateRoom = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
   const [session, setSession] = useState();
@@ -58,7 +58,7 @@ const CreateRoom = () => {
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'spaces'])),
+    ...(await serverSideTranslations(locale, ['common'])),
   },
 });
 

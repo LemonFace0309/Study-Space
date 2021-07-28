@@ -47,7 +47,7 @@ export const getStaticProps = async ({ locale }) => {
   return {
     props: {
       providers,
-      ...(await serverSideTranslations(locale, ['common', 'landing'])),
+      ...(await serverSideTranslations(locale, ['common'])),
       data: [
         {
           spaceName: 'UW Math 2025',

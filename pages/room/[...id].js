@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 import { getSession } from 'next-auth/client';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { intersection } from 'lodash';
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
 import CallOptions from '@/components/Spaces/Video/CallOptions';
@@ -267,8 +267,11 @@ Room.propTypes = {
 
 export default Room;
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ locale, params }) {
   return {
-    props: { roomID: params.id[0] },
+    props: {
+      roomID: params.id[0],
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
   };
 }
