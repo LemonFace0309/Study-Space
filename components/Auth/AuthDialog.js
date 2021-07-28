@@ -22,7 +22,7 @@ const AuthDialog = ({
   signIn,
   providers,
 }) => {
-  const { t } = useTranslation(['common, landing']);
+  const { t } = useTranslation();
 
   return (
     <Dialog
