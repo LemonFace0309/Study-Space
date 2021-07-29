@@ -12,17 +12,17 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 
-import User from '../../models/User';
-import Space from '../../models/Spaces';
-import dbConnect from '../../utils/dbConnect';
-import Sidebar from '../../components/Dashboard/Sidebar';
-import DashboardContainer from '../../components/Dashboard/DashboardContainer';
-import ChartCard from '../../components/Dashboard/Cards/ChartCard';
-import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
-import LineChart from '../../components/Dashboard/Charts/LineChart';
-import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
+import User from 'models/User';
+import Space from 'models/Spaces';
+import dbConnect from 'utils/dbConnect';
+import Sidebar from 'components/Dashboard/Sidebar';
+import DashboardContainer from 'components/Dashboard/DashboardContainer';
+import ChartCard from 'components/Dashboard/Cards/ChartCard';
+import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
+import LineChart from 'components/Dashboard/Charts/LineChart';
+import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
+import CollapsableDrawer from 'componentsA/Dashboard/CollapsableDrawer';
 import { chartData } from '../../data/chartData';
-import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
 // Custom styles for SwipeableDrawer component
 const useStyles = makeStyles((theme) => ({
@@ -154,11 +154,15 @@ export const getServerSideProps = async ({ req }) => {
 
   let newSession;
   if (session) {
-    const user = await User.findOne({
-      email: session.user.email,
-    });
-    newSession = { ...session, user };
-    console.log('Session:', newSession);
+    try {
+      const user = await User.findOne({
+        email: session.user.email,
+      });
+      newSession = { ...session, user };
+      console.debug('Session:', newSession);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   let spaceCardData;
@@ -168,9 +172,9 @@ export const getServerSideProps = async ({ req }) => {
       return { name, description, music, spaceId, participants, isActive };
     });
 
-    console.log(JSON.stringify(spaceCardData));
-  } catch (error) {
-    console.error(error);
+    console.debug(JSON.stringify(spaceCardData));
+  } catch (err) {
+    console.error(err);
   }
   return {
     props: {
