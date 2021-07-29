@@ -1,0 +1,16 @@
+{
+  "LABEL_JOIN_A_SPACE": "스페이스 가입",
+  "LABEL_JOIN_SPACE": "스페이스 가입",
+  "LABEL_CREATE_SPACE": "공간 생성",
+  "LABEL_SIGNOUT": "로그아웃",
+  "LABEL_SIGNUP": "가입",
+  "LABEL_LOGIN": "로그인",
+  "LABEL_JUST_YOU": "너만",
+  "LABEL_WITH_FRIENDS": "친구와 함께",
+  "LABEL_LARGE_GROUPS": "대규모 그룹",
+  "LABEL_ALREADY_HAVE_ACCOUNT": "이미 계정이 있습니까?",
+  "LABEL_DONT_HAVE_ACCOUNT": "계정이 없습니까? ",
+  "LABEL_SIGN_UP_WITH": "다음으로 가입",
+  "LABEL_LOG_IN_WITH": "로그인",
+  "LABEL_EMAIL_ADDRESS": "이메일 주소"
+}

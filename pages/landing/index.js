@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Header from '../../components/Landing/Header/index';
 import Hero from '../../components/Landing/Hero';
@@ -41,11 +42,12 @@ Landing.propTypes = {
   smallFeatures: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }) => {
   const providers = await getProviders();
   return {
     props: {
       providers,
+      ...(await serverSideTranslations(locale, ['common'])),
       data: [
         {
           spaceName: 'UW Math 2025',

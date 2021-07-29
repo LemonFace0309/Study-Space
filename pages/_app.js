@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
+import { appWithTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ThemeProvider } from '@material-ui/styles';
 
-import Layout from '../components/Layout/Layout';
-import { SocketProvider } from '../context/SocketProvider';
-import { ConversationProvider } from '../context/ConversationProvider';
+import Layout from '../components/Layout';
 import theme from '../styles/Theme';
 import '../styles/globals.css';
 
@@ -37,4 +37,10 @@ MyApp.propTypes = {
   pageProps: PropTypes.object.isRequired,
 };
 
-export default MyApp;
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common', 'spaces'])),
+  },
+});
+
+export default appWithTranslation(MyApp);

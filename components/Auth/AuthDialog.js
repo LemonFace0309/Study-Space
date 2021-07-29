@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import { useTranslation } from 'next-i18next';
 
 import styles from './Auth.module.css';
 
@@ -21,6 +22,8 @@ const AuthDialog = ({
   signIn,
   providers,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Dialog
       fullWidth={true}
@@ -54,7 +57,7 @@ const AuthDialog = ({
                   // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
                 } my-12 overflow-hidden text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none`}
                 disabled={isSignUp && !validSignUp}>
-                {btnText}
+                {t(btnText)}
               </Button>
               <div className="flex w-full justify-center items-center">
                 <Divider className="w-4/12 h-0.5" />
@@ -64,7 +67,7 @@ const AuthDialog = ({
                 <Divider className="w-4/12 h-0.5" />
               </div>
               <Typography variant="caption" component="p" className="my-2">
-                {oAuthText}
+                {t(oAuthText)}
               </Typography>
               <div className="flex w-full justify-center items-center">
                 <IconButton className="mr-4 outline-none" onClick={() => signIn(providers?.facebook.id)}>
@@ -78,14 +81,14 @@ const AuthDialog = ({
           </form>
           <div className="flex justify-center">
             <Typography variant="subtitle1">
-              {switchModeText}
+              {t(switchModeText)}
               <Box
                 color="#977BBF"
                 className="inline cursor-pointer"
                 onClick={() => {
                   setIsSignUp((isSignUp) => !isSignUp);
                 }}>
-                {isSignUp ? 'Log in' : 'Sign up'}
+                {isSignUp ? t('LABEL_LOGIN') : t('LABEL_SIGNUP')}
               </Box>
             </Typography>
           </div>
