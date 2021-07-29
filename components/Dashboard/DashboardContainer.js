@@ -49,12 +49,12 @@ const DashboardContainer = ({ spaceCardData }) => {
               />
             </Grid>
             {/* Space Card Section */}
-            {spaceCardData.map(({ name, description, headCount, music, spaceId }) => {
+            {spaceCardData.map(({ name, description, participants, music, spaceId }) => {
               return (
                 <Grid item key={uniqueId(name)} xs={12} sm={6} md={4}>
                   <SpacePackage
-                    spaceCardData={{ name, description, headCount, music }}
-                    spaceCardModalData={{ friends, participants, hosts, spaceId }}
+                    spaceCardData={{ name, description, headCount: participants.length, music }}
+                    spaceCardModalData={{ friends, participants: [], hosts, spaceId }}
                   />
                 </Grid>
               );

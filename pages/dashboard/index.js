@@ -47,8 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = ({ session, friendData, spaceCardData }) => {
   const classes = useStyles();
-
-  session = session !== '' && JSON.parse(session);
   console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
@@ -91,7 +89,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
 
       {/* Dashboard Body */}
       <Grid item xs={12} md={open ? 10 : 11} container direction="row">
-        <Grid container item xs={11} direction="row" justify="center">
+        <Grid container item xs={11} direction="row" justifyContent="center">
           <Grid item xs={12} className="mb-4">
             <DashboardContainer spaceCardData={spaceCardData} />
           </Grid>
@@ -143,7 +141,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
 };
 
 Dashboard.propTypes = {
-  session: PropTypes.string.isRequired,
+  session: PropTypes.object.isRequired,
   friendData: PropTypes.array.isRequired,
   spaceCardData: PropTypes.array.isRequired,
 };
@@ -175,7 +173,7 @@ export const getServerSideProps = async ({ req, locale }) => {
   }
   return {
     props: {
-      session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
+      session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
       spaceCardData: JSON.parse(JSON.stringify(spaces)),
       ...(await serverSideTranslations(locale, ['common'])),
       friendData: [
