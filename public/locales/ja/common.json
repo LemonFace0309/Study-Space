@@ -1,0 +1,16 @@
+{
+  "LABEL_JOIN_A_SPACE": "スペースに参加",
+  "LABEL_JOIN_SPACE": "スペースに参加",
+  "LABEL_CREATE_SPACE": "スペースの作成",
+  "LABEL_SIGNOUT": "サインアウト",
+  "LABEL_SIGNUP": "サインアップ",
+  "LABEL_LOGIN": "ログイン",
+  "LABEL_JUST_YOU": "Just You",
+  "LABEL_WITH_FRIENDS": "友達と",
+  "LABEL_LARGE_GROUPS": "大規模グループ",
+  "LABEL_ALREADY_HAVE_ACCOUNT": "すでにアカウントをお持ちですか？",
+  "LABEL_DONT_HAVE_ACCOUNT": "アカウントをお持ちではありませんか？",
+  "LABEL_SIGN_UP_WITH": "サインアップ",
+  "LABEL_LOG_IN_WITH": "ログインして",
+  "LABEL_EMAIL_ADDRESS": "メールアドレス"
+}

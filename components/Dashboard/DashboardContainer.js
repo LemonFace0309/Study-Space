@@ -9,7 +9,6 @@ import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 
 const DashboardContainer = ({ spaceCardData }) => {
   const { friends, participants, hosts } = spaceCardModalTestData;
-  const cardData = JSON.parse(spaceCardData); // stringified
   const theme = useTheme();
 
   return (
@@ -50,7 +49,7 @@ const DashboardContainer = ({ spaceCardData }) => {
               />
             </Grid>
             {/* Space Card Section */}
-            {cardData.map(({ name, description, headCount, music, spaceId }) => {
+            {spaceCardData.map(({ name, description, headCount, music, spaceId }) => {
               return (
                 <Grid item key={uniqueId(name)} xs={12} sm={6} md={4}>
                   <SpacePackage

@@ -2,10 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
+import classNames from 'classnames';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -21,7 +22,7 @@ import ChartCard from 'components/Dashboard/Cards/ChartCard';
 import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
 import LineChart from 'components/Dashboard/Charts/LineChart';
 import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
-import CollapsableDrawer from 'componentsA/Dashboard/CollapsableDrawer';
+import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import { chartData } from '../../data/chartData';
 
 // Custom styles for SwipeableDrawer component
@@ -147,7 +148,7 @@ Dashboard.propTypes = {
   spaceCardData: PropTypes.array.isRequired,
 };
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req, locale }) => {
   const session = await getSession({ req });
 
   await dbConnect();
@@ -165,21 +166,18 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  let spaceCardData;
+  let spaces;
   try {
-    const spaces = await Space.find({});
-    spaceCardData = spaces.map(({ name, description, music, spaceId, participants, isActive }) => {
-      return { name, description, music, spaceId, participants, isActive };
-    });
-
-    console.debug(JSON.stringify(spaceCardData));
+    spaces = await Space.find({});
+    console.debug(spaces);
   } catch (err) {
     console.error(err);
   }
   return {
     props: {
       session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
-      spaceCardData: JSON.stringify(spaceCardData) ?? '',
+      spaceCardData: JSON.parse(JSON.stringify(spaces)),
+      ...(await serverSideTranslations(locale, ['common'])),
       friendData: [
         {
           name: 'Yi Nan Zhang',

@@ -1,6 +1,5 @@
-import dbConnect from '../../utils/dbConnect';
-import Space from '../../models/Spaces';
-import User from '../../models/User';
+import dbConnect from '../../../utils/dbConnect';
+import Space from '../../../models/Spaces';
 
 export default async (req, res) => {
   const { method } = req;
@@ -33,7 +32,7 @@ export default async (req, res) => {
   if (method === 'GET') {
     const { spaceId } = req.body;
 
-    if (!name || !description) {
+    if (!spaceId) {
       return res.status(422).json({ message: 'Invalid input' });
     }
     await dbConnect();
