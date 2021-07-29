@@ -1,5 +1,5 @@
-import dbConnect from '../../../utils/dbConnect';
-import User from '../../../models/User';
+import dbConnect from 'utils/dbConnect';
+import User from 'models/User';
 
 export default async (req, res) => {
   const { method } = req;

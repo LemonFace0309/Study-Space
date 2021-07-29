@@ -1,5 +1,5 @@
-import dbConnect from '../../../utils/dbConnect';
-import Space from '../../../models/Spaces';
+import dbConnect from 'utils/dbConnect';
+import Space from 'models/Spaces';
 
 export default async (req, res) => {
   const { method } = req;
