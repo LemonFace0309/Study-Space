@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) => {
+const SpaceCard = ({ isClickable, name, description, headCount, music }) => {
   const classes = useStyles();
 
   return (
@@ -44,7 +44,7 @@ const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) =>
           <Grid item xs={11} className={classes.body}>
             {/* Title and Description */}
             <Typography variant="h5" align="center">
-              {spaceName}
+              {name}
             </Typography>
             <Typography color="textSecondary" variant="body1">
               {description}
@@ -73,7 +73,7 @@ const SpaceCard = ({ isClickable, spaceName, description, headCount, music }) =>
 
 SpaceCard.propTypes = {
   isClickable: PropTypes.bool,
-  spaceName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   music: PropTypes.string.isRequired,
