@@ -17,36 +17,32 @@ const CreateRoom = () => {
 
   useEffect(() => {
     const initSession = async () => {
-      const userSession = getSession();
+      const userSession = await getSession();
       setSession(userSession);
     };
     initSession();
   }, []);
 
+  const getCurrentUser = async () => {
+    const { name, email } = session.user;
+    const result = await axios.get('/api/user/get-user', { params: { name, email } });
+    const currentUser = result.data.user;
+    return currentUser;
+  };
   const createNewSpace = async () => {
     setLoading(true);
-
     const id = uuid();
 
-    // TODO: Use session to get current user
-    const currentUser = await axios.get('/api/user/get-user', {
-      params: {
-        name: 'Eden Chan',
-        email: 'edenchan717@gmail.com',
-      },
-    });
-
-    const currentUserId = currentUser.data.user._id;
-
+    const currentUser = await getCurrentUser();
+    const currentUserId = currentUser._id;
     const result = await axios.post('/api/spaces/create-new-space', {
-      name: 'TA Session',
-      description: 'finals grind, upper years available in chat for help with past exams',
+      name: 'Pair Programming Session',
+      description: '16X 🚀🚀🚀🚀',
       music: 'none',
       isActive: true,
       participants: [{ currentUserId }],
       spaceId: id,
     });
-
     router.push(`/room/${id}`);
   };
 
