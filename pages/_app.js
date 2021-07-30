@@ -5,10 +5,16 @@ import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ThemeProvider } from '@material-ui/styles';
+import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
 
 import Layout from '../components/Layout';
 import theme from '../styles/Theme';
 import '../styles/globals.css';
+
+const gqlClient = new ApolloClient({
+  uri: 'https://api.spacex.land/graphql/',
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -20,15 +26,17 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <RecoilRoot>
-      <Provider session={pageProps.session}>
-        <ThemeProvider theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </Provider>
-    </RecoilRoot>
+    <ApolloProvider client={gqlClient}>
+      <RecoilRoot>
+        <Provider session={pageProps.session}>
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </Provider>
+      </RecoilRoot>
+    </ApolloProvider>
   );
 }
 
