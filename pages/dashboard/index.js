@@ -55,7 +55,6 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [open, setOpen] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
   const gqlClient = useApolloClient();
-  console.log(gqlClient);
   const GET_LAUNCHES = gql`
     query getLaunches {
       launchesPast(limit: 3) {
