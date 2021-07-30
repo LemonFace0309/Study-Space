@@ -1,48 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
+
+import * as clientState from 'atoms/client';
 
 const CreateRoom = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
-  const [session, setSession] = useState();
   const [loading, setLoading] = useState(false);
+  const [client, setClient] = useRecoilState(clientState.client);
+
+  const initSession = async () => {
+    if (client) return;
+
+    const session = await getSession();
+    const { name, email } = session.user;
+    const result = await axios.get('/api/user/get-user', { params: { name, email } });
+    const user = result.data.user;
+
+    const newClient = { ...session, user };
+    setClient(newClient);
+  };
 
   useEffect(() => {
-    const initSession = async () => {
-      const userSession = await getSession();
-      setSession(userSession);
-    };
     initSession();
   }, []);
 
-  const getCurrentUser = async () => {
-    const { name, email } = session.user;
-    const result = await axios.get('/api/user/get-user', { params: { name, email } });
-    const currentUser = result.data.user;
-    return currentUser;
-  };
   const createNewSpace = async () => {
     setLoading(true);
     const id = uuid();
-
-    const currentUser = await getCurrentUser();
-    const currentUserId = currentUser._id;
-    const result = await axios.post('/api/spaces/create-new-space', {
+    const clientId = client._id;
+    const data = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
       music: 'none',
       isActive: true,
-      participants: [{ currentUserId }],
+      participants: [{ clientId }],
       spaceId: id,
-    });
+    };
+    const result = await axios.post('/api/spaces/create-new-space', data);
+
+    setLoading(false);
     router.push(`/room/${id}`);
   };
 
@@ -65,11 +70,9 @@ const CreateRoom = () => {
           <Button fullWidth variant="contained" color="primary" onClick={() => router.push(`/room/${roomID}`)}>
             {t('LABEL_JOIN_SPACE')}
           </Button>
-          {session && (
-            <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>
-              {t('LABEL_CREATE_SPACE')}
-            </Button>
-          )}
+          <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>
+            {t('LABEL_CREATE_SPACE')}
+          </Button>
           {loading && <CircularProgress />}
         </div>
       </Paper>

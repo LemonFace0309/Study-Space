@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { useState } from 'react';
+
 import {
   Button,
   Grid,
@@ -12,9 +15,11 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  CircularProgress,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import * as clientState from 'atoms/client';
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -66,7 +71,15 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
+  const [client, setClient] = useRecoilState(clientState.client);
+  const [loading, setLoading] = useState(false);
 
+  const joinSpace = () => {
+    // Add client to participant list
+    setLoading(true);
+    console.debug('client', client);
+    router.push(`/room/${spaceId}`);
+  };
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
       <Grid container spacing={3} className={classes.container}>
@@ -101,8 +114,12 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 variant="contained"
                 color="primary"
                 className={classes.containedPrimary}
-                onClick={() => router.push(`/room/${spaceId}`)}>
+                // Add participant to the joined room
+                onClick={() => {
+                  joinSpace();
+                }}>
                 <ArrowForwardIcon /> Join Space
+                {loading && <CircularProgress />}
               </Button>
             </Box>
           </Grid>
