@@ -2,26 +2,28 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getSession } from 'next-auth/client';
+import classNames from 'classnames';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 
-import User from '../../models/User';
-import dbConnect from '../../utils/dbConnect';
-import Sidebar from '../../components/Dashboard/Sidebar';
-import DashboardContainer from '../../components/Dashboard/DashboardContainer';
-import ChartCard from '../../components/Dashboard/Cards/ChartCard';
-import VerticalBar from '../../components/Dashboard/Charts/VerticalBar';
-import LineChart from '../../components/Dashboard/Charts/LineChart';
-import ProfileDialog from '../../components/Dashboard/Modals/ProfileDialog';
+import User from 'models/User';
+import Space from 'models/Spaces';
+import dbConnect from 'utils/dbConnect';
+import Sidebar from 'components/Dashboard/Sidebar';
+import DashboardContainer from 'components/Dashboard/DashboardContainer';
+import ChartCard from 'components/Dashboard/Cards/ChartCard';
+import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
+import LineChart from 'components/Dashboard/Charts/LineChart';
+import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
+import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import { chartData } from '../../data/chartData';
-import CollapsableDrawer from '../../components/Dashboard/CollapsableDrawer';
 
 // Custom styles for SwipeableDrawer component
 const useStyles = makeStyles((theme) => ({
@@ -43,10 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ session, friendData }) => {
+const Dashboard = ({ session, friendData, spaceCardData }) => {
   const classes = useStyles();
-
-  session = session !== '' && JSON.parse(session);
   console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
@@ -89,9 +89,9 @@ const Dashboard = ({ session, friendData }) => {
 
       {/* Dashboard Body */}
       <Grid item xs={12} md={open ? 10 : 11} container direction="row">
-        <Grid container item xs={11} direction="row" justify="center">
+        <Grid container item xs={11} direction="row" justifyContent="center">
           <Grid item xs={12} className="mb-4">
-            <DashboardContainer />
+            <DashboardContainer spaceCardData={spaceCardData} />
           </Grid>
           <Grid item container spacing={2} className="mt-2">
             <Grid item xs={12} md={6}>
@@ -141,27 +141,41 @@ const Dashboard = ({ session, friendData }) => {
 };
 
 Dashboard.propTypes = {
-  session: PropTypes.string.isRequired,
+  session: PropTypes.object.isRequired,
   friendData: PropTypes.array.isRequired,
+  spaceCardData: PropTypes.array.isRequired,
 };
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req, locale }) => {
   const session = await getSession({ req });
 
   await dbConnect();
 
   let newSession;
   if (session) {
-    const user = await User.findOne({
-      email: session.user.email,
-    });
-    newSession = { ...session, user };
-    console.log('Session:', newSession);
+    try {
+      const user = await User.findOne({
+        email: session.user.email,
+      });
+      newSession = { ...session, user };
+      console.debug('Session:', newSession);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
+  let spaces;
+  try {
+    spaces = await Space.find({});
+    console.debug(spaces);
+  } catch (err) {
+    console.error(err);
+  }
   return {
     props: {
-      session: JSON.stringify(newSession) ?? '', // otherwise nextjs throws error - can't serialize data
+      session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
+      spaceCardData: JSON.parse(JSON.stringify(spaces)),
+      ...(await serverSideTranslations(locale, ['common'])),
       friendData: [
         {
           name: 'Yi Nan Zhang',

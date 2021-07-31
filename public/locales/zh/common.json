@@ -1,0 +1,16 @@
+{
+  "LABEL_JOIN_A_SPACE": "加入空间",
+  "LABEL_JOIN_SPACE": "加入空间",
+  "LABEL_CREATE_SPACE": "创建空间",
+  "LABEL_SIGNOUT": "退出",
+  "LABEL_SIGNUP": "注册",
+  "LABEL_LOGIN": "登录",
+  "LABEL_JUST_YOU": "只有你",
+  "LABEL_WITH_FRIENDS": "和朋友一起",
+  "LABEL_LARGE_GROUPS": "大型群组",
+  "LABEL_ALREADY_HAVE_ACCOUNT": "已有账户？",
+  "LABEL_DONT_HAVE_ACCOUNT": "还没有帐户？",
+  "LABEL_SIGN_UP_WITH": "注册",
+  "LABEL_LOG_IN_WITH": "登录方式",
+  "LABEL_EMAIL_ADDRESS": "电子邮件地址"
+}

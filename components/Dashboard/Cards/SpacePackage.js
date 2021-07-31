@@ -10,8 +10,8 @@ import SpaceCard from '../../Shared/SpaceCard';
 const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
   const [open, setOpen] = useState(false);
 
-  const { spaceName, description, headCount, music } = spaceCardData;
-  const { friends, participants, hosts } = spaceCardModalData;
+  const { name, description, headCount, music } = spaceCardData;
+  const { friends, participants, hosts, spaceId } = spaceCardModalData;
   return (
     <>
       <div
@@ -19,13 +19,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         onClick={() => {
           setOpen(true);
         }}>
-        <SpaceCard
-          isClickable={true}
-          spaceName={spaceName}
-          description={description}
-          headCount={headCount}
-          music={music}
-        />
+        <SpaceCard isClickable={true} name={name} description={description} headCount={headCount} music={music} />
       </div>
       <SpaceCardModal
         open={open}
@@ -34,8 +28,9 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         }}
         friends={friends}
         participants={participants}
-        hosts={hosts}>
-        <SpaceCard spaceName={spaceName} description={description} headCount={headCount} music={music} />
+        hosts={hosts}
+        spaceId={spaceId}>
+        <SpaceCard name={name} description={description} headCount={headCount} music={music} />
       </SpaceCardModal>
     </>
   );
@@ -43,7 +38,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
 
 SpacePackage.propTypes = {
   spaceCardData: PropTypes.shape({
-    spaceName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     music: PropTypes.string.isRequired,
@@ -52,6 +47,7 @@ SpacePackage.propTypes = {
     friends: PropTypes.array,
     participants: PropTypes.array,
     hosts: PropTypes.array,
+    spaceId: PropTypes.string.isRequired,
   }),
 };
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
+import { useRouter } from 'next/router';
 import {
   Button,
   Grid,
@@ -61,9 +62,10 @@ const UserList = ({ users }) => {
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
-const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts }) => {
+const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
   const theme = useTheme();
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
@@ -95,7 +97,11 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 <Typography variant="body1">Host&#40;s&#41;</Typography>
               </Box>
               <UserList users={hosts} />
-              <Button variant="contained" color="primary" className={classes.containedPrimary}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.containedPrimary}
+                onClick={() => router.push(`/room/${spaceId}`)}>
                 <ArrowForwardIcon /> Join Space
               </Button>
             </Box>
@@ -113,6 +119,7 @@ SpaceCardModal.propTypes = {
   friends: PropTypes.array,
   participants: PropTypes.array,
   hosts: PropTypes.array,
+  spaceId: PropTypes.string.isRequired,
 };
 
 export default SpaceCardModal;

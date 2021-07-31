@@ -1,7 +1,7 @@
 import nextConnect from 'next-connect';
 
-import User from '../../../models/User';
-import dbConnect from '../../../utils/dbConnect';
+import User from 'models/User';
+import dbConnect from 'utils/dbConnect';
 
 const { body } = require('express-validator');
 
