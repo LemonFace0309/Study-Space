@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import Header from '../../components/Landing/Header/index';
-import Hero from '../../components/Landing/Hero';
-import LandingSpaces from '../../components/Landing/LandingSpaces';
-import BigFeature, { DIRECTIONS } from '../../components/Landing/BigFeature';
-import BigStats from '../../components/Landing/BigStats';
-import SmallFeatures from '../../components/Landing/SmallFeatures';
-import Footer from '../../components/Landing/Footer';
+import Header from 'components/Landing/Header/index';
+import Hero from 'components/Landing/Hero';
+import LandingSpaces from 'components/Landing/LandingSpaces';
+import BigFeature, { DIRECTIONS } from 'components/Landing/BigFeature';
+import BigStats from 'components/Landing/BigStats';
+import SmallFeatures from 'components/Landing/SmallFeatures';
+import Footer from 'components/Landing/Footer';
 
 const Landing = ({ data, bigFeatures, stats, smallFeatures, providers }) => {
   return (

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,6 +24,7 @@ import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
 import LineChart from 'components/Dashboard/Charts/LineChart';
 import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
 import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
+import * as clientState from 'atoms/client';
 import { chartData } from '../../data/chartData';
 
 // Custom styles for SwipeableDrawer component
@@ -47,10 +49,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = ({ session, friendData, spaceCardData }) => {
   const classes = useStyles();
-  console.debug(session);
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [client, setClient] = useRecoilState(clientState.client);
+
+  useEffect(() => {
+    setClient(session);
+    console.debug('client', client);
+  }, []);
 
   return (
     <Grid container direction="row" className={classes.dashboardBackground}>
@@ -171,6 +178,7 @@ export const getServerSideProps = async ({ req, locale }) => {
   } catch (err) {
     console.error(err);
   }
+
   return {
     props: {
       session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
