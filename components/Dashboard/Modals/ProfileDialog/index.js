@@ -130,7 +130,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
   };
 
   const toggleSettings = () => {
-    showSettings ? setShowSettings(false) : setShowSettings(true);
+    setShowSettings(prev => !prev)
   };
 
   return (
