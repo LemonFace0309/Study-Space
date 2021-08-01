@@ -224,7 +224,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                 )}
               </TabPanel>
             ))}
-            {showSettings ? null : (
+            {!showSettings &&
               <Grid container item justify="flex-end" className="p-4">
                 <Button
                   variant="contained"
@@ -236,7 +236,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                   {editMode ? 'Save' : 'Edit Profile'}
                 </Button>
               </Grid>
-            )}
+            }
           </Grid>
         </Grid>
       </Tabs>
