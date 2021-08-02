@@ -196,7 +196,7 @@ export const getServerSideProps = async ({ req, locale }) => {
     props: {
       session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
       spaceCardData: JSON.parse(JSON.stringify(spaces)),
-      ...(await serverSideTranslations(locale, ['common'])),
+      // ...(await serverSideTranslations(locale, ['common'])),
       friendData: [
         {
           name: 'Yi Nan Zhang',
