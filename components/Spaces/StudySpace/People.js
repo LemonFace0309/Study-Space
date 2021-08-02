@@ -46,9 +46,4 @@ People.propTypes = {
   participants: PropTypes.array,
 };
 
-People.propTypes = {
-  username: PropTypes.string,
-  participants: PropTypes.array,
-};
-
 export default People;

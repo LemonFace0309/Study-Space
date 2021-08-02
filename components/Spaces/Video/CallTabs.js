@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid } from '@material-ui/core';
@@ -8,12 +8,14 @@ import renderComponent from 'utils/renderComponent';
 import Music from '../Music';
 import ChatPanel from '../Chat';
 import People from '../StudySpace/People';
+import TodoList from '../StudySpace/TodoList';
 import CallTabPanel from './CallTabPanel';
 
-// https://github.com/reactjs/react-tabs#api
-resetIdCounter();
-
 function CallTabs({ username, participants, socketRef, roomID, conversation, showTabs, setShowTabs }) {
+  useEffect(() => {
+    setShowTabs(true);
+  }, [setShowTabs]);
+
   const callTabs = [
     {
       key: 'EMPTY',
@@ -24,7 +26,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
       key: 'MUSIC_QUEUE',
       title: 'To-Do List',
       icon: PlaylistAddCheck,
-      panel: Music,
+      panel: TodoList,
     },
     {
       key: 'MUSIC_LIBRARY',
@@ -56,7 +58,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     },
   ];
 
-  const [tabIndex, setTabIndex] = useState(callTabs.length - 1);
+  const [tabIndex, setTabIndex] = useState(callTabs.length - 4);
 
   function setTab(newTabIndex) {
     if (newTabIndex === tabIndex) {
@@ -72,7 +74,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     <>
       {showTabs && (
         <Grid item xs={12} md={4} className="p-5 flex flex-col items-center justify-items-center">
-          <Tabs selectedIndex={tabIndex} onSelect={() => null}>
+          <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
             <TabList>
               {callTabs.map((tabObj) => (

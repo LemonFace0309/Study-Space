@@ -35,14 +35,13 @@ PeerVideo.propTypes = {
 
 const Room = ({ roomID }) => {
   const router = useRouter();
-  const [peers, setPeers] = useState([]);
   const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
   const [conversation, setConversation] = useState([]);
   const [userAudioShow, setUserAudioShow] = useState(true);
   const [userVideoShow, setUserVideoShow] = useState(true);
-  const [showTabs, setShowTabs] = useState(true);
+  const [showTabs, setShowTabs] = useState(false);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
 
@@ -98,7 +97,6 @@ const Room = ({ roomID }) => {
         peers.push(peer);
         newParticipants.push(user.username);
       });
-      setPeers(peers);
       setParticipants([...newParticipants]);
       if (conversation) {
         conversation = JSON.parse(conversation).map((obj) => {
@@ -122,7 +120,6 @@ const Room = ({ roomID }) => {
         peer,
       });
 
-      setPeers((users) => [...users, peer]);
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
     });
 
@@ -159,10 +156,8 @@ const Room = ({ roomID }) => {
       if (usersPeerID.length > 0) {
         peersRef.current.forEach((peerRef, index) => {
           if (!usersPeerID.includes(peerRef.peerID)) {
-            const removePeerChannelName = peerRef.peer.channelName;
             peerRef.peer.destroy();
             peersRef.current.splice(index, 1);
-            setPeers((prevPeers) => prevPeers.filter((peer) => peer.channelName !== removePeerChannelName));
             setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));
           }
         });
@@ -237,12 +232,13 @@ const Room = ({ roomID }) => {
           userVideoShow={userVideoShow}
           toggleUserAudio={toggleUserAudio}
           toggleUserVideo={toggleUserVideo}
+          leaveCall={leaveCall}
         />
         <Grid item xs={12} md={showTabs ? 8 : 12}>
           <div className="p-5 flex flex-row flex-wrap justify-center items-center">
             <video muted ref={userVideo} autoPlay height="400" width="400" />
-            {peers.map((peer) => {
-              return <PeerVideo key={peer._id} peer={peer} />;
+            {peersRef.current.map((peerObj) => {
+              return <PeerVideo key={peerObj.peerID} peer={peerObj.peer} />;
             })}
           </div>
         </Grid>
