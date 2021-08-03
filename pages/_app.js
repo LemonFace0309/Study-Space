@@ -6,13 +6,14 @@ import { Provider } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ThemeProvider } from '@material-ui/styles';
 import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client';
+import * as Realm from 'realm-web';
 
 import Layout from '../components/Layout';
 import theme from '../styles/Theme';
 import '../styles/globals.css';
 
 const gqlClient = new ApolloClient({
-  uri: 'https://api.spacex.land/graphql/',
+  uri: 'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/instantgraphql-ftrar/graphql',
   cache: new InMemoryCache(),
 });
 
