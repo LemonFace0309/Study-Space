@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
+
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -30,6 +32,8 @@ function ElevationScroll(props) {
 }
 
 const Header = (props) => {
+  const { t } = useTranslation();
+
   const { providers, signIn, signOut, getSession } = props;
   const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -87,7 +91,7 @@ const Header = (props) => {
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp && validSignUp) {
-      const result = await axios.post('/api/create-new-user', {
+      const result = await axios.post('/api/user/create-new-user', {
         name: firstName + ' ' + lastName,
         email,
         password,
@@ -109,7 +113,7 @@ const Header = (props) => {
   let formContent = [
     <TextField
       key="1"
-      label="Email Address"
+      label={t('LABEL_EMAIL_ADDRESS')}
       fullWidth
       error={submitted && !validEmail}
       helperText={submitted && !validEmail && 'Please enter a valid email address 🥺'}
@@ -156,13 +160,13 @@ const Header = (props) => {
         onChange={(e) => setLastName(e.target.value)}
       />
     );
-    btnText = 'SIGN UP';
-    switchModeText = 'Already have an account? ';
-    oAuthText = 'Sign up with';
+    btnText = 'LABEL_SIGNUP';
+    switchModeText = 'LABEL_ALREADY_HAVE_ACCOUNT';
+    oAuthText = 'LABEL_SIGN_UP_WITH';
   } else {
-    btnText = 'LOG IN';
-    switchModeText = "Don't have an account? ";
-    oAuthText = 'Log in with';
+    btnText = 'LABEL_LOGIN';
+    switchModeText = 'LABEL_DONT_HAVE_ACCOUNT';
+    oAuthText = 'LABEL_LOG_IN_WITH';
   }
 
   const handleSignUp = () => {
@@ -203,13 +207,13 @@ const Header = (props) => {
             <Hidden smDown>
               <div className="flex-grow">
                 <button variant="h6" className={menuItemStyles}>
-                  Just You
+                  {t('LABEL_JUST_YOU')}
                 </button>
                 <button variant="h6" className={menuItemStyles}>
-                  With Friends
+                  {t('LABEL_WITH_FRIENDS')}
                 </button>
                 <button variant="h6" className={menuItemStyles}>
-                  Large Groups
+                  {t('LABEL_LARGE_GROUPS')}
                 </button>
               </div>
               {session ? (
@@ -220,7 +224,7 @@ const Header = (props) => {
                     border: '1.5px solid rgba(107, 114, 128)',
                   }}
                   onClick={() => signOut()}>
-                  Signout
+                  {t('LABEL_SIGNOUT')}
                 </Button>
               ) : (
                 <>
@@ -231,7 +235,7 @@ const Header = (props) => {
                     style={{
                       border: '1.5px solid rgba(107, 114, 128)',
                     }}>
-                    Sign Up
+                    {t('LABEL_SIGNUP')}
                   </Button>
                   <Button
                     color="inherit"
@@ -240,7 +244,7 @@ const Header = (props) => {
                     style={{
                       border: '1.5px solid rgba(107, 114, 128)',
                     }}>
-                    Log in
+                    {t('LABEL_LOGIN')}
                   </Button>
                 </>
               )}

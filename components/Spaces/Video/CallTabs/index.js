@@ -5,11 +5,13 @@ import { IconButton, Grid } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import renderComponent from 'utils/renderComponent';
-import Music from '../Music';
-import ChatPanel from '../Chat';
-import People from '../StudySpace/People';
-import TodoList from '../StudySpace/TodoList';
-import CallTabPanel from './CallTabPanel';
+import TabPanelHeader from './TabPanelHeader';
+import Music from '../../Music';
+import ChatPanel from '../../Chat';
+import People from '../../StudySpace/People';
+
+// https://github.com/reactjs/react-tabs#api
+resetIdCounter();
 
 function CallTabs({ username, participants, socketRef, roomID, conversation, showTabs, setShowTabs }) {
   useEffect(() => {
@@ -18,24 +20,21 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
 
   const callTabs = [
     {
-      key: 'EMPTY',
+      title: 'Empty',
       icon: null,
       panel: null,
     },
     {
-      key: 'MUSIC_QUEUE',
       title: 'To-Do List',
       icon: PlaylistAddCheck,
       panel: TodoList,
     },
     {
-      key: 'MUSIC_LIBRARY',
       title: 'Music Library',
       icon: LibraryMusic,
       panel: Music,
     },
     {
-      key: 'PEOPLE',
       title: 'Participants',
       icon: PeopleIcon,
       panel: People,
@@ -45,10 +44,9 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
       },
     },
     {
-      key: 'CHAT',
-      title: 'Chat',
+      title: 'Chat Messages',
       icon: ChatIcon,
-      panel: ChatPanel, // change to chat later
+      panel: ChatPanel,
       panelProps: {
         username,
         socketRef,
@@ -73,23 +71,26 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
   return (
     <>
       {showTabs && (
-        <Grid item xs={12} md={4} className="p-5 flex flex-col items-center justify-items-center">
-          <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+        <Grid item xs={12} md={6} lg={5} xl={4} className="h-full p-5 flex flex-col items-center justify-items-center">
+          <Tabs selectedIndex={tabIndex} onSelect={() => null}>
             {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
             <TabList>
               {callTabs.map((tabObj) => (
-                <Tab key={tabObj.key + '_TAB'} />
+                <Tab key={tabObj.title + '_TAB'} />
               ))}
             </TabList>
 
             {/* The empty tab  */}
             {callTabs.map((tabObj) => {
-              if (!tabObj.panel) return <TabPanel key={tabObj.key + '_PANEL'} />;
+              if (!tabObj.panel) return <TabPanel key={tabObj.title + '_PANEL'} />;
               return (
-                <TabPanel key={tabObj.key + '_PANEL'}>
-                  <CallTabPanel tabTitle={tabObj.title ?? ''}>
-                    {renderComponent(tabObj.panel, tabObj.panelProps ?? {})}
-                  </CallTabPanel>
+                <TabPanel key={tabObj.title + '_PANEL'}>
+                  <Paper
+                    elevation={2}
+                    className="w-90 h-full rounded-md overflow-hidden font-bold bg-white flex flex-col">
+                    <TabPanelHeader>{tabObj.title}</TabPanelHeader>
+                    {renderComponent(tabObj.panel, { ...tabObj.panelProps })}
+                  </Paper>
                 </TabPanel>
               );
             })}
@@ -101,7 +102,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
         {callTabs.map((tabObj, index) => {
           if (!tabObj.icon) return null;
           return (
-            <IconButton key={tabObj.key + '_ICON'} onClick={() => setTab(index)}>
+            <IconButton key={tabObj.title + '_ICON'} onClick={() => setTab(index)}>
               {renderComponent(tabObj.icon)}
             </IconButton>
           );

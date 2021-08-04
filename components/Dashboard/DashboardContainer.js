@@ -1,23 +1,21 @@
 import { React } from 'react';
+import PropTypes from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
-import { Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
+import { Card, Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
 
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
-import { spaceCardTestData } from '../../data/spaceCardTestData';
-import Card from '../Shared/Card';
 
-const DashboardContainer = () => {
+const DashboardContainer = ({ spaceCardData }) => {
   const { friends, participants, hosts } = spaceCardModalTestData;
-  const { cardData } = spaceCardTestData;
   const theme = useTheme();
 
   return (
-    <Card>
+    <Card className="h-full rounded-none rounded-b-2xl">
       <Container className="py-4">
         {/* Greeting */}
-        <Grid container direction="column" alignContent="center" alignItems="center" justify="center" spacing={6}>
+        <Grid container direction="column" spacing={6}>
           <Grid item xs={12}>
             <Box color={theme.palette.primary.dark}>
               <Typography variant="h4">Hey Charles!</Typography>
@@ -36,7 +34,7 @@ const DashboardContainer = () => {
               </Typography> */}
               <DashboardCard
                 variant="dark"
-                spaceName="Create a Space"
+                name="Create a Space"
                 description="insert some sort of tagline or feature description "
               />
             </Grid>
@@ -46,17 +44,17 @@ const DashboardContainer = () => {
               </Typography> */}
               <DashboardCard
                 variant="light"
-                spaceName="Join a Space"
+                name="Join a Space"
                 description="insert some sort of tagline or feature description "
               />
             </Grid>
             {/* Space Card Section */}
-            {cardData.map(({ spaceName, description, headCount, music }) => {
+            {spaceCardData.map(({ name, description, participants, music, spaceId }) => {
               return (
-                <Grid item key={uniqueId(spaceName)} xs={12} sm={6} md={4}>
+                <Grid item key={uniqueId(name)} xs={12} sm={6} md={4}>
                   <SpacePackage
-                    spaceCardData={{ spaceName, description, headCount, music }}
-                    spaceCardModalData={{ friends, participants, hosts }}
+                    spaceCardData={{ name, description, headCount: participants.length, music }}
+                    spaceCardModalData={{ friends, participants: [], hosts, spaceId }}
                   />
                 </Grid>
               );
@@ -68,4 +66,7 @@ const DashboardContainer = () => {
   );
 };
 
+DashboardContainer.propTypes = {
+  spaceCardData: PropTypes.array.isRequired,
+};
 export default DashboardContainer;

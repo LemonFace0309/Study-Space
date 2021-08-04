@@ -14,12 +14,7 @@ const LandingSpaces = ({ data }) => {
           md={6}
           lg={4}
           className="cursor-pointer transform hover:scale-105 transition ease-out duration-200">
-          <SpaceCard
-            spaceName={card.spaceName}
-            description={card.description}
-            headCount={card.headCount}
-            music={card.music}
-          />
+          <SpaceCard name={card.name} description={card.description} headCount={card.headCount} music={card.music} />
         </Grid>
       ))}
     </Grid>

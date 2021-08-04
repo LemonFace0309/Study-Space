@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     scrollbarWidth: ({ isSmallScreen }) => !isSmallScreen && 'none' /* Firefox */,
   },
 }));
-const DashboardCard = ({ spaceName, description, variant }) => {
+const DashboardCard = ({ name, description, variant }) => {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -73,7 +73,7 @@ const DashboardCard = ({ spaceName, description, variant }) => {
           style={{
             color: variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark,
           }}>
-          <Typography variant="h4">{spaceName}</Typography>
+          <Typography variant="h4">{name}</Typography>
           <Typography variant="body1">{description}</Typography>
         </Grid>
       </Grid>
@@ -82,7 +82,7 @@ const DashboardCard = ({ spaceName, description, variant }) => {
 };
 
 DashboardCard.propTypes = {
-  spaceName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
 };

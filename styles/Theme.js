@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 // Ubuntu guide for weight
 const light = 300;
@@ -6,7 +6,7 @@ const regular = 400;
 const medium = 500;
 const bold = 700;
 
-export default createMuiTheme({
+export default createTheme({
   palette: {
     primary: {
       // purple
@@ -21,6 +21,7 @@ export default createMuiTheme({
       // pink
       light: '#FAF3F5',
       main: '#E3BAC6',
+      dashboardGradient: 'linear-gradient(to bottom right, #E3BAC6, #E9D4DB)',
       mainGradient: 'linear-gradient(to right, #FAF3F5, #BDACD4)',
       contrastText: '#000', // black
     },

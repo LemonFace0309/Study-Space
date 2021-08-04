@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-import * as authState from '../../../../atoms/auth';
+import * as authState from 'atoms/auth';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -171,8 +171,8 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
 
   return (
     <Grid container direction="row" spacing={3}>
-      <Grid container item xs={12} sm={5} justify="center" alignItems="flex-end">
-        <Typography className={classes.title} variant="h4">
+      <Grid container item xs={12} sm={5} alignItems="flex-end">
+        <Typography className={classes.title} variant="h5">
           {session?.user?.name}
         </Typography>
       </Grid>

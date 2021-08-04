@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 const bcrypt = require('bcrypt');
 
-import dbConnect from '../../../utils/dbConnect';
-import User from '../../../models/User';
+import dbConnect from 'utils/dbConnect';
+import User from 'models/User';
 
 const options = {
   pages: {
@@ -43,9 +43,7 @@ const options = {
           return null;
         }
         const matched = await bcrypt.compare(password, user.password);
-        const parsedUser = (({ _id, name, email }) => ({ _id, name, email }))(
-          user
-        );
+        const parsedUser = (({ _id, name, email }) => ({ _id, name, email }))(user);
         return matched && parsedUser;
       },
     }),

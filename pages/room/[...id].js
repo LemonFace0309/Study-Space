@@ -6,7 +6,7 @@ import Peer from 'simple-peer';
 import { getSession } from 'next-auth/client';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { intersection } from 'lodash';
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
 import CallOptions from '@/components/Spaces/Video/CallOptions';
@@ -234,7 +234,7 @@ const Room = ({ roomID }) => {
           toggleUserVideo={toggleUserVideo}
           leaveCall={leaveCall}
         />
-        <Grid item xs={12} md={showTabs ? 8 : 12}>
+        <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
           <div className="p-5 flex flex-row flex-wrap justify-center items-center">
             <video muted ref={userVideo} autoPlay height="400" width="400" />
             {peersRef.current.map((peerObj) => {
@@ -263,8 +263,11 @@ Room.propTypes = {
 
 export default Room;
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ locale, params }) {
   return {
-    props: { roomID: params.id[0] },
+    props: {
+      roomID: params.id[0],
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
   };
 }
