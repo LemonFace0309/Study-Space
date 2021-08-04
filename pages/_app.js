@@ -3,7 +3,6 @@ import { appWithTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ThemeProvider } from '@material-ui/styles';
 
 import Layout from '../components/Layout';
@@ -36,11 +35,5 @@ MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };
-
-export const getStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common', 'spaces'])),
-  },
-});
 
 export default appWithTranslation(MyApp);

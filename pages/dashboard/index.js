@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -52,11 +52,10 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useRecoilState(clientState.client);
+  const setClient = useSetRecoilState(clientState.client);
 
   useEffect(() => {
     setClient(session);
-    console.debug('client', client);
   }, []);
 
   return (
@@ -153,28 +152,42 @@ Dashboard.propTypes = {
   spaceCardData: PropTypes.array.isRequired,
 };
 
+const redirectToHome = {
+  redirect: {
+    permanent: false,
+    destination: '/',
+  },
+};
+
 export const getServerSideProps = async ({ req, locale }) => {
   const session = await getSession({ req });
+  if (!session) {
+    return redirectToHome;
+  }
 
   await dbConnect();
 
-  let newSession;
+  let newSession = {};
   if (session) {
     try {
       const user = await User.findOne({
         email: session.user.email,
       });
+      if (!user) {
+        return redirectToHome;
+      }
       newSession = { ...session, user };
       console.debug('Session:', newSession);
     } catch (err) {
       console.error(err);
+      return redirectToHome;
     }
   }
 
-  let spaces;
+  let spaces = {};
   try {
     spaces = await Space.find({});
-    console.debug(spaces);
+    console.debug('Spaces:', spaces);
   } catch (err) {
     console.error(err);
   }
