@@ -54,7 +54,7 @@ const TodoList = () => {
   const incompleteTodos = filter(todos, { isCompleted: false });
   return (
     <>
-      <List className="h-full flex flex-col justify-between	p-0">
+      <List className="h-full flex flex-col justify-between	p-1">
         <div>
           <ListItem className="p-1">
             <ListItemText className={classes.listItemText} primary={`Active Tasks (${incompleteTodos.length})`} />
