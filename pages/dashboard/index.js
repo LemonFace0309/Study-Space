@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
+import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql, useApolloClient } from '@apollo/client';
 
 import User from 'models/User';
 import Space from 'models/Spaces';
@@ -53,6 +54,20 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
+  const gqlClient = useApolloClient();
+  const GET_LAUNCHES = gql`
+    query {
+      restaurant {
+        _id
+        borough
+        cuisine
+        name
+        restaurant_id
+      }
+    }
+  `;
+  const { loading, error, data } = useQuery(GET_LAUNCHES);
+  console.log('data', data);
 
   useEffect(() => {
     setClient(session);
@@ -154,6 +169,26 @@ Dashboard.propTypes = {
 };
 
 export const getServerSideProps = async ({ req, locale }) => {
+  const gqlClient = new ApolloClient({
+    uri: 'https://api.spacex.land/graphql/',
+    cache: new InMemoryCache(),
+  });
+  const { data } = await gqlClient.query({
+    query: gql`
+      query getLaunches {
+        launchesPast(limit: 3) {
+          mission_name
+          launch_date_local
+          launch_site {
+            site_name_long
+          }
+        }
+      }
+    `,
+  });
+
+  console.debug('data', data);
+
   const session = await getSession({ req });
 
   await dbConnect();
