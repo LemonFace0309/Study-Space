@@ -161,9 +161,9 @@ const redirectToHome = {
 
 export const getServerSideProps = async ({ req, locale }) => {
   const session = await getSession({ req });
-  if (!session) {
-    return redirectToHome;
-  }
+  // if (!session) {
+  //   return redirectToHome;
+  // }
 
   await dbConnect();
 
@@ -173,9 +173,9 @@ export const getServerSideProps = async ({ req, locale }) => {
       const user = await User.findOne({
         email: session.user.email,
       });
-      if (!user) {
-        return redirectToHome;
-      }
+      // if (!user) {
+      //   return redirectToHome;
+      // }
       newSession = { ...session, user };
       console.debug('Session:', newSession);
     } catch (err) {
