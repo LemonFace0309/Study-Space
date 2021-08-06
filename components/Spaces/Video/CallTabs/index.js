@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@material-ui/core';
@@ -9,11 +9,16 @@ import TabPanelHeader from './TabPanelHeader';
 import Music from '../../Music';
 import ChatPanel from '../../Chat';
 import People from '../../StudySpace/People';
+import TodoList from '../../StudySpace/TodoList';
 
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
 
 function CallTabs({ username, participants, socketRef, roomID, conversation, showTabs, setShowTabs }) {
+  useEffect(() => {
+    setShowTabs(true);
+  }, [setShowTabs]);
+
   const callTabs = [
     {
       title: 'Empty',
@@ -23,7 +28,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       title: 'To-Do List',
       icon: PlaylistAddCheck,
-      panel: Music,
+      panel: TodoList,
     },
     {
       title: 'Music Library',
@@ -81,9 +86,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
               if (!tabObj.panel) return <TabPanel key={tabObj.title + '_PANEL'} />;
               return (
                 <TabPanel key={tabObj.title + '_PANEL'}>
-                  <Paper
-                    elevation={2}
-                    className="w-90 h-full rounded-md overflow-hidden font-bold bg-white flex flex-col">
+                  <Paper elevation={2} className="w-90 h-full rounded-md overflow-hidden bg-white flex flex-col">
                     <TabPanelHeader>{tabObj.title}</TabPanelHeader>
                     {renderComponent(tabObj.panel, { ...tabObj.panelProps })}
                   </Paper>

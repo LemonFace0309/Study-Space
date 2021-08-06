@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Grid, Paper, Dialog, Typography } from '@material-ui/core';
-import { Assignment } from '@material-ui/icons';
+import { Button, Grid, Paper, Dialog, Typography, IconButton } from '@material-ui/core';
+import { Assignment, Mic, MicOff, Videocam, VideocamOff } from '@material-ui/icons';
 
 const People = ({ participants, username }) => {
   const router = useRouter();
