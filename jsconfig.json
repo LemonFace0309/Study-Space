@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/atoms/*": ["atoms/*"],
       "@/components/*": ["components/*"],
       "@/context/*": ["context/*"],
       "@/hooks/*": ["hooks/*"],
