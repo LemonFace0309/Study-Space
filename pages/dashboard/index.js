@@ -118,8 +118,8 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
           <Grid item xs={12} className="h-4" />
         </Grid>
 
-        {/* Right Settings Bar */}
-        <Grid item md={1}>
+        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
+        <Grid item xs={1} md={1}>
           {session && (
             <Grid
               container
