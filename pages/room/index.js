@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
@@ -10,7 +11,7 @@ import { Button, Paper, Typography, TextField, CircularProgress } from '@materia
 
 import * as clientState from 'atoms/client';
 
-const CreateRoom = () => {
+const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
@@ -33,6 +34,18 @@ const CreateRoom = () => {
     initSession();
   }, []);
 
+  useEffect(() => {
+    if (spotifyCode) {
+      axios
+        .post('/api/spotify/login', { code: spotifyCode })
+        .then((res) => {
+          console.debug(res);
+        })
+        .catch((err) => console.debug(err))
+        .finally(() => router.push('/room'));
+    }
+  }, [spotifyCode]);
+
   const createNewSpace = async () => {
     setLoading(true);
     const id = uuid();
@@ -47,8 +60,8 @@ const CreateRoom = () => {
     };
     const result = await axios.post('/api/spaces/create-new-space', data);
 
-    setLoading(false);
     router.push(`/room/${id}`);
+    setLoading(false);
   };
 
   return (
@@ -76,14 +89,30 @@ const CreateRoom = () => {
           {loading && <CircularProgress />}
         </div>
       </Paper>
+      {spotifyCode ? (
+        <h1>Logged into Spotify</h1>
+      ) : (
+        <Button className="mt-2" href={spotifyAuthURL}>
+          Login to Spotify
+        </Button>
+      )}
     </div>
   );
 };
 
-export const getStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-});
+export const getServerSideProps = async ({ query, locale }) => {
+  return {
+    props: {
+      spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-read-playback-state%20user-modify-playback-state`,
+      spotifyCode: query?.code ?? '',
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
+
+CreateRoom.propTypes = {
+  spotifyAuthURL: PropTypes.string.isRequired,
+  spotifyCode: PropTypes.string.isRequired,
+};
 
 export default CreateRoom;
