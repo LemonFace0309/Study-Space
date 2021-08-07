@@ -5,11 +5,11 @@ import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import renderComponent from 'utils/renderComponent';
-import TabPanelHeader from './TabPanelHeader';
-import Music from '../../Music';
-import ChatPanel from '../../Chat';
-import People from '../../StudySpace/People';
-import TodoList from '../../StudySpace/TodoList';
+import TabPanelHeader from './Layout/TabPanelHeader';
+import Music from './Music';
+import ChatPanel from './Chat';
+import People from './People';
+import TodoList from './TodoList';
 
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
