@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { useSpotify } from '../SpotifyProvider';
 
 const useStyles = makeStyles((theme) => ({
   primaryText: {
@@ -25,6 +27,18 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
+  const { accessToken, spotifyApi } = useSpotify();
+  const [search, setSearch] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    if (!search) return setSearchResults([]);
+    if (!accessToken) return;
+
+    spotifyApi.searchTracks(search).then((res) => {
+      setSearchResults(res.body.tracks.items);
+    });
+  }, [search]);
 
   return (
     <div className="p-4 h-full flex flex-col">
@@ -35,14 +49,22 @@ const SearchSongs = () => {
         Song Search
       </Typography>
       <div className={classes.inputControl}>
-        <InputBase className="w-full" placeholder="Enter your song here" />
+        <InputBase
+          className="w-full"
+          placeholder="Enter your song here"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
       <Divider className="mt-4 mb-8" />
       <div className="flex-1 overflow-y-auto">
-        <Typography variant="body2" className={classes.emptySearch}>
-          Search result will show up here
-        </Typography>
-        <h1>songs</h1>
+        {searchResults.length === 0 ? (
+          <Typography variant="body2" className={classes.emptySearch}>
+            Search result will show up here
+          </Typography>
+        ) : (
+          <h1>{searchResults.toString()}</h1>
+        )}
       </div>
     </div>
   );

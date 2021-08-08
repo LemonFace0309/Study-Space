@@ -11,21 +11,25 @@ const spotifyApi = new SpotifyWebApi({
   clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
 });
 
-export function useConversation() {
+export function useSpotify() {
   return useContext(SpotifyContext);
 }
 
 export function SpotifyProvider({ children }) {
+  const [accessToken, setAccessToken] = useState('');
+
   useEffect(() => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
     if (!spotifySessionJWT) return;
     const spotifySession = jwt.decode(spotifySessionJWT);
     if (!spotifySession?.accessToken) return;
+    setAccessToken(spotifySession.accessToken);
     spotifyApi.setAccessToken(spotifySession.accessToken);
   }, []);
 
   const value = {
     spotifyApi,
+    accessToken,
   };
 
   return <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>;

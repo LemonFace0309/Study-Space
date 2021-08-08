@@ -57,7 +57,6 @@ const Music = ({ tabs }) => {
       const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
       timeoutDuration = timeToRefresh;
     }
-    console.debug(timeoutDuration);
     const timeout = setTimeout(() => {
       if (!spotifySession?.refreshToken) return;
       axios
@@ -94,9 +93,7 @@ const Music = ({ tabs }) => {
       </div>
       <SpotifyProvider>
         {tabs.map((tabObj) => (
-          <>
-            <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
-          </>
+          <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
         ))}
         <h1>test</h1>
       </SpotifyProvider>
