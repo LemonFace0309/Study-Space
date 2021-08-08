@@ -5,18 +5,17 @@ import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ThemeProvider } from '@material-ui/styles';
-import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql, HttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import Layout from '../components/Layout';
 import theme from '../styles/Theme';
 import '../styles/globals.css';
 
-export const APP_ID = 'instantgraphql-ftrar';
-const graphqlUri = `https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
+const graphqlUri = `/api/graphql`;
 
 // Configure the ApolloClient to connect to your app's GraphQL endpoint
 const client = new ApolloClient({
-  link: graphqlUri,
+  uri: graphqlUri,
   cache: new InMemoryCache(),
 });
 
