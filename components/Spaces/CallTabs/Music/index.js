@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     '& > .react-tabs__tab-panel--selected': {
       flex: 1,
+      overflowY: 'hidden',
     },
   },
   tab: {
