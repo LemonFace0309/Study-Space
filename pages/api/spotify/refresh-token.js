@@ -20,12 +20,13 @@ export default async (req, res) => {
     if (data) {
       const jwtData = {
         accessToken: data.body.access_token,
-        refreshToken: data.body.refresh_token,
+        refreshToken: refreshToken,
         expiresIn: data.body.expires_in,
       };
 
       const cookie = jwt.sign(jwtData, process.env.JWT_SECRET);
       res.setHeader('Set-Cookie', serialize('spotify_session', cookie, { path: '/' }));
+      return res.status(200).json({ data: jwtData });
     } else {
       throw new Error('Failed to receive data from spotify server');
     }

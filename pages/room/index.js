@@ -48,6 +48,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
           const expireDate = addMilliseconds(date, expiresIn);
           const refreshDate = addMilliseconds(date, expiresIn / 4);
           setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
+          console.debug('Successfully authenticated with shopify:', res.data);
         })
         .catch((err) => console.debug(err))
         .finally(() => router.push('/room'));

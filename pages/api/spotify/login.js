@@ -13,6 +13,7 @@ export default async (req, res) => {
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
+
   try {
     const data = await spotifyApi.authorizationCodeGrant(code);
     if (data) {
