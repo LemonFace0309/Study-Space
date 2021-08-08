@@ -22,19 +22,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Youtube = () => {
+const SearchSongs = () => {
   const classes = useStyles();
 
   return (
     <div className="p-4">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
-        We’ll fetch the first Youtube search result and add that to the queue.
+        We’ll fetch Spotify search result and add that to the queue.
       </Alert>
       <Typography variant="subtitle2" className={classes.primaryText}>
         Song Search
       </Typography>
       <div className={classes.inputControl}>
-        <InputBase className="w-full" placeholder="Enter the Youtube URL of a song here" />
+        <InputBase className="w-full" placeholder="Enter your song here" />
       </div>
       <Divider className="mt-4 mb-8" />
       <Typography variant="body2" className={classes.emptySearch}>
@@ -44,4 +44,4 @@ const Youtube = () => {
   );
 };
 
-export default Youtube;
+export default SearchSongs;

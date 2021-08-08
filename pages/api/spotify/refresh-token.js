@@ -1,4 +1,5 @@
-var jwt = require('jsonwebtoken');
+const { serialize } = require('cookie');
+const jwt = require('jsonwebtoken');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 export default async (req, res) => {
@@ -17,16 +18,14 @@ export default async (req, res) => {
   try {
     const data = await spotifyApi.refreshAccessToken();
     if (data) {
-      const cookie = jwt.sign(
-        {
-          accessToken: data.body.access_token,
-          refreshToken: data.body.refresh_token,
-          expiresIn: data.body.expires_in,
-        },
-        process.env.JWT_SECRET
-      );
+      const jwtData = {
+        accessToken: data.body.access_token,
+        refreshToken: data.body.refresh_token,
+        expiresIn: data.body.expires_in,
+      };
 
-      return res.status(200).cookie('spotify_session', cookie);
+      const cookie = jwt.sign(jwtData, process.env.JWT_SECRET);
+      res.setHeader('Set-Cookie', serialize('spotify_session', cookie, { path: '/' }));
     } else {
       throw new Error('Failed to receive data from spotify server');
     }

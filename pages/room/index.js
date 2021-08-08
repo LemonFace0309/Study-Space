@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import addMilliseconds from 'date-fns/addMilliseconds';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
@@ -10,6 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
 
 import * as clientState from 'atoms/client';
+import * as spotifyState from 'atoms/spotify';
 
 const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   const { t } = useTranslation();
@@ -17,6 +19,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   const [roomID, setRoomID] = useState('');
   const [loading, setLoading] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
+  const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
 
   const initSession = async () => {
     if (client) return;
@@ -40,6 +43,11 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
         .post('/api/spotify/login', { code: spotifyCode })
         .then((res) => {
           console.debug(res);
+          const expiresIn = res.data.data.expiresIn * 1000;
+          const date = new Date();
+          const expireDate = addMilliseconds(date, expiresIn);
+          const refreshDate = addMilliseconds(date, expiresIn / 4);
+          setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
         })
         .catch((err) => console.debug(err))
         .finally(() => router.push('/room'));
@@ -89,13 +97,9 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
           {loading && <CircularProgress />}
         </div>
       </Paper>
-      {spotifyCode ? (
-        <h1>Logged into Spotify</h1>
-      ) : (
-        <Button className="mt-2" href={spotifyAuthURL}>
-          Login to Spotify
-        </Button>
-      )}
+      <Button className="mt-2" href={spotifyAuthURL}>
+        Login to Spotify
+      </Button>
     </div>
   );
 };

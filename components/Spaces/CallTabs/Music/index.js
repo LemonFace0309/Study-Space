@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import jwt from 'jsonwebtoken';
 import classNames from 'classnames';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { differenceInMilliseconds, addMilliseconds } from 'date-fns';
 import { TabList, Tab, Tabs, TabPanel } from 'react-tabs';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -8,8 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import renderComponent from 'utils/renderComponent';
 import OurPicksTab from './Tabs/OurPicks';
-import YoutubeTab from './Tabs/Youtube';
+import SearchSongs from './Tabs/SearchSongs';
 import QueueTab from './Tabs/Queue';
+import * as spotifyState from 'atoms/spotify';
 
 const useStyles = makeStyles((theme) => ({
   tabContainer: {
@@ -38,6 +43,34 @@ const useStyles = makeStyles((theme) => ({
 const Music = ({ tabs }) => {
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
+  const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
+
+  useEffect(() => {
+    const spotifySessionJWT = document.cookies?.spotify_session;
+    if (!spotifySessionJWT) return;
+    const spotifySession = jwt.decode(spotifySessionJWT);
+    let timeoutDuration = spotifySession?.expiresIn ?? 3600 * 1000; // onehour in milliseconds
+    if (spotifyRefresh?.refreshDate) {
+      const curDate = new Date();
+      const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
+      timeoutDuration = timeToRefresh;
+    }
+    const timeout = setTimeout(() => {
+      axios
+        .post('/api/spotify/login', { refreshToken: spotifySession?.refreshToken })
+        .then((res) => {
+          console.debug(res);
+          const expiresIn = res.data.data.expiresIn * 1000;
+          const date = new Date();
+          const expireDate = addMilliseconds(date, expiresIn);
+          const refreshDate = addMilliseconds(date, expiresIn / 4);
+          setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
+        })
+        .catch((err) => console.debug(err));
+    }, timeoutDuration);
+
+    return clearTimeout(timeout);
+  }, [spotifyRefresh]);
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={() => null} className={classes.tabContainer}>
@@ -71,8 +104,8 @@ Music.defaultProps = {
       panel: OurPicksTab,
     },
     {
-      title: 'Youtube',
-      panel: YoutubeTab,
+      title: 'Search',
+      panel: SearchSongs,
     },
     {
       title: 'Queue',
