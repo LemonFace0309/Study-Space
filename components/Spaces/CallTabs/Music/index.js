@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
+import { SpotifyProvider } from './SpotifyProvider';
 import OurPicksTab from './Tabs/OurPicks';
 import SearchSongs from './Tabs/SearchSongs';
 import QueueTab from './Tabs/Queue';
@@ -20,12 +21,10 @@ import QueueTab from './Tabs/Queue';
 const useStyles = makeStyles((theme) => ({
   tabContainer: {
     flex: 1,
-    height: 'auto',
     padding: theme.spacing(1),
     overflow: 'auto',
-    '& > div': {
-      height: 'auto',
-    },
+    display: 'flex',
+    flexDirection: 'column',
   },
   tab: {
     flex: 1,
@@ -51,12 +50,14 @@ const Music = ({ tabs }) => {
     if (!spotifySessionJWT) return;
     const spotifySession = jwt.decode(spotifySessionJWT);
     if (!spotifySession) return;
-    let timeoutDuration = spotifySession?.expiresIn * 1000 ?? 3600 * 1000; // onehour in milliseconds
+    // let timeoutDuration = spotifySession?.expiresIn * 1000 ?? 3600 * 1000; // onehour in milliseconds
+    let timeoutDuration = 100;
     if (spotifyRefresh?.refreshDate) {
       const curDate = new Date();
       const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
       timeoutDuration = timeToRefresh;
     }
+    console.debug(timeoutDuration);
     const timeout = setTimeout(() => {
       if (!spotifySession?.refreshToken) return;
       axios
@@ -77,21 +78,28 @@ const Music = ({ tabs }) => {
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={() => null} className={classes.tabContainer}>
-      <TabList className="flex w-full justify-center">
-        {tabs.map((tabObj, index) => (
-          <Button
-            key={tabObj.title + '_TAB'}
-            className={classNames([classes.tab, tabIndex === index && classes.activeTab])}
-            onClick={() => setTabIndex(index)}>
-            <Tab>
-              <Typography variant="subtitle2">{tabObj.title}</Typography>
-            </Tab>
-          </Button>
+      <div>
+        <TabList className="flex w-full justify-center">
+          {tabs.map((tabObj, index) => (
+            <Button
+              key={tabObj.title + '_TAB'}
+              className={classNames([classes.tab, tabIndex === index && classes.activeTab])}
+              onClick={() => setTabIndex(index)}>
+              <Tab>
+                <Typography variant="subtitle2">{tabObj.title}</Typography>
+              </Tab>
+            </Button>
+          ))}
+        </TabList>
+      </div>
+      <SpotifyProvider>
+        {tabs.map((tabObj) => (
+          <>
+            <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
+          </>
         ))}
-      </TabList>
-      {tabs.map((tabObj) => (
-        <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
-      ))}
+        <h1>test</h1>
+      </SpotifyProvider>
     </Tabs>
   );
 };
