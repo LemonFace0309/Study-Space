@@ -5,7 +5,8 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useSpotify } from '../SpotifyProvider';
+import Track from './Track';
+import { useSpotify } from '../../SpotifyProvider';
 
 const useStyles = makeStyles((theme) => ({
   primaryText: {
@@ -35,10 +36,28 @@ const SearchSongs = () => {
     if (!search) return setSearchResults([]);
     if (!accessToken) return;
 
+    let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
-      setSearchResults(res.body.tracks.items);
+      if (cancel) return;
+      setSearchResults(
+        res.body.tracks.items.map((track) => {
+          const smallestAlbumImage = track.album.images.reduce((smallest, image) => {
+            if (image.height < smallest.height) return image;
+            return smallest;
+          }, track.album.images[0]);
+
+          return {
+            artist: track.artists[0].name,
+            title: track.name,
+            uri: track.uri,
+            albumUrl: smallestAlbumImage.url,
+          };
+        })
+      );
     });
-  }, [search]);
+
+    return () => (cancel = true);
+  }, [search, accessToken]);
 
   return (
     <div className="p-4 h-full flex flex-col">
@@ -63,7 +82,7 @@ const SearchSongs = () => {
             Search result will show up here
           </Typography>
         ) : (
-          <h1>{searchResults.toString()}</h1>
+          searchResults.map((track) => <Track key={track.uri} track={track} />)
         )}
       </div>
     </div>
