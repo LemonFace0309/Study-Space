@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi } = useSpotify();
+  const { accessToken, spotifyApi, setTrackUri } = useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -59,8 +59,13 @@ const SearchSongs = () => {
     return () => (cancel = true);
   }, [search, accessToken]);
 
+  const playTrack = (track) => {
+    setSearchResults([]);
+    setTrackUri(track.uri);
+  };
+
   return (
-    <div className="p-4 h-full flex flex-col">
+    <div className="p-4 overflow-y-auto h-full flex flex-col">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
         We’ll fetch Spotify search result and add that to the queue.
       </Alert>
@@ -82,7 +87,7 @@ const SearchSongs = () => {
             Search result will show up here
           </Typography>
         ) : (
-          searchResults.map((track) => <Track key={track.uri} track={track} />)
+          searchResults.map((track) => <Track key={track.uri} track={track} playTrack={playTrack} />)
         )}
       </div>
     </div>

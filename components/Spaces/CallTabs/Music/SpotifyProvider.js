@@ -17,6 +17,7 @@ export function useSpotify() {
 
 export function SpotifyProvider({ children }) {
   const [accessToken, setAccessToken] = useState('');
+  const [trackUri, setTrackUri] = useState(null);
 
   useEffect(() => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
@@ -30,6 +31,8 @@ export function SpotifyProvider({ children }) {
   const value = {
     spotifyApi,
     accessToken,
+    trackUri,
+    setTrackUri,
   };
 
   return <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>;

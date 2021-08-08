@@ -14,6 +14,7 @@ import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
 import { SpotifyProvider } from './SpotifyProvider';
+import Player from './Player';
 import OurPicksTab from './Tabs/OurPicks';
 import SearchSongs from './Tabs/SearchSongs';
 import QueueTab from './Tabs/Queue';
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    '& > .react-tabs__tab-panel--selected': {
+      flex: 1,
+    },
   },
   tab: {
     flex: 1,
@@ -37,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
   activeTab: {
     textDecoration: 'none',
     backgroundColor: 'rgba(17, 17, 17, 0.04)',
+  },
+  playerContainer: {
+    width: '100%',
+    position: 'relative',
+    bottom: '0',
+    left: '0',
   },
 }));
 
@@ -95,7 +105,9 @@ const Music = ({ tabs }) => {
         {tabs.map((tabObj) => (
           <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
         ))}
-        <h1>test</h1>
+        <div className={classes.playerContainer}>
+          <Player />
+        </div>
       </SpotifyProvider>
     </Tabs>
   );
