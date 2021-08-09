@@ -19,16 +19,21 @@ export function SpotifyProvider({ children }) {
   const [accessToken, setAccessToken] = useState('');
   const [trackUri, setTrackUri] = useState(null);
 
-  useEffect(() => {
+  const getAccessTokenFromCookies = () => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
     if (!spotifySessionJWT) return;
     const spotifySession = jwt.decode(spotifySessionJWT);
     if (!spotifySession?.accessToken) return;
     setAccessToken(spotifySession.accessToken);
     spotifyApi.setAccessToken(spotifySession.accessToken);
+  };
+
+  useEffect(() => {
+    getAccessTokenFromCookies();
   }, []);
 
   const value = {
+    getAccessTokenFromCookies,
     spotifyApi,
     accessToken,
     trackUri,

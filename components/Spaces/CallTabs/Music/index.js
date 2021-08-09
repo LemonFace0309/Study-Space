@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
-import { SpotifyProvider } from './SpotifyProvider';
+import { useSpotify } from './SpotifyProvider';
 import Player from './Player';
 import OurPicksTab from './Tabs/OurPicks';
 import SearchSongs from './Tabs/SearchSongs';
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Music = ({ tabs }) => {
   const classes = useStyles();
+  const { getAccessTokenFromCookies } = useSpotify();
   const [tabIndex, setTabIndex] = useState(0);
   const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
 
@@ -79,6 +80,7 @@ const Music = ({ tabs }) => {
           const refreshDate = addMilliseconds(date, expiresIn / 4);
           setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
           console.debug('Successfully refreshed spotify token:', res.data);
+          getAccessTokenFromCookies();
         })
         .catch((err) => console.debug(err));
     }, timeoutDuration);
@@ -102,14 +104,12 @@ const Music = ({ tabs }) => {
           ))}
         </TabList>
       </div>
-      <SpotifyProvider>
-        {tabs.map((tabObj) => (
-          <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
-        ))}
-        <div className={classes.playerContainer}>
-          <Player />
-        </div>
-      </SpotifyProvider>
+      {tabs.map((tabObj) => (
+        <TabPanel key={tabObj.title + '_PANEL'}>{renderComponent(tabObj.panel)}</TabPanel>
+      ))}
+      <div className={classes.playerContainer}>
+        <Player />
+      </div>
     </Tabs>
   );
 };

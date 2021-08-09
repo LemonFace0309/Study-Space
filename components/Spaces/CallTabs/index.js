@@ -7,6 +7,7 @@ import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck 
 import renderComponent from 'utils/renderComponent';
 import TabPanelHeader from './Layout/TabPanelHeader';
 import Music from './Music';
+import { SpotifyProvider } from './Music/SpotifyProvider';
 import ChatPanel from './Chat';
 import People from './People';
 import TodoList from './TodoList';
@@ -33,7 +34,8 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       title: 'Music Library',
       icon: LibraryMusic,
-      panel: Music,
+      panel: SpotifyProvider,
+      panelChild: Music,
     },
     {
       title: 'Participants',
@@ -88,7 +90,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
                 <TabPanel key={tabObj.title + '_PANEL'}>
                   <Paper elevation={2} className="w-90 h-full rounded-md overflow-hidden bg-white flex flex-col">
                     <TabPanelHeader>{tabObj.title}</TabPanelHeader>
-                    {renderComponent(tabObj.panel, { ...tabObj.panelProps })}
+                    {renderComponent(tabObj.panel, { ...tabObj.panelProps }, tabObj?.panelChild)}
                   </Paper>
                 </TabPanel>
               );
