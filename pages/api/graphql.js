@@ -1,18 +1,37 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
+import dbConnect from 'utils/dbConnect';
+import User from 'models/User';
+import { argsToArgsConfig } from 'graphql/type/definition';
 
 const typeDefs = gql`
-  type Query {
-    users: [User!]!
-  }
   type User {
+    friends: [ID]
+    _id: ID
     name: String
+    email: String
+    username: String
+    phoneNumber: String
+    password: String
+
+    type: String
+    image: String
+    created: String
+  }
+
+  type Query {
+    users(name: String): [User]
   }
 `;
 
 const resolvers = {
   Query: {
-    users(parent, args, context) {
-      return 'Hello';
+    users: async (parent, args, context) => {
+      const { name } = args;
+
+      await dbConnect;
+      const data = await User.findOne({ name: args.name });
+      console.debug('data', data, 'args', args);
+      return [data];
     },
   },
 };
