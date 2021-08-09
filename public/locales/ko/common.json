@@ -1,6 +1,7 @@
 {
   "LABEL_JOIN_A_SPACE": "스페이스 가입",
   "LABEL_JOIN_SPACE": "스페이스 가입",
+  "LABEL_CREATE_A_SPACE": "Create a Space",
   "LABEL_CREATE_SPACE": "공간 생성",
   "LABEL_SIGNOUT": "로그아웃",
   "LABEL_SIGNUP": "가입",
@@ -12,5 +13,16 @@
   "LABEL_DONT_HAVE_ACCOUNT": "계정이 없습니까? ",
   "LABEL_SIGN_UP_WITH": "다음으로 가입",
   "LABEL_LOG_IN_WITH": "로그인",
-  "LABEL_EMAIL_ADDRESS": "이메일 주소"
+  "LABEL_EMAIL_ADDRESS": "이메일 주소",
+  "LABEL_HOME": "Home",
+  "LABEL_BROWSE": "Browse",
+  "LABEL_STATISTICS": "Statistics",
+  "LABEL_FRIENDS": "Friends",
+  "LABEL_CHANGE_PROFILE_PICTURE": "Change Profile Picture",
+  "LABEL_USERNAME": "Username",
+  "LABEL_EMAIL": "Email",
+  "LABEL_PHONE": "Phone Number",
+
+  "SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
+  "ERROR_SERVER": "Internal Server Error"
 }
