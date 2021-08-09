@@ -2,7 +2,6 @@ import { ApolloServer, gql } from 'apollo-server-micro';
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
 import Space from 'models/Spaces';
-import Friend from 'models/Friends';
 
 const typeDefs = gql`
   type User {
