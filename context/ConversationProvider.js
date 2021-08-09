@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 
-// import useLocalStorage from '../hooks/useLocalStorage'
+// import useLocalStorage from 'hooks/useLocalStorage'
 import { useSocket } from './SocketProvider';
 
 const ConversationContext = React.createContext();
@@ -49,11 +49,7 @@ export function ConversationProvider({ children }) {
     sendMessage,
   };
 
-  return (
-    <ConversationContext.Provider value={value}>
-      {children}
-    </ConversationContext.Provider>
-  );
+  return <ConversationContext.Provider value={value}>{children}</ConversationContext.Provider>;
 }
 
 // const arrayEquality = (a, b,) => {

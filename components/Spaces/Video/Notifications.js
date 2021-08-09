@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 
-import { useSocket } from '../../../context/SocketProvider';
+import { useSocket } from 'context/SocketProvider';
 
 function Notifications() {
   const { answerCall, call, callAccepted } = useSocket();

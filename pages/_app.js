@@ -6,9 +6,9 @@ import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/styles';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-import Layout from '../components/Layout';
-import theme from '../styles/Theme';
-import '../styles/globals.css';
+import Layout from 'components/Layout';
+import theme from 'styles/Theme';
+import 'styles/globals.css';
 
 const graphqlUri = `/api/graphql`;
 

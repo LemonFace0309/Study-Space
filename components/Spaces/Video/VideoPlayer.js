@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useSocket } from '../../../context/SocketProvider';
+import { useSocket } from 'context/SocketProvider';
 
 const useStyles = makeStyles((theme) => ({
   video: {
@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 function VideoPlayer() {
   const classes = useStyles();
-  const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } =
-    useSocket();
+  const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useSocket();
 
   return (
     <Grid container className={classes.gridContainer} direction="row">
@@ -37,12 +36,7 @@ function VideoPlayer() {
             <Typography variant="h5" gutterBottom>
               {name || 'Name'}
             </Typography>
-            <video
-              playsInline
-              muted
-              ref={myVideo}
-              autoPlay
-              className={classes.video}></video>
+            <video playsInline muted ref={myVideo} autoPlay className={classes.video}></video>
           </Grid>
         </Paper>
       )}
@@ -52,11 +46,7 @@ function VideoPlayer() {
             <Typography variant="h5" gutterBottom>
               {call.name || 'Name'}
             </Typography>
-            <video
-              playsInline
-              ref={userVideo}
-              autoPlay
-              className={classes.video}></video>
+            <video playsInline ref={userVideo} autoPlay className={classes.video}></video>
           </Grid>
         </Paper>
       )}
