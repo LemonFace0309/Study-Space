@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -57,7 +57,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const gqlClient = useApolloClient();
   const GET_LAUNCHES = gql`
     query {
-      users(name: "Charles Liu") {
+      users(userIds: ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"]) {
         name
         email
         image
@@ -173,23 +173,23 @@ const redirectToHome = {
 };
 
 export const getServerSideProps = async ({ req, locale }) => {
-  const gqlClient = new ApolloClient({
-    uri: '/api/graphql',
-    cache: new InMemoryCache(),
-  });
-  const { data } = await gqlClient.query({
-    query: gql`
-      query getLaunches {
-        users(name: "Charles Liu") {
-          name
-          email
-          image
-        }
-      }
-    `,
-  });
-
-  console.debug('data', data);
+  // TODO: fix pathing for uri, since absolute pathing
+  // const gqlClient = new ApolloClient({
+  //   uri: '/api/graphql',
+  //   cache: new InMemoryCache(),
+  // });
+  // const { data } = await gqlClient.query({
+  //   query: gql`
+  //     query getLaunches {
+  //       users(name: "Charles Liu") {
+  //         name
+  //         email
+  //         image
+  //       }
+  //     }
+  //   `,
+  // });
+  // console.debug('data', data);
 
   const session = await getSession({ req });
   if (!session) {
