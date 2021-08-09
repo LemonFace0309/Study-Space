@@ -5,8 +5,8 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Track from './Track';
-import { useSpotify } from '../../SpotifyProvider';
+import Track from '../Track';
+import { useSpotify } from '../SpotifyProvider';
 
 const useStyles = makeStyles((theme) => ({
   primaryText: {

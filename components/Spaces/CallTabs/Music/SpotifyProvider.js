@@ -17,7 +17,9 @@ export function useSpotify() {
 
 export function SpotifyProvider({ children }) {
   const [accessToken, setAccessToken] = useState('');
+  const [currentTrack, setCurrentTrack] = useState(null);
   const [trackUri, setTrackUri] = useState(null);
+  const [nextTracks, setNextTracks] = useState([]);
 
   const getAccessTokenFromCookies = () => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
@@ -36,8 +38,12 @@ export function SpotifyProvider({ children }) {
     getAccessTokenFromCookies,
     spotifyApi,
     accessToken,
+    currentTrack,
+    setCurrentTrack,
     trackUri,
     setTrackUri,
+    nextTracks,
+    setNextTracks,
   };
 
   return <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>;
