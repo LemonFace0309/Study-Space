@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button } from '@material-ui/core';
 import { getSession } from 'next-auth/client';
 
@@ -85,5 +86,11 @@ function Users() {
     </>
   );
 }
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common'])),
+  },
+});
 
 export default Users;

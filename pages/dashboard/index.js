@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -69,7 +69,6 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
 
   useEffect(() => {
     setClient(session);
-    console.debug('client', client);
   }, []);
 
   return (
@@ -132,8 +131,8 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
           <Grid item xs={12} className="h-4" />
         </Grid>
 
-        {/* Right Settings Bar */}
-        <Grid item md={1}>
+        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
+        <Grid item xs={1} md={1}>
           {session && (
             <Grid
               container
@@ -166,6 +165,13 @@ Dashboard.propTypes = {
   spaceCardData: PropTypes.array.isRequired,
 };
 
+const redirectToHome = {
+  redirect: {
+    permanent: false,
+    destination: '/',
+  },
+};
+
 export const getServerSideProps = async ({ req, locale }) => {
   const gqlClient = new ApolloClient({
     uri: '/api/graphql',
@@ -186,26 +192,33 @@ export const getServerSideProps = async ({ req, locale }) => {
   console.debug('data', data);
 
   const session = await getSession({ req });
+  if (!session) {
+    return redirectToHome;
+  }
 
   await dbConnect();
 
-  let newSession;
+  let newSession = {};
   if (session) {
     try {
       const user = await User.findOne({
         email: session.user.email,
       });
+      if (!user) {
+        return redirectToHome;
+      }
       newSession = { ...session, user };
       console.debug('Session:', newSession);
     } catch (err) {
       console.error(err);
+      return redirectToHome;
     }
   }
 
-  let spaces;
+  let spaces = {};
   try {
     spaces = await Space.find({});
-    console.debug(spaces);
+    console.debug('Spaces:', spaces);
   } catch (err) {
     console.error(err);
   }
