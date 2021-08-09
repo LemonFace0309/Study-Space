@@ -1,5 +1,7 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import dbConnect from 'utils/dbConnect';
+import asyncForEach from '@/utils/asyncForEach';
+
 import User from 'models/User';
 import Space from 'models/Spaces';
 
@@ -40,7 +42,7 @@ const typeDefs = gql`
     spaceId: ID
     isActive: Boolean
     music: String
-    participants: [String]
+    participants: [User]
     createdAt: String
     updatedAt: String
   }
@@ -60,12 +62,18 @@ const resolvers = {
       const { userIds } = args;
       console.debug('args', args, 'userIds', userIds);
       const data = [];
+
       await dbConnect;
-      for (let index in userIds) {
-        const user = await User.findOne({ _id: userIds[index] });
-        console.debug('user', user);
+      for (let _id of userIds) {
+        const user = await User.findOne({ _id });
         data.push(user);
       }
+
+      // Does the same thing as above
+      // await asyncForEach(userIds, async (_id) => {
+      //   const user = await User.findOne({ _id });
+      //   data.push(user);
+      // });
       return data;
     },
 
@@ -73,12 +81,11 @@ const resolvers = {
       const { spaceIds } = args;
       console.debug('args', args, 'spaceIds', spaceIds);
       const data = [];
-      await dbConnect;
 
-      for (let index in spaceIds) {
-        const space = await Space.findOne({ spaceId: spaceIds[index] });
+      await dbConnect;
+      for (let spaceId of spaceIds) {
+        const space = await Space.findOne({ spaceId });
         data.push(space);
-        console.debug('data', spaceIds[index]);
       }
       return data;
     },
