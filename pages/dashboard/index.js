@@ -57,12 +57,10 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const gqlClient = useApolloClient();
   const GET_LAUNCHES = gql`
     query {
-      restaurant {
-        _id
-        borough
-        cuisine
+      users(name: "Charles Liu") {
         name
-        restaurant_id
+        email
+        image
       }
     }
   `;
@@ -170,18 +168,16 @@ Dashboard.propTypes = {
 
 export const getServerSideProps = async ({ req, locale }) => {
   const gqlClient = new ApolloClient({
-    uri: 'https://api.spacex.land/graphql/',
+    uri: '/api/graphql',
     cache: new InMemoryCache(),
   });
   const { data } = await gqlClient.query({
     query: gql`
       query getLaunches {
-        launchesPast(limit: 3) {
-          mission_name
-          launch_date_local
-          launch_site {
-            site_name_long
-          }
+        users(name: "Charles Liu") {
+          name
+          email
+          image
         }
       }
     `,

@@ -1,7 +1,7 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
-import { argsToArgsConfig } from 'graphql/type/definition';
+import Space from 'models/Spaces';
 
 const typeDefs = gql`
   type User {
@@ -12,26 +12,75 @@ const typeDefs = gql`
     username: String
     phoneNumber: String
     password: String
-
     type: String
     image: String
-    created: String
+    createdAt: String
+    updatedAt: String
+  }
+
+  enum FriendStatus {
+    NOT_FRIENDS
+    REQUESTED
+    FRIENDS
+  }
+
+  type Friend {
+    requester: ID
+    recipient: ID
+    requester_email: String
+    recipient_email: String
+    status: FriendStatus
+    createdAt: String
+    updatedAt: String
+  }
+
+  type Space {
+    name: String
+    description: String
+    spaceId: ID
+    isActive: Boolean
+    music: String
+    participants: [String]
+    createdAt: String
+    updatedAt: String
   }
 
   type Query {
-    users(name: String): [User]
+    users(userIds: [ID]): [User]
+    spaces(spaceIds: [ID]): [Space]
   }
 `;
+
+// const userIds = ['60ff51c8684e9e2206a83bfb', '609ccafca1c3fe54cca40121'];
+// const spaceIds = ["e3749900-ef9f-11eb-a133-cb7556fca63a", "bd3b5480-efa0-11eb-a133-cb7556fca63a"];
 
 const resolvers = {
   Query: {
     users: async (parent, args, context) => {
-      const { name } = args;
-
+      const { userIds } = args;
+      console.debug('args', args, 'userIds', userIds);
+      const data = [];
       await dbConnect;
-      const data = await User.findOne({ name: args.name });
-      console.debug('data', data, 'args', args);
-      return [data];
+      for (let index in userIds) {
+        const user = await User.findOne({ _id: userIds[index] });
+        console.debug('user', user);
+        data.push(user);
+      }
+      return data;
+    },
+
+    spaces: async (parent, args, context) => {
+      const { spaceIds } = args;
+      console.debug('args', args, 'spaceIds', spaceIds);
+      const data = [];
+      await dbConnect;
+
+      for (let index in spaceIds) {
+        const space = await Space.findOne({ spaceId: spaceIds[index] });
+        data.push(space);
+        console.debug('data', spaceIds[index]);
+      }
+      return data;
     },
   },
 };
