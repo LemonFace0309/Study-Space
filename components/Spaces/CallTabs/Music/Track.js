@@ -22,7 +22,7 @@ const Track = ({ track, playTrack }) => {
   const { artist, title, albumUrl } = track;
 
   return (
-    <div className="flex m-2 item-center cursor-pointer" role="button" onClick={() => playTrack(track)}>
+    <div className="flex m-2 items-center cursor-pointer" role="button" onClick={() => playTrack(track)}>
       <img src={albumUrl} alt="song thumbnail" className={classes.thumbnailImage} />
       <div className="ml-2 flex-1">
         <Typography variant="subtitle1" className={classes.songTitle}>

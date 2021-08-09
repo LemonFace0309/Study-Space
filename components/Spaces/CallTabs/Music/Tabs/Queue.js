@@ -1,3 +1,4 @@
+import { uniqueId } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,11 +28,7 @@ const Queue = () => {
       <Typography variant="subtitle2" className={`${classes.heading} mt-8`}>
         Next in Queue
       </Typography>
-      {/* {songs.map((song, index) => {
-        if (index !== 0) {
-          return <Song key={uniqueId()} {...song} className="mb-2" />;
-        }
-      })} */}
+      {nextTracks && nextTracks.map((track) => <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} />)}
     </div>
   );
 };
