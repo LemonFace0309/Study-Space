@@ -3,7 +3,6 @@ const getCookie = (cookies, name) => {
   for (let cookie of ca) {
     const [cName, cValue] = cookie.split('=');
     if (cName === name) {
-      console.debug('value:', cValue);
       return cValue;
     }
   }
