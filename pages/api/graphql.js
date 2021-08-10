@@ -1,6 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import dbConnect from 'utils/dbConnect';
-import asyncForEach from '@/utils/asyncForEach';
 
 import User from 'models/User';
 import Space from 'models/Spaces';
