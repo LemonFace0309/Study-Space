@@ -65,7 +65,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
     }
   `;
   const { loading, error, data } = useQuery(GET_LAUNCHES);
-  console.log('data', data);
+  console.debug('data', data);
 
   useEffect(() => {
     setClient(session);
