@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
-import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql, useApolloClient } from '@apollo/client';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 
 import User from 'models/User';
 import Space from 'models/Spaces';
@@ -55,7 +55,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [open, setOpen] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
   const gqlClient = useApolloClient();
-  const GET_LAUNCHES = gql`
+  const GET_USERS = gql`
     query {
       users(userIds: ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"]) {
         name
@@ -64,7 +64,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
       }
     }
   `;
-  const { loading, error, data } = useQuery(GET_LAUNCHES);
+  const { loading, error, data } = useQuery(GET_USERS);
   console.log('data', data);
 
   useEffect(() => {
@@ -218,7 +218,7 @@ export const getServerSideProps = async ({ req, locale }) => {
   let spaces = {};
   try {
     spaces = await Space.find({});
-    console.debug('Spaces:', spaces);
+    // console.debug('Spaces:', spaces);
   } catch (err) {
     console.error(err);
   }

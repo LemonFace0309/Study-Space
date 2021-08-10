@@ -7,10 +7,10 @@ import Space from 'models/Spaces';
 
 const typeDefs = gql`
   type User {
-    friends: [ID]
-    _id: ID
-    name: String
-    email: String
+    friends: [ID!]
+    _id: ID!
+    name: String!
+    email: String!
     username: String
     phoneNumber: String
     password: String
@@ -27,29 +27,41 @@ const typeDefs = gql`
   }
 
   type Friend {
-    requester: ID
-    recipient: ID
+    requester: ID!
+    recipient: ID!
     requester_email: String
     recipient_email: String
-    status: FriendStatus
-    createdAt: String
-    updatedAt: String
+    status: FriendStatus!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Space {
-    name: String
+    name: String!
     description: String
-    spaceId: ID
-    isActive: Boolean
+    spaceId: ID!
+    isActive: Boolean!
     music: String
-    participants: [User]
-    createdAt: String
-    updatedAt: String
+    participants: [ID!]
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  input SpaceInput {
+    name: String!
+    description: String
+    spaceId: ID!
+    music: String
+    participants: [ID!]
   }
 
   type Query {
-    users(userIds: [ID]): [User]
-    spaces(spaceIds: [ID]): [Space]
+    users(userIds: [ID!], name: String, email: String): [User]
+    spaces(spaceIds: [ID!]!): [Space]
+  }
+
+  type Mutation {
+    createSpace(input: SpaceInput!): Space
   }
 `;
 // Sample Id's to test out in graphql gui
@@ -59,27 +71,26 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     users: async (parent, args, context) => {
-      const { userIds } = args;
-      console.debug('args', args, 'userIds', userIds);
+      const { userIds, name, email } = args;
       const data = [];
 
       await dbConnect;
+
+      if (name && email) {
+        const user = await User.findOne({ name, email });
+        data.push(user);
+        return data;
+      }
+
       for (let _id of userIds) {
         const user = await User.findOne({ _id });
         data.push(user);
       }
-
-      // Does the same thing as above
-      // await asyncForEach(userIds, async (_id) => {
-      //   const user = await User.findOne({ _id });
-      //   data.push(user);
-      // });
       return data;
     },
 
     spaces: async (parent, args, context) => {
       const { spaceIds } = args;
-      console.debug('args', args, 'spaceIds', spaceIds);
       const data = [];
 
       await dbConnect;
@@ -88,6 +99,21 @@ const resolvers = {
         data.push(space);
       }
       return data;
+    },
+  },
+  Mutation: {
+    createSpace: async (parent, args, context) => {
+      console.log('parent:', parent, 'args:', args, 'context:', context);
+
+      await dbConnect;
+      const space = new Space({
+        name,
+        description,
+        music,
+        spaceId,
+        participants,
+      });
+      const result = space.save();
     },
   },
 };

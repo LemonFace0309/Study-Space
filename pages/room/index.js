@@ -7,6 +7,7 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 
 import * as clientState from 'atoms/client';
 
@@ -16,6 +17,7 @@ const CreateRoom = () => {
   const [roomID, setRoomID] = useState('');
   const [loading, setLoading] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
+  const gqlClient = useApolloClient();
 
   const initSession = async () => {
     if (client) return;
@@ -23,9 +25,21 @@ const CreateRoom = () => {
     const session = await getSession();
     const { name, email } = session.user;
     const result = await axios.get('/api/user/get-user', { params: { name, email } });
+    const GET_USERS = gql`
+      query {
+        users(name: name, email: email) {
+          name
+          email
+          image
+        }
+      }
+    `;
+    const { loading, error, data } = useQuery(GET_USERS);
+    console.log('data', data);
     const user = result.data.user;
 
     const newClient = { ...session, user };
+    console.log(newClient, user, 'session', session, 'id', user._id);
     setClient(newClient);
   };
 
@@ -42,13 +56,13 @@ const CreateRoom = () => {
       description: '16X 🚀🚀🚀🚀',
       music: 'none',
       isActive: true,
-      participants: [{ clientId }],
+      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
       spaceId: id,
     };
-    const result = await axios.post('/api/spaces/create-new-space', data);
+    // const result = await axios.post('/api/spaces/create-new-space', data);
 
     setLoading(false);
-    router.push(`/room/${id}`);
+    // router.push(`/room/${id}`);
   };
 
   return (
