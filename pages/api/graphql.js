@@ -63,9 +63,6 @@ const typeDefs = gql`
     createSpace(input: SpaceInput!): Space
   }
 `;
-// Sample Id's to test out in graphql gui
-// const userIds = ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"];
-// const spaceIds = ["e3749900-ef9f-11eb-a133-cb7556fca63a", "bd3b5480-efa0-11eb-a133-cb7556fca63a"];
 
 const resolvers = {
   Query: {

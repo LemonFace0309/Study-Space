@@ -10,11 +10,9 @@ import Layout from 'components/Layout';
 import theme from 'styles/Theme';
 import 'styles/globals.css';
 
-const graphqlUri = `/api/graphql`;
-
 // Configure the ApolloClient to connect to your app's GraphQL endpoint
 const client = new ApolloClient({
-  uri: graphqlUri,
+  uri: '/api/graphql',
   cache: new InMemoryCache(),
 });
 
