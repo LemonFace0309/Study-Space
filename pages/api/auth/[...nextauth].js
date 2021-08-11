@@ -1,10 +1,12 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+import Adapters from 'next-auth/adapters';
+
 const bcrypt = require('bcrypt');
 
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
-
+import Models from 'models';
 const options = {
   pages: {
     signIn: '/auth/signin',
@@ -48,6 +50,17 @@ const options = {
       },
     }),
   ],
+  adapter: Adapters.TypeORM.Adapter(
+    // The first argument should be a database connection string or TypeORM config object
+    process.env.DATABASE_URL,
+    // The second argument can be used to pass custom models and schemas
+    {
+      models: {
+        User: Models.User,
+      },
+    }
+  ),
+
   callbacks: {
     async signIn(user, account, profile) {
       if (account.type === 'credentials') {
