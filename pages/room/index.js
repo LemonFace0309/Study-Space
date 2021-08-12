@@ -11,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 
-import { initializeApollo } from '@/utils/graphql/client';
+import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 

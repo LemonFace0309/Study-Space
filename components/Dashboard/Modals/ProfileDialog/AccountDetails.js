@@ -178,7 +178,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
       </Grid>
       <Grid item sm={7} />
       <Grid container spacing={3} className="mb-4">
-        <Grid container item xs={12} sm={5} justify="center" alignItems="center">
+        <Grid container item xs={12} sm={5} justifyContent="center" alignItems="center">
           <div className={classes.imageContainer}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img alt="Your Profile Pic" src={newImage ?? userImage} className={classes.largeAvatar} />

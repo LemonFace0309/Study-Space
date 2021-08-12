@@ -26,11 +26,12 @@ import LineChart from 'components/Dashboard/Charts/LineChart';
 import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
 import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import * as clientState from 'atoms/client';
+import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 
 const GET_USERS = gql`
   query {
-    users(userIds: ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"]) {
+    users(userIds: ["609ccafca1c3fe54cca40121", "6114e6e916e2ea30ab88aa78"]) {
       name
       email
       image
@@ -63,7 +64,9 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const setClient = useSetRecoilState(clientState.client);
+
   // const { data } = useQuery(GET_USERS);
+  // console.debug(data);
 
   useEffect(() => {
     setClient(session);
@@ -171,23 +174,10 @@ const redirectToHome = {
 };
 
 export const getServerSideProps = async ({ req, locale }) => {
-  // TODO: fix pathing for uri, since absolute pathing
-  // const gqlClient = new ApolloClient({
-  //   uri: '/api/graphql',
-  //   cache: new InMemoryCache(),
-  // });
-  // const { data } = await gqlClient.query({
-  //   query: gql`
-  //     query getLaunches {
-  //       users(name: "Charles Liu") {
-  //         name
-  //         email
-  //         image
-  //       }
-  //     }
-  //   `,
-  // });
-  // console.debug('data', data);
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
+    query: GET_USERS,
+  });
 
   const session = await getSession({ req });
   if (!session) {
@@ -216,7 +206,6 @@ export const getServerSideProps = async ({ req, locale }) => {
   let spaces = {};
   try {
     spaces = await Space.find({});
-    // console.debug('Spaces:', spaces);
   } catch (err) {
     console.error(err);
   }
@@ -226,6 +215,7 @@ export const getServerSideProps = async ({ req, locale }) => {
       session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
       spaceCardData: JSON.parse(JSON.stringify(spaces)),
       ...(await serverSideTranslations(locale, ['common'])),
+      initialApolloState: apolloClient.cache.extract(),
       friendData: [
         {
           name: 'Yi Nan Zhang',

@@ -5,7 +5,8 @@ import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/styles';
 import { ApolloProvider } from '@apollo/client';
-import { useApollo } from '@/utils/graphql/client';
+
+import { useApollo } from '@/utils/apollo/client';
 import Layout from 'components/Layout';
 import theme from 'styles/Theme';
 import 'styles/globals.css';

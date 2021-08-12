@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
 import Space from 'models/Spaces';
@@ -21,10 +20,10 @@ export const resolvers = {
 
       // For Query by ID
       for (let _id of userIds) {
-        const user = User.findOne({ _id });
+        const user = await User.findOne({ _id });
         data.push(user);
       }
-      return await Promise.all(data);
+      return await data;
     },
 
     spaces: async (parent, args, context) => {

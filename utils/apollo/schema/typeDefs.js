@@ -5,6 +5,7 @@ export const typeDefs = gql`
     friends: [ID]
     _id: ID
     name: String
+    email: String
     username: String
     phoneNumber: String
     password: String
