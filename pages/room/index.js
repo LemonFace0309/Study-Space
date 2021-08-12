@@ -15,7 +15,7 @@ import { initializeApollo } from '@/utils/graphql/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
-const CreateRoom = ({ spotifyAuthURL, spotifyCode, session }) => {
+const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
@@ -43,20 +43,24 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, session }) => {
 
   const createNewSpace = async () => {
     setRoomIsLoading(true);
-    // const id = uuid();
-    // const clientId = client._id;
-    // const data = {
-    //   name: 'Pair Programming Session',
-    //   description: '16X 🚀🚀🚀🚀',
-    //   music: 'none',
-    //   isActive: true,
-    //   participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
-    //   spaceId: id,
-    // };
-    // const result = await axios.post('/api/spaces/create-new-space', data);
+    const id = uuid();
 
+    setClient(newSession);
+    const clientId = client._id;
+    const data = {
+      name: 'Pair Programming Session',
+      description: '16X 🚀🚀🚀🚀',
+      music: 'none',
+      isActive: true,
+
+      // Sample data
+      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
+      spaceId: id,
+    };
+    const result = await axios.post('/api/spaces/create-new-space', data);
+
+    router.push(`/room/${id}`);
     setRoomIsLoading(false);
-    // router.push(`/room/${id}`);
   };
 
   return (
@@ -97,26 +101,33 @@ export const getServerSideProps = async (context) => {
   console.debug('session', session);
   const { name, email } = session.user;
   console.debug('email', email);
+
   const apolloClient = initializeApollo();
   const GET_USERS = gql`
     query ($usersName: String, $usersEmail: String) {
       users(name: $usersName, email: $usersEmail) {
-        name
-        createdAt
+        _id
       }
     }
   `;
-  const { data } = await apolloClient.query({
+  const {
+    data: { users },
+  } = await apolloClient.query({
     query: GET_USERS,
     variables: { usersName: name, usersEmail: email },
   });
-  console.debug('data', data);
+
+  const sessionUser = users[0];
+
+  const newSession = { ...session, ...sessionUser };
+  console.debug('newSession', newSession);
 
   return {
     props: {
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       spotifyCode: query?.code ?? '',
       ...(await serverSideTranslations(locale, ['common'])),
+      newSession: JSON.parse(JSON.stringify(newSession)),
     },
   };
 };
@@ -124,6 +135,7 @@ export const getServerSideProps = async (context) => {
 CreateRoom.propTypes = {
   spotifyAuthURL: PropTypes.string.isRequired,
   spotifyCode: PropTypes.string.isRequired,
+  newSession: PropTypes.object.isRequired,
 };
 
 export default CreateRoom;

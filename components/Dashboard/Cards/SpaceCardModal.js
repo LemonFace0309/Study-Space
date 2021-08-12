@@ -23,6 +23,15 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import * as clientState from 'atoms/client';
 
+const GET_SESSION_USER = gql`
+  query {
+    users(name: "Eden Chan") {
+      name
+      email
+      image
+    }
+  }
+`;
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
@@ -69,6 +78,7 @@ const UserList = ({ users }) => {
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
+
 const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -77,15 +87,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const [roomIsLoading, setRoomIsLoading] = useState(false);
 
   const gqlClient = useApolloClient();
-  const GET_SESSION_USER = gql`
-    query {
-      users(name: "Eden Chan") {
-        name
-        email
-        image
-      }
-    }
-  `;
   const { loading, error, data } = useQuery(GET_SESSION_USER);
   console.debug('data', data);
 

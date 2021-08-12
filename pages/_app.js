@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/styles';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/utils/graphql/client';
 import Layout from 'components/Layout';
 import theme from 'styles/Theme';
