@@ -32,6 +32,7 @@ const GET_SESSION_USER = gql`
     }
   }
 `;
+
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',

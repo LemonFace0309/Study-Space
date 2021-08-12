@@ -78,16 +78,6 @@ const Header = (props) => {
     initSession();
   }, []);
 
-  useEffect(() => {
-    let timeout;
-    if (successfulSignUp) {
-      timeout = setTimeout(() => {
-        setSuccessfulSignUp(false);
-      }, 3000);
-    }
-    return timeout && clearTimeout(timeout);
-  }, [successfulSignUp]);
-
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp && validSignUp) {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 
 import User from 'models/User';
 import Space from 'models/Spaces';
@@ -28,7 +28,16 @@ import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import * as clientState from 'atoms/client';
 import { chartData } from '../../data/chartData';
 
-// Custom styles for SwipeableDrawer component
+const GET_USERS = gql`
+  query {
+    users(userIds: ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"]) {
+      name
+      email
+      image
+    }
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -53,19 +62,8 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useRecoilState(clientState.client);
-  const gqlClient = useApolloClient();
-  const GET_USERS = gql`
-    query {
-      users(userIds: ["60ff51c8684e9e2206a83bfb", "609ccafca1c3fe54cca40121"]) {
-        name
-        email
-        image
-      }
-    }
-  `;
-  const { loading, error, data } = useQuery(GET_USERS);
-  console.debug('data', data);
+  const setClient = useSetRecoilState(clientState.client);
+  // const { data } = useQuery(GET_USERS);
 
   useEffect(() => {
     setClient(session);

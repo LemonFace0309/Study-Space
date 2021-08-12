@@ -35,8 +35,10 @@ export default async (req, res) => {
       friends,
       type: type,
     });
+    console.debug(user);
     const result = await user.save();
-    res.status(201).json({ message: 'User created!', userId: result._id });
+    console.debug(result);
+    return res.status(201).json({ message: 'User created!', userId: result._id });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

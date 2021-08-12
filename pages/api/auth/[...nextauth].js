@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
-import Models from 'models';
+import NextAuthProvidersUser from 'models/NextAuthUser';
+
 const options = {
   pages: {
     signIn: '/auth/signin',
@@ -20,20 +21,6 @@ const options = {
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     Providers.Credentials({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: 'Credentials',
-      friends: [],
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'text',
-          placeholder: 'example@example.com',
-        },
-        password: { label: 'Password', type: 'password' },
-      },
       async authorize(credentials) {
         await dbConnect();
         const { email, password } = credentials;
@@ -56,7 +43,7 @@ const options = {
     // The second argument can be used to pass custom models and schemas
     {
       models: {
-        User: Models.User,
+        User: NextAuthProvidersUser,
       },
     }
   ),
@@ -81,6 +68,7 @@ const options = {
   },
   session: {
     jwt: true,
+    signingKey: process.env.JWT_SECRET,
   },
   database: process.env.DATABASE_URL,
 };
