@@ -8,6 +8,9 @@ class User extends Adapters.TypeORM.Models.User.model {
     super(name, email, image, emailVerified);
     this.type = 'providers';
     this.__v = 0;
+    this.friends = [];
+    this.username = '';
+    // this.password = ''; Not sure if we want password field to be consistent with password users
   }
 }
 

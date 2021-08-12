@@ -29,16 +29,6 @@ import * as clientState from 'atoms/client';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 
-const GET_USERS = gql`
-  query {
-    users(userIds: ["609ccafca1c3fe54cca40121", "6114e6e916e2ea30ab88aa78"]) {
-      name
-      email
-      image
-    }
-  }
-`;
-
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -64,9 +54,6 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const setClient = useSetRecoilState(clientState.client);
-
-  // const { data } = useQuery(GET_USERS);
-  // console.debug(data);
 
   useEffect(() => {
     setClient(session);
@@ -175,9 +162,9 @@ const redirectToHome = {
 
 export const getServerSideProps = async ({ req, locale }) => {
   const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: GET_USERS,
-  });
+  // await apolloClient.query({
+  //   query: GET_USERS,
+  // });
 
   const session = await getSession({ req });
   if (!session) {

@@ -4,8 +4,8 @@ import Space from 'models/Spaces';
 export const resolvers = {
   Query: {
     users: async (parent, args, context) => {
-      console.debug('args', args, 'userIds', userIds);
       const { userIds, email, name } = args;
+      console.debug('args', args, 'userIds', userIds);
       const data = [];
 
       await dbConnect;
