@@ -94,7 +94,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);
-    console.debug('client', client);
     router.push(`/room/${spaceId}`);
   };
   return (

@@ -4,15 +4,14 @@ import Space from 'models/Spaces';
 export const resolvers = {
   Query: {
     users: async (parent, args, context) => {
-      const { userIds, email, name } = args;
       console.debug('args', args, 'userIds', userIds);
+      const { userIds, email, name } = args;
       const data = [];
 
       await dbConnect;
 
       // Query by Name and Email
       if (email && name) {
-        console.debug('email', email);
         const user = await User.findOne({ name, email });
         data.push(user);
         return data;
@@ -27,8 +26,8 @@ export const resolvers = {
     },
 
     spaces: async (parent, args, context) => {
-      const { spaceIds } = args;
       console.debug('args', args, 'spaceIds', spaceIds);
+      const { spaceIds } = args;
       const data = [];
 
       await dbConnect;

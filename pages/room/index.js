@@ -9,11 +9,19 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
+
+const GET_USERS = gql`
+  query ($usersName: String, $usersEmail: String) {
+    users(name: $usersName, email: $usersEmail) {
+      _id
+    }
+  }
+`;
 
 const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const { t } = useTranslation();
@@ -98,18 +106,9 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
 export const getServerSideProps = async (context) => {
   const { query, locale } = context;
   const session = await getSession(context);
-  console.debug('session', session);
   const { name, email } = session.user;
-  console.debug('email', email);
 
   const apolloClient = initializeApollo();
-  const GET_USERS = gql`
-    query ($usersName: String, $usersEmail: String) {
-      users(name: $usersName, email: $usersEmail) {
-        _id
-      }
-    }
-  `;
   const {
     data: { users },
   } = await apolloClient.query({
