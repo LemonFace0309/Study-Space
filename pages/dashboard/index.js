@@ -28,6 +28,7 @@ import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import * as clientState from 'atoms/client';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
+import { contextsKey } from 'express-validator/src/base';
 
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
@@ -160,35 +161,46 @@ const redirectToHome = {
   },
 };
 
-export const getServerSideProps = async ({ req, locale }) => {
-  const apolloClient = initializeApollo();
-  // await apolloClient.query({
-  //   query: GET_USERS,
-  // });
-
-  const session = await getSession({ req });
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
   if (!session) {
+    console.error('Log in first!');
+    return redirectToHome;
+  }
+
+  const { req, locale } = context;
+  const { name, email } = session.user;
+
+  const apolloClient = initializeApollo();
+  const GET_USERS = gql`
+    query ($usersName: String, $usersEmail: String) {
+      users(name: $usersName, email: $usersEmail) {
+        _id
+        friends
+      }
+    }
+  `;
+  let newSession = {};
+  try {
+    const {
+      data: { users },
+    } = await apolloClient.query({
+      query: GET_USERS,
+      variables: { usersName: name, usersEmail: email },
+    });
+
+    const userData = users[0];
+
+    // Add friend and id fields to user object
+    session.user = { ...session.user, ...userData };
+    newSession = { ...session };
+    console.debug('newSession', newSession);
+  } catch (error) {
+    console.error(error);
     return redirectToHome;
   }
 
   await dbConnect();
-
-  let newSession = {};
-  if (session) {
-    try {
-      const user = await User.findOne({
-        email: session.user.email,
-      });
-      if (!user) {
-        return redirectToHome;
-      }
-      newSession = { ...session, user };
-      console.debug('Session:', newSession);
-    } catch (err) {
-      console.error(err);
-      return redirectToHome;
-    }
-  }
 
   let spaces = {};
   try {

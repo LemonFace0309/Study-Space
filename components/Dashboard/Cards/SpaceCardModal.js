@@ -87,10 +87,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const [client, setClient] = useRecoilState(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
 
-  // const gqlClient = useApolloClient();
-  // const { loading, error, data } = useQuery(GET_SESSION_USER);
-  // console.debug('data', data);
-
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);

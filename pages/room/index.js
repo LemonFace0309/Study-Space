@@ -117,7 +117,6 @@ export const getServerSideProps = async (context) => {
   });
 
   const sessionUser = users[0];
-
   const newSession = { ...session, ...sessionUser };
   console.debug('newSession', newSession);
 
