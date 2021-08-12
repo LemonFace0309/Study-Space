@@ -11,45 +11,17 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 
+import { initializeApollo } from '@/utils/graphql/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
-const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
+const CreateRoom = ({ spotifyAuthURL, spotifyCode, session }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
-  const gqlClient = useApolloClient();
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
-
-  const initSession = async () => {
-    if (client) return;
-
-    const session = await getSession();
-    const { name, email } = session.user;
-    const result = await axios.get('/api/user/get-user', { params: { name, email } });
-    const GET_USERS = gql`
-      query {
-        users(name: name, email: email) {
-          name
-          email
-          image
-        }
-      }
-    `;
-    const { loading, error, data } = useQuery(GET_USERS);
-    console.log('data', data);
-    const user = result.data.user;
-
-    const newClient = { ...session, user };
-    console.log(newClient, user, 'session', session, 'id', user._id);
-    setClient(newClient);
-  };
-
-  useEffect(() => {
-    initSession();
-  }, []);
 
   useEffect(() => {
     if (spotifyCode) {
@@ -70,20 +42,20 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   }, [spotifyCode]);
 
   const createNewSpace = async () => {
-    setLoading(true);
-    const id = uuid();
-    const clientId = client._id;
-    const data = {
-      name: 'Pair Programming Session',
-      description: '16X 🚀🚀🚀🚀',
-      music: 'none',
-      isActive: true,
-      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
-      spaceId: id,
-    };
+    setRoomIsLoading(true);
+    // const id = uuid();
+    // const clientId = client._id;
+    // const data = {
+    //   name: 'Pair Programming Session',
+    //   description: '16X 🚀🚀🚀🚀',
+    //   music: 'none',
+    //   isActive: true,
+    //   participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
+    //   spaceId: id,
+    // };
     // const result = await axios.post('/api/spaces/create-new-space', data);
 
-    setLoading(false);
+    setRoomIsLoading(false);
     // router.push(`/room/${id}`);
   };
 
@@ -109,7 +81,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
           <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>
             {t('LABEL_CREATE_SPACE')}
           </Button>
-          {loading && <CircularProgress />}
+          {roomIsLoading && <CircularProgress />}
         </div>
       </Paper>
       <Button className="mt-2" href={spotifyAuthURL}>
@@ -119,7 +91,27 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   );
 };
 
-export const getServerSideProps = async ({ query, locale }) => {
+export const getServerSideProps = async (context) => {
+  const { query, locale } = context;
+  const session = await getSession(context);
+  console.debug('session', session);
+  const { name, email } = session.user;
+  console.debug('email', email);
+  const apolloClient = initializeApollo();
+  const GET_USERS = gql`
+    query ($usersName: String, $usersEmail: String) {
+      users(name: $usersName, email: $usersEmail) {
+        name
+        createdAt
+      }
+    }
+  `;
+  const { data } = await apolloClient.query({
+    query: GET_USERS,
+    variables: { usersName: name, usersEmail: email },
+  });
+  console.debug('data', data);
+
   return {
     props: {
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,

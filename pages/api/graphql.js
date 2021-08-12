@@ -1,9 +1,6 @@
-import { ApolloServer, gql } from 'apollo-server-micro';
-import dbConnect from 'utils/dbConnect';
-
-import User from 'models/User';
-import Space from 'models/Spaces';
-import { typeDefs, resolvers } from 'utils/schema';
+import { ApolloServer } from 'apollo-server-micro';
+import { resolvers } from 'utils/graphql/schema/resolvers';
+import { typeDefs } from 'utils/graphql/schema/typeDefs';
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
 const startServer = apolloServer.start();
