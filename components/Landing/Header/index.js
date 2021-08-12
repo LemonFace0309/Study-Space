@@ -10,7 +10,7 @@ import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import * as authState from '../../../atoms/auth';
+import * as authState from 'atoms/auth';
 import AuthDialog from '../../Auth/AuthDialog';
 import NavDrawer from './NavDrawer';
 import styles from '../../Shared/Spinner.module.css';
@@ -77,16 +77,6 @@ const Header = (props) => {
     };
     initSession();
   }, []);
-
-  useEffect(() => {
-    let timeout;
-    if (successfulSignUp) {
-      timeout = setTimeout(() => {
-        setSuccessfulSignUp(false);
-      }, 3000);
-    }
-    return timeout && clearTimeout(timeout);
-  }, [successfulSignUp]);
 
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
