@@ -9,9 +9,10 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
-import { useQuery, gql } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
+import { useApolloClient } from '@apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
@@ -23,6 +24,23 @@ const GET_USERS = gql`
   }
 `;
 
+const CREATE_SPACE = gql`
+  mutation ($createSpaceInput: SpaceInput) {
+    createSpace(input: $createSpaceInput) {
+      name
+      description
+    }
+  }
+`;
+
+const GET_SPACES = gql`
+  query Query($spacesSpaceIds: [ID]) {
+    spaces(spaceIds: $spacesSpaceIds) {
+      name
+      description
+    }
+  }
+`;
 const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -30,6 +48,10 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
+
+  const apolloClient = useApolloClient();
+
+  const [createSpace, { data, loading, error }] = useMutation(CREATE_SPACE);
 
   useEffect(() => {
     if (spotifyCode) {
@@ -52,22 +74,22 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const createNewSpace = async () => {
     setRoomIsLoading(true);
     const id = uuid();
-
     setClient(newSession);
+    console.log('client', client, 'session', newSession);
+    console.log(client._id);
     const clientId = client._id;
-    const data = {
+    const spaceInput = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
-      music: 'none',
-      isActive: true,
 
       // Sample data
       participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
       spaceId: id,
     };
-    const result = await axios.post('/api/spaces/create-new-space', data);
 
-    router.push(`/room/${id}`);
+    // TODO: UseMutation to create the space on client side
+    createSpace({ variables: { createSpaceInput: spaceInput } });
+    // router.push(`/room/${id}`);
     setRoomIsLoading(false);
   };
 

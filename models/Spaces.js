@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import User from 'models/User';
 const Schema = mongoose.Schema;
 const Any = new Schema({ any: {} });
 const SpaceSchema = Schema(

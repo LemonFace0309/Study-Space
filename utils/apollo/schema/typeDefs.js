@@ -42,8 +42,32 @@ export const typeDefs = gql`
     updatedAt: String
   }
 
+  input SpaceInput {
+    name: String
+    description: String
+    spaceId: ID
+    participants: [ID]
+  }
+
+  input MessageInput {
+    content: String
+    author: String
+  }
+
+  type Message {
+    content: String
+    author: String
+  }
+
+  type Mutation {
+    createMessage(input: MessageInput): Message
+  }
   type Query {
     users(userIds: [ID], name: String, email: String): [User]
     spaces(spaceIds: [ID]): [Space]
+  }
+
+  type Mutation {
+    createSpace(input: SpaceInput): Space
   }
 `;

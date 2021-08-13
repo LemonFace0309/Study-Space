@@ -197,7 +197,7 @@ export const getServerSideProps = async (context) => {
     console.debug('newSession', newSession);
   } catch (error) {
     console.error(error);
-    return redirectToHome;
+    // return redirectToHome;
   }
 
   await dbConnect();
