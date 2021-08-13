@@ -9,7 +9,7 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
 import { useApolloClient } from '@apollo/client';
@@ -25,7 +25,7 @@ const GET_USERS = gql`
 `;
 
 const CREATE_SPACE = gql`
-  mutation ($createSpaceInput: SpaceInput) {
+  mutation CreateSpaceMutation($createSpaceInput: SpaceInput!) {
     createSpace(input: $createSpaceInput) {
       name
       description
@@ -41,6 +41,15 @@ const GET_SPACES = gql`
     }
   }
 `;
+
+const CREATE_MESSAGE = gql`
+  mutation Mutation($createMessageInput: MessageInput) {
+    createMessage(input: $createMessageInput) {
+      content
+      author
+    }
+  }
+`;
 const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -49,9 +58,8 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const [client, setClient] = useRecoilState(clientState.client);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
 
-  const apolloClient = useApolloClient();
-
   const [createSpace, { data, loading, error }] = useMutation(CREATE_SPACE);
+  // const [createMessage, { data, loading, error }] = useMutation(CREATE_MESSAGE);
 
   useEffect(() => {
     if (spotifyCode) {
@@ -75,20 +83,20 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
     setRoomIsLoading(true);
     const id = uuid();
     setClient(newSession);
-    console.log('client', client, 'session', newSession);
-    console.log(client._id);
-    const clientId = client._id;
+
     const spaceInput = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
 
       // Sample data
-      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
+      participants: [{ id }, { id }, { id }, { id }, { id }],
       spaceId: id,
     };
 
     // TODO: UseMutation to create the space on client side
+    // createMessage({ variables: { createMessageInput: { content: 'howdy', author: 'world' } } });
     createSpace({ variables: { createSpaceInput: spaceInput } });
+
     // router.push(`/room/${id}`);
     setRoomIsLoading(false);
   };
@@ -97,7 +105,8 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
     <div className="h-screen w-screen grid place-items-center">
       <Paper className="w-80">
         <Typography component="h1" variant="h5">
-          {t('LABEL_JOIN_A_SPACE')}
+          {t('LABEL_JOIN_A_SPACE')} {loading && 'loading...'} {!loading && console.log('message data', data)}{' '}
+          {error && console.log('error', error)}
         </Typography>
         <div>
           <TextField

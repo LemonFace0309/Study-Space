@@ -37,11 +37,19 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createSpace: async (parent, args, context) => {
+    createMessage: (parent, args, context) => {
+      console.debug('createMessage', args);
       const {
-        input: { name, description, participants, spaceId },
+        input: { content, author },
       } = args;
 
+      return { content, author };
+    },
+    createSpace: async (parent, args, context) => {
+      console.debug('createSpace', args);
+      const { input } = args;
+      const { name, description, participants, spaceId } = input;
+      console.debug('creating space with input:', input);
       const space = new Space({
         name,
         description,

@@ -4,9 +4,9 @@ import dbConnect from '@/utils/dbConnect';
 
 const apolloServer = new ApolloServer({
   schema,
-  context: async ({ req }) => {
-    db: await dbConnect();
-  },
+  // context: async ({ req }) => {
+  //   db: await dbConnect();
+  // },
 });
 
 const startServer = apolloServer.start();
