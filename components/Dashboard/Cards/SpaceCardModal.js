@@ -1,4 +1,4 @@
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import uniqueId from 'lodash/uniqueId';
 import { useRecoilState } from 'recoil';
@@ -34,6 +34,7 @@ const ADD_USER_TO_SPACE = gql`
     }
   }
 `;
+
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
@@ -57,18 +58,18 @@ const UserList = ({ users }) => {
       {users.map((user) => (
         <ListItem key={uniqueId()}>
           <ListItemAvatar>
-            <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
+            <Avatar alt="profile image" src={user?.image}></Avatar>
           </ListItemAvatar>
           <ListItemText
             disableTypography
             primary={
               <Typography variant="body1" color="textPrimary">
-                {user.name}
+                {user?.name}
               </Typography>
             }
             secondary={
               <Typography variant="body1" color="primary">
-                {user.status}
+                {user?.status}
               </Typography>
             }
           />
@@ -88,12 +89,12 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const [client, setClient] = useRecoilState(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
+  console.debug('participants in space modal', participants);
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);
-
     const addUserToSpaceInput = {
-      userId: client._id,
+      userId: client?.user?._id,
       spaceId,
     };
     addUserToSpace({ variables: { addUserToSpaceInput } });
@@ -119,6 +120,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
                 <Typography variant="body1">Participants</Typography>
               </Box>
+
               <UserList users={participants} />
             </Box>
           </Grid>

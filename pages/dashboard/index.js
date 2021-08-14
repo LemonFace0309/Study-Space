@@ -15,9 +15,6 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 import { useQuery, gql } from '@apollo/client';
 
-import User from 'models/User';
-import Space from 'models/Spaces';
-import dbConnect from 'utils/dbConnect';
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
 import ChartCard from 'components/Dashboard/Cards/ChartCard';
@@ -30,6 +27,32 @@ import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 import { contextsKey } from 'express-validator/src/base';
 
+const GET_USERS = gql`
+  query ($usersName: String, $usersEmail: String) {
+    users(name: $usersName, email: $usersEmail) {
+      _id
+      friends
+    }
+  }
+`;
+const GET_SPACES = gql`
+  query Query($spacesSpaceIds: [ID]) {
+    spaces(spaceIds: $spacesSpaceIds) {
+      name
+      participants {
+        _id
+        name
+        email
+        username
+        image
+      }
+      description
+      spaceId
+      isActive
+      music
+    }
+  }
+`;
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -172,14 +195,7 @@ export const getServerSideProps = async (context) => {
   const { name, email } = session.user;
 
   const apolloClient = initializeApollo();
-  const GET_USERS = gql`
-    query ($usersName: String, $usersEmail: String) {
-      users(name: $usersName, email: $usersEmail) {
-        _id
-        friends
-      }
-    }
-  `;
+
   let newSession = {};
   try {
     const {
@@ -202,8 +218,8 @@ export const getServerSideProps = async (context) => {
 
   let spaces = {};
   try {
-    spaces = await Space.find({});
-    console.debug(spaces);
+    const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
+    spaces = data.spaces;
   } catch (err) {
     console.error(err);
   }
