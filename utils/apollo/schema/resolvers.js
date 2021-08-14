@@ -8,12 +8,16 @@ export const resolvers = {
       console.debug('args', args, 'userIds', userIds);
       const data = [];
 
-      await dbConnect;
+      await dbConnect();
 
       // Query by Name and Email
       if (email && name) {
-        const user = await User.findOne({ name, email });
-        data.push(user);
+        try {
+          const user = await User.findOne({ name, email });
+          data.push(user);
+        } catch (err) {
+          console.debug(err);
+        }
         return data;
       }
 
@@ -26,7 +30,7 @@ export const resolvers = {
           console.debug(err);
         }
       }
-      return await data;
+      return data;
     },
 
     spaces: async (parent, args, context) => {
@@ -34,7 +38,8 @@ export const resolvers = {
       console.debug('args', args, 'spaceIds', spaceIds);
       const data = [];
 
-      await dbConnect;
+      await dbConnect();
+
       for (let spaceId of spaceIds) {
         try {
           const space = await Space.findOne({ spaceId });
