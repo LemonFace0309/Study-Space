@@ -54,7 +54,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
     const id = uuid();
 
     setClient(newSession);
-    const clientId = client._id;
+    const clientId = newSession?._id;
     const data = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
@@ -68,7 +68,6 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
     const result = await axios.post('/api/spaces/create-new-space', data);
 
     router.push(`/room/${id}`);
-    setRoomIsLoading(false);
   };
 
   return (
