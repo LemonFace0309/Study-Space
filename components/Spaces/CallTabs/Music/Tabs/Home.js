@@ -13,8 +13,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SpotifyHome = () => {
-  const { user, userPlaylists } = useSpotify();
+  const { user, userPlaylists, focusPlaylists, kpopPlaylsits, cafePlaylists, studyPlaylists, pianoPlaylists } =
+    useSpotify();
+  const playLists = [
+    { name: 'Your Playlists ✨', playlistObj: userPlaylists },
+    { name: 'Focus 📜', playlistObj: focusPlaylists },
+    { name: 'K-Pop 👨‍🎤', playlistObj: kpopPlaylsits },
+    { name: 'Cafe Vibes ☕', playlistObj: cafePlaylists },
+    { name: 'Study Vibes 📚', playlistObj: studyPlaylists },
+    { name: 'Piano Music 🎹', playlistObj: pianoPlaylists },
+  ];
   const classes = useStyles();
+
+  const renderPlaylist = (name, playlistObj) => {
+    return (
+      <div key={name}>
+        <Typography variant="subtitle2" className={classes.heading}>
+          {name}
+        </Typography>
+        <Grid container alignItems="flex-start">
+          {playlistObj.map((playlist) => (
+            <Playlist key={playlist.id} playlist={playlist} />
+          ))}
+        </Grid>
+      </div>
+    );
+  };
 
   return (
     <div className="p-4">
@@ -24,30 +48,7 @@ const SpotifyHome = () => {
         </span>{' '}
         Hello {user?.display_name}
       </Typography>
-      <Typography variant="subtitle2" className={classes.heading}>
-        Your Playlists
-      </Typography>
-      <Grid container alignItems="flex-start">
-        {userPlaylists.map((playlist) => (
-          <Playlist key={playlist.id} playlist={playlist} />
-        ))}
-      </Grid>
-      <Typography variant="subtitle2" className={classes.heading}>
-        Nature
-      </Typography>
-      <div className="d-flex mb-4 h-32 bg-gray-300" />
-      <Typography variant="subtitle2" className={classes.heading}>
-        Cafe Vibes
-      </Typography>
-      <div className="d-flex mb-4 h-32 bg-gray-300" />
-      <Typography variant="subtitle2" className={classes.heading}>
-        Hip Hop
-      </Typography>
-      <div className="d-flex mb-4 h-32 bg-gray-300" />
-      <Typography variant="subtitle2" className={classes.heading}>
-        Piano
-      </Typography>
-      <div className="d-flex mb-4 h-32 bg-gray-300" />
+      {playLists.map(({ name, playlistObj }) => renderPlaylist(name, playlistObj))}
     </div>
   );
 };

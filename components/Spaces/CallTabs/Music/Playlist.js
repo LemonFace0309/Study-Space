@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
   },
   thumbnailImage: {
     margin: 'auto',
-    height: '100px',
-    width: '100px',
+    height: '112px',
+    width: '112px',
     objectFit: 'cover',
     objectPosition: '50% 50%',
   },
@@ -22,7 +22,7 @@ const Playlist = ({ playlist }) => {
   const classes = useStyles();
 
   return (
-    <div className="flex flex-col m-2 cursor-pointer">
+    <div className="flex flex-col m-1 cursor-pointer w-28">
       <img src={image} alt="song thumbnail" className={classes.thumbnailImage} />
       <Typography variant="caption" className={classes.playlistTitle}>
         {title}

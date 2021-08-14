@@ -4,7 +4,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import jwt from 'jsonwebtoken';
 
 import getCookie from 'utils/getCookie';
-import getClosestImageSize from 'utils/spotify/getClosestImageSize';
+import parsePlaylists from 'utils/spotify/parsePlaylists';
 
 const SpotifyContext = React.createContext();
 
@@ -20,6 +20,11 @@ export function SpotifyProvider({ children }) {
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState([]);
+  const [focusPlaylists, setFocusPlaylists] = useState([]);
+  const [kpopPlaylsits, setKpopPlaylists] = useState([]);
+  const [cafePlaylists, setCafePlaylists] = useState([]);
+  const [studyPlaylists, setStudyPlaylists] = useState([]);
+  const [pianoPlaylists, setPianoPlaylists] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [trackUri, setTrackUri] = useState(null);
   const [nextTracks, setNextTracks] = useState([]);
@@ -42,20 +47,7 @@ export function SpotifyProvider({ children }) {
       console.debug("Some information about the user's playlists", playlistData.body.items);
       setUser(userData.body);
       const rawPlaylists = playlistData.body.items;
-      setUserPlaylists(() => {
-        const parsedPlaylists = rawPlaylists.map((playlist) => {
-          const bestImage = getClosestImageSize(playlist.images, 300);
-
-          return {
-            id: playlist.id,
-            title: playlist.name,
-            uri: playlist.uri,
-            trackURL: playlist.tracks.href,
-            image: bestImage.url,
-          };
-        });
-        return parsedPlaylists;
-      });
+      setUserPlaylists(() => parsePlaylists(rawPlaylists));
     } catch (err) {
       console.debug('Something went wrong fetching your Spotify Information!', err);
     }
@@ -63,27 +55,49 @@ export function SpotifyProvider({ children }) {
 
   const initRecommendedPlaylists = () => {
     spotifyApi
-      .getCategories({
-        limit: 50,
-        offset: 0,
-        country: 'BR',
+      .getPlaylistsForCategory('focus', { limit: 7 })
+      .then((data) => {
+        setFocusPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
       })
-      .then(
-        function (data) {
-          console.log(data.body);
-        },
-        function (err) {
-          console.log('Something went wrong!', err);
-        }
-      );
-    spotifyApi.searchPlaylists('study').then(
-      function (data) {
-        console.log('Found playlists are', data.body);
-      },
-      function (err) {
+      .catch((err) => {
         console.log('Something went wrong!', err);
-      }
-    );
+      });
+
+    spotifyApi
+      .getPlaylistsForCategory('kpop', { limit: 7 })
+      .then((data) => {
+        setKpopPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
+      })
+      .catch((err) => {
+        console.log('Something went wrong!', err);
+      });
+
+    spotifyApi
+      .searchPlaylists('cafe', { limit: 7 })
+      .then((data) => {
+        setCafePlaylists(() => parsePlaylists(data?.body?.playlists?.items));
+      })
+      .catch((err) => {
+        console.log('Something went wrong!', err);
+      });
+
+    spotifyApi
+      .searchPlaylists('study', { limit: 7 })
+      .then((data) => {
+        setStudyPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
+      })
+      .catch((err) => {
+        console.log('Something went wrong!', err);
+      });
+
+    spotifyApi
+      .searchPlaylists('piano', { limit: 7 })
+      .then((data) => {
+        setPianoPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
+      })
+      .catch((err) => {
+        console.log('Something went wrong!', err);
+      });
   };
 
   useEffect(() => {
@@ -98,6 +112,11 @@ export function SpotifyProvider({ children }) {
     accessToken,
     user,
     userPlaylists,
+    focusPlaylists,
+    kpopPlaylsits,
+    cafePlaylists,
+    studyPlaylists,
+    pianoPlaylists,
     currentTrack,
     setCurrentTrack,
     trackUri,
