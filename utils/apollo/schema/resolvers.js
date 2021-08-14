@@ -57,7 +57,6 @@ export const resolvers = {
       console.debug('createSpace', args);
       const { input } = args;
       const { name, description, participants, spaceId } = input;
-      console.debug('creating space with input:', input);
       const space = new Space({
         name,
         description,
@@ -69,12 +68,11 @@ export const resolvers = {
       let result = {};
       try {
         result = await space.save();
-        console.debug('result', result);
         return result;
       } catch (err) {
         console.debug('Cannot upload new space to database: ', err);
       }
-      return;
+      return space;
     },
   },
 };

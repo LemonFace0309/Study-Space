@@ -60,14 +60,11 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createMessage(input: MessageInput): Message
+    createSpace(input: SpaceInput): Space
+    createMessage(input: SpaceInput): Message
   }
   type Query {
     users(userIds: [ID], name: String, email: String): [User]
     spaces(spaceIds: [ID]): [Space]
-  }
-
-  type Mutation {
-    createSpace(input: SpaceInput): Space
   }
 `;
