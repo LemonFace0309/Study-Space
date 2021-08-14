@@ -1,4 +1,3 @@
-import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
 import Space from 'models/Spaces';
 
@@ -11,8 +10,12 @@ export const resolvers = {
 
       // Query by Name and Email
       if (email && name) {
-        const user = await User.findOne({ name, email });
-        data.push(user);
+        try {
+          const user = await User.findOne({ name, email });
+          data.push(user);
+        } catch (err) {
+          console.debug(err);
+        }
         return data;
       }
 
