@@ -105,5 +105,26 @@ export const resolvers = {
       }
       return space;
     },
+    removeUserFromSpace: async (parent, args, context) => {
+      console.debug('removeUserFromSpace', args);
+      const {
+        input: { spaceId, userId },
+      } = args;
+
+      let space = {};
+      try {
+        // The new option returns the space after the update
+        const filter = { spaceId };
+        const update = {
+          $pull: { participants: userId },
+        };
+        space = await Space.findOneAndUpdate(filter, update, { new: true }).populate('participants').exec();
+
+        console.debug('Updated space after removing a participant:', space);
+      } catch (err) {
+        console.debug('Cannot upload new space to database: ', err);
+      }
+      return space;
+    },
   },
 };

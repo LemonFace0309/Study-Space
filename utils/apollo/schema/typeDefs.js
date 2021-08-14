@@ -55,7 +55,7 @@ export const typeDefs = gql`
     createSpace(input: SpaceInput): Space
     # updateSpace(input: SpaceInput): Space
     addUserToSpace(input: SpaceInput): Space
-    # removeUserFromSpace(input:ID):Space
+    removeUserFromSpace(input: SpaceInput): Space
   }
   type Query {
     users(userIds: [ID], name: String, email: String): [User]
