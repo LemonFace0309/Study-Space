@@ -155,8 +155,9 @@ export const getServerSideProps = async (context) => {
     props: {
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       spotifyCode: query?.code ?? '',
-      ...(await serverSideTranslations(locale, ['common'])),
       newSession: JSON.parse(JSON.stringify(newSession)),
+      ...(await serverSideTranslations(locale, ['common'])),
+      initialApolloState: apolloClient.cache.extract(),
     },
   };
 };

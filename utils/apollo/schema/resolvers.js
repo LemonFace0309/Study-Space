@@ -17,21 +17,29 @@ export const resolvers = {
       }
 
       // For Query by ID
-      for (let _id of userIds) {
-        const user = await User.findOne({ _id });
-        data.push(user);
+      for (let id of userIds) {
+        try {
+          const user = await User.findById(id);
+          data.push(user);
+        } catch (err) {
+          console.debug(err);
+        }
       }
       return data;
     },
 
     spaces: async (parent, args, context) => {
       const { spaceIds } = args;
-      console.debug('spaceIds', spaceIds);
+      console.debug('args', args, 'spaceIds', spaceIds);
       const data = [];
 
       for (let spaceId of spaceIds) {
-        const space = await Space.findOne({ spaceId });
-        data.push(space);
+        try {
+          const space = await Space.findOne({ spaceId });
+          data.push(space);
+        } catch (err) {
+          console.debug(err);
+        }
       }
       return data;
     },
