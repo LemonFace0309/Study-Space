@@ -80,8 +80,9 @@ export const resolvers = {
 
       let space = {};
       try {
+        // The new option returns the space after the update
         space = await Space.findOneAndUpdate(filter, update, { new: true });
-        console.debug(space);
+        console.debug('Updated space:', space);
       } catch (err) {
         console.debug('Cannot upload new space to database: ', err);
       }

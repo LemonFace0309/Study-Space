@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
-import uniqueId from 'lodash/uniqueId';
+import { useMutation, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
+import uniqueId from 'lodash/uniqueId';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-
+import PropTypes from 'prop-types';
 import {
   Button,
   Grid,
@@ -23,6 +22,18 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import * as clientState from 'atoms/client';
 
+const ADD_USER_TO_SPACE = gql`
+  mutation Mutation($addUserToSpaceInput: SpaceInput) {
+    addUserToSpace(input: $addUserToSpaceInput) {
+      name
+      description
+      spaceId
+      participants {
+        _id
+      }
+    }
+  }
+`;
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
@@ -76,11 +87,16 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const router = useRouter();
   const [client, setClient] = useRecoilState(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
-
+  const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);
 
+    const addUserToSpaceInput = {
+      userId: client._id,
+      spaceId,
+    };
+    addUserToSpace({ variables: { addUserToSpaceInput } });
     router.push(`/room/${spaceId}`);
     setRoomIsLoading(false);
   };
