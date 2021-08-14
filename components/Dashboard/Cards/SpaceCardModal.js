@@ -3,7 +3,7 @@ import uniqueId from 'lodash/uniqueId';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import {
   Button,
@@ -22,16 +22,6 @@ import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import * as clientState from 'atoms/client';
-
-const GET_SESSION_USER = gql`
-  query {
-    users(name: "Eden Chan") {
-      name
-      email
-      image
-    }
-  }
-`;
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -90,7 +80,9 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);
+
     router.push(`/room/${spaceId}`);
+    setRoomIsLoading(false);
   };
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>

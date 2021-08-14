@@ -196,15 +196,14 @@ export const getServerSideProps = async (context) => {
     newSession = { ...session };
     console.debug('newSession', newSession);
   } catch (error) {
-    console.error(error);
-    // return redirectToHome;
+    console.debug('Log in first', error);
+    return redirectToHome;
   }
-
-  await dbConnect();
 
   let spaces = {};
   try {
     spaces = await Space.find({});
+    console.debug(spaces);
   } catch (err) {
     console.error(err);
   }

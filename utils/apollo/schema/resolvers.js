@@ -6,7 +6,7 @@ export const resolvers = {
   Query: {
     users: async (parent, args, context) => {
       const { userIds, email, name } = args;
-      console.debug('args', args, 'userIds', userIds);
+      console.debug('args', args, 'userIds', userIds, 'context', context);
       const data = [];
 
       // Query by Name and Email
@@ -45,22 +45,14 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createMessage: (parent, args, context) => {
-      console.debug('createMessage', args);
-      const {
-        input: { content, author },
-      } = args;
-
-      return { content, author };
-    },
     createSpace: async (parent, args, context) => {
       console.debug('createSpace', args);
       const { input } = args;
-      const { name, description, participants, spaceId } = input;
+      const { name, description, userId, spaceId } = input;
       const space = new Space({
         name,
         description,
-        participants: { participants },
+        participants: { _id: userId },
         spaceId,
         isActive: true,
         music: '',
@@ -68,7 +60,28 @@ export const resolvers = {
       let result = {};
       try {
         result = await space.save();
+        console.debug('new space', result);
         return result;
+      } catch (err) {
+        console.debug('Cannot upload new space to database: ', err);
+      }
+      return result;
+    },
+    addUserToSpace: async (parent, args, context) => {
+      console.debug('AddUserToSpace', args);
+      const {
+        input: { spaceId, userId },
+      } = args;
+
+      const filter = { spaceId };
+      const update = {
+        $push: { participants: { _id: userId } },
+      };
+
+      let space = {};
+      try {
+        space = await Space.findOneAndUpdate(filter, update, { new: true });
+        console.debug(space);
       } catch (err) {
         console.debug('Cannot upload new space to database: ', err);
       }

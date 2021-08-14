@@ -65,13 +65,13 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
     const spaceId = uuid();
     setClient(newSession);
 
-    const { _id } = newSession;
+    const userId = newSession._id;
 
     const spaceInput = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
       // Sample data
-      participants: _id,
+      userId,
       spaceId,
     };
 
