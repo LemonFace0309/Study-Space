@@ -25,8 +25,10 @@ export function SpotifyProvider({ children }) {
   const [cafePlaylists, setCafePlaylists] = useState([]);
   const [studyPlaylists, setStudyPlaylists] = useState([]);
   const [pianoPlaylists, setPianoPlaylists] = useState([]);
-  const [currentTrack, setCurrentTrack] = useState(null);
+  const [queue, setQueue] = useState([]);
+  const [queueURIs, setQueueURIs] = useState([]);
   const [trackUri, setTrackUri] = useState(null);
+  const [currentTrack, setCurrentTrack] = useState(null);
   const [nextTracks, setNextTracks] = useState([]);
 
   const getAccessTokenFromCookies = () => {
@@ -106,6 +108,10 @@ export function SpotifyProvider({ children }) {
     initRecommendedPlaylists();
   }, []);
 
+  useEffect(() => {
+    setQueueURIs(queue.map((track) => track?.uri ?? ''));
+  }, [queue]);
+
   const value = {
     getAccessTokenFromCookies,
     spotifyApi,
@@ -117,10 +123,13 @@ export function SpotifyProvider({ children }) {
     cafePlaylists,
     studyPlaylists,
     pianoPlaylists,
-    currentTrack,
-    setCurrentTrack,
+    queue,
+    setQueue,
+    queueURIs,
     trackUri,
     setTrackUri,
+    currentTrack,
+    setCurrentTrack,
     nextTracks,
     setNextTracks,
   };

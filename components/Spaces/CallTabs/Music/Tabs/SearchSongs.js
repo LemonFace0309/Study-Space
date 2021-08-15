@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi, setTrackUri } = useSpotify();
+  const { accessToken, spotifyApi, setQueue } = useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -59,7 +59,7 @@ const SearchSongs = () => {
 
   const playTrack = (track) => {
     setSearchResults([]);
-    setTrackUri(track.uri);
+    setQueue([track]);
   };
 
   return (
