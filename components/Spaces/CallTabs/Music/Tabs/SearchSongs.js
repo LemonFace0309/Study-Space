@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi, setQueue } = useSpotify();
+  const { accessToken, spotifyApi, setQueue, setCurrentTrack, setNextTracks } = useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -62,6 +62,25 @@ const SearchSongs = () => {
     setQueue([track]);
   };
 
+  const addToQueue = (track) => {
+    let newQueue = [];
+    setQueue((prev) => {
+      newQueue = [...prev];
+      newQueue.push(track);
+      return newQueue;
+    });
+    if (newQueue.length <= 1) {
+      setCurrentTrack(track);
+    } else {
+      setNextTracks((prev) => {
+        const newNextTrack = [...prev];
+        newNextTrack.push(track);
+        console.debug(newNextTrack);
+        return newNextTrack;
+      });
+    }
+  };
+
   return (
     <div className="p-4 overflow-y-auto h-full flex flex-col">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
@@ -85,7 +104,9 @@ const SearchSongs = () => {
             Search result will show up here
           </Typography>
         ) : (
-          searchResults.map((track) => <Track key={track.uri} track={track} playTrack={playTrack} />)
+          searchResults.map((track) => (
+            <Track key={track.uri} track={track} playTrack={playTrack} addToQueue={addToQueue} />
+          ))
         )}
       </div>
     </div>

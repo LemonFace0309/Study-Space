@@ -4,7 +4,7 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 import { useSpotify } from './SpotifyProvider';
 
 const Player = () => {
-  const { accessToken, queueURIs, setQueue } = useSpotify();
+  const { accessToken, queueURIs, setCurrentTrack, setNextTracks } = useSpotify();
   const [play, setPlay] = useState(false);
 
   useEffect(() => setPlay(true), [queueURIs]);
@@ -13,22 +13,25 @@ const Player = () => {
   return (
     <SpotifyPlayer
       token={accessToken}
+      name="Productify"
       showSaveIcon
+      magnifySliderOnHover
       callback={(state) => {
         if (!state.isPlaying) setPlay(false);
-        // const currentTrack = {
-        //   artist: state?.track?.artists,
-        //   title: state?.track?.name,
-        //   uri: state?.track?.uri,
-        //   albumUrl: state?.track?.image,
-        // };
-        // const nextTracks = state.nextTracks.map((track) => ({
-        //   artist: track?.artists[0].name,
-        //   title: track?.name,
-        //   uri: track?.uri,
-        //   albumUrl: track?.album?.images[0].url,
-        // }));
-        // setQueue([currentTrack, ...nextTracks]);
+        const currentTrack = {
+          artist: state?.track?.artists,
+          title: state?.track?.name,
+          uri: state?.track?.uri,
+          albumUrl: state?.track?.image,
+        };
+        const nextTracks = state.nextTracks.map((track) => ({
+          artist: track?.artists[0].name,
+          title: track?.name,
+          uri: track?.uri,
+          albumUrl: track?.album?.images[0].url,
+        }));
+        setCurrentTrack(currentTrack);
+        setNextTracks(nextTracks);
       }}
       play={play}
       uris={queueURIs}

@@ -27,7 +27,6 @@ export function SpotifyProvider({ children }) {
   const [pianoPlaylists, setPianoPlaylists] = useState([]);
   const [queue, setQueue] = useState([]);
   const [queueURIs, setQueueURIs] = useState([]);
-  const [trackUri, setTrackUri] = useState(null);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [nextTracks, setNextTracks] = useState([]);
 
@@ -126,8 +125,6 @@ export function SpotifyProvider({ children }) {
     queue,
     setQueue,
     queueURIs,
-    trackUri,
-    setTrackUri,
     currentTrack,
     setCurrentTrack,
     nextTracks,

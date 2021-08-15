@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { uniqueId } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,30 +13,28 @@ const useStyles = makeStyles((theme) => ({
 
 const Queue = () => {
   const classes = useStyles();
-  const { queue, setQueue } = useSpotify();
-  const [nextTracks, setNextTracks] = useState([]);
+  const { queue, setQueue, currentTrack, nextTracks } = useSpotify();
 
   const playTrack = (track) => {
+    queue.filter((t) => {
+      console.debug(t === track);
+      return t === track;
+    });
     setQueue([track]);
   };
-
-  useEffect(() => {
-    const queueClone = [...queue];
-    if (!queueClone[1]) return;
-    setNextTracks(queueClone.shift());
-  }, [queue]);
 
   return (
     <div className="p-4">
       <Typography variant="subtitle2" className={classes.heading}>
         Now Playing
       </Typography>
-      {queue[0] && <Track track={queue[0]} playTrack={playTrack} />}
+      {currentTrack && <Track track={currentTrack} playTrack={playTrack} />}
       <Typography variant="subtitle2" className={`${classes.heading} mt-8`}>
         Next in Queue
       </Typography>
-      {nextTracks[0] &&
-        nextTracks.map((track) => <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} />)}
+      {nextTracks.map((track) => (
+        <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} />
+      ))}
     </div>
   );
 };
