@@ -1,4 +1,9 @@
 {
+  "LABEL_HEY_THERE": "Hey there! Let us welcome you to",
+  "LABEL_YOUR_AROMIA": "Your aromia filled table at Starbucks.",
+  "LABEL_INCREASE_PROD": "Increase your productivity with virtual spaces customized to your liking.",
+  "LABEL_TRY_IT_YOURSELF": "Try it yourself",
+
   "LABEL_JOIN_A_SPACE": "Join a Space",
   "LABEL_JOIN_SPACE": "Join Space",
   "LABEL_CREATE_A_SPACE": "Create a Space",
@@ -14,6 +19,7 @@
   "LABEL_SIGN_UP_WITH": "Sign up with",
   "LABEL_LOG_IN_WITH": "Log in with",
   "LABEL_EMAIL_ADDRESS": "Email Address",
+
   "LABEL_HOME": "Home",
   "LABEL_BROWSE": "Browse",
   "LABEL_STATISTICS": "Statistics",

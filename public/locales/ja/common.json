@@ -1,4 +1,9 @@
 {
+  "LABEL_HEY_THERE": "Hey there! Let us welcome you to",
+  "LABEL_YOUR_AROMIA": "Your aromia filled table at Starbucks.",
+  "LABEL_INCREASE_PROD": "Increase your productivity with virtual spaces customized to your liking.",
+  "LABEL_TRY_IT_YOURSELF": "Try it yourself",
+
   "LABEL_JOIN_A_SPACE": "スペースに参加",
   "LABEL_JOIN_SPACE": "スペースに参加",
   "LABEL_CREATE_A_SPACE": "Create a Space",
@@ -14,15 +19,33 @@
   "LABEL_SIGN_UP_WITH": "サインアップ",
   "LABEL_LOG_IN_WITH": "ログインして",
   "LABEL_EMAIL_ADDRESS": "メールアドレス",
+
   "LABEL_HOME": "Home",
   "LABEL_BROWSE": "Browse",
   "LABEL_STATISTICS": "Statistics",
   "LABEL_FRIENDS": "Friends",
+  "LABEL_PARTICIPANTS": "Participants",
   "LABEL_CHANGE_PROFILE_PICTURE": "Change Profile Picture",
   "LABEL_USERNAME": "Username",
   "LABEL_EMAIL": "Email",
   "LABEL_PHONE": "Phone Number",
 
+  "LABEL_SETTINGS": "Settings",
+  "LABEL_ACCOUNT_DETAILS": "Account Details",
+  "LABEL_CHANGE_PASSWORD": "Change Password",
+  "LABEL_PRIVACY": "Privacy",
+  "LABEL_LOGOUT": "Logout",
+
+  "LABEL_ALT_PROFILE_PIC": "Your Profile Pic",
+  "PROMPT_PASSWORD": "Enter your current and new password",
+  "LABEL_CURRENT_PASSWORD": "Current Password",
+  "LABEL_NEW_PASSWORD": "New Password",
+  "LABEL_CONFIRM_PASSWORD": "Confirm New Password",
+  "LABEL_SAVE": "Save",
+  "LABEL_EDIT_PROFILE": "Edit Profile",
+
   "SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
-  "ERROR_SERVER": "Internal Server Error"
+  "SUCCESS_UPDATE_PASSWORD": "Password updated succesfully 😃",
+  "ERROR_SERVER": "Internal Server Error",
+  "ERROR_THIRD_PARTY_PASSWORD": "Cannot change password for users signed up through third party services like Google or Facebook."
 }
