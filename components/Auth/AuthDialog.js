@@ -1,8 +1,8 @@
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { useTranslation } from 'next-i18next';
 
 import styles from './Auth.module.css';
 

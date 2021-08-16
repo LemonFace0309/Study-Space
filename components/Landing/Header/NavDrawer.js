@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -12,6 +13,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import ClearIcon from '@material-ui/icons/Clear';
 
 const NavDrawer = ({ isOpen, setIsOpen, handleSignUp, handleLogIn }) => {
+  const { t } = useTranslation();
   const content = (
     <div className="h-full flex flex-col">
       <div
@@ -44,14 +46,14 @@ const NavDrawer = ({ isOpen, setIsOpen, handleSignUp, handleLogIn }) => {
           <ListItem button className="py-6" onClick={() => handleSignUp()}>
             <ListItemText disableTypography>
               <Typography variant="body1" align="center">
-                Sign Up
+                {t('LABEL_SIGNUP')}
               </Typography>
             </ListItemText>
           </ListItem>
           <ListItem button className="py-6" onClick={() => handleLogIn()}>
             <ListItemText disableTypography>
               <Typography variant="body1" align="center">
-                Log In
+                {t('LABEL_LOGIN')}
               </Typography>
             </ListItemText>
           </ListItem>
