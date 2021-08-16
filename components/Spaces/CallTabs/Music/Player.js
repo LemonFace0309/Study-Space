@@ -50,7 +50,7 @@ const Player = () => {
     <SpotifyPlayer
       token={accessToken}
       name="Productify"
-      initialVolume={0.3}
+      initialVolume={0.5}
       showSaveIcon
       magnifySliderOnHover
       callback={(state) => {
