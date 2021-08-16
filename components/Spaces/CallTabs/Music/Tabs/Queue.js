@@ -16,11 +16,22 @@ const Queue = () => {
   const { queue, setQueue, currentTrack, nextTracks } = useSpotify();
 
   const playTrack = (track) => {
-    queue.filter((t) => {
-      console.debug(t === track);
-      return t === track;
-    });
-    setQueue([track]);
+    let found = false;
+    const queueClone = [...queue];
+    const newQueue = queueClone.reduce((acc, t) => {
+      if (found) return acc.concat([t]);
+      if (t.uri === track.uri) {
+        console.debug(t);
+        found = true;
+        return [t];
+      }
+      return [];
+    }, []);
+    setQueue(newQueue);
+  };
+
+  const removeFromQueue = (track) => {
+    return;
   };
 
   return (
@@ -33,7 +44,7 @@ const Queue = () => {
         Next in Queue
       </Typography>
       {nextTracks.map((track) => (
-        <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} />
+        <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} removeFromQueue={removeFromQueue} />
       ))}
     </div>
   );

@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     bottom: '0',
     left: '0',
-    oveflowX: 'hidden',
   },
 }));
 

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi, setQueue, setCurrentTrack, setNextTracks } = useSpotify();
+  const { accessToken, spotifyApi, setQueue, setCurrentTrack, nextTracks, setNextTracks } = useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -59,7 +59,15 @@ const SearchSongs = () => {
 
   const playTrack = (track) => {
     setSearchResults([]);
-    setQueue([track]);
+    setQueue((prev) => {
+      if (prev.length === 0) {
+        return [track];
+      } else {
+        const newQueue = [...nextTracks];
+        newQueue.unshift(track);
+        return newQueue;
+      }
+    });
   };
 
   const addToQueue = (track) => {
@@ -75,7 +83,6 @@ const SearchSongs = () => {
       setNextTracks((prev) => {
         const newNextTrack = [...prev];
         newNextTrack.push(track);
-        console.debug(newNextTrack);
         return newNextTrack;
       });
     }

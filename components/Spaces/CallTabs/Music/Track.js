@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import QueueIcon from '@material-ui/icons/Queue';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,13 +20,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Track = ({ track, playTrack, addToQueue }) => {
+const Track = ({ track, playTrack, addToQueue, removeFromQueue }) => {
   const classes = useStyles();
   const { artist, title, albumUrl } = track;
 
   const queueSong = (e) => {
     e.stopPropagation();
     addToQueue(track);
+  };
+
+  const removeSong = (e) => {
+    e.stopPropagation();
+    removeFromQueue(track);
   };
 
   return (
@@ -42,6 +48,11 @@ const Track = ({ track, playTrack, addToQueue }) => {
           <QueueIcon />
         </IconButton>
       )}
+      {removeFromQueue && (
+        <IconButton aria-label="remove from queue" onClick={removeSong}>
+          <DeleteIcon />
+        </IconButton>
+      )}
     </div>
   );
 };
@@ -55,10 +66,12 @@ Track.propTypes = {
   }).isRequired,
   playTrack: PropTypes.func.isRequired,
   addToQueue: PropTypes.func,
+  removeFromQueue: PropTypes.func,
 };
 
 Track.defaultProps = {
   addToQueue: null,
+  removeFromQueue: null,
 };
 
 export default Track;
