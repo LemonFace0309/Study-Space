@@ -31,12 +31,10 @@
   "LABEL_LOGOUT": "Logout",
 
   "LABEL_ALT_PROFILE_PIC": "Your Profile Pic",
-
   "PROMPT_PASSWORD": "Enter your current and new password",
   "LABEL_CURRENT_PASSWORD": "Current Password",
   "LABEL_NEW_PASSWORD": "New Password",
   "LABEL_CONFIRM_PASSWORD": "Confirm New Password",
-
   "LABEL_SAVE": "Save",
   "LABEL_EDIT_PROFILE": "Edit Profile",
 

@@ -19,7 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
-import * as authState from '../../../../atoms/auth';
+import * as authState from 'atoms/auth';
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot: {

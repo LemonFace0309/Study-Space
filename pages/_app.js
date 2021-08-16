@@ -4,12 +4,18 @@ import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/styles';
+import { ApolloProvider } from '@apollo/client';
 
-import Layout from '../components/Layout';
-import theme from '../styles/Theme';
-import '../styles/globals.css';
+import { useApollo } from '@/utils/apollo/client';
+import Layout from 'components/Layout';
+import theme from 'styles/Theme';
+import 'styles/globals.css';
+
+// Configure the ApolloClient to connect to your app's GraphQL endpoint
 
 function MyApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -19,15 +25,17 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <RecoilRoot>
-      <Provider session={pageProps.session}>
-        <ThemeProvider theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </Provider>
-    </RecoilRoot>
+    <ApolloProvider client={apolloClient}>
+      <RecoilRoot>
+        <Provider session={pageProps.session}>
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </Provider>
+      </RecoilRoot>
+    </ApolloProvider>
   );
 }
 

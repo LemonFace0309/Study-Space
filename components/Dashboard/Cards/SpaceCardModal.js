@@ -4,6 +4,7 @@ import uniqueId from 'lodash/uniqueId';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 
 import {
   Button,
@@ -20,7 +21,18 @@ import {
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
 import * as clientState from 'atoms/client';
+
+const GET_SESSION_USER = gql`
+  query {
+    users(name: "Eden Chan") {
+      name
+      email
+      image
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -68,18 +80,22 @@ const UserList = ({ users }) => {
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
+
 const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
   const [client, setClient] = useRecoilState(clientState.client);
-  const [loading, setLoading] = useState(false);
+  const [roomIsLoading, setRoomIsLoading] = useState(false);
+
+  // const gqlClient = useApolloClient();
+  // const { loading, error, data } = useQuery(GET_SESSION_USER);
+  // console.debug('data', data);
 
   const joinSpace = () => {
     // Add client to participant list
-    setLoading(true);
-    console.debug('client', client);
+    setRoomIsLoading(true);
     router.push(`/room/${spaceId}`);
   };
   return (
@@ -121,7 +137,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                   joinSpace();
                 }}>
                 <ArrowForwardIcon /> {t('LABEL_JOIN_SPACE')}
-                {loading && <CircularProgress />}
+                {roomIsLoading && <CircularProgress />}
               </Button>
             </Box>
           </Grid>

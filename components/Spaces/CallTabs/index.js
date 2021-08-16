@@ -5,11 +5,12 @@ import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
 import renderComponent from 'utils/renderComponent';
-import TabPanelHeader from './TabPanelHeader';
-import Music from '../../Music';
-import ChatPanel from '../../Chat';
-import People from '../../StudySpace/People';
-import TodoList from '../../StudySpace/TodoList';
+import TabPanelHeader from './Layout/TabPanelHeader';
+import Music from './Music';
+import { SpotifyProvider } from './Music/SpotifyProvider';
+import ChatPanel from './Chat';
+import People from './People';
+import TodoList from './TodoList';
 
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
@@ -33,7 +34,8 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       title: 'Music Library',
       icon: LibraryMusic,
-      panel: Music,
+      panel: SpotifyProvider,
+      panelChild: Music,
     },
     {
       title: 'Participants',
@@ -88,7 +90,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
                 <TabPanel key={tabObj.title + '_PANEL'}>
                   <Paper elevation={2} className="w-90 h-full rounded-md overflow-hidden bg-white flex flex-col">
                     <TabPanelHeader>{tabObj.title}</TabPanelHeader>
-                    {renderComponent(tabObj.panel, { ...tabObj.panelProps })}
+                    {renderComponent(tabObj.panel, { ...tabObj.panelProps }, tabObj?.panelChild)}
                   </Paper>
                 </TabPanel>
               );

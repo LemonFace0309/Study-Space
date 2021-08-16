@@ -1,9 +1,12 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+import Adapters from 'next-auth/adapters';
+
 const bcrypt = require('bcrypt');
 
 import dbConnect from 'utils/dbConnect';
 import User from 'models/User';
+import NextAuthProvidersUser from 'models/NextAuthUser';
 
 const options = {
   pages: {
@@ -18,20 +21,6 @@ const options = {
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     Providers.Credentials({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: 'Credentials',
-      friends: [],
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'text',
-          placeholder: 'example@example.com',
-        },
-        password: { label: 'Password', type: 'password' },
-      },
       async authorize(credentials) {
         await dbConnect();
         const { email, password } = credentials;
@@ -48,6 +37,17 @@ const options = {
       },
     }),
   ],
+  adapter: Adapters.TypeORM.Adapter(
+    // The first argument should be a database connection string or TypeORM config object
+    process.env.DATABASE_URL,
+    // The second argument can be used to pass custom models and schemas
+    {
+      models: {
+        User: NextAuthProvidersUser,
+      },
+    }
+  ),
+
   callbacks: {
     async signIn(user, account, profile) {
       if (account.type === 'credentials') {
@@ -68,6 +68,7 @@ const options = {
   },
   session: {
     jwt: true,
+    signingKey: process.env.JWT_SECRET,
   },
   database: process.env.DATABASE_URL,
 };

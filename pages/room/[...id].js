@@ -9,9 +9,9 @@ import { intersection } from 'lodash';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
-import CallOptions from '@/components/Spaces/Video/CallOptions';
-import CallTabs from '@/components/Spaces/Video/CallTabs';
-import LeaveCall from '@/components/Spaces/Video/LeaveCall';
+import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
+import CallTabs from '@/components/Spaces/CallTabs';
+import LeaveCall from '@/components/Spaces/VideoOptions/LeaveCall';
 
 const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
 
