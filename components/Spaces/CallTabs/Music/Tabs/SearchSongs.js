@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
-import getClosestImageSize from 'utils/spotify/getClosestImageSize';
+import parseTracks from 'utils/spotify/parseTracks';
 import Track from '../Track';
 import { useSpotify } from '../SpotifyProvider';
 
@@ -40,18 +40,7 @@ const SearchSongs = () => {
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
       if (cancel) return;
-      setSearchResults(
-        res.body.tracks.items.map((track) => {
-          const smallestAlbumImage = getClosestImageSize(track.album.images, 64);
-
-          return {
-            artist: track.artists[0].name,
-            title: track.name,
-            uri: track.uri,
-            albumUrl: smallestAlbumImage.url,
-          };
-        })
-      );
+      setSearchResults(parseTracks(res.body.tracks.items));
     });
 
     return () => (cancel = true);

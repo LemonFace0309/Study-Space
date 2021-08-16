@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Playlist = ({ playlist }) => {
+const Playlist = ({ playlist, playPlaylist }) => {
   const { image, title } = playlist;
   const classes = useStyles();
 
   return (
-    <div className="flex flex-col m-1 cursor-pointer w-28">
+    <div className="flex flex-col m-1 cursor-pointer w-28" role="button" onClick={() => playPlaylist(playlist)}>
       <img src={image} alt="song thumbnail" className={classes.thumbnailImage} />
       <Typography variant="caption" className={classes.playlistTitle}>
         {title}
@@ -39,6 +42,7 @@ Playlist.propTypes = {
     trackURL: PropTypes.string,
     image: PropTypes.string,
   }).isRequired,
+  playPlaylist: PropTypes.func.isRequired,
 };
 
 export default Playlist;
