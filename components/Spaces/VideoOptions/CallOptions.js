@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, Menu, MenuItem, Fade } from '@material-ui/core';
+import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@material-ui/core';
 import {
   Mic,
   MicOff,
@@ -13,12 +13,25 @@ import {
   ExitToApp,
 } from '@material-ui/icons';
 
+import LeaveCallDialog from './LeaveCallDialog';
+import ParticipantsDialog from './ParticipantsDialog';
+
 function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUserVideo, leaveCall }) {
-  const [open, setOpen] = useState(false);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [openLeaveModal, setOpenLeaveModal] = useState(false);
+  const [openParticipantsModal, setOpenParticipantsModal] = useState(false);
   const buttonRef = useRef();
 
-  const handleOpen = () => {
-    setOpen((open) => !open);
+  const handleToggle = () => {
+    setOpenOptions((openOptions) => !openOptions);
+  };
+
+  const handleClose = () => {
+    if (buttonRef.current && buttonRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenOptions(false);
   };
 
   return (
@@ -26,29 +39,42 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
       <div className="absolute bottom-0 left-0">
         <IconButton onClick={toggleUserAudio}>{userAudioShow ? <Mic /> : <MicOff />}</IconButton>
         <IconButton onClick={toggleUserVideo}>{userVideoShow ? <Videocam /> : <VideocamOff />}</IconButton>
-        <IconButton onClick={handleOpen} ref={buttonRef}>
+        <IconButton onClick={handleToggle} ref={buttonRef}>
           <MoreVert />
         </IconButton>
       </div>
 
-      <Menu keepMounted open={open} anchorEl={buttonRef.current} TransitionComponent={Fade}>
-        <MenuItem onClick={handleOpen}>
-          <ViewCompact className="m-1" />
-          Participant layout
-        </MenuItem>
-        <MenuItem onClick={handleOpen}>
-          <Palette className="m-1" />
-          Appearance
-        </MenuItem>
-        <MenuItem onClick={handleOpen}>
-          <Settings className="m-1" />
-          Settings
-        </MenuItem>
-        <MenuItem onClick={leaveCall}>
-          <ExitToApp className="m-1" />
-          Quit Session
-        </MenuItem>
-      </Menu>
+      <Popper open={openOptions} anchorEl={buttonRef.current} transition disablePortal>
+        {({ TransitionProps }) => (
+          <Grow {...TransitionProps}>
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={openOptions}>
+                  <MenuItem onClick={() => setOpenParticipantsModal(true)}>
+                    <ViewCompact className="m-1" />
+                    Participant layout
+                  </MenuItem>
+                  <MenuItem onClick={() => {}}>
+                    <Palette className="m-1" />
+                    Appearance
+                  </MenuItem>
+                  <MenuItem onClick={() => {}}>
+                    <Settings className="m-1" />
+                    Settings
+                  </MenuItem>
+                  <MenuItem onClick={() => setOpenLeaveModal(true)}>
+                    <ExitToApp className="m-1" />
+                    Quit Session
+                  </MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+
+      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} leaveCall={leaveCall} />
+      <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );
 }

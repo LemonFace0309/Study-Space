@@ -25,6 +25,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
     if (client) return;
 
     const session = await getSession();
+    if (!session) return;
     const { name, email } = session.user;
     const result = await axios.get('/api/user/get-user', { params: { name, email } });
     const user = result.data.user;
@@ -58,7 +59,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   const createNewSpace = async () => {
     setLoading(true);
     const id = uuid();
-    const clientId = client._id;
+    const clientId = client?._id ?? id;
     const data = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
