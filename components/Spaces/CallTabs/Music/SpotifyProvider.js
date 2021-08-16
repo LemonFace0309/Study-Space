@@ -45,7 +45,6 @@ export function SpotifyProvider({ children }) {
       console.debug('Some information about the authenticated user', userData.body);
       const username = userData.body.id;
       const playlistData = await spotifyApi.getUserPlaylists(username);
-      console.debug("Some information about the user's playlists", playlistData.body.items);
       setUser(userData.body);
       const rawPlaylists = playlistData.body.items;
       setUserPlaylists(() => parsePlaylists(rawPlaylists));

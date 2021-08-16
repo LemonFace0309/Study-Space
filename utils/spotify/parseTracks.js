@@ -6,7 +6,7 @@ const parseTracks = (tracks) => {
     const artists = track.artists.map((artist) => artist.name);
 
     return {
-      artist: artists.join(' '),
+      artist: artists.join(', '),
       title: track.name,
       uri: track.uri,
       albumUrl: smallestAlbumImage.url,

@@ -13,14 +13,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Queue = () => {
   const classes = useStyles();
-  const { queue, setQueue, currentTrack, nextTracks } = useSpotify();
+  const { queue, setQueue, currentTrack, nextTracks, setNextTracks } = useSpotify();
 
   const playTrack = (track) => {
     let found = false;
     const queueClone = [...queue];
     const newQueue = queueClone.reduce((acc, t) => {
       if (found) return acc.concat([t]);
-      if (t.uri === track.uri) {
+      if (t.title === track.title && t.artist === track.artist) {
         console.debug(t);
         found = true;
         return [t];
@@ -31,7 +31,14 @@ const Queue = () => {
   };
 
   const removeFromQueue = (track) => {
-    return;
+    const newQueue = [...nextTracks];
+    console.debug(newQueue);
+    newQueue.splice(
+      newQueue.findIndex((t) => t.title === track.title && t.artist === track.artist),
+      1
+    );
+    setQueue([currentTrack, ...newQueue]);
+    setNextTracks(newQueue);
   };
 
   return (

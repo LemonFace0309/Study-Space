@@ -1,4 +1,5 @@
 import Typography from '@material-ui/core/Typography';
+import { shuffle } from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -36,15 +37,15 @@ const SpotifyHome = () => {
   const classes = useStyles();
 
   const playPlaylist = async (playlist) => {
-    console.debug(playlist);
     try {
       const data = await spotifyApi.getPlaylistTracks(playlist.id, {
         // offset: 1,
-        limit: 100,
+        limit: 50,
         fields: 'items',
       });
       const tracks = data.body.items.map((item) => item.track);
-      setQueue(parseTracks(tracks));
+      const shuffledTracks = shuffle(tracks);
+      setQueue(parseTracks(shuffledTracks));
     } catch (err) {
       console.debug('Something went wrong!', err);
     }
@@ -52,7 +53,7 @@ const SpotifyHome = () => {
 
   const renderPlaylist = (name, playlistObj) => {
     return (
-      <div key={name}>
+      <div key={name} className="mt-2">
         <Typography variant="subtitle2" className={classes.heading}>
           {name}
         </Typography>

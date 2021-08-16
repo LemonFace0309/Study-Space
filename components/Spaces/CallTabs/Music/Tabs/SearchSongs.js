@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi, setQueue, setCurrentTrack, nextTracks, setNextTracks } = useSpotify();
+  const { accessToken, spotifyApi, setQueue, setOffset, currentTrack, setCurrentTrack, nextTracks, setNextTracks } =
+    useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -49,13 +50,15 @@ const SearchSongs = () => {
   const playTrack = (track) => {
     setSearchResults([]);
     setQueue((prev) => {
+      let newQueue = [];
       if (prev.length === 0) {
-        return [track];
+        newQueue.push(track);
       } else {
-        const newQueue = [...nextTracks];
-        newQueue.unshift(track);
-        return newQueue;
+        // spotify player has bug with setting a new queue if it's the same length.
+        // This is an inperfect workaround to make sure the song changes.
+        newQueue = [track, currentTrack, ...nextTracks];
       }
+      return newQueue;
     });
   };
 
