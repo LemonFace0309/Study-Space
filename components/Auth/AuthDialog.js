@@ -36,7 +36,7 @@ const AuthDialog = ({
         <Grid item xs={12}>
           <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
             <Alert elevation={6} variant="filled" onClose={() => setShowSuccessAlert(false)} severity="success">
-              Congratulations! Your account has been created
+              {t('LABEL_ACCOUNT_CREATION')}
               <span role="img" aria-label="partying face emoji">
                 🥳
               </span>
@@ -62,7 +62,7 @@ const AuthDialog = ({
               <div className="flex w-full justify-center items-center">
                 <Divider className="w-4/12 h-0.5" />
                 <Typography variant="caption" component="p" className="mx-3">
-                  OR
+                  {t('LABEL_OR')}
                 </Typography>
                 <Divider className="w-4/12 h-0.5" />
               </div>
@@ -96,7 +96,7 @@ const AuthDialog = ({
         <Hidden smDown>
           <Grid item md={6} className="overflow-hidden flex flex-col content-center items-start">
             <Typography variant="h6" component="h4" className="mb-2">
-              All your study needs in one space.
+              {t('LABEL_ALL_STUDY_NEEDS')}
             </Typography>
             <div className="w-11/12 max-w-lg relative">
               <div style={{ paddingTop: '100%' }}>
