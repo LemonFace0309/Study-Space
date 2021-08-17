@@ -73,7 +73,7 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
         )}
       </Popper>
 
-      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} leaveCall={leaveCall} />
+      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} />
       <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );

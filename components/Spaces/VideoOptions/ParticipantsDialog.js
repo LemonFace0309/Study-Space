@@ -1,28 +1,17 @@
 import { useState } from 'react';
 
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Dialog,
-  Typography,
-  Switch,
-  FormControl,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-} from '@material-ui/core';
+import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 
-const ParticipantsDialog = ({ open, setOpen, leaveCall }) => {
+const ParticipantsDialog = ({ open, setOpen, layoutOptions }) => {
   const theme = useTheme();
+  const [layout, setLayout] = useState(layoutOptions[0]?.value ?? 'tiled');
   const [showParticipants, setShowParticipants] = useState(true);
 
   const toggleParticipants = () => {
     setShowParticipants((participants) => !participants);
   };
-
-  const [layout, setLayout] = useState('tiled');
 
   const handleLayoutChange = (event) => {
     setLayout(event.target.value);
@@ -39,30 +28,23 @@ const ParticipantsDialog = ({ open, setOpen, leaveCall }) => {
           Change Layout
         </Typography>
         <div>
-          Show Participants
+          <Typography variant="subtitle1" component="span">
+            Show Participants
+          </Typography>
           <Switch checked={showParticipants} onChange={toggleParticipants} color="primary" />
         </div>
         <div className="flex flex-col w-100">
           <FormControl component="fieldset">
-            <RadioGroup aria-label="gender" name="gender1" value={layout} onChange={handleLayoutChange}>
-              <FormControlLabel
-                disabled={showParticipants ? false : true}
-                value="tiled"
-                control={<Radio />}
-                label="Tiled"
-              />
-              <FormControlLabel
-                disabled={showParticipants ? false : true}
-                value="list"
-                control={<Radio />}
-                label="List"
-              />
-              <FormControlLabel
-                disabled={showParticipants ? false : true}
-                value="main"
-                control={<Radio />}
-                label="Main Speaker"
-              />
+            <RadioGroup aria-label="Participant layout options" value={layout} onChange={handleLayoutChange}>
+              {layoutOptions.map((option) => (
+                <FormControlLabel
+                  key={option.value}
+                  disabled={!showParticipants}
+                  value={option.value}
+                  control={<Radio />}
+                  label={option.label}
+                />
+              ))}
             </RadioGroup>
           </FormControl>
         </div>
@@ -74,7 +56,15 @@ const ParticipantsDialog = ({ open, setOpen, leaveCall }) => {
 ParticipantsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  leaveCall: PropTypes.func.isRequired,
+  layoutOptions: PropTypes.array.isRequired,
+};
+
+ParticipantsDialog.defaultProps = {
+  layoutOptions: [
+    { value: 'tiled', label: 'Tiled' },
+    { value: 'list', label: 'List' },
+    { value: 'main', label: 'Main Speaker' },
+  ],
 };
 
 export default ParticipantsDialog;

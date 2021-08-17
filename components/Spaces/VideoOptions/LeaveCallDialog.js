@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
