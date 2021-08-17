@@ -63,21 +63,18 @@ const SearchSongs = () => {
   };
 
   const addToQueue = (track) => {
-    let newQueue = [];
-    setQueue((prev) => {
-      newQueue = [...prev];
-      newQueue.push(track);
-      return newQueue;
-    });
-    if (newQueue.length <= 1) {
-      setCurrentTrack(track);
-    } else {
-      setNextTracks((prev) => {
-        const newNextTrack = [...prev];
-        newNextTrack.push(track);
-        return newNextTrack;
-      });
+    if (!currentTrack || !currentTrack.uri) {
+      setQueue([track]);
+      return;
     }
+    let newNextTracks = [];
+    setNextTracks(() => {
+      newNextTracks = [...nextTracks, track];
+      return newNextTracks;
+    });
+    setQueue(() => {
+      return [currentTrack, ...newNextTracks];
+    });
   };
 
   return (
