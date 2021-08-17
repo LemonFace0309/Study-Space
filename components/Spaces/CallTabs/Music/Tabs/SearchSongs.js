@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
+import parseTracks from 'utils/spotify/parseTracks';
 import Track from '../Track';
 import { useSpotify } from '../SpotifyProvider';
 
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchSongs = () => {
   const classes = useStyles();
-  const { accessToken, spotifyApi, setTrackUri } = useSpotify();
+  const { accessToken, spotifyApi, setQueue, setOffset, currentTrack, setCurrentTrack, nextTracks, setNextTracks } =
+    useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -39,21 +41,7 @@ const SearchSongs = () => {
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
       if (cancel) return;
-      setSearchResults(
-        res.body.tracks.items.map((track) => {
-          const smallestAlbumImage = track.album.images.reduce((smallest, image) => {
-            if (image.height < smallest.height) return image;
-            return smallest;
-          }, track.album.images[0]);
-
-          return {
-            artist: track.artists[0].name,
-            title: track.name,
-            uri: track.uri,
-            albumUrl: smallestAlbumImage.url,
-          };
-        })
-      );
+      setSearchResults(parseTracks(res.body.tracks.items));
     });
 
     return () => (cancel = true);
@@ -61,7 +49,32 @@ const SearchSongs = () => {
 
   const playTrack = (track) => {
     setSearchResults([]);
-    setTrackUri(track.uri);
+    setQueue((prev) => {
+      let newQueue = [];
+      if (prev.length === 0) {
+        newQueue.push(track);
+      } else {
+        // spotify player has bug with setting a new queue if it's the same length.
+        // This is an inperfect workaround to make sure the song changes.
+        newQueue = [track, currentTrack, ...nextTracks];
+      }
+      return newQueue;
+    });
+  };
+
+  const addToQueue = (track) => {
+    if (!currentTrack || !currentTrack.uri) {
+      setQueue([track]);
+      return;
+    }
+    let newNextTracks = [];
+    setNextTracks(() => {
+      newNextTracks = [...nextTracks, track];
+      return newNextTracks;
+    });
+    setQueue(() => {
+      return [currentTrack, ...newNextTracks];
+    });
   };
 
   return (
@@ -87,7 +100,9 @@ const SearchSongs = () => {
             Search result will show up here
           </Typography>
         ) : (
-          searchResults.map((track) => <Track key={track.uri} track={track} playTrack={playTrack} />)
+          searchResults.map((track) => (
+            <Track key={track.uri} track={track} playTrack={playTrack} addToQueue={addToQueue} />
+          ))
         )}
       </div>
     </div>

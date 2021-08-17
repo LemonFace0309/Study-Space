@@ -65,11 +65,11 @@ router.patch(async (req, res) => {
       await checkExistingUsers(res, userId, 'email', email);
       await checkExistingUsers(res, userId, 'phoneNumber', parsedPhoneNumber);
     } catch (err) {
-      console.log(err);
+      console.warn(err);
       return res.status(409).json({ message: err.message });
     }
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     return res.status(500).send(err);
   }
 
@@ -82,9 +82,9 @@ router.patch(async (req, res) => {
   }
   try {
     const newUser = await user.save();
-    console.log(newUser);
+    console.debug(newUser);
   } catch (err) {
-    console.log(err);
+    console.warn(err);
     return res.status(500).send(err);
   }
   res.status(200).json({ message: 'You account info has been updated sucessfully 😃' });
