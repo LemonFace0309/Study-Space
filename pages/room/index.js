@@ -9,34 +9,27 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
+import { useQuery, gql } from '@apollo/client';
 
+import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
-const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
+const GET_USERS = gql`
+  query ($usersName: String, $usersEmail: String) {
+    users(name: $usersName, email: $usersEmail) {
+      _id
+    }
+  }
+`;
+
+const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [client, setClient] = useRecoilState(clientState.client);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
-
-  const initSession = async () => {
-    if (client) return;
-
-    const session = await getSession();
-    if (!session) return;
-    const { name, email } = session.user;
-    const result = await axios.get('/api/user/get-user', { params: { name, email } });
-    const user = result.data.user;
-
-    const newClient = { ...session, user };
-    setClient(newClient);
-  };
-
-  useEffect(() => {
-    initSession();
-  }, []);
 
   useEffect(() => {
     if (spotifyCode) {
@@ -57,21 +50,24 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   }, [spotifyCode]);
 
   const createNewSpace = async () => {
-    setLoading(true);
+    setRoomIsLoading(true);
     const id = uuid();
-    const clientId = client?._id ?? id;
+
+    setClient(newSession);
+    const clientId = newSession?._id;
     const data = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
       music: 'none',
       isActive: true,
-      participants: [{ clientId }],
+
+      // Sample data
+      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
       spaceId: id,
     };
     const result = await axios.post('/api/spaces/create-new-space', data);
 
     router.push(`/room/${id}`);
-    setLoading(false);
   };
 
   return (
@@ -96,7 +92,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
           <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>
             {t('LABEL_CREATE_SPACE')}
           </Button>
-          {loading && <CircularProgress />}
+          {roomIsLoading && <CircularProgress />}
         </div>
       </Paper>
       <Button className="mt-2" href={spotifyAuthURL}>
@@ -106,12 +102,31 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode }) => {
   );
 };
 
-export const getServerSideProps = async ({ query, locale }) => {
+export const getServerSideProps = async (context) => {
+  const { query, locale } = context;
+  const session = await getSession(context);
+  const { name, email } = session.user;
+
+  const apolloClient = initializeApollo();
+  const {
+    data: { users },
+  } = await apolloClient.query({
+    query: GET_USERS,
+    variables: { usersName: name, usersEmail: email },
+  });
+
+  const sessionUser = users[0];
+
+  const newSession = { ...session, ...sessionUser };
+  console.debug('newSession', newSession);
+
   return {
     props: {
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       spotifyCode: query?.code ?? '',
+      newSession: JSON.parse(JSON.stringify(newSession)),
       ...(await serverSideTranslations(locale, ['common'])),
+      initialApolloState: apolloClient.cache.extract(),
     },
   };
 };
@@ -119,6 +134,7 @@ export const getServerSideProps = async ({ query, locale }) => {
 CreateRoom.propTypes = {
   spotifyAuthURL: PropTypes.string.isRequired,
   spotifyCode: PropTypes.string.isRequired,
+  newSession: PropTypes.object.isRequired,
 };
 
 export default CreateRoom;
