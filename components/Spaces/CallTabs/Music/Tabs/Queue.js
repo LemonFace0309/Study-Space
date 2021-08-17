@@ -17,6 +17,7 @@ const Queue = () => {
 
   const playTrack = (track) => {
     let found = false;
+    // creating a new queue starting at the currently playing song and replacing it with track
     const queueClone = [...queue];
     const newQueue = queueClone.reduce((acc, t) => {
       if (found) return acc.concat([t]);

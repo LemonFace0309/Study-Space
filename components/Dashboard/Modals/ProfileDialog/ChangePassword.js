@@ -50,7 +50,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
     try {
       const response = await axios.patch('/api/profile/update-password', jsonData, {
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);

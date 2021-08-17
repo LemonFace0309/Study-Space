@@ -31,6 +31,7 @@ const Player = () => {
     const returnedTracks = [currentTrack, ...nextTracks];
     const queueClone = [...queue];
     let nextTracksExtened = [];
+    // finding place in queue and setting next tracks and current track to match the proper tracks.
     for (let i = 0; i < queueClone.length; ++i) {
       if (
         queueClone[i]?.title === returnedTracks[0].title &&

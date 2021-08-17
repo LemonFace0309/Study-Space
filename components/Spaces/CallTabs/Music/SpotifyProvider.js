@@ -53,51 +53,36 @@ export function SpotifyProvider({ children }) {
     }
   };
 
+  const fetchPlaylists = [
+    { category: 'focus', limit: 7, setState: setFocusPlaylists },
+    { category: 'kpop', limit: 7, setState: setKpopPlaylists },
+    { search: 'cafe', limit: 7, setState: setCafePlaylists },
+    { search: 'study', limit: 7, setState: setStudyPlaylists },
+    { search: 'piano', limit: 7, setState: setPianoPlaylists },
+  ];
+
   const initRecommendedPlaylists = () => {
-    spotifyApi
-      .getPlaylistsForCategory('focus', { limit: 7 })
-      .then((data) => {
-        setFocusPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
-      })
-      .catch((err) => {
-        console.log('Something went wrong!', err);
-      });
-
-    spotifyApi
-      .getPlaylistsForCategory('kpop', { limit: 7 })
-      .then((data) => {
-        setKpopPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
-      })
-      .catch((err) => {
-        console.log('Something went wrong!', err);
-      });
-
-    spotifyApi
-      .searchPlaylists('cafe', { limit: 7 })
-      .then((data) => {
-        setCafePlaylists(() => parsePlaylists(data?.body?.playlists?.items));
-      })
-      .catch((err) => {
-        console.log('Something went wrong!', err);
-      });
-
-    spotifyApi
-      .searchPlaylists('study', { limit: 7 })
-      .then((data) => {
-        setStudyPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
-      })
-      .catch((err) => {
-        console.log('Something went wrong!', err);
-      });
-
-    spotifyApi
-      .searchPlaylists('piano', { limit: 7 })
-      .then((data) => {
-        setPianoPlaylists(() => parsePlaylists(data?.body?.playlists?.items));
-      })
-      .catch((err) => {
-        console.log('Something went wrong!', err);
-      });
+    for (const fetchObj of fetchPlaylists) {
+      if (fetchObj.category) {
+        spotifyApi
+          .getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit })
+          .then((data) => {
+            fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
+          })
+          .catch((err) => {
+            console.debug('Something went wrong!', err);
+          });
+      } else if (fetchObj.search) {
+        spotifyApi
+          .searchPlaylists(fetchObj.search, { limit: fetchObj.limit })
+          .then((data) => {
+            fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
+          })
+          .catch((err) => {
+            console.debug('Something went wrong!', err);
+          });
+      }
+    }
   };
 
   useEffect(() => {
