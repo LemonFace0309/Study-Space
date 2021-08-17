@@ -1,9 +1,9 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMutation, useQuery, gql } from '@apollo/client';
+import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import uniqueId from 'lodash/uniqueId';
-import { useRecoilState } from 'recoil';
-import { useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   Grid,
@@ -23,7 +23,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import * as clientState from 'atoms/client';
 
 const ADD_USER_TO_SPACE = gql`
-  mutation Mutation($addUserToSpaceInput: SpaceInput) {
+  mutation AddUserToSpaceMutation($addUserToSpaceInput: SpaceInput) {
     addUserToSpace(input: $addUserToSpaceInput) {
       name
       description
@@ -89,7 +89,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const [client, setClient] = useRecoilState(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
-  console.debug('participants in space modal', participants);
+
   const joinSpace = () => {
     // Add client to participant list
     setRoomIsLoading(true);
@@ -101,6 +101,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
     router.push(`/room/${spaceId}`);
     setRoomIsLoading(false);
   };
+
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
       <Grid container spacing={3} className={classes.container}>

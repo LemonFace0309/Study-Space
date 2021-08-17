@@ -3,21 +3,19 @@ import Space from 'models/Spaces';
 
 export const resolvers = {
   Query: {
-    users: async (parent, args, context) => {
-      const { userIds, email, name } = args;
-      console.debug('args', args, 'userIds', userIds, 'context', context);
-
+    users: async (_, { userIds, email, name }) => {
       // Fetch only the current session user by Name and Email
       if (email && name) {
         try {
           const user = await User.findOne({ name, email });
+          console.debug('Fetching session user:', user);
           return [user];
         } catch (err) {
           console.debug('Cannot fetch user', err);
         }
       }
 
-      // For Query by ID
+      // Fetches users that have an id found in userIds
       const filter = {
         _id: {
           $in: userIds,
@@ -27,7 +25,7 @@ export const resolvers = {
       let users = [];
       try {
         users = await User.find(filter);
-        console.debug('users', users);
+        console.debug('Fetching users with specified userIds:', users);
       } catch (err) {
         console.debug(err);
       }
@@ -35,12 +33,12 @@ export const resolvers = {
       return users;
     },
 
-    spaces: async (parent, args, context) => {
-      const { spaceIds } = args;
-      console.debug('args', args, 'spaceIds', spaceIds);
-
+    spaces: async (_, { spaceIds }) => {
       // Fetch all spaces
       if (spaceIds?.length == 0) {
+        console.debug('Fetching all spaces:');
+        // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
+        // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
         const spaces = await Space.find({}).populate('participants').exec();
         return spaces;
       }
@@ -54,7 +52,10 @@ export const resolvers = {
 
       let spaces = {};
       try {
+        // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
+        // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
         spaces = await Space.find(filter).populate('participants').exec();
+        console.debug('Fetching spaces with specified spaceIds', spaces);
       } catch (err) {
         console.debug(err);
       }
@@ -62,9 +63,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createSpace: async (parent, args, context) => {
-      console.debug('createSpace', args);
-      const { input } = args;
+    createSpace: async (_, { input }) => {
       const { name, description, userId, spaceId } = input;
 
       let result = {};
@@ -75,49 +74,54 @@ export const resolvers = {
           participants: [],
           spaceId,
           isActive: true,
-          music: '',
         });
 
         result = await space.save();
-        console.debug('new space', result);
+        console.debug('Created new space:', result);
       } catch (err) {
         console.debug('Cannot upload new space to database: ', err);
       }
       return result;
     },
-    addUserToSpace: async (parent, args, context) => {
-      console.debug('AddUserToSpace', args);
-      const {
-        input: { spaceId, userId },
-      } = args;
+    addUserToSpace: async (_, { input }) => {
+      const { spaceId, userId } = input;
 
       let space = {};
       try {
-        // The new option returns the space after the update
+        // Filters for the Space with the given spaceId
         const filter = { spaceId };
+
+        // Updates by pushing userId into the participants array attribute
         const update = {
           $push: { participants: userId },
         };
+
+        // Mongoose returns the space before the update occurs by default.
+        // {new:true} is the option argument that tells mongoose to return the space after the update occurs.
+        // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
+        // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
         space = await Space.findOneAndUpdate(filter, update, { new: true }).populate('participants').exec();
         console.debug('Updated space after populating participant field:', space);
       } catch (err) {
-        console.debug('Cannot upload new space to database: ', err);
+        console.debug('Cannot upload new space to database:', err);
       }
       return space;
     },
-    removeUserFromSpace: async (parent, args, context) => {
-      console.debug('removeUserFromSpace', args);
-      const {
-        input: { spaceId, userId },
-      } = args;
+    removeUserFromSpace: async (_, { input }) => {
+      const { spaceId, userId } = input;
 
       let space = {};
       try {
-        // The new option returns the space after the update
+        // $pull removes the specified element from an array in mongoDB.
         const filter = { spaceId };
         const update = {
           $pull: { participants: userId },
         };
+
+        // Mongoose returns the space before the update occurs by default.
+        // {new:true} is the option argument that tells mongoose to return the space after the update occurs.
+        // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
+        // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
         space = await Space.findOneAndUpdate(filter, update, { new: true }).populate('participants').exec();
 
         console.debug('Updated space after removing a participant:', space);
