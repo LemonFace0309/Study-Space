@@ -185,9 +185,10 @@ const redirectToHome = {
 };
 
 export const getServerSideProps = async (context) => {
+  // getSession seems to only take in the entire context, so can't destructure {req, locale}
   const session = await getSession(context);
   if (!session) {
-    console.error('Log in first!');
+    console.debug('Log in first!');
     return redirectToHome;
   }
 
@@ -210,9 +211,9 @@ export const getServerSideProps = async (context) => {
     // Add friend and id fields to user object
     session.user = { ...session.user, ...userData };
     newSession = { ...session };
-    console.debug('newSession', newSession);
+    console.debug('newSession:', newSession);
   } catch (error) {
-    console.debug('Log in first', error);
+    console.debug('Log in first:', error);
     return redirectToHome;
   }
 
@@ -220,6 +221,7 @@ export const getServerSideProps = async (context) => {
   try {
     const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
     spaces = data.spaces;
+    p;
   } catch (err) {
     console.error(err);
   }
