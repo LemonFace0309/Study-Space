@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { typeDefs } from '@/utils/apollo/schema/typeDefs';
+import { typeDefs } from '@/utils/apollo/schema/typedefs';
 import { resolvers } from '@/utils/apollo/schema/resolvers';
 import dbConnect from '@/utils/dbConnect';
 
