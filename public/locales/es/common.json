@@ -41,7 +41,7 @@
   "LABEL_LOGOUT": "Cerrar sesión",
 
   "LABEL_ALT_PROFILE_PIC": "Tu foto de perfil",
-  "PROMPT_PASSWORD": "Ingrese su contraseña actual y nueva",
+  "LABEL_PROMPT_PASSWORD": "Ingrese su contraseña actual y nueva",
   "LABEL_CURRENT_PASSWORD": "Contraseña actual",
   "LABEL_NEW_PASSWORD": "Nueva contraseña",
   "LABEL_CONFIRM_PASSWORD": "Confirmar nueva contraseña",

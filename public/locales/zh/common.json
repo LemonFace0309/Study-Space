@@ -37,15 +37,15 @@
   "LABEL_LOGOUT": "注销",
 
   "LABEL_ALT_PROFILE_PIC": "你的个人资料图片",
-  "PROMPT_PASSWORD": "输入您的当前密码和新密码",
+  "LABEL_PROMPT_PASSWORD": "输入您的当前密码和新密码",
   "LABEL_CURRENT_PASSWORD": "当前密码",
   "LABEL_NEW_PASSWORD": "新密码",
   "LABEL_CONFIRM_PASSWORD": "确认新密码",
   "LABEL_SAVE": "保存",
   "LABEL_EDIT_PROFILE": "编辑个人资料",
 
-  "SUCCESS_CHANGE_PROFILE": "您的账户信息更新成功😃",
-  "SUCCESS_UPDATE_PASSWORD": "密码更新成功😃",
-  "ERROR_SERVER": "内部服务器错误",
-  "ERROR_THIRD_PARTY_PASSWORD": "无法更改通过 Google 或 Facebook 等第三方服务注册的用户的密码。"
+  "LABEL_SUCCESS_CHANGE_PROFILE": "您的账户信息更新成功😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "密码更新成功😃",
+  "LABEL_ERROR_SERVER": "内部服务器错误",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "无法更改通过 Google 或 Facebook 等第三方服务注册的用户的密码。"
 }

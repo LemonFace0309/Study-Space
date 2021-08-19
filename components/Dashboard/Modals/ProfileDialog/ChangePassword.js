@@ -56,20 +56,20 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
         },
       });
       console.debug(response);
-      alert(response?.data.message ?? t('SUCCESS_UPDATE_PASSWORD'));
+      alert(response?.data.message ?? t('LABEL_SUCCESS_UPDATE_PASSWORD'));
       setCurrentPassword('');
       setNewPassword1('');
       setNewPassword2('');
     } catch (err) {
       setServerError(true);
-      alert(err?.response?.data?.message ?? t('ERROR_SERVER'));
+      alert(err?.response?.data?.message ?? t('LABEL_ERROR_SERVER'));
     }
   };
 
   if (!session?.user.type || session?.user.type !== 'credentials') {
     return (
       <Typography variant="h6" className={classes.title}>
-        {t('ERROR_THIRD_PARTY_PASSWORD')}
+        {t('LABEL_ERROR_THIRD_PARTY_PASSWORD')}
       </Typography>
     );
   }
@@ -78,7 +78,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
     <Grid container direction="column" spacing={3}>
       <Grid item xs={12} md={6}>
         <Typography variant="h6" className={classes.title}>
-          {t('PROMPT_PASSWORD')}
+          {t('LABEL_PROMPT_PASSWORD')}
         </Typography>
       </Grid>
       <Grid item xs={12} md={6}>

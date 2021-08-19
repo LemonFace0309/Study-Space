@@ -41,15 +41,15 @@
   "LABEL_LOGOUT": "ログアウト",
 
   "LABEL_ALT_PROFILE_PIC": "あなたのプロフィール写真",
-  "PROMPT_PASSWORD": "現在のパスワードと新しいパスワードを入力してください",
+  "LABEL_PROMPT_PASSWORD": "現在のパスワードと新しいパスワードを入力してください",
   "LABEL_CURRENT_PASSWORD": "現在のパスワード",
   "LABEL_NEW_PASSWORD": "新しいパスワード",
   "LABEL_CONFIRM_PASSWORD": "新しいパスワードの確認",
   "LABEL_SAVE": "保存",
   "LABEL_EDIT_PROFILE": "プロファイルの編集",
 
-  "SUCCESS_CHANGE_PROFILE": "アカウント情報が正常に更新されました😃",
-  "SUCCESS_UPDATE_PASSWORD": "パスワードが正常に更新されました😃",
-  "ERROR_SERVER": "内部サーバーエラー",
-  "ERROR_THIRD_PARTY_PASSWORD": "GoogleやFacebookなどのサードパーティサービスを介してサインアップしたユーザーのパスワードを変更することはできません。"
+  "LABEL_SUCCESS_CHANGE_PROFILE": "アカウント情報が正常に更新されました😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "パスワードが正常に更新されました😃",
+  "LABEL_ERROR_SERVER": "内部サーバーエラー",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "GoogleやFacebookなどのサードパーティサービスを介してサインアップしたユーザーのパスワードを変更することはできません。"
 }

@@ -99,10 +99,10 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         if (newImage) await handleUpdateImage();
         setSaveChanges(false);
         if (!passed) {
-          alert(message ?? t('SUCCESS_CHANGE_PROFILE'));
+          alert(message ?? t('LABEL_SUCCESS_CHANGE_PROFILE'));
           setEditMode(true);
         } else {
-          alert(message ?? t('ERROR_SERVER'));
+          alert(message ?? t('LABEL_ERROR_SERVER'));
         }
       }
     };

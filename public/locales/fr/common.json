@@ -41,15 +41,15 @@
   "LABEL_LOGOUT": "Déconnexion",
 
   "LABEL_ALT_PROFILE_PIC": "Votre photo de profil",
-  "PROMPT_PASSWORD": "Entrez votre mot de passe actuel et nouveau",
+  "LABEL_PROMPT_PASSWORD": "Entrez votre mot de passe actuel et nouveau",
   "LABEL_CURRENT_PASSWORD": "Mot de passe actuel",
   "LABEL_NEW_PASSWORD": "Nouveau mot de passe",
   "LABEL_CONFIRM_PASSWORD": "Confirmer le nouveau mot de passe",
   "LABEL_SAVE": "Enregistrer",
   "LABEL_EDIT_PROFILE": "Modifier le profil",
 
-  "SUCCESS_CHANGE_PROFILE": "Les informations de votre compte ont été mises à jour avec succès 😃",
-  "SUCCESS_UPDATE_PASSWORD": "Mot de passe mis à jour avec succès 😃",
-  "ERROR_SERVER": "Erreur du serveur interne",
-  "ERROR_THIRD_PARTY_PASSWORD": "Impossible de modifier le mot de passe des utilisateurs inscrits via des services tiers tels que Google ou Facebook."
+  "LABEL_SUCCESS_CHANGE_PROFILE": "Les informations de votre compte ont été mises à jour avec succès 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Mot de passe mis à jour avec succès 😃",
+  "LABEL_ERROR_SERVER": "Erreur du serveur interne",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Impossible de modifier le mot de passe des utilisateurs inscrits via des services tiers tels que Google ou Facebook."
 }

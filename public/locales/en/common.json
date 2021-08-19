@@ -41,15 +41,15 @@
   "LABEL_LOGOUT": "Logout",
 
   "LABEL_ALT_PROFILE_PIC": "Your Profile Pic",
-  "PROMPT_PASSWORD": "Enter your current and new password",
+  "LABEL_PROMPT_PASSWORD": "Enter your current and new password",
   "LABEL_CURRENT_PASSWORD": "Current Password",
   "LABEL_NEW_PASSWORD": "New Password",
   "LABEL_CONFIRM_PASSWORD": "Confirm New Password",
   "LABEL_SAVE": "Save",
   "LABEL_EDIT_PROFILE": "Edit Profile",
 
-  "SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
-  "SUCCESS_UPDATE_PASSWORD": "Password updated succesfully 😃",
-  "ERROR_SERVER": "Internal Server Error",
-  "ERROR_THIRD_PARTY_PASSWORD": "Cannot change password for users signed up through third party services like Google or Facebook."
+  "LABEL_SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Password updated succesfully 😃",
+  "LABEL_ERROR_SERVER": "Internal Server Error",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Cannot change password for users signed up through third party services like Google or Facebook."
 }

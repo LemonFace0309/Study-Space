@@ -41,15 +41,15 @@
   "LABEL_LOGOUT": "Ausloggen",
 
   "LABEL_ALT_PROFILE_PIC": "Ihr Profilbild",
-  "PROMPT_PASSWORD": "Geben Sie Ihr aktuelles und neues Passwort ein",
+  "LABEL_PROMPT_PASSWORD": "Geben Sie Ihr aktuelles und neues Passwort ein",
   "LABEL_CURRENT_PASSWORD": "Aktuelles Passwort",
   "LABEL_NEW_PASSWORD": "Neues Passwort",
   "LABEL_CONFIRM_PASSWORD": "Neues Passwort bestätigen",
   "LABEL_SAVE": "Speichern",
   "LABEL_EDIT_PROFILE": "Profil bearbeiten",
 
-  "SUCCESS_CHANGE_PROFILE": "Ihre Kontoinformationen wurden erfolgreich aktualisiert 😃",
-  "SUCCESS_UPDATE_PASSWORD": "Passwort erfolgreich aktualisiert 😃",
-  "ERROR_SERVER": "Interner Serverfehler",
-  "ERROR_THIRD_PARTY_PASSWORD": "Passwort für Benutzer, die sich über Drittanbieterdienste wie Google oder Facebook angemeldet haben, kann nicht geändert werden."
+  "LABEL_SUCCESS_CHANGE_PROFILE": "Ihre Kontoinformationen wurden erfolgreich aktualisiert 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Passwort erfolgreich aktualisiert 😃",
+  "LABEL_ERROR_SERVER": "Interner Serverfehler",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Passwort für Benutzer, die sich über Drittanbieterdienste wie Google oder Facebook angemeldet haben, kann nicht geändert werden."
 }
