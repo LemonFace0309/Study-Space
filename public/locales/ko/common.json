@@ -1,6 +1,12 @@
 {
+  "LABEL_HEY_THERE": "안녕하세요! 환영합니다.",
+  "LABEL_YOUR_AROMIA": "당신의 향이 가득한 스타벅스의 테이블.",
+  "LABEL_INCREASE_PROD": "원하는 대로 맞춤화된 가상 공간으로 생산성을 높이세요.",
+  "LABEL_TRY_IT_YOURSELF": "직접 사용해 보세요",
+
   "LABEL_JOIN_A_SPACE": "스페이스 가입",
   "LABEL_JOIN_SPACE": "스페이스 가입",
+  "LABEL_CREATE_A_SPACE": "공간 만들기",
   "LABEL_CREATE_SPACE": "공간 생성",
   "LABEL_SIGNOUT": "로그아웃",
   "LABEL_SIGNUP": "가입",
@@ -12,5 +18,34 @@
   "LABEL_DONT_HAVE_ACCOUNT": "계정이 없습니까? ",
   "LABEL_SIGN_UP_WITH": "다음으로 가입",
   "LABEL_LOG_IN_WITH": "로그인",
-  "LABEL_EMAIL_ADDRESS": "이메일 주소"
+  "LABEL_EMAIL_ADDRESS": "이메일 주소",
+
+  "LABEL_HOME": "홈",
+  "LABEL_BROWSE": "찾아보기",
+  "LABEL_STATISTICS": "통계",
+  "LABEL_FRIENDS": "친구",
+  "LABEL_PARTICIPANTS": "참가자",
+  "LABEL_CHANGE_PROFILE_PICTURE": "프로필 사진 변경",
+  "LABEL_USERNAME": "사용자 이름",
+  "LABEL_EMAIL": "이메일",
+  "LABEL_PHONE": "전화번호",
+
+  "LABEL_SETTINGS": "설정",
+  "LABEL_ACCOUNT_DETAILS": "계정 세부정보",
+  "LABEL_CHANGE_PASSWORD": "비밀번호 변경",
+  "LABEL_PRIVACY": "개인 정보",
+  "LABEL_LOGOUT": "로그아웃",
+
+  "LABEL_ALT_PROFILE_PIC": "내 프로필 사진",
+  "LABEL_PROMPT_PASSWORD": "현재 비밀번호와 새 비밀번호를 입력하세요.",
+  "LABEL_CURRENT_PASSWORD": "현재 암호",
+  "LABEL_NEW_PASSWORD": "새 비밀번호",
+  "LABEL_CONFIRM_PASSWORD": "새 비밀번호 확인",
+  "LABEL_SAVE": "저장",
+  "LABEL_EDIT_PROFILE": "프로필 편집",
+
+  "LABEL_SUCCESS_CHANGE_PROFILE": "귀하의 계정 정보가 업데이트되었습니다 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "비밀번호가 업데이트되었습니다 😃",
+  "LABEL_RROR_SERVER": "내부 서버 오류",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Google 또는 Facebook과 같은 타사 서비스를 통해 가입한 사용자의 비밀번호를 변경할 수 없습니다."
 }

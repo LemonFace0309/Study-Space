@@ -1,3 +1,5 @@
+import { useTranslation } from 'next-i18next';
+
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -70,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEditMode }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
   const [userImage, setUserImage] = useState(session?.user?.image);
@@ -96,10 +99,10 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         if (newImage) await handleUpdateImage();
         setSaveChanges(false);
         if (!passed) {
-          alert(message ?? 'You account info has been updated sucessfully 😃');
+          alert(message ?? t('LABEL_SUCCESS_CHANGE_PROFILE'));
           setEditMode(true);
         } else {
-          alert(message ?? 'Internal Server Error');
+          alert(message ?? t('LABEL_ERROR_SERVER'));
         }
       }
     };
@@ -185,7 +188,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             {editMode && (
               <div className={classes.imageOverlay}>
                 <Typography variant="subtitle1" className="uppercase p-2 text-center">
-                  Change Profile Picture
+                  {t('LABEL_CHANGE_PROFILE_PICTURE')}
                 </Typography>
                 <input
                   type="file"
@@ -200,7 +203,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         </Grid>
         <Grid item xs={12} sm={7} className="pr-4">
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Username
+            {t('LABEL_USERNAME')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -216,7 +219,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Email
+            {t('LABEL_EMAIL')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -229,7 +232,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Phone Number
+            {t('LABEL_PHONE')}
           </Typography>
           <TextField
             disabled={!editMode}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { Box, Typography, Grid, Hidden } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const DashboardCard = ({ name, description, variant }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const classes = useStyles();
 
@@ -73,7 +75,7 @@ const DashboardCard = ({ name, description, variant }) => {
           style={{
             color: variant === 'dark' ? theme.palette.primary.contrastText : theme.palette.primary.dark,
           }}>
-          <Typography variant="h4">{name}</Typography>
+          <Typography variant="h4">{t(name)}</Typography>
           <Typography variant="body1">{description}</Typography>
         </Grid>
       </Grid>

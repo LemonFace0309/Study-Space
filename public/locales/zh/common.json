@@ -1,6 +1,12 @@
 {
+  "LABEL_HEY_THERE": "嗨！让我们欢迎你",
+  "LABEL_YOUR_AROMIA": "你在星巴克的餐桌上充满了芳香。",
+  "LABEL_INCREASE_PROD": "根据您的喜好定制虚拟空间，提高您的工作效率。",
+  "LABEL_TRY_IT_YOURSELF": "你自己试试",
+
   "LABEL_JOIN_A_SPACE": "加入空间",
   "LABEL_JOIN_SPACE": "加入空间",
+  "LABEL_CREATE_A_SPACE": "创造空间",
   "LABEL_CREATE_SPACE": "创建空间",
   "LABEL_SIGNOUT": "退出",
   "LABEL_SIGNUP": "注册",
@@ -12,5 +18,34 @@
   "LABEL_DONT_HAVE_ACCOUNT": "还没有帐户？",
   "LABEL_SIGN_UP_WITH": "注册",
   "LABEL_LOG_IN_WITH": "登录方式",
-  "LABEL_EMAIL_ADDRESS": "电子邮件地址"
+  "LABEL_EMAIL_ADDRESS": "电子邮件地址",
+
+  "LABEL_HOME": "家",
+  "LABEL_BROWSE": "浏览",
+  "LABEL_STATISTICS": "统计数据",
+  "LABEL_FRIENDS": "朋友",
+  "LABEL_PARTICIPANTS": "参与者",
+  "LABEL_CHANGE_PROFILE_PICTURE": "更改个人资料图片",
+  "LABEL_USERNAME": "用户名",
+  "LABEL_EMAIL": "电子邮件",
+  "LABEL_PHONE": "电话号码",
+
+  "LABEL_SETTINGS": "设置",
+  "LABEL_ACCOUNT_DETAILS": "账户详情",
+  "LABEL_CHANGE_PASSWORD": "更改密码",
+  "LABEL_PRIVACY": "隐私",
+  "LABEL_LOGOUT": "注销",
+
+  "LABEL_ALT_PROFILE_PIC": "你的个人资料图片",
+  "LABEL_PROMPT_PASSWORD": "输入您的当前密码和新密码",
+  "LABEL_CURRENT_PASSWORD": "当前密码",
+  "LABEL_NEW_PASSWORD": "新密码",
+  "LABEL_CONFIRM_PASSWORD": "确认新密码",
+  "LABEL_SAVE": "保存",
+  "LABEL_EDIT_PROFILE": "编辑个人资料",
+
+  "LABEL_SUCCESS_CHANGE_PROFILE": "您的账户信息更新成功😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "密码更新成功😃",
+  "LABEL_ERROR_SERVER": "内部服务器错误",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "无法更改通过 Google 或 Facebook 等第三方服务注册的用户的密码。"
 }

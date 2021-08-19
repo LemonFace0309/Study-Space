@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { React } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Button, IconButton, Typography } from '@material-ui/core';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Sidebar = ({ open, onClose, onOpen, friendData, isSmallScreen }) => {
+  const { t } = useTranslation();
   const classes = useStyles({ open, isSmallScreen });
 
   return (
@@ -64,23 +65,23 @@ const Sidebar = ({ open, onClose, onOpen, friendData, isSmallScreen }) => {
       <Grid container item className="mb-16" direction="column">
         <Grid item>
           <Button className={classes.button} startIcon={<HomeIcon />}>
-            {open && 'Home'}
+            {open && t('LABEL_HOME')}
           </Button>
         </Grid>
         <Grid item>
           <Button className={classes.button} startIcon={<SearchIcon />}>
-            {open && 'Browse'}
+            {open && t('LABEL_BROWSE')}
           </Button>
         </Grid>
         <Grid item>
           <Button className={classes.button} startIcon={<EqualizerIcon />}>
-            {open && 'Statistics'}
+            {open && t('LABEL_STATISTICS')}
           </Button>
         </Grid>
       </Grid>
       <Grid container item direction="column" className={classes.friendsSection}>
         <Typography variant="subtitle2" color="secondary">
-          {open && 'FRIENDS'}
+          {open && t('LABEL_FRIENDS')}
         </Typography>
         <FriendCard open={open} friendData={friendData}></FriendCard>
       </Grid>

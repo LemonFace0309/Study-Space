@@ -1,6 +1,16 @@
 {
+  "LABEL_HEY_THERE": "¡Hola! Déjanos darte la bienvenida a",
+  "LABEL_YOUR_AROMIA": "Tu mesa llena de aroma en Starbucks",
+  "LABEL_INCREASE_PROD": "Incrementa tu productividad con espacios virtuales personalizados a tu gusto",
+  "LABEL_TRY_IT_YOURSELF": "Pruébelo usted mismo",
+
+  "LABEL_ACCOUNT_CREATION": "¡Felicitaciones! Se ha creado su cuenta",
+  "LABEL_OR": "O",
+  "LABEL_ALL_STUDY_NEEDS": "Todas las necesidades de tu estudio en un solo espacio.",
+
   "LABEL_JOIN_A_SPACE": "Únete a un espacio",
   "LABEL_JOIN_SPACE": "Unirse al espacio",
+  "LABEL_CREATE_A_SPACE": "Crea un espacio",
   "LABEL_CREATE_SPACE": "Crear espacio",
   "LABEL_SIGNOUT": "Cerrar sesión",
   "LABEL_SIGNUP": "Registrarse",
@@ -12,5 +22,34 @@
   "LABEL_DONT_HAVE_ACCOUNT": "¿No tienes una cuenta?",
   "LABEL_SIGN_UP_WITH": "Registrarse con",
   "LABEL_LOG_IN_WITH": "Iniciar sesión con",
-  "LABEL_EMAIL_ADDRESS": "Dirección de correo electrónico"
+  "LABEL_EMAIL_ADDRESS": "Dirección de correo electrónico",
+
+  "LABEL_HOME": "Inicio",
+  "LABEL_BROWSE": "Examinar",
+  "LABEL_STATISTICS": "Estadísticas",
+  "LABEL_FRIENDS": "Amigos",
+  "LABEL_PARTICIPANTS": "Participantes",
+  "LABEL_CHANGE_PROFILE_PICTURE": "Cambiar imagen de perfil",
+  "LABEL_USERNAME": "Nombre de usuario",
+  "LABEL_EMAIL": "Correo electrónico",
+  "LABEL_PHONE": "Número de teléfono",
+
+  "LABEL_SETTINGS": "Configuración",
+  "LABEL_ACCOUNT_DETAILS": "Detalles de la cuenta",
+  "LABEL_CHANGE_PASSWORD": "Cambiar contraseña",
+  "LABEL_PRIVACY": "Privacidad",
+  "LABEL_LOGOUT": "Cerrar sesión",
+
+  "LABEL_ALT_PROFILE_PIC": "Tu foto de perfil",
+  "LABEL_PROMPT_PASSWORD": "Ingrese su contraseña actual y nueva",
+  "LABEL_CURRENT_PASSWORD": "Contraseña actual",
+  "LABEL_NEW_PASSWORD": "Nueva contraseña",
+  "LABEL_CONFIRM_PASSWORD": "Confirmar nueva contraseña",
+  "LABEL_SAVE": "Guardar",
+  "LABEL_EDIT_PROFILE": "Editar perfil",
+
+  "SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
+  "SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
+  "ERROR_SERVER": "Error interno del servidor",
+  "ERROR_THIRD_PARTY_PASSWORD": "No se puede cambiar la contraseña de los usuarios registrados a través de servicios de terceros como Google o Facebook"
 }

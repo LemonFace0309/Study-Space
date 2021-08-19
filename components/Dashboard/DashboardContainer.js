@@ -2,7 +2,6 @@ import { React } from 'react';
 import PropTypes from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
 import { Card, Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
-
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
 import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
@@ -34,8 +33,8 @@ const DashboardContainer = ({ spaceCardData }) => {
               </Typography> */}
               <DashboardCard
                 variant="dark"
-                name="Create a Space"
-                description="insert some sort of tagline or feature description "
+                name="LABEL_CREATE_A_SPACE"
+                description="insert some sort of tagline or feature description"
               />
             </Grid>
             <Grid item sm={12} md={6}>
@@ -44,8 +43,8 @@ const DashboardContainer = ({ spaceCardData }) => {
               </Typography> */}
               <DashboardCard
                 variant="light"
-                name="Join a Space"
-                description="insert some sort of tagline or feature description "
+                name="LABEL_JOIN_A_SPACE"
+                description="insert some sort of tagline or feature description"
               />
             </Grid>
             {/* Space Card Section */}

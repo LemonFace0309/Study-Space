@@ -1,16 +1,55 @@
 {
+  "LABEL_HEY_THERE": "こんにちは！ようこそ",
+  "LABEL_YOUR_AROMIA": "スターバックスのアロミアいっぱいのテーブル。",
+  "LABEL_INCREASE_PROD": "好みに合わせてカスタマイズされた仮想空間で、生産性を向上させます。",
+  "LABEL_TRY_IT_YOURSELF": "自分で試してみてください",
+
+  "LABEL_ACCOUNT_CREATION": "おめでとうございます！アカウントが作成されました",
+  "LABEL_OR": "OR",
+  "LABEL_ALL_STUDY_NEEDS": "すべての調査に必要なものを1つのスペースにまとめます。",
+
   "LABEL_JOIN_A_SPACE": "スペースに参加",
   "LABEL_JOIN_SPACE": "スペースに参加",
+  "LABEL_CREATE_A_SPACE": "スペースを作成する",
   "LABEL_CREATE_SPACE": "スペースの作成",
   "LABEL_SIGNOUT": "サインアウト",
   "LABEL_SIGNUP": "サインアップ",
   "LABEL_LOGIN": "ログイン",
-  "LABEL_JUST_YOU": "Just You",
+  "LABEL_JUST_YOU": "あなただけ",
   "LABEL_WITH_FRIENDS": "友達と",
   "LABEL_LARGE_GROUPS": "大規模グループ",
   "LABEL_ALREADY_HAVE_ACCOUNT": "すでにアカウントをお持ちですか？",
   "LABEL_DONT_HAVE_ACCOUNT": "アカウントをお持ちではありませんか？",
   "LABEL_SIGN_UP_WITH": "サインアップ",
   "LABEL_LOG_IN_WITH": "ログインして",
-  "LABEL_EMAIL_ADDRESS": "メールアドレス"
+  "LABEL_EMAIL_ADDRESS": "メールアドレス",
+
+  "LABEL_HOME": "ホーム",
+  "LABEL_BROWSE": "参照",
+  "LABEL_STATISTICS": "統計",
+  "LABEL_FRIENDS": "フレンズ",
+  "LABEL_PARTICIPANTS": "参加者",
+  "LABEL_CHANGE_PROFILE_PICTURE": "プロフィール写真の変更",
+  "LABEL_USERNAME": "ユーザー名",
+  "LABEL_EMAIL": "メール",
+  "LABEL_PHONE": "電話番号",
+
+  "LABEL_SETTINGS": "設定",
+  "LABEL_ACCOUNT_DETAILS": "アカウントの詳細",
+  "LABEL_CHANGE_PASSWORD": "パスワードの変更",
+  "LABEL_PRIVACY": "プライバシー",
+  "LABEL_LOGOUT": "ログアウト",
+
+  "LABEL_ALT_PROFILE_PIC": "あなたのプロフィール写真",
+  "LABEL_PROMPT_PASSWORD": "現在のパスワードと新しいパスワードを入力してください",
+  "LABEL_CURRENT_PASSWORD": "現在のパスワード",
+  "LABEL_NEW_PASSWORD": "新しいパスワード",
+  "LABEL_CONFIRM_PASSWORD": "新しいパスワードの確認",
+  "LABEL_SAVE": "保存",
+  "LABEL_EDIT_PROFILE": "プロファイルの編集",
+
+  "LABEL_SUCCESS_CHANGE_PROFILE": "アカウント情報が正常に更新されました😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "パスワードが正常に更新されました😃",
+  "LABEL_ERROR_SERVER": "内部サーバーエラー",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "GoogleやFacebookなどのサードパーティサービスを介してサインアップしたユーザーのパスワードを変更することはできません。"
 }

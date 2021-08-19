@@ -1,6 +1,16 @@
 {
+  "LABEL_HEY_THERE": "Sie da! Wir heißen Sie herzlich willkommen",
+  "LABEL_YOUR_AROMIA": "Dein mit Aroma gefüllter Tisch bei Starbucks.",
+  "LABEL_INCREASE_PROD": "Steigern Sie Ihre Produktivität mit virtuellen Räumen, die nach Ihren Wünschen gestaltet werden.",
+  "LABEL_TRY_IT_YOURSELF": "Versuch es selber",
+
+  "LABEL_ACCOUNT_CREATION": "Herzlichen Glückwunsch! Ihr Konto wurde erstellt",
+  "LABEL_OR": "ODER",
+  "LABEL_ALL_STUDY_NEEDS": "Alles, was Sie zum Studieren benötigen, an einem Ort.",
+
   "LABEL_JOIN_A_SPACE": "Einem Space beitreten",
   "LABEL_JOIN_SPACE": "Raum beitreten",
+  "LABEL_CREATE_A_SPACE": "Erstellen Sie einen Raum",
   "LABEL_CREATE_SPACE": "Raum erstellen",
   "LABEL_SIGNOUT": "Abmelden",
   "LABEL_SIGNUP": "Anmelden",
@@ -12,5 +22,34 @@
   "LABEL_DONT_HAVE_ACCOUNT": "Sie haben kein Konto? ",
   "LABEL_SIGN_UP_WITH": "Anmelden mit",
   "LABEL_LOG_IN_WITH": "Anmelden mit",
-  "LABEL_EMAIL_ADDRESS": "E-Mail-Adresse"
+  "LABEL_EMAIL_ADDRESS": "E-Mail-Adresse",
+
+  "LABEL_HOME": "Heim",
+  "LABEL_BROWSE": "Durchsuche",
+  "LABEL_STATISTICS": "Statistiken",
+  "LABEL_FRIENDS": "Freunde",
+  "LABEL_PARTICIPANTS": "Teilnehmer",
+  "LABEL_CHANGE_PROFILE_PICTURE": "Profilbild ändern",
+  "LABEL_USERNAME": "Nutzername",
+  "LABEL_EMAIL": "Email",
+  "LABEL_PHONE": "Telefonnummer",
+
+  "LABEL_SETTINGS": "Einstellungen",
+  "LABEL_ACCOUNT_DETAILS": "Kontodetails",
+  "LABEL_CHANGE_PASSWORD": "Ändere das Passwort",
+  "LABEL_PRIVACY": "Privatsphäre",
+  "LABEL_LOGOUT": "Ausloggen",
+
+  "LABEL_ALT_PROFILE_PIC": "Ihr Profilbild",
+  "LABEL_PROMPT_PASSWORD": "Geben Sie Ihr aktuelles und neues Passwort ein",
+  "LABEL_CURRENT_PASSWORD": "Aktuelles Passwort",
+  "LABEL_NEW_PASSWORD": "Neues Passwort",
+  "LABEL_CONFIRM_PASSWORD": "Neues Passwort bestätigen",
+  "LABEL_SAVE": "Speichern",
+  "LABEL_EDIT_PROFILE": "Profil bearbeiten",
+
+  "LABEL_SUCCESS_CHANGE_PROFILE": "Ihre Kontoinformationen wurden erfolgreich aktualisiert 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Passwort erfolgreich aktualisiert 😃",
+  "LABEL_ERROR_SERVER": "Interner Serverfehler",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Passwort für Benutzer, die sich über Drittanbieterdienste wie Google oder Facebook angemeldet haben, kann nicht geändert werden."
 }
