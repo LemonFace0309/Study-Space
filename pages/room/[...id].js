@@ -11,11 +11,10 @@ import { Grid } from '@material-ui/core';
 
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
-import LeaveCall from '@/components/Spaces/VideoOptions/LeaveCall';
 
 const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
 
-const PeerVideo = ({ peer }) => {
+const PeerVideo = ({ peer, username }) => {
   const ref = useRef();
   useEffect(() => {
     peer.on('stream', (stream) => {
@@ -23,14 +22,18 @@ const PeerVideo = ({ peer }) => {
     });
   }, [peer]);
   return (
-    <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
-      <track kind="captions"></track>
-    </video>
+    <div className="flex flex-col">
+      <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
+        <track kind="captions"></track>
+      </video>
+      <span>{username}</span>
+    </div>
   );
 };
 
 PeerVideo.propTypes = {
   peer: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 const Room = ({ roomID }) => {
@@ -92,6 +95,7 @@ const Room = ({ roomID }) => {
         const peer = createPeer(user.socketID, currentUsername, socketRef.current.id, stream);
         peersRef.current.push({
           peerID: user.socketID,
+          peerName: user.username,
           peer,
         });
         peers.push(peer);
@@ -117,6 +121,7 @@ const Room = ({ roomID }) => {
       const peer = addPeer(payload.signal, payload.callerID, stream);
       peersRef.current.push({
         peerID: payload.callerID,
+        peerName: payload.username,
         peer,
       });
 
@@ -226,7 +231,6 @@ const Room = ({ roomID }) => {
   return (
     <>
       <Grid container className="p-10 relative flex-row justify-between h-screen bg-gray-50">
-        <LeaveCall leaveCall={leaveCall} />
         <CallOptions
           userAudioShow={userAudioShow}
           userVideoShow={userVideoShow}
@@ -238,7 +242,7 @@ const Room = ({ roomID }) => {
           <div className="p-5 flex flex-row flex-wrap justify-center items-center">
             <video muted ref={userVideo} autoPlay height="400" width="400" />
             {peersRef.current.map((peerObj) => {
-              return <PeerVideo key={peerObj.peerID} peer={peerObj.peer} />;
+              return <PeerVideo key={peerObj.peerID} peer={peerObj.peer} username={peerObj.peerName} />;
             })}
           </div>
         </Grid>

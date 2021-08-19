@@ -136,7 +136,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
       const response = await axios.patch('/api/profile/update-image', formData, {
         headers: { 'content-type': 'multipart/form-data' },
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);
@@ -161,7 +161,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     try {
       const response = await axios.patch('/api/profile/update-profile', jsonData, {
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);
