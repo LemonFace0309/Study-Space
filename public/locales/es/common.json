@@ -4,9 +4,13 @@
   "LABEL_INCREASE_PROD": "Incrementa tu productividad con espacios virtuales personalizados a tu gusto",
   "LABEL_TRY_IT_YOURSELF": "Pruébelo usted mismo",
 
+  "LABEL_ACCOUNT_CREATION": "¡Felicitaciones! Se ha creado su cuenta",
+  "LABEL_OR": "O",
+  "LABEL_ALL_STUDY_NEEDS": "Todas las necesidades de tu estudio en un solo espacio.",
+
   "LABEL_JOIN_A_SPACE": "Únete a un espacio",
   "LABEL_JOIN_SPACE": "Unirse al espacio",
-  "LABEL_CREATE_A_SPACE": "Create a Space",
+  "LABEL_CREATE_A_SPACE": "Crea un espacio",
   "LABEL_CREATE_SPACE": "Crear espacio",
   "LABEL_SIGNOUT": "Cerrar sesión",
   "LABEL_SIGNUP": "Registrarse",
