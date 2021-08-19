@@ -77,7 +77,6 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
 
     createSpace({ variables: { createSpaceInput: spaceInput } });
     router.push(`/room/${spaceId}`);
-    setRoomIsLoading(false);
   };
 
   return (

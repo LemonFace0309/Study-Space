@@ -1,7 +1,7 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
 
-export const Query = {
+const Query = {
   users: async (_, { userIds, email, name }) => {
     // Fetch only the current session user by Name and Email
     if (email && name) {
@@ -61,3 +61,4 @@ export const Query = {
     return spaces;
   },
 };
+export default Query;

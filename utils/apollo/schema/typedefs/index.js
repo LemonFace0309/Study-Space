@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const typeDefs = gql`
+const typeDefs = gql`
   type User {
     friends: [ID]
     _id: ID
@@ -62,3 +62,4 @@ export const typeDefs = gql`
     spaces(spaceIds: [ID]): [Space]
   }
 `;
+export default typeDefs;

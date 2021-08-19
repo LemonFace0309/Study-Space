@@ -221,7 +221,6 @@ export const getServerSideProps = async (context) => {
   try {
     const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
     spaces = data.spaces;
-    p;
   } catch (err) {
     console.error(err);
   }

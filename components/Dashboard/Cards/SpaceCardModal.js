@@ -99,7 +99,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
     };
     addUserToSpace({ variables: { addUserToSpaceInput } });
     router.push(`/room/${spaceId}`);
-    setRoomIsLoading(false);
   };
 
   return (

@@ -1,6 +1,6 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
-export const Mutation = {
+const Mutation = {
   createSpace: async (_, { input }) => {
     const { name, description, userId, spaceId } = input;
 
@@ -69,3 +69,4 @@ export const Mutation = {
     return space;
   },
 };
+export default Mutation;
