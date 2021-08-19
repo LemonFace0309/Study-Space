@@ -2,8 +2,8 @@ import { useTranslation } from 'next-i18next';
 import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-const hero = () => {
-  // const { t } = useTranslation();
+const Hero = () => {
+  const { t } = useTranslation();
   return (
     <Container maxWidth="xl" className="flex-grow flex items-stretch">
       <Grid container direction="row" className="items-center p-2" spacing={3}>
@@ -46,4 +46,4 @@ const hero = () => {
   );
 };
 
-export default hero;
+export default Hero;

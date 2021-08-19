@@ -48,8 +48,8 @@
   "LABEL_SAVE": "Guardar",
   "LABEL_EDIT_PROFILE": "Editar perfil",
 
-  "SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
-  "SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
-  "ERROR_SERVER": "Error interno del servidor",
-  "ERROR_THIRD_PARTY_PASSWORD": "No se puede cambiar la contraseña de los usuarios registrados a través de servicios de terceros como Google o Facebook"
+  "LABEL_SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
+  "LABEL_ERROR_SERVER": "Error interno del servidor",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "No se puede cambiar la contraseña de los usuarios registrados a través de servicios de terceros como Google o Facebook"
 }
