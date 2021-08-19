@@ -47,7 +47,7 @@ const AuthDialog = ({
           <form onSubmit={handleCredentialsSubmit}>
             <div className="flex-grow flex flex-col items-center p-8">
               <Typography variant="h4" component="h1" style={{ color: '#4E3276' }} className="font-bold">
-                {isSignUp ? 'Sign Up' : 'Log in'}
+                {isSignUp ? t('LABEL_SIGNUP') : t('LABEL_LOGIN')}
               </Typography>
               <div className="w-8/12 mt-8">{formContent}</div>
               <Button

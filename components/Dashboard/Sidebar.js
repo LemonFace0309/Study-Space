@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import { useTranslation } from 'next-i18next';
-
 import PropTypes from 'prop-types';
 import { React } from 'react';
 import { makeStyles } from '@material-ui/styles';
