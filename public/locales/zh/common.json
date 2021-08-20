@@ -4,6 +4,7 @@
   "LABEL_INCREASE_PROD": "根据您的喜好定制虚拟空间，提高您的工作效率。",
   "LABEL_TRY_IT_YOURSELF": "你自己试试",
 
+<<<<<<< HEAD
   "LABEL_ACCOUNT_CREATION": "恭喜！您的帐户已创建",
   "LABEL_OR": "或",
   "LABEL_ALL_STUDY_NEEDS": "在一个空间内您所有的学习需求。",
@@ -24,6 +25,8 @@
   "LABEL_SHOW_PARTICIPANTS": "显示参与者",
   "LABEL_LOGIN_TO_SPOTIFY": "登录 Spotify",
 
+=======
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "加入空间",
   "LABEL_JOIN_SPACE": "加入空间",
   "LABEL_CREATE_A_SPACE": "创造空间",

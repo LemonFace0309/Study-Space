@@ -4,6 +4,7 @@
   "LABEL_INCREASE_PROD": "원하는 대로 맞춤화된 가상 공간으로 생산성을 높이세요.",
   "LABEL_TRY_IT_YOURSELF": "직접 사용해 보세요",
 
+<<<<<<< HEAD
   "LABEL_ACCOUNT_CREATION": "축하합니다! 계정이 생성되었습니다.",
   "LABEL_OR": "또는",
   "LABEL_ALL_STUDY_NEEDS": "모든 연구에 필요한 모든 것이 한 공간에 있습니다.",
@@ -24,6 +25,8 @@
   "LABEL_SHOW_PARTICIPANTS": "참가자 표시",
   "LABEL_LOGIN_TO_SPOTIFY": "Spotify에 로그인",
 
+=======
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "스페이스 가입",
   "LABEL_JOIN_SPACE": "스페이스 가입",
   "LABEL_CREATE_A_SPACE": "공간 만들기",

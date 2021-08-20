@@ -8,6 +8,7 @@
   "LABEL_OR": "OR",
   "LABEL_ALL_STUDY_NEEDS": "すべての調査に必要なものを1つのスペースにまとめます。",
 
+<<<<<<< HEAD
   "LABEL_PEOPLE": "人",
   "LABEL_INVITE": "招待",
   "LABEL_COPY_ROOM_ID": "部屋IDをコピー",
@@ -24,6 +25,8 @@
   "LABEL_SHOW_PARTICIPANTS": "参加者を表示",
   "LABEL_LOGIN_TO_SPOTIFY": "Spotifyにログイン",
 
+=======
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "スペースに参加",
   "LABEL_JOIN_SPACE": "スペースに参加",
   "LABEL_CREATE_A_SPACE": "スペースを作成する",

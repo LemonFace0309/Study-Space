@@ -8,6 +8,7 @@
   "LABEL_OR": "OR",
   "LABEL_ALL_STUDY_NEEDS": "All your study needs in one space.",
 
+<<<<<<< HEAD
   "LABEL_PEOPLE": "People",
   "LABEL_INVITE": "Invite",
   "LABEL_COPY_ROOM_ID": "Copy Room ID",
@@ -24,6 +25,8 @@
   "LABEL_SHOW_PARTICIPANTS": "Show Participants",
   "LABEL_LOGIN_TO_SPOTIFY": "Login to Spotify",
 
+=======
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "Join a Space",
   "LABEL_JOIN_SPACE": "Join Space",
   "LABEL_CREATE_A_SPACE": "Create a Space",

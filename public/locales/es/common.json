@@ -8,6 +8,7 @@
   "LABEL_OR": "O",
   "LABEL_ALL_STUDY_NEEDS": "Todas las necesidades de tu estudio en un solo espacio.",
 
+<<<<<<< HEAD
   "LABEL_PEOPLE": "Personas",
   "LABEL_INVITE": "Invitar",
   "LABEL_COPY_ROOM_ID": "Copiar ID de sala",
@@ -24,6 +25,8 @@
   "LABEL_SHOW_PARTICIPANTS": "Mostrar participantes",
   "LABEL_LOGIN_TO_SPOTIFY": "Iniciar sesión en Spotify",
 
+=======
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "Únete a un espacio",
   "LABEL_JOIN_SPACE": "Unirse al espacio",
   "LABEL_CREATE_A_SPACE": "Crea un espacio",
@@ -64,8 +67,15 @@
   "LABEL_SAVE": "Guardar",
   "LABEL_EDIT_PROFILE": "Editar perfil",
 
+<<<<<<< HEAD
   "LABEL_SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
   "LABEL_ERROR_SERVER": "Error interno del servidor",
   "LABEL_ERROR_THIRD_PARTY_PASSWORD": "No se puede cambiar la contraseña de los usuarios registrados a través de servicios de terceros como Google o Facebook"
+=======
+  "SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
+  "SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
+  "ERROR_SERVER": "Error interno del servidor",
+  "ERROR_THIRD_PARTY_PASSWORD": "No se puede cambiar la contraseña de los usuarios registrados a través de servicios de terceros como Google o Facebook"
+>>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
 }
