@@ -8,6 +8,22 @@
   "LABEL_OR": "OR",
   "LABEL_ALL_STUDY_NEEDS": "すべての調査に必要なものを1つのスペースにまとめます。",
 
+  "LABEL_PEOPLE": "人",
+  "LABEL_INVITE": "招待",
+  "LABEL_COPY_ROOM_ID": "部屋IDをコピー",
+
+  "LABEL_NOW_PLAYING": "音楽を演奏",
+  "LABEL_NEXT_IN_QUEUE": "次のキュー",
+  "LABEL_FETCH_SPOTIFY": "Spotifyの検索結果を取得して、キューに追加します。",
+  "LABEL_SONG_SEARCH": "曲検索",
+  "LABEL_SEARCH_RESULT": "検索結果はここに表示されます",
+  "LABEL_LEAVING_SO_SOON": "すぐに出発しますか？",
+  "LABEL_ITEMS_LEFT_IN_TODO": "まだやることが残っています。セッションを終了せずに終了しますか？",
+
+  "LABEL_CHANGE_LAYOUT": "レイアウトの変更",
+  "LABEL_SHOW_PARTICIPANTS": "参加者を表示",
+  "LABEL_LOGIN_TO_SPOTIFY": "Spotifyにログイン",
+
   "LABEL_JOIN_A_SPACE": "スペースに参加",
   "LABEL_JOIN_SPACE": "スペースに参加",
   "LABEL_CREATE_A_SPACE": "スペースを作成する",

@@ -8,6 +8,22 @@
   "LABEL_OR": "O",
   "LABEL_ALL_STUDY_NEEDS": "Todas las necesidades de tu estudio en un solo espacio.",
 
+  "LABEL_PEOPLE": "Personas",
+  "LABEL_INVITE": "Invitar",
+  "LABEL_COPY_ROOM_ID": "Copiar ID de sala",
+
+  "LABEL_NOW_PLAYING": "Reproduciendo ahora",
+  "LABEL_NEXT_IN_QUEUE": "Siguiente en la cola",
+  "LABEL_FETCH_SPOTIFY": "Obtendremos el resultado de búsqueda de Spotify y lo agregaremos a la cola",
+  "LABEL_SONG_SEARCH": "Búsqueda de canciones",
+  "LABEL_SEARCH_RESULT": "El resultado de la búsqueda se mostrará aquí",
+  "LABEL_LEAVING_SO_SOON": "¿Te vas tan pronto?",
+  "LABEL_ITEMS_LEFT_IN_TODO": "Aún te quedan cosas por hacer. ¿Quieres irte sin terminar la sesión?",
+
+  "LABEL_CHANGE_LAYOUT": "Cambiar diseño",
+  "LABEL_SHOW_PARTICIPANTS": "Mostrar participantes",
+  "LABEL_LOGIN_TO_SPOTIFY": "Iniciar sesión en Spotify",
+
   "LABEL_JOIN_A_SPACE": "Únete a un espacio",
   "LABEL_JOIN_SPACE": "Unirse al espacio",
   "LABEL_CREATE_A_SPACE": "Crea un espacio",
