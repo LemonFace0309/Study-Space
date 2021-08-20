@@ -1,9 +1,11 @@
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 import LeaveCallButton from './LeaveCallButton';
 
 const LeaveCallDialog = ({ open, setOpen, leaveCall }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -14,11 +16,9 @@ const LeaveCallDialog = ({ open, setOpen, leaveCall }) => {
           component="h1"
           style={{ color: theme.palette.primary.dark }}
           className="font-bold my-4">
-          Leaving so soon?
+          {t('LABEL_LEAVING_SO_SOON')}
         </Typography>
-        <p className="my-4">
-          You still have items left on your to-do. Do you want to leave without finishing the session?
-        </p>
+        <p className="my-4">{t('LABEL_ITEMS_LEFT_IN_TODO')}</p>
         <div className="flex justify-end w-100">
           <LeaveCallButton fn={() => setOpen(false)} text="Cancel" fillBackground={false} />
           <LeaveCallButton fn={leaveCall} text="Leave Session" fillBackground={true} />

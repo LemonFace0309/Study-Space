@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchSongs = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { accessToken, spotifyApi, setQueue, setOffset, currentTrack, setCurrentTrack, nextTracks, setNextTracks } =
     useSpotify();
@@ -80,10 +82,10 @@ const SearchSongs = () => {
   return (
     <div className="p-4 overflow-y-auto h-full flex flex-col">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
-        We’ll fetch Spotify search result and add that to the queue.
+        {t('LABEL_FETCH_SPOTIFY')}
       </Alert>
       <Typography variant="subtitle2" className={classes.primaryText}>
-        Song Search
+        {t('LABEL_SONG_SEARCH')}
       </Typography>
       <div className={classes.inputControl}>
         <InputBase
@@ -97,7 +99,7 @@ const SearchSongs = () => {
       <div className="flex-1 overflow-y-auto">
         {searchResults.length === 0 ? (
           <Typography variant="body2" className={classes.emptySearch}>
-            Search result will show up here
+            {t('LABEL_SEARCH_RESULT')}
           </Typography>
         ) : (
           searchResults.map((track) => (
