@@ -8,7 +8,6 @@
   "LABEL_OR": "ODER",
   "LABEL_ALL_STUDY_NEEDS": "Alles, was Sie zum Studieren benötigen, an einem Ort.",
 
-<<<<<<< HEAD
   "LABEL_PEOPLE": "Personen",
   "LABEL_INVITE": "Einladen",
   "LABEL_COPY_ROOM_ID": "Raum-ID kopieren",
@@ -25,8 +24,6 @@
   "LABEL_SHOW_PARTICIPANTS": "Teilnehmer anzeigen",
   "LABEL_LOGIN_TO_SPOTIFY": "Bei Spotify anmelden",
 
-=======
->>>>>>> 6bb537b0f5473a362371d8b853a12dd8a58c7eec
   "LABEL_JOIN_A_SPACE": "Einem Space beitreten",
   "LABEL_JOIN_SPACE": "Raum beitreten",
   "LABEL_CREATE_A_SPACE": "Erstellen Sie einen Raum",
