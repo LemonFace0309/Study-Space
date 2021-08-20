@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
+import schema from './schema';
+
 let apolloClient;
 
 function createIsomorphLink() {
   if (typeof window === 'undefined') {
     const { SchemaLink } = require('@apollo/client/link/schema');
-    const { schema } = require('./schema');
     return new SchemaLink({ schema });
   } else {
     const { HttpLink } = require('@apollo/client/link/http');

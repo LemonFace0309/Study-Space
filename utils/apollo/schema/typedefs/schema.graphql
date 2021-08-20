@@ -54,6 +54,8 @@ type Mutation {
   addUserToSpace(input: SpaceInput): Space
   removeUserFromSpace(input: SpaceInput): Space
 }
+
+# TODO: Clean up queries
 type Query {
   users(userIds: [ID], name: String, email: String): [User]
   spaces(spaceIds: [ID]): [Space]

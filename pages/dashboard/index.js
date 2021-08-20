@@ -25,10 +25,9 @@ import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import * as clientState from 'atoms/client';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
-import { contextsKey } from 'express-validator/src/base';
 
 const GET_USERS = gql`
-  query ($usersName: String, $usersEmail: String) {
+  query ($usersName: String!, $usersEmail: String!) {
     users(name: $usersName, email: $usersEmail) {
       _id
       friends
@@ -184,15 +183,14 @@ const redirectToHome = {
   },
 };
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async ({ req, res, locale }) => {
   // getSession seems to only take in the entire context, so can't destructure {req, locale}
-  const session = await getSession(context);
+  const session = await getSession({ req });
   if (!session) {
     console.debug('Log in first!');
     return redirectToHome;
   }
 
-  const { req, locale } = context;
   const { name, email } = session.user;
 
   const apolloClient = initializeApollo();

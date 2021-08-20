@@ -1,8 +1,11 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
+import dbConnect from '@/utils/dbConnect';
 
 const Query = {
   users: async (_, { userIds, email, name }) => {
+    await dbConnect();
+
     // Fetch only the current session user by Name and Email
     if (email && name) {
       try {
@@ -33,6 +36,8 @@ const Query = {
   },
 
   spaces: async (_, { spaceIds }) => {
+    await dbConnect();
+
     // Fetch all spaces
     if (spaceIds?.length == 0) {
       console.debug('Fetching all spaces:');
