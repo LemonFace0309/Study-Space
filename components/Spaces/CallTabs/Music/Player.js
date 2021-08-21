@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { isEqual } from 'lodash';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
 import { useSpotify } from './SpotifyProvider';

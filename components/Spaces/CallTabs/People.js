@@ -1,29 +1,43 @@
 import { useTranslation } from 'next-i18next';
+import { uniqueId } from 'lodash';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Grid, Paper, Dialog, Typography, IconButton } from '@material-ui/core';
-import { Assignment, Mic, MicOff, Videocam, VideocamOff } from '@material-ui/icons';
+import { Button, Grid, Dialog, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Assignment } from '@material-ui/icons';
+
+const useStyles = makeStyles(() => ({
+  paper: {
+    borderRadius: '0.375rem',
+  },
+}));
 
 const People = ({ participants, username }) => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const router = useRouter();
   const roomID = router.query;
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <>
+    <div className="p-2">
       {t('LABEL_PEOPLE')}
-      <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
+      <Button variant="contained" color="primary" fullWidth className="mt-1 mb-2" onClick={() => setModalOpen(true)}>
         {t('LABEL_INVITE')}
       </Button>
       {participants.map((p) => (
-        <p key={p}>
-          {p} {username == p ? '(You)' : ''}
+        <p key={uniqueId(p)}>
+          {p} {username == p && '(You)'}
         </p>
       ))}
-      <Dialog open={modalOpen} onClose={() => setModalOpen(false)} fullWidth maxWidth="lg">
+      <Dialog
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        classes={{ paper: classes.paper }}
+        fullWidth
+        maxWidth="md">
         <Grid className="p-5 flex flex-col align-items-center justify-items-center">
           <Typography
             variant="h6"
@@ -39,7 +53,7 @@ const People = ({ participants, username }) => {
           </CopyToClipboard>
         </Grid>
       </Dialog>
-    </>
+    </div>
   );
 };
 

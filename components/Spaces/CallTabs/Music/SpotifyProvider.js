@@ -16,7 +16,13 @@ export function useSpotify() {
   return useContext(SpotifyContext);
 }
 
+const AUTHENTICATION_ENUM = {
+  LOADING: 'LOADING',
+  AUTHENTICATED: 'AUTHENTICATED',
+  UN_AUTHENTICATED: 'UN_AUTHENTICATED',
+};
 export function SpotifyProvider({ children }) {
+  const [authenticated, setAuthenticated] = useState(AUTHENTICATION_ENUM.LOADING);
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState([]);
