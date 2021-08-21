@@ -220,7 +220,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                 ))}
               </TabList>
               <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                <Button>{t('LABEL_PRIVACY')}</Button>
+                {
+                  //<Button>{t('LABEL_PRIVACY')}</Button>}
+                }
                 <Button>{t('LABEL_LOGOUT')}</Button>
               </Grid>
             </Grid>
@@ -276,13 +278,17 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                       </Grid>
                       <Hidden mdUp>
                         <Grid container direction="column" justify="middle">
-                          <Button>{t('LABEL_PRIVACY')}</Button>
+                          {
+                            //<Button>{t('LABEL_PRIVACY')}</Button>}
+                          }
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
                       <Hidden smDown>
                         <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                          <Button>{t('LABEL_PRIVACY')}</Button>
+                          {
+                            //<Button>{t('LABEL_PRIVACY')}</Button>}
+                          }
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
