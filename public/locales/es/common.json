@@ -65,6 +65,9 @@
   "LABEL_SAVE": "Guardar",
   "LABEL_EDIT_PROFILE": "Editar perfil",
 
+  "LABEL_VALID_USERNAME": "Debe tener entre 8 y 12 caracteres alfanuméricos, subrayado y punto. El subrayado y el punto no pueden ser adyacentes",
+  "LABEL_VALID_PHONE": "Debe ser un número de teléfono válido",
+  "LABEL_VALID_EMAIL": "Debe ser un correo electrónico válido",
   "LABEL_SUCCESS_CHANGE_PROFILE": "La información de su cuenta se ha actualizado correctamente 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Contraseña actualizada correctamente 😃",
   "LABEL_ERROR_SERVER": "Error interno del servidor",

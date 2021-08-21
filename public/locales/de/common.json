@@ -65,6 +65,9 @@
   "LABEL_SAVE": "Speichern",
   "LABEL_EDIT_PROFILE": "Profil bearbeiten",
 
+  "LABEL_VALID_USERNAME": "Müssen zwischen 8-12 alphanumerische Zeichen, Unterstriche und Punkte enthalten. Unterstrich und Punkt dürfen nicht benachbart sein",
+  "LABEL_VALID_PHONE": "Muss eine gültige Telefonnummer sein.",
+  "LABEL_VALID_EMAIL": "Muss eine gültige E-Mail sein.",
   "LABEL_SUCCESS_CHANGE_PROFILE": "Ihre Kontoinformationen wurden erfolgreich aktualisiert 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Passwort erfolgreich aktualisiert 😃",
   "LABEL_ERROR_SERVER": "Interner Serverfehler",

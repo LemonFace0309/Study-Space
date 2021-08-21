@@ -65,8 +65,12 @@
   "LABEL_SAVE": "Save",
   "LABEL_EDIT_PROFILE": "Edit Profile",
 
+  "LABEL_VALID_USERNAME": "Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent",
+  "LABEL_VALID_PHONE": "Must be a valid phone number.",
+  "LABEL_VALID_EMAIL": "Must be a valid email.",
   "LABEL_SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Password updated succesfully 😃",
   "LABEL_ERROR_SERVER": "Internal Server Error",
   "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Cannot change password for users signed up through third party services like Google or Facebook."
+  
 }

@@ -211,10 +211,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             fullWidth
             value={username}
             error={username !== '' && (!validUsername || serverError)}
-            helperText={
-              !validUsername &&
-              'Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent.'
-            }
+            helperText={!validUsername && t('LABEL_VALID_USERNAME')}
             onChange={(e) => setUsername(e.target.value)}
             className="mb-2"
           />
@@ -226,7 +223,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             variant="outlined"
             fullWidth
             value={email}
-            helperText={!validEmail && 'Must be a valid email.'}
+            helperText={!validEmail && t('LABEL_VALID_EMAIL')}
             error={!validEmail || serverError}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2"
@@ -240,7 +237,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             fullWidth
             value={phoneNumber}
             error={phoneNumber !== '' && (!validPhoneNumber || serverError)}
-            helperText={!validPhoneNumber && 'Must be a valid phone number.'}
+            helperText={!validPhoneNumber && t('LABEL_VALID_PHONE')}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
           />

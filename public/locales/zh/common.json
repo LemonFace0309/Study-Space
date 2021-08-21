@@ -65,6 +65,9 @@
   "LABEL_SAVE": "保存",
   "LABEL_EDIT_PROFILE": "编辑个人资料",
 
+  "LABEL_VALID_USERNAME": "必须介于 8-12 个字母数字、下划线和点字符之间。下划线和点不能相邻",
+  "LABEL_VALID_PHONE": "必须是有效的电话号码。",
+  "LABEL_VALID_EMAIL": "必须是有效的电子邮件。",
   "LABEL_SUCCESS_CHANGE_PROFILE": "您的账户信息更新成功😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "密码更新成功😃",
   "LABEL_ERROR_SERVER": "内部服务器错误",

@@ -65,6 +65,9 @@
   "LABEL_SAVE": "保存",
   "LABEL_EDIT_PROFILE": "プロファイルの編集",
 
+  "LABEL_VALID_USERNAME": "8〜12文字の英数字、アンダースコア、およびドット文字である必要があります。アンダースコアとドットを隣接させることはできません",
+  "LABEL_VALID_PHONE": "有効な電話番号である必要があります。",
+  "LABEL_VALID_EMAIL": "有効なメールアドレスである必要があります。",
   "LABEL_SUCCESS_CHANGE_PROFILE": "アカウント情報が正常に更新されました😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "パスワードが正常に更新されました😃",
   "LABEL_ERROR_SERVER": "内部サーバーエラー",

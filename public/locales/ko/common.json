@@ -65,6 +65,9 @@
   "LABEL_SAVE": "저장",
   "LABEL_EDIT_PROFILE": "프로필 편집",
 
+  "LABEL_VALID_USERNAME": "8-12자의 영숫자, 밑줄 및 점 문자여야 합니다. 밑줄과 점은 인접할 수 없습니다.",
+  "LABEL_VALID_PHONE": "유효한 전화번호여야 합니다.",
+  "LABEL_VALID_EMAIL": "유효한 이메일이어야 합니다.",
   "LABEL_SUCCESS_CHANGE_PROFILE": "귀하의 계정 정보가 업데이트되었습니다 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "비밀번호가 업데이트되었습니다 😃",
   "LABEL_RROR_SERVER": "내부 서버 오류",
