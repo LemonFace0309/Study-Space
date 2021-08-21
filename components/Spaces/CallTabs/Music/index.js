@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { differenceInMilliseconds, addMilliseconds } from 'date-fns';
 import { TabList, Tab, Tabs, TabPanel } from 'react-tabs';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
-import { useSpotify } from './SpotifyProvider';
+import { useSpotify, AUTHENTICATION_ENUM } from './SpotifyProvider';
+import SpotifySignUpBlocker from './SpotifySignUpBlocker';
 import Player from './Player';
 import HomeTab from './Tabs/Home';
 import SearchSongsTab from './Tabs/SearchSongs';
@@ -53,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Music = ({ tabs }) => {
   const classes = useStyles();
-  const { getAccessTokenFromCookies } = useSpotify();
+  const { getAccessTokenFromCookies, authenticated } = useSpotify();
   const [tabIndex, setTabIndex] = useState(0);
   const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
 
@@ -87,6 +89,18 @@ const Music = ({ tabs }) => {
 
     return () => clearTimeout(timeout);
   }, [spotifyRefresh]);
+
+  if (authenticated === AUTHENTICATION_ENUM.LOADING) {
+    return (
+      <div className="w-full h-full grid place-items-center">
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (authenticated === AUTHENTICATION_ENUM.NOT_AUTHENTICATED) {
+    return <SpotifySignUpBlocker />;
+  }
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={() => null} className={classes.tabContainer}>

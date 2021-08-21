@@ -16,10 +16,10 @@ export function useSpotify() {
   return useContext(SpotifyContext);
 }
 
-const AUTHENTICATION_ENUM = {
+export const AUTHENTICATION_ENUM = {
   LOADING: 'LOADING',
   AUTHENTICATED: 'AUTHENTICATED',
-  UN_AUTHENTICATED: 'UN_AUTHENTICATED',
+  NOT_AUTHENTICATED: 'NOT_AUTHENTICATED',
 };
 export function SpotifyProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(AUTHENTICATION_ENUM.LOADING);
@@ -52,10 +52,12 @@ export function SpotifyProvider({ children }) {
       const username = userData.body.id;
       const playlistData = await spotifyApi.getUserPlaylists(username);
       setUser(userData.body);
+      setAuthenticated(AUTHENTICATION_ENUM.AUTHENTICATED);
       const rawPlaylists = playlistData.body.items;
       setUserPlaylists(() => parsePlaylists(rawPlaylists));
     } catch (err) {
       console.debug('Something went wrong fetching your Spotify Information!', err);
+      setAuthenticated(AUTHENTICATION_ENUM.NOT_AUTHENTICATED);
     }
   };
 
@@ -102,6 +104,7 @@ export function SpotifyProvider({ children }) {
   }, [queue]);
 
   const value = {
+    authenticated,
     getAccessTokenFromCookies,
     spotifyApi,
     accessToken,
