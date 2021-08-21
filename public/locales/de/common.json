@@ -8,6 +8,22 @@
   "LABEL_OR": "ODER",
   "LABEL_ALL_STUDY_NEEDS": "Alles, was Sie zum Studieren benötigen, an einem Ort.",
 
+  "LABEL_PEOPLE": "Personen",
+  "LABEL_INVITE": "Einladen",
+  "LABEL_COPY_ROOM_ID": "Raum-ID kopieren",
+
+  "LABEL_NOW_PLAYING": "Wird gerade gespielt",
+  "LABEL_NEXT_IN_QUEUE": "Nächster in Warteschlange",
+  "LABEL_FETCH_SPOTIFY": "Wir holen das Spotify-Suchergebnis und fügen es der Warteschlange hinzu.",
+  "LABEL_SONG_SEARCH": "Songsuche",
+  "LABEL_SEARCH_RESULT": "Suchergebnis wird hier angezeigt",
+  "LABEL_LEAVING_SO_SOON": "So bald verlassen?",
+  "LABEL_ITEMS_LEFT_IN_TODO": "Du hast noch Artikel auf deiner To-Do. Möchtest du gehen, ohne die Sitzung zu beenden?",
+
+  "LABEL_CHANGE_LAYOUT": "Layout ändern",
+  "LABEL_SHOW_PARTICIPANTS": "Teilnehmer anzeigen",
+  "LABEL_LOGIN_TO_SPOTIFY": "Bei Spotify anmelden",
+
   "LABEL_JOIN_A_SPACE": "Einem Space beitreten",
   "LABEL_JOIN_SPACE": "Raum beitreten",
   "LABEL_CREATE_A_SPACE": "Erstellen Sie einen Raum",
@@ -29,6 +45,7 @@
   "LABEL_STATISTICS": "Statistiken",
   "LABEL_FRIENDS": "Freunde",
   "LABEL_PARTICIPANTS": "Teilnehmer",
+  "LABEL_HOST": "Gastgeber",
   "LABEL_CHANGE_PROFILE_PICTURE": "Profilbild ändern",
   "LABEL_USERNAME": "Nutzername",
   "LABEL_EMAIL": "Email",
@@ -48,6 +65,9 @@
   "LABEL_SAVE": "Speichern",
   "LABEL_EDIT_PROFILE": "Profil bearbeiten",
 
+  "LABEL_VALID_USERNAME": "Müssen zwischen 8-12 alphanumerische Zeichen, Unterstriche und Punkte enthalten. Unterstrich und Punkt dürfen nicht benachbart sein",
+  "LABEL_VALID_PHONE": "Muss eine gültige Telefonnummer sein.",
+  "LABEL_VALID_EMAIL": "Muss eine gültige E-Mail sein.",
   "LABEL_SUCCESS_CHANGE_PROFILE": "Ihre Kontoinformationen wurden erfolgreich aktualisiert 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Passwort erfolgreich aktualisiert 😃",
   "LABEL_ERROR_SERVER": "Interner Serverfehler",

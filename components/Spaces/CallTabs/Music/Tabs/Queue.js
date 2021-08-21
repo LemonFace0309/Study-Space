@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { uniqueId } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Queue = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { queue, setQueue, currentTrack, nextTracks, setNextTracks } = useSpotify();
 
@@ -45,11 +47,11 @@ const Queue = () => {
   return (
     <div className="p-4">
       <Typography variant="subtitle2" className={classes.heading}>
-        Now Playing
+        {t('LABEL_NOW_PLAYING')}
       </Typography>
       {currentTrack && <Track track={currentTrack} playTrack={playTrack} />}
       <Typography variant="subtitle2" className={`${classes.heading} mt-8`}>
-        Next in Queue
+        {t('LABEL_NEXT_IN_QUEUE')}
       </Typography>
       {nextTracks.map((track) => (
         <Track key={uniqueId(track.uri)} track={track} playTrack={playTrack} removeFromQueue={removeFromQueue} />

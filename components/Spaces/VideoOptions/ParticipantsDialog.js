@@ -1,10 +1,11 @@
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
-
 import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 
 const ParticipantsDialog = ({ open, setOpen, layoutOptions }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const [layout, setLayout] = useState(layoutOptions[0]?.value ?? 'tiled');
   const [showParticipants, setShowParticipants] = useState(true);
@@ -25,11 +26,11 @@ const ParticipantsDialog = ({ open, setOpen, layoutOptions }) => {
           component="h1"
           style={{ color: theme.palette.primary.dark }}
           className="font-bold my-4">
-          Change Layout
+          {t('LABEL_CHANGE_LAYOUT')}
         </Typography>
         <div>
           <Typography variant="subtitle1" component="span">
-            Show Participants
+            {t('LABEL_SHOW_PARTICIPANTS')}
           </Typography>
           <Switch checked={showParticipants} onChange={toggleParticipants} color="primary" />
         </div>

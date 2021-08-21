@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -6,15 +7,16 @@ import { Button, Grid, Paper, Dialog, Typography, IconButton } from '@material-u
 import { Assignment, Mic, MicOff, Videocam, VideocamOff } from '@material-ui/icons';
 
 const People = ({ participants, username }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const roomID = router.query;
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
-      People
+      {t('LABEL_PEOPLE')}
       <Button variant="contained" color="primary" fullWidth onClick={() => setModalOpen(true)}>
-        Invite
+        {t('LABEL_INVITE')}
       </Button>
       {participants.map((p) => (
         <p key={p}>
@@ -32,7 +34,7 @@ const People = ({ participants, username }) => {
           </Typography>
           <CopyToClipboard text={roomID.id}>
             <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
-              Copy Room ID
+              {t('LABEL_COPY_ROOM_ID')}
             </Button>
           </CopyToClipboard>
         </Grid>

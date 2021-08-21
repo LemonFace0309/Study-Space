@@ -2,18 +2,16 @@ import { useTranslation } from 'next-i18next';
 import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-const hero = () => {
-  // const { t } = useTranslation();
+const Hero = () => {
+  const { t } = useTranslation();
   return (
     <Container maxWidth="xl" className="flex-grow flex items-stretch">
       <Grid container direction="row" className="items-center p-2" spacing={3}>
         <Grid item xs={12} md={6} className="flex flex-col h-full justify-between items-start py-12">
-          <Typography variant="body1">Hey there! Let us welcome you to</Typography>
+          <Typography variant="body1"> {t('LABEL_HEY_THERE')} </Typography>
           <div>
-            <Typography variant="h4">Your aromia filled table at Starbucks.</Typography>
-            <Typography variant="subtitle1">
-              Increase your productivity with virtual spaces customized to your liking.
-            </Typography>
+            <Typography variant="h4">{t('LABEL_YOUR_AROMIA')}</Typography>
+            <Typography variant="subtitle1">{t('LABEL_INCREASE_PROD')}</Typography>
           </div>
           <div>
             <Button
@@ -21,7 +19,7 @@ const hero = () => {
               style={{
                 border: '1.5px solid rgba(107, 114, 128)',
               }}>
-              Try it Yourself
+              {t('LABEL_TRY_IT_YOURSELF')}
             </Button>
             <Button
               color="inherit"
@@ -29,7 +27,7 @@ const hero = () => {
               style={{
                 border: '1.5px solid rgba(107, 114, 128)',
               }}>
-              Create a Space
+              {t('LABEL_CREATE_A_SPACE')}
             </Button>
           </div>
           <Button endIcon={<ArrowDownwardIcon />} className="normal-case outline-none">
@@ -46,4 +44,4 @@ const hero = () => {
   );
 };
 
-export default hero;
+export default Hero;

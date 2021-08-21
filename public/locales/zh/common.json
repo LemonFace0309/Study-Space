@@ -4,6 +4,26 @@
   "LABEL_INCREASE_PROD": "根据您的喜好定制虚拟空间，提高您的工作效率。",
   "LABEL_TRY_IT_YOURSELF": "你自己试试",
 
+  "LABEL_ACCOUNT_CREATION": "恭喜！您的帐户已创建",
+  "LABEL_OR": "或",
+  "LABEL_ALL_STUDY_NEEDS": "在一个空间内您所有的学习需求。",
+
+  "LABEL_PEOPLE": "人",
+  "LABEL_INVITE": "邀请",
+  "LABEL_COPY_ROOM_ID": "复制房间 ID",
+
+  "LABEL_NOW_PLAYING": "正在播放",
+  "LABEL_NEXT_IN_QUEUE": "队列中的下一个",
+  "LABEL_FETCH_SPOTIFY": "我们将获取 Spotify 搜索结果并将其添加到队列中。",
+  "LABEL_SONG_SEARCH": "歌曲搜索",
+  "LABEL_SEARCH_RESULT": "搜索结果将显示在这里",
+  "LABEL_LEAVING_SO_SOON": "这么快就走了？",
+  "LABEL_ITEMS_LEFT_IN_TODO": "你还有待办事项。你想不完成会话就离开吗？",
+
+  "LABEL_CHANGE_LAYOUT": "更改布局",
+  "LABEL_SHOW_PARTICIPANTS": "显示参与者",
+  "LABEL_LOGIN_TO_SPOTIFY": "登录 Spotify",
+
   "LABEL_JOIN_A_SPACE": "加入空间",
   "LABEL_JOIN_SPACE": "加入空间",
   "LABEL_CREATE_A_SPACE": "创造空间",
@@ -25,6 +45,7 @@
   "LABEL_STATISTICS": "统计数据",
   "LABEL_FRIENDS": "朋友",
   "LABEL_PARTICIPANTS": "参与者",
+  "LABEL_HOST": "主机",
   "LABEL_CHANGE_PROFILE_PICTURE": "更改个人资料图片",
   "LABEL_USERNAME": "用户名",
   "LABEL_EMAIL": "电子邮件",
@@ -44,6 +65,9 @@
   "LABEL_SAVE": "保存",
   "LABEL_EDIT_PROFILE": "编辑个人资料",
 
+  "LABEL_VALID_USERNAME": "必须介于 8-12 个字母数字、下划线和点字符之间。下划线和点不能相邻",
+  "LABEL_VALID_PHONE": "必须是有效的电话号码。",
+  "LABEL_VALID_EMAIL": "必须是有效的电子邮件。",
   "LABEL_SUCCESS_CHANGE_PROFILE": "您的账户信息更新成功😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "密码更新成功😃",
   "LABEL_ERROR_SERVER": "内部服务器错误",

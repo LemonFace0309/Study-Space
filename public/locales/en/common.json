@@ -8,6 +8,22 @@
   "LABEL_OR": "OR",
   "LABEL_ALL_STUDY_NEEDS": "All your study needs in one space.",
 
+  "LABEL_PEOPLE": "People",
+  "LABEL_INVITE": "Invite",
+  "LABEL_COPY_ROOM_ID": "Copy Room ID",
+
+  "LABEL_NOW_PLAYING": "Now Playing",
+  "LABEL_NEXT_IN_QUEUE": "Next in Queue",
+  "LABEL_FETCH_SPOTIFY": "We’ll fetch Spotify search result and add that to the queue.",
+  "LABEL_SONG_SEARCH": "Song Search",
+  "LABEL_SEARCH_RESULT": "Search result will show up here",
+  "LABEL_LEAVING_SO_SOON": "Leaving so soon?",
+  "LABEL_ITEMS_LEFT_IN_TODO": "You still have items left on your to-do. Do you want to leave without finishing the session?",
+
+  "LABEL_CHANGE_LAYOUT": "Change Layout",
+  "LABEL_SHOW_PARTICIPANTS": "Show Participants",
+  "LABEL_LOGIN_TO_SPOTIFY": "Login to Spotify",
+
   "LABEL_JOIN_A_SPACE": "Join a Space",
   "LABEL_JOIN_SPACE": "Join Space",
   "LABEL_CREATE_A_SPACE": "Create a Space",
@@ -29,6 +45,7 @@
   "LABEL_STATISTICS": "Statistics",
   "LABEL_FRIENDS": "Friends",
   "LABEL_PARTICIPANTS": "Participants",
+  "LABEL_HOST": "Host(s)",
   "LABEL_CHANGE_PROFILE_PICTURE": "Change Profile Picture",
   "LABEL_USERNAME": "Username",
   "LABEL_EMAIL": "Email",
@@ -48,8 +65,12 @@
   "LABEL_SAVE": "Save",
   "LABEL_EDIT_PROFILE": "Edit Profile",
 
+  "LABEL_VALID_USERNAME": "Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent",
+  "LABEL_VALID_PHONE": "Must be a valid phone number.",
+  "LABEL_VALID_EMAIL": "Must be a valid email.",
   "LABEL_SUCCESS_CHANGE_PROFILE": "Your account info has been updated sucessfully 😃",
   "LABEL_SUCCESS_UPDATE_PASSWORD": "Password updated succesfully 😃",
   "LABEL_ERROR_SERVER": "Internal Server Error",
   "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Cannot change password for users signed up through third party services like Google or Facebook."
+  
 }

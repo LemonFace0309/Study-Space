@@ -125,7 +125,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
           <Grid item xs={12} sm={6}>
             <Box p="1rem" borderRadius="1rem">
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
-                <Typography variant="body1">Host&#40;s&#41;</Typography>
+                <Typography variant="body1">{t('LABEL_HOST')}</Typography>
               </Box>
               <UserList users={hosts} />
               <Button
