@@ -90,16 +90,8 @@ const Music = ({ tabs }) => {
     return () => clearTimeout(timeout);
   }, [spotifyRefresh]);
 
-  if (authenticated === AUTHENTICATION_ENUM.LOADING) {
-    return (
-      <div className="w-full h-full grid place-items-center">
-        <CircularProgress />
-      </div>
-    );
-  }
-
-  if (authenticated === AUTHENTICATION_ENUM.NOT_AUTHENTICATED) {
-    return <SpotifySignUpBlocker />;
+  if (authenticated !== AUTHENTICATION_ENUM.AUTHENTICATED) {
+    return <SpotifySignUpBlocker loading={authenticated === AUTHENTICATION_ENUM.LOADING} />;
   }
 
   return (

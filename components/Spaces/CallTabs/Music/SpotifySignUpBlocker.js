@@ -1,10 +1,12 @@
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRecoilValue } from 'recoil';
 
 import * as spotifyState from '@/atoms/spotify';
-import { PREFIX } from '@/hooks/useLocalStorage';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -18,23 +20,32 @@ const useStyles = makeStyles((theme) => ({
 
 export const ROOM_ID = 'ROOM_ID';
 
-const SpotifySignUpBlocker = () => {
+const SpotifySignUpBlocker = ({ loading }) => {
   const classes = useStyles();
   const roomID = useRecoilValue(spotifyState.roomID);
   const spotifyAuthURL = useRecoilValue(spotifyState.spotifyAuthURL);
+  const router = useRouter();
 
   const handleClicked = () => {
-    localStorage.setItem(PREFIX + ROOM_ID, roomID);
-    window.location.replace(spotifyAuthURL);
+    document.cookie = `productify_roomID=${roomID}; path=/`;
+    router.push(spotifyAuthURL);
   };
 
   return (
     <Backdrop className={classes.backdrop} open>
-      <Button variant="outlined" color="secondary" onClick={handleClicked}>
-        Sign in to Spotify
-      </Button>
+      {loading ? (
+        <CircularProgress color="secondary" />
+      ) : (
+        <Button variant="outlined" color="secondary" onClick={handleClicked}>
+          Sign in to Spotify
+        </Button>
+      )}
     </Backdrop>
   );
+};
+
+SpotifySignUpBlocker.propTypes = {
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SpotifySignUpBlocker;

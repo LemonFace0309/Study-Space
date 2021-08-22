@@ -38,11 +38,12 @@ export function SpotifyProvider({ children }) {
 
   const getAccessTokenFromCookies = () => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
-    if (!spotifySessionJWT) return;
+    if (!spotifySessionJWT) return false;
     const spotifySession = jwt.decode(spotifySessionJWT);
-    if (!spotifySession?.accessToken) return;
+    if (!spotifySession?.accessToken) return false;
     setAccessToken(spotifySession.accessToken);
     spotifyApi.setAccessToken(spotifySession.accessToken);
+    return true;
   };
 
   const initUser = async () => {
@@ -94,7 +95,11 @@ export function SpotifyProvider({ children }) {
   };
 
   useEffect(() => {
-    getAccessTokenFromCookies();
+    const hasToken = getAccessTokenFromCookies();
+    if (!hasToken) {
+      setAuthenticated(AUTHENTICATION_ENUM.NOT_AUTHENTICATED);
+      return;
+    }
     initUser();
     initRecommendedPlaylists();
   }, []);

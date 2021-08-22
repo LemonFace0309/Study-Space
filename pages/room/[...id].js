@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
+import addMilliseconds from 'date-fns/addMilliseconds';
 import { getSession } from 'next-auth/client';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { intersection } from 'lodash';
@@ -38,7 +39,7 @@ PeerVideo.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const Room = ({ roomID, spotifyAuthURL }) => {
+const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
   const router = useRouter();
   const socketRef = useRef();
   const userVideo = useRef();
@@ -51,6 +52,7 @@ const Room = ({ roomID, spotifyAuthURL }) => {
   const [participants, setParticipants] = useState([]);
   const setRoomID = useSetRecoilState(spotifyState.roomID);
   const setSpotifyAuthURL = useSetRecoilState(spotifyState.spotifyAuthURL);
+  const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
 
   const initRoom = async () => {
     const userSession = await getSession();
@@ -174,10 +176,24 @@ const Room = ({ roomID, spotifyAuthURL }) => {
     });
   };
 
-  useEffect(() => {
-    initRoom();
+  const initRecoilState = () => {
     setRoomID(roomID);
     setSpotifyAuthURL(spotifyAuthURL);
+    if (spotifyData) {
+      // redirected back to room and user clicked signed into Spotify in call tab.
+      const expiresIn = spotifyData.expiresIn * 1000;
+      const date = new Date();
+      const expireDate = addMilliseconds(date, expiresIn);
+      const refreshDate = addMilliseconds(date, expiresIn / 4);
+      setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
+      console.debug('Successfully authenticated with shopify:', spotifyData);
+      router.replace('/room/[...id]', `/room/${roomID}`);
+    }
+  };
+
+  useEffect(() => {
+    initRoom();
+    initRecoilState();
   }, []);
 
   const createPeer = (userToSignal, username, callerID, stream) => {
@@ -271,16 +287,27 @@ const Room = ({ roomID, spotifyAuthURL }) => {
 Room.propTypes = {
   roomID: PropTypes.string.isRequired,
   spotifyAuthURL: PropTypes.string.isRequired,
+  spotifyData: PropTypes.object,
 };
 
 export default Room;
 
-export async function getServerSideProps({ locale, params }) {
+export async function getServerSideProps({ locale, params, query }) {
+  let spotifyData = null;
+  if (query && query.data) {
+    try {
+      spotifyData = JSON.parse(query.data);
+    } catch (err) {
+      console.debug('Error occured while trying to parse spotify data from url query:', err);
+    }
+  }
+
   return {
     props: {
       roomID: params.id[0],
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       ...(await serverSideTranslations(locale, ['common'])),
+      spotifyData,
     },
   };
 }
