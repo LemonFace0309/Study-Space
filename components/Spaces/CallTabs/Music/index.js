@@ -64,8 +64,7 @@ const Music = ({ tabs }) => {
     if (!spotifySessionJWT) return;
     const spotifySession = jwt.decode(spotifySessionJWT);
     if (!spotifySession) return;
-    // let timeoutDuration = spotifySession?.expiresIn * 1000 ?? 3600 * 1000; // onehour in milliseconds
-    let timeoutDuration = 100;
+    let timeoutDuration = 100; // set to 100 for instance refresh if recoil state is not set
     if (spotifyRefresh?.refreshDate) {
       const curDate = new Date();
       const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;

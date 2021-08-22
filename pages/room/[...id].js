@@ -187,6 +187,7 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
       const refreshDate = addMilliseconds(date, expiresIn / 4);
       setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
       console.debug('Successfully authenticated with shopify:', spotifyData);
+      // replaces url query to prevent user from copying/pasting space url to friends with unnecessary data
       router.replace('/room/[...id]', `/room/${roomID}`);
     }
   };
