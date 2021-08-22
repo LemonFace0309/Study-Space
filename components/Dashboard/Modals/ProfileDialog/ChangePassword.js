@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
   const [currentPassword, setCurrentPassword] = useRecoilState(authState.password);
@@ -50,24 +52,24 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
     try {
       const response = await axios.patch('/api/profile/update-password', jsonData, {
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);
-      alert(response?.data.message ?? 'Password updated succesfully 😃');
+      alert(response?.data.message ?? t('LABEL_SUCCESS_UPDATE_PASSWORD'));
       setCurrentPassword('');
       setNewPassword1('');
       setNewPassword2('');
     } catch (err) {
       setServerError(true);
-      alert(err?.response?.data?.message ?? 'Internal Server Error');
+      alert(err?.response?.data?.message ?? t('LABEL_ERROR_SERVER'));
     }
   };
 
   if (!session?.user.type || session?.user.type !== 'credentials') {
     return (
       <Typography variant="h6" className={classes.title}>
-        Cannot change password for users signed up through third party services like Google or Facebook.
+        {t('LABEL_ERROR_THIRD_PARTY_PASSWORD')}
       </Typography>
     );
   }
@@ -76,13 +78,13 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
     <Grid container direction="column" spacing={3}>
       <Grid item xs={12} md={6}>
         <Typography variant="h6" className={classes.title}>
-          Enter your current and new password
+          {t('LABEL_PROMPT_PASSWORD')}
         </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
         <form>
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Current Password
+            {t('LABEL_CURRENT_PASSWORD')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -95,7 +97,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            New Password
+            {t('LABEL_NEW_PASSWORD')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -112,7 +114,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Confirm New Password
+            {t('LABEL_CONFIRM_PASSWORD')}
           </Typography>
           <TextField
             disabled={!editMode}

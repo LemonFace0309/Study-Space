@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
@@ -5,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
+import parseTracks from 'utils/spotify/parseTracks';
 import Track from '../Track';
 import { useSpotify } from '../SpotifyProvider';
 
@@ -27,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchSongs = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
-  const { accessToken, spotifyApi, setTrackUri } = useSpotify();
+  const { accessToken, spotifyApi, setQueue, setOffset, currentTrack, setCurrentTrack, nextTracks, setNextTracks } =
+    useSpotify();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -39,21 +43,7 @@ const SearchSongs = () => {
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
       if (cancel) return;
-      setSearchResults(
-        res.body.tracks.items.map((track) => {
-          const smallestAlbumImage = track.album.images.reduce((smallest, image) => {
-            if (image.height < smallest.height) return image;
-            return smallest;
-          }, track.album.images[0]);
-
-          return {
-            artist: track.artists[0].name,
-            title: track.name,
-            uri: track.uri,
-            albumUrl: smallestAlbumImage.url,
-          };
-        })
-      );
+      setSearchResults(parseTracks(res.body.tracks.items));
     });
 
     return () => (cancel = true);
@@ -61,16 +51,41 @@ const SearchSongs = () => {
 
   const playTrack = (track) => {
     setSearchResults([]);
-    setTrackUri(track.uri);
+    setQueue((prev) => {
+      let newQueue = [];
+      if (prev.length === 0) {
+        newQueue.push(track);
+      } else {
+        // spotify player has bug with setting a new queue if it's the same length.
+        // This is an inperfect workaround to make sure the song changes.
+        newQueue = [track, currentTrack, ...nextTracks];
+      }
+      return newQueue;
+    });
+  };
+
+  const addToQueue = (track) => {
+    if (!currentTrack || !currentTrack.uri) {
+      setQueue([track]);
+      return;
+    }
+    let newNextTracks = [];
+    setNextTracks(() => {
+      newNextTracks = [...nextTracks, track];
+      return newNextTracks;
+    });
+    setQueue(() => {
+      return [currentTrack, ...newNextTracks];
+    });
   };
 
   return (
     <div className="p-4 overflow-y-auto h-full flex flex-col">
       <Alert severity="info" className="w-full py-2 mt-2 mb-4">
-        We’ll fetch Spotify search result and add that to the queue.
+        {t('LABEL_FETCH_SPOTIFY')}
       </Alert>
       <Typography variant="subtitle2" className={classes.primaryText}>
-        Song Search
+        {t('LABEL_SONG_SEARCH')}
       </Typography>
       <div className={classes.inputControl}>
         <InputBase
@@ -84,10 +99,12 @@ const SearchSongs = () => {
       <div className="flex-1 overflow-y-auto">
         {searchResults.length === 0 ? (
           <Typography variant="body2" className={classes.emptySearch}>
-            Search result will show up here
+            {t('LABEL_SEARCH_RESULT')}
           </Typography>
         ) : (
-          searchResults.map((track) => <Track key={track.uri} track={track} playTrack={playTrack} />)
+          searchResults.map((track) => (
+            <Track key={track.uri} track={track} playTrack={playTrack} addToQueue={addToQueue} />
+          ))
         )}
       </div>
     </div>

@@ -1,6 +1,32 @@
 {
+  "LABEL_HEY_THERE": "Salut! Laissez-nous vous accueillir à",
+  "LABEL_YOUR_AROMIA": "Votre table remplie d'arômes chez Starbucks.",
+  "LABEL_INCREASE_PROD": "Augmentez votre productivité avec des espaces virtuels personnalisés à votre goût.",
+  "LABEL_TRY_IT_YOURSELF": "Essayez-le vous-même",
+
+  "LABEL_ACCOUNT_CREATION": "Félicitations ! Votre compte a été créé",
+  "LABEL_OR": "OU",
+  "LABEL_ALL_STUDY_NEEDS": "Tous vos besoins d'étude dans un seul espace.",
+
+  "LABEL_PEOPLE": "Personnes",
+  "LABEL_INVITE": "Inviter",
+  "LABEL_COPY_ROOM_ID": "Copier l'ID de la salle",
+
+  "LABEL_NOW_PLAYING": "En cours de lecture",
+  "LABEL_NEXT_IN_QUEUE": "Suivant dans la file d'attente",
+  "LABEL_FETCH_SPOTIFY": "Nous allons récupérer le résultat de la recherche Spotify et l'ajouter à la file d'attente.",
+  "LABEL_SONG_SEARCH": "Recherche de morceau",
+  "LABEL_SEARCH_RESULT": "Le résultat de la recherche s'affichera ici",
+  "LABEL_LEAVING_SO_SOON": "Partir si tôt ?",
+  "LABEL_ITEMS_LEFT_IN_TODO": "Il vous reste encore des choses à faire. Voulez-vous partir sans avoir terminé la session ?",
+
+  "LABEL_CHANGE_LAYOUT": "Modifier la mise en page",
+  "LABEL_SHOW_PARTICIPANTS": "Afficher les participants",
+  "LABEL_LOGIN_TO_SPOTIFY": "Connectez-vous à Spotify",
+
   "LABEL_JOIN_A_SPACE": "Rejoindre un espace",
   "LABEL_JOIN_SPACE": "Rejoindre l'espace",
+  "LABEL_CREATE_A_SPACE": "Créer un espace",
   "LABEL_CREATE_SPACE": "Créer un espace",
   "LABEL_SIGNOUT": "Déconnexion",
   "LABEL_SIGNUP": "Inscrivez-vous",
@@ -12,5 +38,38 @@
   "LABEL_DONT_HAVE_ACCOUNT": "Vous n'avez pas de compte ? ",
   "LABEL_SIGN_UP_WITH": "Inscrivez-vous avec",
   "LABEL_LOG_IN_WITH": "Connectez-vous avec",
-  "LABEL_EMAIL_ADDRESS": "Adresse e-mail"
+  "LABEL_EMAIL_ADDRESS": "Adresse e-mail",
+
+  "LABEL_HOME": "Accueil",
+  "LABEL_BROWSE": "Parcourir",
+  "LABEL_STATISTICS": "Statistiques",
+  "LABEL_FRIENDS": "Amis",
+  "LABEL_PARTICIPANTS": "Participants",
+  "LABEL_HOST": "Hôte(s)",
+  "LABEL_CHANGE_PROFILE_PICTURE": "Modifier la photo de profil",
+  "LABEL_USERNAME": "Nom d'utilisateur",
+  "LABEL_EMAIL": "E-mail",
+  "LABEL_PHONE": "Numéro de téléphone",
+
+  "LABEL_SETTINGS": "Paramètres",
+  "LABEL_ACCOUNT_DETAILS": "Détails du compte",
+  "LABEL_CHANGE_PASSWORD": "Modifier le mot de passe",
+  "LABEL_PRIVACY": "Confidentialité",
+  "LABEL_LOGOUT": "Déconnexion",
+
+  "LABEL_ALT_PROFILE_PIC": "Votre photo de profil",
+  "LABEL_PROMPT_PASSWORD": "Entrez votre mot de passe actuel et nouveau",
+  "LABEL_CURRENT_PASSWORD": "Mot de passe actuel",
+  "LABEL_NEW_PASSWORD": "Nouveau mot de passe",
+  "LABEL_CONFIRM_PASSWORD": "Confirmer le nouveau mot de passe",
+  "LABEL_SAVE": "Enregistrer",
+  "LABEL_EDIT_PROFILE": "Modifier le profil",
+
+  "LABEL_VALID_USERNAME": "Doit être compris entre 8 et 12 caractères alphanumériques, traits de soulignement et points. Le trait de soulignement et le point ne peuvent pas être adjacents",
+  "LABEL_VALID_PHONE": "Doit être un numéro de téléphone valide.",
+  "LABEL_VALID_EMAIL": "Doit être une adresse e-mail valide.",
+  "LABEL_SUCCESS_CHANGE_PROFILE": "Les informations de votre compte ont été mises à jour avec succès 😃",
+  "LABEL_SUCCESS_UPDATE_PASSWORD": "Mot de passe mis à jour avec succès 😃",
+  "LABEL_ERROR_SERVER": "Erreur du serveur interne",
+  "LABEL_ERROR_THIRD_PARTY_PASSWORD": "Impossible de modifier le mot de passe des utilisateurs inscrits via des services tiers tels que Google ou Facebook."
 }

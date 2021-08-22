@@ -19,14 +19,14 @@ export default async (req, res) => {
   await dbConnect();
   try {
     const user = await User.findById(id);
-    console.log(user);
+    console.debug(user);
     if (!user.password) {
       return res.status(409).json({
         message: 'Cannot update password for users signed up through third party services like Google or Facebook.',
       });
     }
     const validCurrentPassword = await bcrypt.compare(currentPassword, user?.password);
-    console.log(validCurrentPassword);
+    console.debug(validCurrentPassword);
     if (!validCurrentPassword) {
       return res.status(422).json({ message: 'Invalid current password.' });
     }

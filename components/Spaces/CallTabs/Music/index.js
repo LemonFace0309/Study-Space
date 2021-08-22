@@ -15,8 +15,8 @@ import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
 import { useSpotify } from './SpotifyProvider';
 import Player from './Player';
-import OurPicksTab from './Tabs/OurPicks';
-import SearchSongs from './Tabs/SearchSongs';
+import HomeTab from './Tabs/Home';
+import SearchSongsTab from './Tabs/SearchSongs';
 import QueueTab from './Tabs/Queue';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     '& > .react-tabs__tab-panel--selected': {
       flex: 1,
-      overflowY: 'hidden',
+      overflowY: 'auto',
     },
   },
   tab: {
@@ -121,12 +121,12 @@ Music.propTypes = {
 Music.defaultProps = {
   tabs: [
     {
-      title: 'Our Picks',
-      panel: OurPicksTab,
+      title: 'Home',
+      panel: HomeTab,
     },
     {
       title: 'Search',
-      panel: SearchSongs,
+      panel: SearchSongsTab,
     },
     {
       title: 'Queue',

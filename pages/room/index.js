@@ -105,7 +105,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
         </div>
       </Paper>
       <Button className="mt-2" href={spotifyAuthURL}>
-        Login to Spotify
+        {t('LABEL_LOGIN_TO_SPOTIFY')}
       </Button>
     </div>
   );

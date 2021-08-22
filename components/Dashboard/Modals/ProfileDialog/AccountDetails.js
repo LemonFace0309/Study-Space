@@ -1,3 +1,5 @@
+import { useTranslation } from 'next-i18next';
+
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -70,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEditMode }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
   const [userImage, setUserImage] = useState(session?.user?.image);
@@ -96,10 +99,10 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         if (newImage) await handleUpdateImage();
         setSaveChanges(false);
         if (!passed) {
-          alert(message ?? 'You account info has been updated sucessfully 😃');
+          alert(message ?? t('LABEL_SUCCESS_CHANGE_PROFILE'));
           setEditMode(true);
         } else {
-          alert(message ?? 'Internal Server Error');
+          alert(message ?? t('LABEL_ERROR_SERVER'));
         }
       }
     };
@@ -133,7 +136,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
       const response = await axios.patch('/api/profile/update-image', formData, {
         headers: { 'content-type': 'multipart/form-data' },
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);
@@ -158,7 +161,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     try {
       const response = await axios.patch('/api/profile/update-profile', jsonData, {
         onUploadProgress: (event) => {
-          console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+          console.debug(`Current progress:`, Math.round((event.loaded * 100) / event.total));
         },
       });
       console.debug(response);
@@ -185,7 +188,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             {editMode && (
               <div className={classes.imageOverlay}>
                 <Typography variant="subtitle1" className="uppercase p-2 text-center">
-                  Change Profile Picture
+                  {t('LABEL_CHANGE_PROFILE_PICTURE')}
                 </Typography>
                 <input
                   type="file"
@@ -200,7 +203,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
         </Grid>
         <Grid item xs={12} sm={7} className="pr-4">
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Username
+            {t('LABEL_USERNAME')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -208,28 +211,25 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             fullWidth
             value={username}
             error={username !== '' && (!validUsername || serverError)}
-            helperText={
-              !validUsername &&
-              'Must be between 8-12 alphanumeric, underscore, and dot characters. Underscore and dot cannot be adjacent.'
-            }
+            helperText={!validUsername && t('LABEL_VALID_USERNAME')}
             onChange={(e) => setUsername(e.target.value)}
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Email
+            {t('LABEL_EMAIL')}
           </Typography>
           <TextField
             disabled={!editMode}
             variant="outlined"
             fullWidth
             value={email}
-            helperText={!validEmail && 'Must be a valid email.'}
+            helperText={!validEmail && t('LABEL_VALID_EMAIL')}
             error={!validEmail || serverError}
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2"
           />
           <Typography className="capitalize" variant="subtitle1" gutterBottom>
-            Phone Number
+            {t('LABEL_PHONE')}
           </Typography>
           <TextField
             disabled={!editMode}
@@ -237,7 +237,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
             fullWidth
             value={phoneNumber}
             error={phoneNumber !== '' && (!validPhoneNumber || serverError)}
-            helperText={!validPhoneNumber && 'Must be a valid phone number.'}
+            helperText={!validPhoneNumber && t('LABEL_VALID_PHONE')}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mb-2"
           />

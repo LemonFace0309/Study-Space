@@ -16,6 +16,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Avatar from '@material-ui/core/Avatar';
 
+import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
 import * as authState from 'atoms/auth';
@@ -119,6 +120,7 @@ const tabComponents = {
 };
 
 const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
@@ -154,9 +156,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
           />
         );
       case tabComponents.PRIVACY:
-        return <h1>Privacy</h1>;
+        return <h1>{t('LABEL_PRIVACY')}</h1>;
       default:
-        return <h1>Account Details</h1>;
+        return <h1>{t('LABEL_ACCOUNT_DETAILS')}</h1>;
     }
   };
 
@@ -218,8 +220,8 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                 ))}
               </TabList>
               <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                <Button>Privacy</Button>
-                <Button>Logout</Button>
+                <Button>{t('LABEL_PRIVACY')}</Button>
+                <Button>{t('LABEL_LOGOUT')}</Button>
               </Grid>
             </Grid>
           </Hidden>
@@ -234,14 +236,14 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                     <Grid container alignItems="middle" item xs={12} md={3} className="p-4">
                       <Grid item xs={12} sm={12}>
                         <Typography align="left" variant="h3" className={classes.title}>
-                          Settings
+                          <Button>{t('LABEL_SETTINGS')}</Button>
                         </Typography>
                         <CloseIcon className={classes.closeIcon} />
                         <Grid container item sm={12} justify="center" alignItems="center">
                           <div className={classes.imageContainer}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                              alt="Your Profile Pic"
+                              alt={t('LABEL_ALT_PROFILE_PIC')}
                               src={null ?? session?.user?.image}
                               className={classes.largeAvatar}
                             />
@@ -274,14 +276,14 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                       </Grid>
                       <Hidden mdUp>
                         <Grid container direction="column" justify="middle">
-                          <Button>Privacy</Button>
-                          <Button>Logout</Button>
+                          <Button>{t('LABEL_PRIVACY')}</Button>
+                          <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
                       <Hidden smDown>
                         <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                          <Button>Privacy</Button>
-                          <Button>Logout</Button>
+                          <Button>{t('LABEL_PRIVACY')}</Button>
+                          <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
                     </Grid>
@@ -322,7 +324,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                   startIcon={editMode ? <CheckIcon /> : <EditIcon />}
                   onClick={toggleSaveMode}
                   disabled={isEditButtonDisabled()}>
-                  {editMode ? 'Save' : 'Edit Profile'}
+                  {editMode ? t('LABEL_SAVE') : t('LABEL_EDIT_PROFILE')}
                 </Button>
               </Grid>
             )}

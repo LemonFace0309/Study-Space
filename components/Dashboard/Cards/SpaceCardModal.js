@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery, gql } from '@apollo/client';
 import { useRecoilState } from 'recoil';
@@ -83,6 +83,7 @@ UserList.propTypes = {
 };
 
 const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
@@ -114,11 +115,11 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
           <Grid item xs={12} sm={6}>
             <Box bgcolor={theme.palette.primary.extraLight} p="1rem" borderRadius="1rem">
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
-                <Typography variant="body1">Friends</Typography>
+                <Typography variant="body1">{t('LABEL_FRIENDS')}</Typography>
               </Box>
               <UserList users={friends} />
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
-                <Typography variant="body1">Participants</Typography>
+                <Typography variant="body1">{t('LABEL_PARTICIPANTS')}</Typography>
               </Box>
 
               <UserList users={participants} />
@@ -129,7 +130,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
           <Grid item xs={12} sm={6}>
             <Box p="1rem" borderRadius="1rem">
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
-                <Typography variant="body1">Host&#40;s&#41;</Typography>
+                <Typography variant="body1">{t('LABEL_HOST')}</Typography>
               </Box>
               <UserList users={hosts} />
               <Button
@@ -140,7 +141,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 onClick={() => {
                   joinSpace();
                 }}>
-                <ArrowForwardIcon /> Join Space
+                <ArrowForwardIcon /> {t('LABEL_JOIN_SPACE')}
                 {roomIsLoading && <CircularProgress />}
               </Button>
             </Box>
