@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { differenceInMilliseconds, addMilliseconds } from 'date-fns';
 import { TabList, Tab, Tabs, TabPanel } from 'react-tabs';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
-import { useSpotify, AUTHENTICATION_ENUM } from './SpotifyProvider';
+import { useSpotify, ENUM_AUTHENTICATION } from './SpotifyProvider';
 import SpotifySignUpBlocker from './SpotifySignUpBlocker';
 import Player from './Player';
 import HomeTab from './Tabs/Home';
@@ -89,8 +88,8 @@ const Music = ({ tabs }) => {
     return () => clearTimeout(timeout);
   }, [spotifyRefresh]);
 
-  if (authenticated !== AUTHENTICATION_ENUM.AUTHENTICATED) {
-    return <SpotifySignUpBlocker loading={authenticated === AUTHENTICATION_ENUM.LOADING} />;
+  if (authenticated !== ENUM_AUTHENTICATION.AUTHENTICATED) {
+    return <SpotifySignUpBlocker loading={authenticated === ENUM_AUTHENTICATION.LOADING} />;
   }
 
   return (
