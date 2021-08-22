@@ -6,11 +6,13 @@ import Peer from 'simple-peer';
 import { getSession } from 'next-auth/client';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { intersection } from 'lodash';
+import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
+import * as spotifyState from '@/atoms/spotify';
 
 const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
 
@@ -36,7 +38,7 @@ PeerVideo.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const Room = ({ roomID }) => {
+const Room = ({ roomID, spotifyAuthURL }) => {
   const router = useRouter();
   const socketRef = useRef();
   const userVideo = useRef();
@@ -47,6 +49,8 @@ const Room = ({ roomID }) => {
   const [showTabs, setShowTabs] = useState(false);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
+  const setRoomID = useSetRecoilState(spotifyState.roomID);
+  const setSpotifyAuthURL = useSetRecoilState(spotifyState.spotifyAuthURL);
 
   const initRoom = async () => {
     const userSession = await getSession();
@@ -172,6 +176,8 @@ const Room = ({ roomID }) => {
 
   useEffect(() => {
     initRoom();
+    setRoomID(roomID);
+    setSpotifyAuthURL(spotifyAuthURL);
   }, []);
 
   const createPeer = (userToSignal, username, callerID, stream) => {
@@ -255,6 +261,7 @@ const Room = ({ roomID }) => {
           setConversation={setConversation}
           showTabs={showTabs}
           setShowTabs={setShowTabs}
+          spotifyAuthURL={spotifyAuthURL}
         />
       </Grid>
     </>
@@ -263,6 +270,7 @@ const Room = ({ roomID }) => {
 
 Room.propTypes = {
   roomID: PropTypes.string.isRequired,
+  spotifyAuthURL: PropTypes.string.isRequired,
 };
 
 export default Room;
@@ -271,6 +279,7 @@ export async function getServerSideProps({ locale, params }) {
   return {
     props: {
       roomID: params.id[0],
+      spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       ...(await serverSideTranslations(locale, ['common'])),
     },
   };
