@@ -34,6 +34,15 @@ const GET_USERS = gql`
     }
   }
 `;
+
+const GET_SESSION_USER = gql`
+  query ($name: String!, $email: String!) {
+    sessionUser(name: $name, email: $email) {
+      _id
+      friends
+    }
+  }
+`;
 const GET_SPACES = gql`
   query Query($spacesSpaceIds: [ID]) {
     spaces(spaceIds: $spacesSpaceIds) {
@@ -198,16 +207,14 @@ export const getServerSideProps = async ({ req, res, locale }) => {
   let newSession = {};
   try {
     const {
-      data: { users },
+      data: { sessionUser },
     } = await apolloClient.query({
-      query: GET_USERS,
-      variables: { usersName: name, usersEmail: email },
+      query: GET_SESSION_USER,
+      variables: { name: name, email: email },
     });
 
-    const userData = users[0];
-
     // Add friend and id fields to user object
-    session.user = { ...session.user, ...userData };
+    session.user = { ...session.user, ...sessionUser };
     newSession = { ...session };
     console.debug('newSession:', newSession);
   } catch (error) {

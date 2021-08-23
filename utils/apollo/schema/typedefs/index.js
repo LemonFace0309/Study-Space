@@ -63,7 +63,7 @@ const typeDefs = gql`
     removeUserFromSpace(input: RemoveUserFromSpaceInput): Space
   }
   type Query {
-    getSessionUser(name: String, email: String): User
+    sessionUser(name: String!, email: String!): User
     users(userIds: [ID], name: String, email: String): [User]
     spaces(spaceIds: [ID]): [Space]
   }
