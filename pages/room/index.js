@@ -15,9 +15,9 @@ import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
-const GET_SESSION_USER = gql`
+const GET_USER = gql`
   query ($name: String!, $email: String!) {
-    sessionUser(name: $name, email: $email) {
+    user(name: $name, email: $email) {
       _id
       friends
     }
@@ -25,8 +25,8 @@ const GET_SESSION_USER = gql`
 `;
 
 const CREATE_SPACE = gql`
-  mutation CreateSpace($createSpaceInput: CreateSpaceInput) {
-    createSpace(input: $createSpaceInput) {
+  mutation CreateSpaceMutation($spaceInput: CreateSpaceInput!) {
+    createSpace(input: $spaceInput) {
       name
       description
     }
@@ -76,7 +76,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
       spaceId,
     };
 
-    createSpace({ variables: { createSpaceInput: spaceInput } });
+    createSpace({ variables: { spaceInput } });
     router.push(`/room/${spaceId}`);
   };
 
@@ -118,15 +118,13 @@ export const getServerSideProps = async (context) => {
   const { name, email } = session.user;
 
   const apolloClient = initializeApollo();
-  const {
-    data: { sessionUser },
-  } = await apolloClient.query({
-    query: GET_SESSION_USER,
-    variables: { name: name, email: email },
+  const { data } = await apolloClient.query({
+    query: GET_USER,
+    variables: { name, email },
   });
 
-  const newSession = { ...session, ...sessionUser };
-  console.debug('newSession', newSession);
+  const newSession = { ...session, ...data.user };
+  console.debug('Session:', newSession);
 
   return {
     props: {

@@ -209,7 +209,7 @@ export const getServerSideProps = async ({ req, res, locale }) => {
     newSession = { ...session };
     console.debug('newSession:', newSession);
   } catch (error) {
-    console.debug('Log in first:', error);
+    console.warn('Log in first:', error);
     return redirectToHome;
   }
 

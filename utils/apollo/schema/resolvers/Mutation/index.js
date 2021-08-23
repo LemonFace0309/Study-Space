@@ -22,7 +22,9 @@ const Mutation = {
     return result;
   },
   addUserToSpace: async (_, { input }) => {
+    console.debug('TESTING');
     const { spaceId, userId } = input;
+    console.debug('test');
 
     let space = {};
     try {

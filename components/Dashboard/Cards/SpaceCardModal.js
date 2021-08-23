@@ -104,7 +104,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
       console.debug('Joining Space:', result);
       router.push(`/room/${spaceId}`);
     } catch (err) {
-      console.debug('Unable to join space:', err);
+      console.warn('Unable to join space:', err);
     }
   };
 
