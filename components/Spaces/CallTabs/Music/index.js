@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import renderComponent from 'utils/renderComponent';
 import getCookie from 'utils/getCookie';
 import * as spotifyState from 'atoms/spotify';
-import { useSpotify } from './SpotifyProvider';
+import { useSpotify, ENUM_AUTHENTICATION } from './SpotifyProvider';
+import SpotifySignUpBlocker from './SpotifySignUpBlocker';
 import Player from './Player';
 import HomeTab from './Tabs/Home';
 import SearchSongsTab from './Tabs/SearchSongs';
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Music = ({ tabs }) => {
   const classes = useStyles();
-  const { getAccessTokenFromCookies } = useSpotify();
+  const { getAccessTokenFromCookies, authenticated } = useSpotify();
   const [tabIndex, setTabIndex] = useState(0);
   const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
 
@@ -62,8 +63,7 @@ const Music = ({ tabs }) => {
     if (!spotifySessionJWT) return;
     const spotifySession = jwt.decode(spotifySessionJWT);
     if (!spotifySession) return;
-    // let timeoutDuration = spotifySession?.expiresIn * 1000 ?? 3600 * 1000; // onehour in milliseconds
-    let timeoutDuration = 100;
+    let timeoutDuration = 100; // set to 100 for instance refresh if recoil state is not set
     if (spotifyRefresh?.refreshDate) {
       const curDate = new Date();
       const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
@@ -87,6 +87,10 @@ const Music = ({ tabs }) => {
 
     return () => clearTimeout(timeout);
   }, [spotifyRefresh]);
+
+  if (authenticated !== ENUM_AUTHENTICATION.AUTHENTICATED) {
+    return <SpotifySignUpBlocker loading={authenticated === ENUM_AUTHENTICATION.LOADING} />;
+  }
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={() => null} className={classes.tabContainer}>

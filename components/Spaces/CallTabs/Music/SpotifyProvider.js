@@ -16,7 +16,13 @@ export function useSpotify() {
   return useContext(SpotifyContext);
 }
 
+export const ENUM_AUTHENTICATION = {
+  LOADING: 'LOADING',
+  AUTHENTICATED: 'AUTHENTICATED',
+  NOT_AUTHENTICATED: 'NOT_AUTHENTICATED',
+};
 export function SpotifyProvider({ children }) {
+  const [authenticated, setAuthenticated] = useState(ENUM_AUTHENTICATION.LOADING);
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState(null);
   const [userPlaylists, setUserPlaylists] = useState([]);
@@ -32,11 +38,12 @@ export function SpotifyProvider({ children }) {
 
   const getAccessTokenFromCookies = () => {
     const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
-    if (!spotifySessionJWT) return;
+    if (!spotifySessionJWT) return false;
     const spotifySession = jwt.decode(spotifySessionJWT);
-    if (!spotifySession?.accessToken) return;
+    if (!spotifySession?.accessToken) return false;
     setAccessToken(spotifySession.accessToken);
     spotifyApi.setAccessToken(spotifySession.accessToken);
+    return true;
   };
 
   const initUser = async () => {
@@ -46,10 +53,12 @@ export function SpotifyProvider({ children }) {
       const username = userData.body.id;
       const playlistData = await spotifyApi.getUserPlaylists(username);
       setUser(userData.body);
+      setAuthenticated(ENUM_AUTHENTICATION.AUTHENTICATED);
       const rawPlaylists = playlistData.body.items;
       setUserPlaylists(() => parsePlaylists(rawPlaylists));
     } catch (err) {
       console.debug('Something went wrong fetching your Spotify Information!', err);
+      setAuthenticated(ENUM_AUTHENTICATION.NOT_AUTHENTICATED);
     }
   };
 
@@ -86,7 +95,11 @@ export function SpotifyProvider({ children }) {
   };
 
   useEffect(() => {
-    getAccessTokenFromCookies();
+    const hasToken = getAccessTokenFromCookies();
+    if (!hasToken) {
+      setAuthenticated(ENUM_AUTHENTICATION.NOT_AUTHENTICATED);
+      return;
+    }
     initUser();
     initRecommendedPlaylists();
   }, []);
@@ -96,6 +109,7 @@ export function SpotifyProvider({ children }) {
   }, [queue]);
 
   const value = {
+    authenticated,
     getAccessTokenFromCookies,
     spotifyApi,
     accessToken,
