@@ -34,12 +34,12 @@ const typeDefs = gql`
   type Space {
     name: String
     description: String
-    spaceId: ID
-    isActive: Boolean
+    spaceId: ID!
+    isActive: Boolean!
     music: String
-    participants: [User]
-    createdAt: String
-    updatedAt: String
+    participants: [User!]
+    createdAt: String!
+    updatedAt: String!
   }
 
   input AddUserToSpaceInput {
@@ -56,15 +56,15 @@ const typeDefs = gql`
     spaceId: ID!
   }
   type Mutation {
-    createSpace(input: CreateSpaceInput): Space
+    createSpace(input: CreateSpaceInput!): Space
     # TODO:
     # updateSpace(input: SpaceInput): Space
-    addUserToSpace(input: AddUserToSpaceInput): Space
-    removeUserFromSpace(input: RemoveUserFromSpaceInput): Space
+    addUserToSpace(input: AddUserToSpaceInput!): Space
+    removeUserFromSpace(input: RemoveUserFromSpaceInput!): Space
   }
   type Query {
-    sessionUser(name: String!, email: String!): User
-    users(userIds: [ID], name: String, email: String): [User]
+    user(name: String!, email: String!): User
+    users(userIds: [ID]): [User]
     spaces(spaceIds: [ID]): [Space]
   }
 `;

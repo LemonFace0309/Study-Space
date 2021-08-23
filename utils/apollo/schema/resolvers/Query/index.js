@@ -3,18 +3,18 @@ import Space from 'models/Spaces';
 import dbConnect from '@/utils/dbConnect';
 
 const Query = {
-  sessionUser: async (_, { email, name }) => {
+  user: async (_, { email, name }) => {
     await dbConnect();
-    // Fetch only the current session user by Name and Email
-    let sessionUser;
+    // Fetch only the single user by Name and Email
+    let user;
     try {
-      sessionUser = await User.findOne({ name, email });
-      console.debug('Fetching session user with sessionUser resolver:', sessionUser);
+      user = await User.findOne({ name, email });
+      console.debug('Fetching session user with user resolver:', user);
     } catch (err) {
-      console.debug('Cannot fetch user', err);
+      console.warn('Cannot fetch user:', err);
     }
 
-    return sessionUser;
+    return user;
   },
   users: async (_, { userIds }) => {
     await dbConnect();

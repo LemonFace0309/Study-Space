@@ -25,7 +25,7 @@ const GET_SESSION_USER = gql`
 `;
 
 const CREATE_SPACE = gql`
-  mutation CreateSpaceMutation($createSpaceInput: SpaceInput!) {
+  mutation CreateSpace($createSpaceInput: CreateSpaceInput) {
     createSpace(input: $createSpaceInput) {
       name
       description

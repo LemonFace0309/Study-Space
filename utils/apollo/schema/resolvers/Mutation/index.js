@@ -33,7 +33,6 @@ const Mutation = {
       const update = {
         $push: { participants: userId },
       };
-
       // Mongoose returns the space before the update occurs by default.
       // {new:true} is the option argument that tells mongoose to return the space after the update occurs.
       // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.

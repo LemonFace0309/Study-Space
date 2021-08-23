@@ -24,14 +24,15 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import * as clientState from 'atoms/client';
 
 const ADD_USER_TO_SPACE = gql`
-  mutation AddUserToSpaceMutation($addUserToSpaceInput: SpaceInput) {
+  mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
     addUserToSpace(input: $addUserToSpaceInput) {
-      name
-      description
-      spaceId
       participants {
         _id
+        name
+        image
       }
+      name
+      spaceId
     }
   }
 `;
