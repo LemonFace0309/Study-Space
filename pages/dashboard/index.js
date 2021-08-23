@@ -28,7 +28,7 @@ import { chartData } from '../../data/chartData';
 
 const GET_SESSION_USER = gql`
   query ($name: String!, $email: String!) {
-    sessionUser(name: $name, email: $email) {
+    user(name: $name, email: $email) {
       _id
       friends
     }
@@ -198,14 +198,14 @@ export const getServerSideProps = async ({ req, res, locale }) => {
   let newSession = {};
   try {
     const {
-      data: { sessionUser },
+      data: { user },
     } = await apolloClient.query({
       query: GET_SESSION_USER,
       variables: { name: name, email: email },
     });
 
     // Add friend and id fields to user object
-    session.user = { ...session.user, ...sessionUser };
+    session.user = { ...session.user, ...user };
     newSession = { ...session };
     console.debug('newSession:', newSession);
   } catch (error) {
