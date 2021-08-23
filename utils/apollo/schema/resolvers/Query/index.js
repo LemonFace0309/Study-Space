@@ -40,7 +40,7 @@ const Query = {
   spaces: async (_, { spaceIds }) => {
     await dbConnect();
 
-    // Fetch all spaces
+    // Fetch all spaces if an spaceIds is empty
     if (spaceIds?.length == 0) {
       console.debug('Fetching all spaces:');
       // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.

@@ -26,15 +26,6 @@ import * as clientState from 'atoms/client';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 
-const GET_USERS = gql`
-  query ($usersName: String!, $usersEmail: String!) {
-    users(name: $usersName, email: $usersEmail) {
-      _id
-      friends
-    }
-  }
-`;
-
 const GET_SESSION_USER = gql`
   query ($name: String!, $email: String!) {
     sessionUser(name: $name, email: $email) {

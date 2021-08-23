@@ -15,13 +15,6 @@ import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 import * as spotifyState from 'atoms/spotify';
 
-const GET_USERS = gql`
-  query ($usersName: String, $usersEmail: String) {
-    users(name: $usersName, email: $usersEmail) {
-      _id
-    }
-  }
-`;
 const GET_SESSION_USER = gql`
   query ($name: String!, $email: String!) {
     sessionUser(name: $name, email: $email) {
@@ -48,7 +41,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
   const [client, setClient] = useRecoilState(clientState.client);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
 
-  const [createSpace, { data, loading, error }] = useMutation(CREATE_SPACE);
+  const [createSpace] = useMutation(CREATE_SPACE);
 
   useEffect(() => {
     if (spotifyCode) {
