@@ -9,12 +9,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Avatar from '@material-ui/core/Avatar';
 
 import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
@@ -240,7 +240,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                         <Typography align="left" variant="h3" className={classes.title}>
                           <Button>{t('LABEL_SETTINGS')}</Button>
                         </Typography>
-                        <CloseIcon className={classes.closeIcon} />
+                        <IconButton onClick={handleClose} className={classes.closeIcon}>
+                          <CloseIcon />
+                        </IconButton>
                         <Grid container item sm={12} justify="center" alignItems="center">
                           <div className={classes.imageContainer}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -310,7 +312,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                       </Grid>
                       <Hidden smDown>
                         <Grid item>
-                          <CloseIcon className={classes.closeIcon} />
+                          <IconButton onClick={handleClose} className={classes.closeIcon}>
+                            <CloseIcon />
+                          </IconButton>
                         </Grid>
                       </Hidden>
                     </Grid>
