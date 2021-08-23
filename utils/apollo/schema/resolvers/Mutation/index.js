@@ -2,7 +2,7 @@ import User from 'models/User';
 import Space from 'models/Spaces';
 const Mutation = {
   createSpace: async (_, { input }) => {
-    const { name, description, userId, spaceId } = input;
+    const { name, description, spaceId } = input;
 
     let result = {};
     try {

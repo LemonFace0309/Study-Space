@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery, gql } from '@apollo/client';
