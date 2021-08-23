@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery, gql } from '@apollo/client';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 import uniqueId from 'lodash/uniqueId';
 import {
@@ -40,17 +40,16 @@ const ADD_USER_TO_SPACE = gql`
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
+    overflow: 'hidden',
   },
   container: {
     padding: '2rem',
   },
-  paper: {
-    borderRadius: '50%',
-  },
   containedPrimary: {
     background: theme.palette.primary.dark,
     borderRadius: '2rem',
-    width: '100%',
+    whiteSpace: 'nowrap',
+    // width: '100%',
   },
 }));
 
@@ -89,19 +88,24 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const [client, setClient] = useRecoilState(clientState.client);
+  const client = useRecoilValue(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
 
-  const joinSpace = () => {
+  const joinSpace = async () => {
     // Add client to participant list
     setRoomIsLoading(true);
     const addUserToSpaceInput = {
       userId: client?.user?._id,
       spaceId,
     };
-    addUserToSpace({ variables: { addUserToSpaceInput } });
-    router.push(`/room/${spaceId}`);
+    try {
+      const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
+      console.debug('Joining Space:', result);
+      router.push(`/room/${spaceId}`);
+    } catch (err) {
+      console.debug('Unable to join space:', err);
+    }
   };
 
   return (
@@ -139,12 +143,10 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 variant="contained"
                 color="primary"
                 className={classes.containedPrimary}
-                // Add participant to the joined room
-                onClick={() => {
-                  joinSpace();
-                }}>
-                <ArrowForwardIcon /> {t('LABEL_JOIN_SPACE')}
-                {roomIsLoading && <CircularProgress />}
+                startIcon={<ArrowForwardIcon />}
+                onClick={joinSpace}>
+                {t('LABEL_JOIN_SPACE')}
+                {roomIsLoading && <CircularProgress className="ml-2" />}
               </Button>
             </Box>
           </Grid>
