@@ -40,7 +40,7 @@ SpacePackage.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    music: PropTypes.string.isRequired,
+    music: PropTypes.string,
   }),
   spaceCardModalData: PropTypes.shape({
     friends: PropTypes.array,

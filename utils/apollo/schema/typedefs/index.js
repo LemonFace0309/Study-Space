@@ -53,6 +53,7 @@ const typeDefs = gql`
   input CreateSpaceInput {
     name: String!
     description: String!
+    userId: ID!
     spaceId: ID!
   }
   type Mutation {

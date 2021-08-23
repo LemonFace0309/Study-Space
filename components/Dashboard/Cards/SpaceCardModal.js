@@ -99,8 +99,9 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
       userId: client?.user?._id,
       spaceId,
     };
+    console.debug(addUserToSpaceInput);
     try {
-      const result = await addUserToSpace({ variables: { test: 'test' } });
+      const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
       console.debug('Joining Space:', result);
       router.push(`/room/${spaceId}`);
     } catch (err) {
