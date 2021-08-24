@@ -11,3 +11,13 @@ export const refresh = atom({
   key: 'spotify-refresh',
   default: null,
 });
+
+export const spotifyAuthURL = atom({
+  key: 'spotify-spotifyAuthURL',
+  default: '',
+});
+
+export const roomID = atom({
+  key: 'spotify-roomID',
+  default: '',
+});

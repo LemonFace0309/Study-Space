@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const PREFIX = 'Productify: ';
+export const PREFIX = 'Productify: ';
 
 const useLocalStorage = (key, initialValue) => {
   const prefixedKey = PREFIX + key;

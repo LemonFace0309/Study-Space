@@ -9,7 +9,7 @@ const parsePlaylists = (rawPlaylists) => {
       title: playlist.name,
       uri: playlist.uri,
       trackURL: playlist.tracks.href,
-      image: bestImage.url,
+      image: bestImage?.url,
     };
   });
   return parsedPlaylists;

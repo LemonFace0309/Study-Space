@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import addMilliseconds from 'date-fns/addMilliseconds';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
@@ -13,7 +12,6 @@ import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
-import * as spotifyState from 'atoms/spotify';
 
 const GET_USER = gql`
   query ($name: String!, $email: String!) {
@@ -33,33 +31,12 @@ const CREATE_SPACE = gql`
   }
 `;
 
-const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
+const CreateRoom = ({ newSession }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
   const [roomIsLoading, setRoomIsLoading] = useState(false);
-  const [client, setClient] = useRecoilState(clientState.client);
-  const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
-
-  const [createSpace] = useMutation(CREATE_SPACE);
-
-  useEffect(() => {
-    if (spotifyCode) {
-      axios
-        .post('/api/spotify/login', { code: spotifyCode })
-        .then((res) => {
-          console.debug(res);
-          const expiresIn = res.data.data.expiresIn * 1000;
-          const date = new Date();
-          const expireDate = addMilliseconds(date, expiresIn);
-          const refreshDate = addMilliseconds(date, expiresIn / 4);
-          setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
-          console.debug('Successfully authenticated with shopify:', res.data);
-        })
-        .catch((err) => console.debug(err))
-        .finally(() => router.push('/room'));
-    }
-  }, [spotifyCode]);
+  const setClient = useSetRecoilState(clientState.client);
 
   const createNewSpace = async () => {
     setRoomIsLoading(true);
@@ -88,7 +65,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
 
   return (
     <div className="h-screen w-screen grid place-items-center">
-      <Paper className="w-80">
+      <Paper className="w-96 p-4">
         <Typography component="h1" variant="h5">
           {t('LABEL_JOIN_A_SPACE')}
         </Typography>
@@ -111,15 +88,12 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
           {roomIsLoading && <CircularProgress />}
         </div>
       </Paper>
-      <Button className="mt-2" href={spotifyAuthURL}>
-        {t('LABEL_LOGIN_TO_SPOTIFY')}
-      </Button>
     </div>
   );
 };
 
 export const getServerSideProps = async (context) => {
-  const { query, locale } = context;
+  const { locale } = context;
   const session = await getSession(context);
   const { name, email } = session.user;
 
@@ -134,8 +108,6 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
-      spotifyCode: query?.code ?? '',
       newSession: JSON.parse(JSON.stringify(newSession)),
       ...(await serverSideTranslations(locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
@@ -144,8 +116,6 @@ export const getServerSideProps = async (context) => {
 };
 
 CreateRoom.propTypes = {
-  spotifyAuthURL: PropTypes.string.isRequired,
-  spotifyCode: PropTypes.string.isRequired,
   newSession: PropTypes.object.isRequired,
 };
 
