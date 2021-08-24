@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
@@ -37,6 +36,8 @@ const CreateRoom = ({ newSession }) => {
   const [roomID, setRoomID] = useState('');
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const setClient = useSetRecoilState(clientState.client);
+
+  const [createSpace] = useMutation(CREATE_SPACE);
 
   const createNewSpace = async () => {
     setRoomIsLoading(true);
