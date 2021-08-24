@@ -75,8 +75,14 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
       userId: clientId,
       spaceId,
     };
+    try {
+      const result = await createSpace({ variables: { spaceInput } });
 
-    await createSpace({ variables: { spaceInput } });
+      console.debug('Joining Space:', result);
+      router.push(`/room/${spaceId}`);
+    } catch (err) {
+      console.warn('Unable to join space:', err);
+    }
     router.push(`/room/${spaceId}`);
   };
 
