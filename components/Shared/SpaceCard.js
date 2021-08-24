@@ -76,7 +76,7 @@ SpaceCard.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  music: PropTypes.string.isRequired,
+  music: PropTypes.string,
 };
 
 export default SpaceCard;

@@ -8,15 +8,25 @@ import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
-import { useQuery, gql } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
 import * as clientState from 'atoms/client';
 
-const GET_USERS = gql`
-  query ($usersName: String, $usersEmail: String) {
-    users(name: $usersName, email: $usersEmail) {
+const GET_USER = gql`
+  query ($name: String!, $email: String!) {
+    user(name: $name, email: $email) {
       _id
+      friends
+    }
+  }
+`;
+
+const CREATE_SPACE = gql`
+  mutation CreateSpaceMutation($spaceInput: CreateSpaceInput!) {
+    createSpace(input: $spaceInput) {
+      name
+      description
     }
   }
 `;
@@ -30,23 +40,27 @@ const CreateRoom = ({ newSession }) => {
 
   const createNewSpace = async () => {
     setRoomIsLoading(true);
-    const id = uuid();
-
+    const spaceId = uuid();
     setClient(newSession);
+
     const clientId = newSession?._id;
-    const data = {
+
+    const spaceInput = {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
-      music: 'none',
-      isActive: true,
-
       // Sample data
-      participants: [{ clientId }, { clientId }, { clientId }, { clientId }, { clientId }],
-      spaceId: id,
+      userId: clientId,
+      spaceId,
     };
-    const result = await axios.post('/api/spaces/create-new-space', data);
+    try {
+      const result = await createSpace({ variables: { spaceInput } });
 
-    router.push(`/room/${id}`);
+      console.debug('Joining Space:', result);
+      router.push(`/room/${spaceId}`);
+    } catch (err) {
+      console.warn('Unable to join space:', err);
+    }
+    router.push(`/room/${spaceId}`);
   };
 
   return (
@@ -84,17 +98,13 @@ export const getServerSideProps = async (context) => {
   const { name, email } = session.user;
 
   const apolloClient = initializeApollo();
-  const {
-    data: { users },
-  } = await apolloClient.query({
-    query: GET_USERS,
-    variables: { usersName: name, usersEmail: email },
+  const { data } = await apolloClient.query({
+    query: GET_USER,
+    variables: { name, email },
   });
 
-  const sessionUser = users[0];
-
-  const newSession = { ...session, ...sessionUser };
-  console.debug('newSession', newSession);
+  const newSession = { ...session, ...data.user };
+  console.debug('Session:', newSession);
 
   return {
     props: {

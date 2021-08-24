@@ -4,10 +4,8 @@ import uniqueId from 'lodash/uniqueId';
 import { Card, Container, Box, Grid, Typography, useTheme } from '@material-ui/core';
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
-import { spaceCardModalTestData } from '../../data/spaceCardModalTestData';
 
 const DashboardContainer = ({ spaceCardData }) => {
-  const { friends, participants, hosts } = spaceCardModalTestData;
   const theme = useTheme();
 
   return (
@@ -52,8 +50,8 @@ const DashboardContainer = ({ spaceCardData }) => {
               return (
                 <Grid item key={uniqueId(name)} xs={12} sm={6} md={4}>
                   <SpacePackage
-                    spaceCardData={{ name, description, headCount: participants.length, music }}
-                    spaceCardModalData={{ friends, participants: [], hosts, spaceId }}
+                    spaceCardData={{ name, description, headCount: participants?.length, music }}
+                    spaceCardModalData={{ friends: [], participants, hosts: [], spaceId }}
                   />
                 </Grid>
               );

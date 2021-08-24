@@ -1,11 +1,10 @@
+import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import uniqueId from 'lodash/uniqueId';
+import { useMutation, useQuery, gql } from '@apollo/client';
+import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { useState } from 'react';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
-
+import uniqueId from 'lodash/uniqueId';
 import {
   Button,
   Grid,
@@ -24,12 +23,16 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import * as clientState from 'atoms/client';
 
-const GET_SESSION_USER = gql`
-  query {
-    users(name: "Eden Chan") {
+const ADD_USER_TO_SPACE = gql`
+  mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
+    addUserToSpace(input: $addUserToSpaceInput) {
+      participants {
+        _id
+        name
+        image
+      }
       name
-      email
-      image
+      spaceId
     }
   }
 `;
@@ -37,17 +40,16 @@ const GET_SESSION_USER = gql`
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
+    overflow: 'hidden',
   },
   container: {
     padding: '2rem',
   },
-  paper: {
-    borderRadius: '50%',
-  },
   containedPrimary: {
     background: theme.palette.primary.dark,
     borderRadius: '2rem',
-    width: '100%',
+    whiteSpace: 'nowrap',
+    // width: '100%',
   },
 }));
 
@@ -57,18 +59,18 @@ const UserList = ({ users }) => {
       {users.map((user) => (
         <ListItem key={uniqueId()}>
           <ListItemAvatar>
-            <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
+            <Avatar alt="profile image" src={user?.image}></Avatar>
           </ListItemAvatar>
           <ListItemText
             disableTypography
             primary={
               <Typography variant="body1" color="textPrimary">
-                {user.name}
+                {user?.name}
               </Typography>
             }
             secondary={
               <Typography variant="body1" color="primary">
-                {user.status}
+                {user?.status}
               </Typography>
             }
           />
@@ -86,18 +88,26 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const [client, setClient] = useRecoilState(clientState.client);
+  const client = useRecoilValue(clientState.client);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
+  const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
 
-  // const gqlClient = useApolloClient();
-  // const { loading, error, data } = useQuery(GET_SESSION_USER);
-  // console.debug('data', data);
-
-  const joinSpace = () => {
+  const joinSpace = async () => {
     // Add client to participant list
     setRoomIsLoading(true);
-    router.push(`/room/${spaceId}`);
+    const addUserToSpaceInput = {
+      userId: client?.user?._id ?? '',
+      spaceId,
+    };
+    try {
+      const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
+      console.debug('Joining Space:', result);
+      router.push(`/room/${spaceId}`);
+    } catch (err) {
+      console.warn('Unable to join space:', err);
+    }
   };
+
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
       <Grid container spacing={3} className={classes.container}>
@@ -117,6 +127,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
                 <Typography variant="body1">{t('LABEL_PARTICIPANTS')}</Typography>
               </Box>
+
               <UserList users={participants} />
             </Box>
           </Grid>
@@ -132,12 +143,10 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 variant="contained"
                 color="primary"
                 className={classes.containedPrimary}
-                // Add participant to the joined room
-                onClick={() => {
-                  joinSpace();
-                }}>
-                <ArrowForwardIcon /> {t('LABEL_JOIN_SPACE')}
-                {roomIsLoading && <CircularProgress />}
+                startIcon={<ArrowForwardIcon />}
+                onClick={joinSpace}>
+                {t('LABEL_JOIN_SPACE')}
+                {roomIsLoading && <CircularProgress className="ml-2" />}
               </Button>
             </Box>
           </Grid>

@@ -1,7 +1,15 @@
 import { ApolloServer } from 'apollo-server-micro';
-import { schema } from '@/utils/apollo/schema';
+import typeDefs from '@/utils/apollo/schema/typedefs';
+import resolvers from '@/utils/apollo/schema/resolvers';
+import dbConnect from '@/utils/dbConnect';
 
-const apolloServer = new ApolloServer({ schema });
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req }) => {
+    await dbConnect();
+  },
+});
 
 const startServer = apolloServer.start();
 

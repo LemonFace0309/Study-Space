@@ -15,9 +15,6 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 import { useQuery, gql } from '@apollo/client';
 
-import User from 'models/User';
-import Space from 'models/Spaces';
-import dbConnect from 'utils/dbConnect';
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
 import ChartCard from 'components/Dashboard/Cards/ChartCard';
@@ -29,16 +26,32 @@ import * as clientState from 'atoms/client';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 
-const GET_USERS = gql`
-  query {
-    users(userIds: ["609ccafca1c3fe54cca40121", "6114e6e916e2ea30ab88aa78"]) {
-      name
-      email
-      image
+const GET_SESSION_USER = gql`
+  query ($name: String!, $email: String!) {
+    user(name: $name, email: $email) {
+      _id
+      friends
     }
   }
 `;
-
+const GET_SPACES = gql`
+  query Query($spacesSpaceIds: [ID]) {
+    spaces(spaceIds: $spacesSpaceIds) {
+      name
+      participants {
+        _id
+        name
+        email
+        username
+        image
+      }
+      description
+      spaceId
+      isActive
+      music
+    }
+  }
+`;
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -64,9 +77,6 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const setClient = useSetRecoilState(clientState.client);
-
-  // const { data } = useQuery(GET_USERS);
-  // console.debug(data);
 
   useEffect(() => {
     setClient(session);
@@ -173,39 +183,40 @@ const redirectToHome = {
   },
 };
 
-export const getServerSideProps = async ({ req, locale }) => {
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: GET_USERS,
-  });
-
+export const getServerSideProps = async ({ req, res, locale }) => {
+  // getSession seems to only take in the entire context, so can't destructure {req, locale}
   const session = await getSession({ req });
   if (!session) {
+    console.debug('Log in first!');
     return redirectToHome;
   }
 
-  await dbConnect();
+  const { name, email } = session.user;
+
+  const apolloClient = initializeApollo();
 
   let newSession = {};
-  if (session) {
-    try {
-      const user = await User.findOne({
-        email: session.user.email,
-      });
-      if (!user) {
-        return redirectToHome;
-      }
-      newSession = { ...session, user };
-      console.debug('Session:', newSession);
-    } catch (err) {
-      console.error(err);
-      return redirectToHome;
-    }
+  try {
+    const {
+      data: { user },
+    } = await apolloClient.query({
+      query: GET_SESSION_USER,
+      variables: { name: name, email: email },
+    });
+
+    // Add friend and id fields to user object
+    session.user = { ...session.user, ...user };
+    newSession = { ...session };
+    console.debug('newSession:', newSession);
+  } catch (error) {
+    console.warn('Log in first:', error);
+    return redirectToHome;
   }
 
   let spaces = {};
   try {
-    spaces = await Space.find({});
+    const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
+    spaces = data.spaces;
   } catch (err) {
     console.error(err);
   }
