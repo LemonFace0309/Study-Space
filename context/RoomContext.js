@@ -2,6 +2,7 @@ import { createContext, useContext, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniqueId, find, filter } from 'lodash';
 import { useRecoilValue } from 'recoil';
+import { useMutation, gql } from '@apollo/client';
 
 import * as clientState from 'atoms/client';
 
@@ -11,17 +12,43 @@ export const useRoomContext = () => {
   return useContext(RoomContext);
 };
 
+const UPDATE_TODOS = gql`
+  mutation UpdateTodosMutation($input: UpdateTodosInput) {
+    updateTodos(input: $input) {
+      _id
+      todos
+    }
+  }
+`;
+
 export const RoomProvider = ({ children }) => {
   const firstRender = useRef(true);
   const [todos, setTodos] = useState([]);
   const client = useRecoilValue(clientState.client);
+  const [updateTodos] = useMutation(UPDATE_TODOS);
 
   useEffect(() => {
+    let timeout;
     if (firstRender.current && client?.todos) {
       setTodos(client.todos);
+    } else if (!firstRender.current && client?._id) {
+      // timeout = setTimeout(() => {
+      //   try {
+      //     const result = updateTodos({
+      //       variables: {
+      //         userId: client._id,
+      //         todos,
+      //       },
+      //     });
+      //     console.debug(result);
+      //   } catch (err) {
+      //     console.debug('Unable to update client todos:', err);
+      //   }
+      // }, 2000);
     }
-
     firstRender.current = false;
+
+    return () => clearTimeout(timeout);
   }, [todos]);
 
   const addTodo = (newTodo) => {

@@ -14,6 +14,7 @@ const typeDefs = gql`
     # updateSpace(input: SpaceInput): Space
     addUserToSpace(input: AddUserToSpaceInput!): Space
     removeUserFromSpace(input: RemoveUserFromSpaceInput!): Space
+    updateTodos(input: UpdateTodosInput!): User!
   }
 
   input CreateSpaceInput {
@@ -31,6 +32,17 @@ const typeDefs = gql`
   input AddUserToSpaceInput {
     spaceId: ID!
     userId: ID!
+  }
+
+  input UpdateTodosInput {
+    userId: ID!
+    todos: [TodoInput!]!
+  }
+
+  input TodoInput {
+    _id: ID!
+    task: String!
+    isCompleted: Boolean!
   }
 
   type User {
