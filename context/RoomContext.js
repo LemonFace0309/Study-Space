@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniqueId, find, filter } from 'lodash';
+import { useRecoilValue } from 'recoil';
+
+import * as clientState from 'atoms/client';
 
 const RoomContext = createContext();
 
@@ -10,9 +13,14 @@ export const useRoomContext = () => {
 
 export const RoomProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
+  const client = useRecoilValue(clientState.client);
+
+  useEffect(() => {
+    console.debug(client);
+  }, []);
 
   const addTodo = (newTodo) => {
-    setTodos((todos) => [...todos, { id: uniqueId(), todoTask: newTodo, isCompleted: false }]);
+    setTodos((todos) => [...todos, { id: uniqueId(), task: newTodo, isCompleted: false }]);
   };
 
   const setTodoComplete = (id) => {

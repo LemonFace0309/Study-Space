@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useQuery, gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
-import { useQuery, gql } from '@apollo/client';
 
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
@@ -201,15 +201,15 @@ export const getServerSideProps = async ({ req, res, locale }) => {
       data: { user },
     } = await apolloClient.query({
       query: GET_SESSION_USER,
-      variables: { name: name, email: email },
+      variables: { name, email },
     });
 
     // Add friend and id fields to user object
     session.user = { ...session.user, ...user };
     newSession = { ...session };
     console.debug('newSession:', newSession);
-  } catch (error) {
-    console.warn('Log in first:', error);
+  } catch (err) {
+    console.warn('Log in first:', err);
     return redirectToHome;
   }
 

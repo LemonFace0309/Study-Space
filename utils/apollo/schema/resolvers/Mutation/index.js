@@ -1,5 +1,7 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
+import dbConnect from '@/utils/dbConnect';
+
 const Mutation = {
   createSpace: async (_, { input }) => {
     const { name, description, clientId, spaceId } = input;

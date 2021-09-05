@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const TodoSchema = mongoose.Schema({
-  todoTask: {
+  task: {
     type: String,
     required: true,
   },
@@ -11,4 +11,4 @@ const TodoSchema = mongoose.Schema({
   },
 });
 
-export default mongoose?.models?.TodoSchema || mongoose.modal('TodoSchema', TodoSchema);
+export default TodoSchema;

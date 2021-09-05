@@ -63,7 +63,7 @@ const TodoList = () => {
                 <IconButton onClick={() => setTodoComplete(todo.id)} className="p-1">
                   <RadioButtonUnchecked fontSize="small" />
                 </IconButton>
-                <span>{todo.todoTask}</span>
+                <span>{todo.task}</span>
               </div>
             ))}
           </div>
@@ -84,7 +84,7 @@ const TodoList = () => {
                   <IconButton className="p-1" onClick={() => clearTodo(todo.id)}>
                     <Check fontSize="small" />
                   </IconButton>
-                  <span className="line-through">{todo.todoTask}</span>
+                  <span className="line-through">{todo.task}</span>
                 </div>
               ))}
             </div>

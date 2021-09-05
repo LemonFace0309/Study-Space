@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import TodoSchema from './TodoSchema';
+import TodoSchema from './Todo';
 
 const UserSchema = mongoose.Schema(
   {
