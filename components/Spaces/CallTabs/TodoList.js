@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { uniqueId, find, filter } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, IconButton, Divider, TextField, Collapse, List, ListItem, ListItemText } from '@material-ui/core';
 import { Add, RadioButtonUnchecked, Check, ExpandLess, ExpandMore } from '@material-ui/icons';
+
+import { useRoomContext } from '@/context/RoomContext';
 
 const useStyles = makeStyles((theme) => ({
   clearAll: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 
 const TodoList = () => {
   const classes = useStyles();
-  const [todos, setTodos] = useState([]);
+  const { addTodo, setTodoComplete, clearTodo, clearCompletedTodos, completedTodos, incompleteTodos } =
+    useRoomContext();
   const [newTodo, setNewTodo] = useState('');
   const [open, setOpen] = useState(true);
 
@@ -29,29 +31,11 @@ const TodoList = () => {
   const addTodoHandler = (e) => {
     e.preventDefault();
     if (newTodo !== '') {
-      setTodos((todos) => [...todos, { id: uniqueId(), todoTask: newTodo, isCompleted: false }]);
+      addTodo(newTodo);
       setNewTodo('');
     }
   };
 
-  const setTodoComplete = (id) => {
-    const completeTodo = find(todos, { id: id });
-    completeTodo.isCompleted = true;
-    const restTodos = todos.filter((todo) => todo.id !== id);
-    setTodos([...restTodos, completeTodo]);
-  };
-
-  const clearTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
-  };
-
-  const clearCompletedTodos = () => {
-    setTodos(filter(todos, { isCompleted: false }));
-  };
-
-  const completedTodos = filter(todos, { isCompleted: true });
-  const incompleteTodos = filter(todos, { isCompleted: false });
   return (
     <>
       <List className="h-full flex flex-col justify-between p-1">
