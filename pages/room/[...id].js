@@ -64,6 +64,7 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
   const [userVideoShow, setUserVideoShow] = useState(true);
   const [showTabs, setShowTabs] = useState(false);
   const [username, setUsername] = useState('');
+
   const [participants, setParticipants] = useState([]);
   const [removeUserFromSpace] = useMutation(REMOVE_USER_FROM_SPACE);
 
@@ -74,8 +75,10 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
   const initRoom = async () => {
     const userSession = await getSession();
     let currentUsername = '';
+    let currentEmail = '';
     if (userSession) {
       currentUsername = userSession.user.name;
+      currentEmail = userSession.user.email;
     } else {
       const randomName = uniqueNamesGenerator({
         dictionaries: [colors, animals],
@@ -104,7 +107,7 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
     /**
      * Notifiy users in the room that this new user joined
      */
-    socketRef.current.emit('join room', { roomID, username: currentUsername });
+    socketRef.current.emit('join room', { roomID, username: currentUsername, email: currentEmail });
 
     /**
      * Get information of all users in the room and add them as peers
