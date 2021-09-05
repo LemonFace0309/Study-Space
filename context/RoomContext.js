@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniqueId, find, filter } from 'lodash';
 import { useRecoilValue } from 'recoil';
@@ -12,12 +12,17 @@ export const useRoomContext = () => {
 };
 
 export const RoomProvider = ({ children }) => {
+  const firstRender = useRef(true);
   const [todos, setTodos] = useState([]);
   const client = useRecoilValue(clientState.client);
 
   useEffect(() => {
-    console.debug(client);
-  }, []);
+    if (firstRender.current && client?.todos) {
+      setTodos(client.todos);
+    }
+
+    firstRender.current = false;
+  }, [todos]);
 
   const addTodo = (newTodo) => {
     setTodos((todos) => [...todos, { id: uniqueId(), task: newTodo, isCompleted: false }]);

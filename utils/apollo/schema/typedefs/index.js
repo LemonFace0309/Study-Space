@@ -43,6 +43,7 @@ const typeDefs = gql`
     password: String
     type: String
     image: String
+    todos: [Todo!]
     createdAt: String
     updatedAt: String
   }
