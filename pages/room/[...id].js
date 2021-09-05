@@ -10,10 +10,25 @@ import { intersection } from 'lodash';
 import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
+import { gql, useMutation } from '@apollo/client';
 
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
+
+const REMOVE_USER_FROM_SPACE = gql`
+  mutation RemoveUserFromSpaceMutation($removeUserFromSpaceInput: RemoveUserFromSpaceInput!) {
+    removeUserFromSpace(input: $removeUserFromSpaceInput) {
+      description
+      participants {
+        name
+        email
+        _id
+      }
+      name
+    }
+  }
+`;
 
 const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
 
@@ -50,6 +65,8 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
   const [showTabs, setShowTabs] = useState(false);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
+  const [removeUserFromSpace] = useMutation(REMOVE_USER_FROM_SPACE);
+
   const setRoomID = useSetRecoilState(spotifyState.roomID);
   const setSpotifyAuthURL = useSetRecoilState(spotifyState.spotifyAuthURL);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
@@ -158,6 +175,17 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
      * Remove user as a peer and participant when disconnected
      */
     socketRef.current.on('user disconnect', (payload) => {
+      const removeUserFromSpaceInput = {
+        spaceId: payload.roomID,
+        userId: '612453e72bb0ce05a04824b9', // edenchan717@gmail.com
+      };
+      try {
+        const result = removeUserFromSpace({ variables: { removeUserFromSpaceInput } });
+        console.debug('Removing participant from space:', result);
+      } catch (err) {
+        console.error('Trouble removing participant from space:', err);
+      }
+
       let usersPeerID = [];
       let participantNames = [];
       if (payload.users) {
