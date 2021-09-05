@@ -177,7 +177,8 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
     socketRef.current.on('user disconnect', (payload) => {
       const removeUserFromSpaceInput = {
         spaceId: payload.roomID,
-        userId: '612453e72bb0ce05a04824b9', // edenchan717@gmail.com
+        // Hard coded userid for edenchan717@gmail.com because dynamically fetching it would involve changes to backend
+        userId: '612453e72bb0ce05a04824b9',
       };
       try {
         const result = removeUserFromSpace({ variables: { removeUserFromSpaceInput } });
