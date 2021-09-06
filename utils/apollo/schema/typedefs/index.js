@@ -40,7 +40,7 @@ const typeDefs = gql`
   }
 
   input TodoInput {
-    _id: ID!
+    key: String!
     task: String!
     isCompleted: Boolean!
   }

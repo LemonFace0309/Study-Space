@@ -69,5 +69,16 @@ const Mutation = {
     }
     return space;
   },
+  updateTodos: async (_, { input }) => {
+    const { userId, todos } = input;
+
+    try {
+      const user = User.findOneAndUpdate({ _id: userId }, { $set: { todos } }, { new: true });
+      return user;
+    } catch (err) {
+      console.debug(err);
+      throw new Error(err);
+    }
+  },
 };
 export default Mutation;

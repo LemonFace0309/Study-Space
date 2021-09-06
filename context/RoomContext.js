@@ -13,10 +13,14 @@ export const useRoomContext = () => {
 };
 
 const UPDATE_TODOS = gql`
-  mutation UpdateTodosMutation($input: UpdateTodosInput) {
-    updateTodos(input: $input) {
+  mutation UpdateTodosMutation($updateTodosInput: UpdateTodosInput!) {
+    updateTodos(input: $updateTodosInput) {
       _id
-      todos
+      todos {
+        _id
+        task
+        isCompleted
+      }
     }
   }
 `;
@@ -32,19 +36,21 @@ export const RoomProvider = ({ children }) => {
     if (firstRender.current && client?.todos) {
       setTodos(client.todos);
     } else if (!firstRender.current && client?._id) {
-      // timeout = setTimeout(() => {
-      //   try {
-      //     const result = updateTodos({
-      //       variables: {
-      //         userId: client._id,
-      //         todos,
-      //       },
-      //     });
-      //     console.debug(result);
-      //   } catch (err) {
-      //     console.debug('Unable to update client todos:', err);
-      //   }
-      // }, 2000);
+      timeout = setTimeout(() => {
+        const updateTodosInput = {
+          userId: client._id,
+          todos,
+        };
+        console.debug('todos input:', updateTodosInput);
+
+        updateTodos({ variables: { updateTodosInput } })
+          .then((result) => {
+            console.debug(result);
+          })
+          .catch((err) => {
+            console.debug("Unable to update user's todos:", err);
+          });
+      }, 2000);
     }
     firstRender.current = false;
 
@@ -52,7 +58,7 @@ export const RoomProvider = ({ children }) => {
   }, [todos]);
 
   const addTodo = (newTodo) => {
-    setTodos((todos) => [...todos, { id: uniqueId(), task: newTodo, isCompleted: false }]);
+    setTodos((todos) => [...todos, { key: uniqueId(), task: newTodo, isCompleted: false }]);
   };
 
   const setTodoComplete = (id) => {
