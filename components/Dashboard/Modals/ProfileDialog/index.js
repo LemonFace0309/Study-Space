@@ -119,7 +119,7 @@ const tabComponents = {
   PRIVACY: 'PRIVACY',
 };
 
-const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
+const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
@@ -139,7 +139,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
       case tabComponents.ACCOUNT_DETAILS:
         return (
           <AccountDetails
-            session={session}
+            user={user}
             editMode={editMode}
             saveChanges={saveChanges}
             setSaveChanges={setSaveChanges}
@@ -148,12 +148,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
         );
       case tabComponents.CHANGE_PASSWORD:
         return (
-          <ChangePassword
-            session={session}
-            editMode={editMode}
-            saveChanges={saveChanges}
-            setSaveChanges={setSaveChanges}
-          />
+          <ChangePassword user={user} editMode={editMode} saveChanges={saveChanges} setSaveChanges={setSaveChanges} />
         );
       case tabComponents.PRIVACY:
         return <h1>{t('LABEL_PRIVACY')}</h1>;
@@ -219,7 +214,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                   </Tab>
                 ))}
               </TabList>
-              <Grid container direction="column" alignItems="baseline" justify="flex-end">
+              <Grid container direction="column" alignItems="baseline" justifyContent="flex-end">
                 {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                 <Button>{t('LABEL_LOGOUT')}</Button>
               </Grid>
@@ -241,18 +236,18 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                         <IconButton onClick={handleClose} className={classes.closeIcon}>
                           <CloseIcon />
                         </IconButton>
-                        <Grid container item sm={12} justify="center" alignItems="center">
+                        <Grid container item sm={12} justifyContent="center" alignItems="center">
                           <div className={classes.imageContainer}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               alt={t('LABEL_ALT_PROFILE_PIC')}
-                              src={null ?? session?.user?.image}
+                              src={null ?? user?.image}
                               className={classes.largeAvatar}
                             />
                           </div>
                         </Grid>
                         <Typography align="center" variant="h5" className={classes.title}>
-                          {session?.user?.name}
+                          {user?.name}
                         </Typography>
 
                         {/* Tabs */}
@@ -340,7 +335,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
 };
 
 ProfileDialog.propTypes = {
-  session: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   acceptedFileTypes: PropTypes.string,

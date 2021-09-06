@@ -5,8 +5,8 @@ import { find, filter } from 'lodash';
 import { useRecoilState } from 'recoil';
 import { useMutation, gql } from '@apollo/client';
 
-import * as clientState from 'atoms/client';
-import getClient from '@/utils/getClient';
+import * as userState from 'atoms/user';
+import getUser from '@/utils/getUser';
 
 const RoomContext = createContext();
 
@@ -30,11 +30,11 @@ const UPDATE_TODOS = gql`
 export const RoomProvider = ({ children }) => {
   const firstRender = useRef(true);
   const [todos, setTodos] = useState([]);
-  const [client, setClient] = useRecoilState(clientState.client);
+  const [user, setUser] = useRecoilState(userState.user);
   const [updateTodos] = useMutation(UPDATE_TODOS);
 
-  const setTodosFromClient = (client = client) => {
-    const clientTodos = client?.todos ?? [];
+  const setTodosFromClient = (user = user) => {
+    const clientTodos = user?.todos ?? [];
     setTodos(
       clientTodos.map((todo) => ({
         key: todo?.key,
@@ -46,26 +46,26 @@ export const RoomProvider = ({ children }) => {
 
   const initClient = async () => {
     try {
-      const newClient = await getClient();
+      const newClient = await getUser();
       if (newClient) {
-        setClient(newClient);
+        setUser(newClient);
         setTodosFromClient(newClient);
       }
     } catch (err) {
-      console.debug('Unable to initialize client:', client);
+      console.debug('Unable to initialize user:', user);
     }
   };
 
   useEffect(() => {
     let timeout;
-    if (firstRender.current && !client) {
+    if (firstRender.current && !user) {
       initClient();
-    } else if (firstRender.current && client?.todos) {
+    } else if (firstRender.current && user?.todos) {
       setTodosFromClient();
-    } else if (!firstRender.current && client?._id) {
+    } else if (!firstRender.current && user?._id) {
       timeout = setTimeout(() => {
         const updateTodosInput = {
-          userId: client._id,
+          userId: user._id,
           todos,
         };
 

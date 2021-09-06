@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 
 import { GET_USER } from '@/utils/apollo/templates/User';
 
-const getClient = async () => {
+const getUser = async () => {
   const userSession = await getSession();
   if (!userSession) return;
   const { name, email } = userSession.user;
@@ -12,9 +12,8 @@ const getClient = async () => {
       query: GET_USER.loc.source.body,
       variables: { name, email },
     });
-    console.debug('Queried User Data:', result);
     if (result?.data) {
-      const enhancedSession = { ...userSession, ...result.data?.data?.user };
+      const enhancedSession = { ...userSession.user, ...result.data?.data?.user };
       console.debug('Session:', enhancedSession);
       return enhancedSession;
     }
@@ -25,4 +24,4 @@ const getClient = async () => {
   return null;
 };
 
-export default getClient;
+export default getUser;

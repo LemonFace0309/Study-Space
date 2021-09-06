@@ -71,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEditMode }) => {
+const AccountDetails = ({ user, editMode, saveChanges, setSaveChanges, setEditMode }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
-  const [userImage, setUserImage] = useState(session?.user?.image);
+  const [userImage, setUserImage] = useState(user?.image);
   const [newImage, setNewImage] = useState(null);
   const [username, setUsername] = useRecoilState(authState.username);
   const [email, setEmail] = useRecoilState(authState.email);
@@ -87,9 +87,9 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
   const fileRef = useRef();
 
   useEffect(() => {
-    setUsername(session?.user?.username ?? '');
-    setEmail(session?.user?.email ?? '');
-    setPhoneNumber(session?.user?.phoneNumber ?? '');
+    setUsername(user?.username ?? '');
+    setEmail(user?.email ?? '');
+    setPhoneNumber(user?.phoneNumber ?? '');
   }, []);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     const formData = new FormData();
 
     formData.append('image', fileRef.current);
-    formData.append('id', session?.user._id);
+    formData.append('id', user._id);
 
     try {
       const response = await axios.patch('/api/profile/update-image', formData, {
@@ -152,7 +152,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
 
   const handleUpdateProfile = async () => {
     const jsonData = {
-      id: session?.user._id,
+      id: user._id,
       username,
       email,
       phoneNumber,
@@ -176,7 +176,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
     <Grid container direction="row" spacing={3}>
       <Grid container item xs={12} sm={5} alignItems="flex-end">
         <Typography className={classes.title} variant="h5">
-          {session?.user?.name}
+          {user?.name}
         </Typography>
       </Grid>
       <Grid item sm={7} />
@@ -248,9 +248,7 @@ const AccountDetails = ({ session, editMode, saveChanges, setSaveChanges, setEdi
 };
 
 AccountDetails.propTypes = {
-  session: PropTypes.shape({
-    user: PropTypes.object.isRequired,
-  }).isRequired,
+  user: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired,
   saveChanges: PropTypes.bool.isRequired,
   setSaveChanges: PropTypes.func.isRequired,

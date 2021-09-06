@@ -21,7 +21,7 @@ import {
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-import * as clientState from 'atoms/client';
+import * as userState from 'atoms/user';
 
 const ADD_USER_TO_SPACE = gql`
   mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
@@ -88,7 +88,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const client = useRecoilValue(clientState.client);
+  const client = useRecoilValue(userState.user);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
 
