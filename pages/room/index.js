@@ -17,7 +17,11 @@ const GET_USER = gql`
     user(name: $name, email: $email) {
       _id
       friends
-      todos
+      todos {
+        key
+        task
+        isCompleted
+      }
     }
   }
 `;

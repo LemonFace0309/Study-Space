@@ -1,6 +1,7 @@
 import { createContext, useContext, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { uniqueId, find, filter } from 'lodash';
+import { v1 as uuid } from 'uuid';
+import { find, filter } from 'lodash';
 import { useRecoilValue } from 'recoil';
 import { useMutation, gql } from '@apollo/client';
 
@@ -17,7 +18,7 @@ const UPDATE_TODOS = gql`
     updateTodos(input: $updateTodosInput) {
       _id
       todos {
-        _id
+        key
         task
         isCompleted
       }
@@ -34,23 +35,29 @@ export const RoomProvider = ({ children }) => {
   useEffect(() => {
     let timeout;
     if (firstRender.current && client?.todos) {
-      setTodos(client.todos);
+      console.debug(client.todos);
+      setTodos(
+        client.todos.map((todo) => ({
+          key: todo?.key,
+          task: todo?.task,
+          isCompleted: todo?.isCompleted,
+        }))
+      );
     } else if (!firstRender.current && client?._id) {
       timeout = setTimeout(() => {
         const updateTodosInput = {
           userId: client._id,
           todos,
         };
-        console.debug('todos input:', updateTodosInput);
 
         updateTodos({ variables: { updateTodosInput } })
           .then((result) => {
-            console.debug(result);
+            console.debug('Updated user todos:', result);
           })
           .catch((err) => {
             console.debug("Unable to update user's todos:", err);
           });
-      }, 2000);
+      }, 1000);
     }
     firstRender.current = false;
 
@@ -58,18 +65,18 @@ export const RoomProvider = ({ children }) => {
   }, [todos]);
 
   const addTodo = (newTodo) => {
-    setTodos((todos) => [...todos, { key: uniqueId(), task: newTodo, isCompleted: false }]);
+    setTodos((todos) => [...todos, { key: uuid(), task: newTodo, isCompleted: false }]);
   };
 
-  const setTodoComplete = (id) => {
-    const completeTodo = find(todos, { id });
+  const setTodoComplete = (key) => {
+    const completeTodo = find(todos, { key });
     completeTodo.isCompleted = true;
-    const restTodos = todos.filter((todo) => todo.id !== id);
+    const restTodos = todos.filter((todo) => todo.key !== key);
     setTodos([...restTodos, completeTodo]);
   };
 
-  const clearTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
+  const clearTodo = (key) => {
+    const newTodos = todos.filter((todo) => todo.key !== key);
     setTodos(newTodos);
   };
 

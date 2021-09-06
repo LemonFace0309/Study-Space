@@ -60,7 +60,7 @@ const TodoList = () => {
           <div className="max-h-80 overflow-y-auto">
             {incompleteTodos.map((todo) => (
               <div key={todo.key}>
-                <IconButton onClick={() => setTodoComplete(todo.id)} className="p-1">
+                <IconButton onClick={() => setTodoComplete(todo.key)} className="p-1">
                   <RadioButtonUnchecked fontSize="small" />
                 </IconButton>
                 <span>{todo.task}</span>
@@ -81,7 +81,7 @@ const TodoList = () => {
             <div className="max-h-40 overflow-y-auto">
               {completedTodos.map((todo) => (
                 <div key={todo.key}>
-                  <IconButton className="p-1" onClick={() => clearTodo(todo.id)}>
+                  <IconButton className="p-1" onClick={() => clearTodo(todo.key)}>
                     <Check fontSize="small" />
                   </IconButton>
                   <span className="line-through">{todo.task}</span>

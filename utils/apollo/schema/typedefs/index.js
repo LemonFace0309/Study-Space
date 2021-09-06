@@ -61,7 +61,7 @@ const typeDefs = gql`
   }
 
   type Todo {
-    _id: ID!
+    key: String!
     task: String!
     isCompleted: Boolean!
   }
