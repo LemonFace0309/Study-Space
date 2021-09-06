@@ -12,6 +12,9 @@ async function dbConnect() {
     useUnifiedTopology: true,
   });
 
+  // avoid using deprecated findAndModify function from MongoDB driver for mongoose findOneAndUpdate
+  mongoose.set('useFindAndModify', false);
+
   connection.isConnected = db.connections[0].readyState;
 }
 

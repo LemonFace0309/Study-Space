@@ -2,10 +2,11 @@ import { createContext, useContext, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
 import { find, filter } from 'lodash';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useMutation, gql } from '@apollo/client';
 
 import * as clientState from 'atoms/client';
+import getClient from '@/utils/getClient';
 
 const RoomContext = createContext();
 
@@ -29,20 +30,38 @@ const UPDATE_TODOS = gql`
 export const RoomProvider = ({ children }) => {
   const firstRender = useRef(true);
   const [todos, setTodos] = useState([]);
-  const client = useRecoilValue(clientState.client);
+  const [client, setClient] = useRecoilState(clientState.client);
   const [updateTodos] = useMutation(UPDATE_TODOS);
+
+  const setTodosFromClient = (client = client) => {
+    const clientTodos = client?.todos ?? [];
+    setTodos(
+      clientTodos.map((todo) => ({
+        key: todo?.key,
+        task: todo?.task,
+        isCompleted: todo?.isCompleted,
+      }))
+    );
+  };
+
+  const initClient = async () => {
+    try {
+      const newClient = await getClient();
+      if (newClient) {
+        setClient(newClient);
+        setTodosFromClient(newClient);
+      }
+    } catch (err) {
+      console.debug('Unable to initialize client:', client);
+    }
+  };
 
   useEffect(() => {
     let timeout;
-    if (firstRender.current && client?.todos) {
-      console.debug(client.todos);
-      setTodos(
-        client.todos.map((todo) => ({
-          key: todo?.key,
-          task: todo?.task,
-          isCompleted: todo?.isCompleted,
-        }))
-      );
+    if (firstRender.current && !client) {
+      initClient();
+    } else if (firstRender.current && client?.todos) {
+      setTodosFromClient();
     } else if (!firstRender.current && client?._id) {
       timeout = setTimeout(() => {
         const updateTodosInput = {

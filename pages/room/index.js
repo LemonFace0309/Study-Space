@@ -10,21 +10,8 @@ import { Button, Paper, Typography, TextField, CircularProgress } from '@materia
 import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
+import { GET_USER } from '@/utils/apollo/templates/User';
 import * as clientState from 'atoms/client';
-
-const GET_USER = gql`
-  query ($name: String!, $email: String!) {
-    user(name: $name, email: $email) {
-      _id
-      friends
-      todos {
-        key
-        task
-        isCompleted
-      }
-    }
-  }
-`;
 
 const CREATE_SPACE = gql`
   mutation CreateSpaceMutation($spaceInput: CreateSpaceInput!) {
@@ -35,7 +22,7 @@ const CREATE_SPACE = gql`
   }
 `;
 
-const CreateRoom = ({ newSession }) => {
+const CreateRoom = ({ session }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
@@ -47,9 +34,9 @@ const CreateRoom = ({ newSession }) => {
   const createNewSpace = async () => {
     setRoomIsLoading(true);
     const spaceId = uuid();
-    setClient(newSession);
+    setClient(session);
 
-    const clientId = newSession?._id;
+    const clientId = session?._id;
 
     const spaceInput = {
       name: 'Pair Programming Session',
@@ -99,7 +86,6 @@ const CreateRoom = ({ newSession }) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const { locale } = context;
   const session = await getSession(context);
   const { name, email } = session.user;
 
@@ -114,15 +100,15 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      newSession: JSON.parse(JSON.stringify(newSession)),
-      ...(await serverSideTranslations(locale, ['common'])),
+      session: JSON.parse(JSON.stringify(newSession)),
+      ...(await serverSideTranslations(context.locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
     },
   };
 };
 
 CreateRoom.propTypes = {
-  newSession: PropTypes.object.isRequired,
+  session: PropTypes.object.isRequired,
 };
 
 export default CreateRoom;
