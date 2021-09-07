@@ -33,7 +33,6 @@ export const SpotifyProvider = ({ children }) => {
   const [cafePlaylists, setCafePlaylists] = useState([]);
   const [studyPlaylists, setStudyPlaylists] = useState([]);
   const [pianoPlaylists, setPianoPlaylists] = useState([]);
-  const [play, setPlay] = useState(false);
   const [queue, setQueue] = useState([]);
   const [queueURIs, setQueueURIs] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(null);
@@ -123,8 +122,6 @@ export const SpotifyProvider = ({ children }) => {
     cafePlaylists,
     studyPlaylists,
     pianoPlaylists,
-    play,
-    setPlay,
     queue,
     setQueue,
     queueURIs,
@@ -134,14 +131,7 @@ export const SpotifyProvider = ({ children }) => {
     setNextTracks,
   };
 
-  return (
-    <SpotifyContext.Provider value={value}>
-      <div>
-        <Player />
-      </div>
-      {children}
-    </SpotifyContext.Provider>
-  );
+  return <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>;
 };
 
 SpotifyProvider.propTypes = {
