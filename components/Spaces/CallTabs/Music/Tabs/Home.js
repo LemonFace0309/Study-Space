@@ -3,8 +3,8 @@ import { shuffle } from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import parseTracks from 'utils/spotify/parseTracks';
-import { useSpotify } from '../SpotifyProvider';
+import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
+import parseTracks from '@/utils/spotify/parseTracks';
 import Playlist from '../Playlist';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,7 @@ const SpotifyHome = () => {
     cafePlaylists,
     studyPlaylists,
     pianoPlaylists,
-  } = useSpotify();
+  } = useSpotifyContext();
   const playLists = [
     { name: 'Your Playlists ✨', playlistObj: userPlaylists },
     { name: 'Focus 📜', playlistObj: focusPlaylists },

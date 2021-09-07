@@ -6,9 +6,9 @@ import Alert from '@material-ui/lab/Alert';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
-import parseTracks from 'utils/spotify/parseTracks';
+import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
+import parseTracks from '@/utils/spotify/parseTracks';
 import Track from '../Track';
-import { useSpotify } from '../SpotifyProvider';
 
 const useStyles = makeStyles((theme) => ({
   primaryText: {
@@ -32,7 +32,7 @@ const SearchSongs = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { accessToken, spotifyApi, setQueue, setOffset, currentTrack, setCurrentTrack, nextTracks, setNextTracks } =
-    useSpotify();
+    useSpotifyContext();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 

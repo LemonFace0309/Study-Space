@@ -11,7 +11,7 @@ import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
-import { RoomProvider } from '@/context/RoomContext';
+import { RoomProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';

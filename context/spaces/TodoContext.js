@@ -8,10 +8,10 @@ import { useMutation, gql } from '@apollo/client';
 import * as userState from 'atoms/user';
 import getUser from '@/utils/getUser';
 
-const RoomContext = createContext();
+const TodoContext = createContext();
 
-export const useRoomContext = () => {
-  return useContext(RoomContext);
+export const useTodoContext = () => {
+  return useContext(TodoContext);
 };
 
 const UPDATE_TODOS = gql`
@@ -27,7 +27,7 @@ const UPDATE_TODOS = gql`
   }
 `;
 
-export const RoomProvider = ({ children }) => {
+export const TodoProvider = ({ children }) => {
   const firstRender = useRef(true);
   const [todos, setTodos] = useState([]);
   const [user, setUser] = useRecoilState(userState.user);
@@ -117,9 +117,9 @@ export const RoomProvider = ({ children }) => {
     incompleteTodos,
   };
 
-  return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;
+  return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
 };
 
-RoomProvider.propTypes = {
+TodoProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

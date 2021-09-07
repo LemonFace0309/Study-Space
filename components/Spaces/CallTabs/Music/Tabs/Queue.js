@@ -3,8 +3,8 @@ import { uniqueId } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
 import Track from '../Track';
-import { useSpotify } from '../SpotifyProvider';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 const Queue = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { queue, setQueue, currentTrack, nextTracks, setNextTracks } = useSpotify();
+  const { queue, setQueue, currentTrack, nextTracks, setNextTracks } = useSpotifyContext();
 
   const playTrack = (track) => {
     let found = false;

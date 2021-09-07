@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, IconButton, Divider, TextField, Collapse, List, ListItem, ListItemText } from '@material-ui/core';
 import { Add, RadioButtonUnchecked, Check, ExpandLess, ExpandMore } from '@material-ui/icons';
 
-import { useRoomContext } from '@/context/RoomContext';
+import { useTodoContext } from '@/context/spaces/TodoContext';
 
 const useStyles = makeStyles((theme) => ({
   clearAll: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const TodoList = () => {
   const classes = useStyles();
   const { addTodo, setTodoComplete, clearTodo, clearCompletedTodos, completedTodos, incompleteTodos } =
-    useRoomContext();
+    useTodoContext();
   const [newTodo, setNewTodo] = useState('');
   const [open, setOpen] = useState(true);
 

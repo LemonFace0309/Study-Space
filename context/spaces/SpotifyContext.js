@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import SpotifyWebApi from 'spotify-web-api-node';
 import jwt from 'jsonwebtoken';
 
-import getCookie from 'utils/getCookie';
-import parsePlaylists from 'utils/spotify/parsePlaylists';
+import getCookie from '@/utils/getCookie';
+import parsePlaylists from '@/utils/spotify/parsePlaylists';
+import Player from '@/components/Spaces/CallTabs/Music/Player';
 
 const SpotifyContext = React.createContext();
 
@@ -12,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
   clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
 });
 
-export function useSpotify() {
+export function useSpotifyContext() {
   return useContext(SpotifyContext);
 }
 
@@ -21,7 +22,8 @@ export const ENUM_AUTHENTICATION = {
   AUTHENTICATED: 'AUTHENTICATED',
   NOT_AUTHENTICATED: 'NOT_AUTHENTICATED',
 };
-export function SpotifyProvider({ children }) {
+
+export const SpotifyProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(ENUM_AUTHENTICATION.LOADING);
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState(null);
@@ -31,6 +33,7 @@ export function SpotifyProvider({ children }) {
   const [cafePlaylists, setCafePlaylists] = useState([]);
   const [studyPlaylists, setStudyPlaylists] = useState([]);
   const [pianoPlaylists, setPianoPlaylists] = useState([]);
+  const [play, setPlay] = useState(false);
   const [queue, setQueue] = useState([]);
   const [queueURIs, setQueueURIs] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(null);
@@ -49,7 +52,7 @@ export function SpotifyProvider({ children }) {
   const initUser = async () => {
     try {
       const userData = await spotifyApi.getMe();
-      console.debug('Some information about the authenticated user', userData.body);
+      console.debug('Some information about the spotify user', userData.body);
       const username = userData.body.id;
       const playlistData = await spotifyApi.getUserPlaylists(username);
       setUser(userData.body);
@@ -120,6 +123,8 @@ export function SpotifyProvider({ children }) {
     cafePlaylists,
     studyPlaylists,
     pianoPlaylists,
+    play,
+    setPlay,
     queue,
     setQueue,
     queueURIs,
@@ -129,8 +134,15 @@ export function SpotifyProvider({ children }) {
     setNextTracks,
   };
 
-  return <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>;
-}
+  return (
+    <SpotifyContext.Provider value={value}>
+      <div>
+        <Player />
+      </div>
+      {children}
+    </SpotifyContext.Provider>
+  );
+};
 
 SpotifyProvider.propTypes = {
   children: PropTypes.node.isRequired,
