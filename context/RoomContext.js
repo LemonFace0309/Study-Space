@@ -33,8 +33,10 @@ export const RoomProvider = ({ children }) => {
   const [user, setUser] = useRecoilState(userState.user);
   const [updateTodos] = useMutation(UPDATE_TODOS);
 
-  const setTodosFromClient = (user = user) => {
-    const clientTodos = user?.todos ?? [];
+  console.debug(todos);
+  const setTodosFromClient = (u = user) => {
+    console.debug('USERRRRRRRRRRRRRRRRRRRRRR:', u);
+    const clientTodos = u?.todos ?? [];
     setTodos(
       clientTodos.map((todo) => ({
         key: todo?.key,
@@ -59,10 +61,13 @@ export const RoomProvider = ({ children }) => {
   useEffect(() => {
     let timeout;
     if (firstRender.current && !user) {
+      console.debug(1);
       initClient();
     } else if (firstRender.current && user?.todos) {
+      console.debug(2, user);
       setTodosFromClient();
     } else if (!firstRender.current && user?._id) {
+      console.debug(3);
       timeout = setTimeout(() => {
         const updateTodosInput = {
           userId: user._id,

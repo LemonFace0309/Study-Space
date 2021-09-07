@@ -13,9 +13,9 @@ const getUser = async () => {
       variables: { name, email },
     });
     if (result?.data) {
-      const enhancedSession = { ...userSession.user, ...result.data?.data?.user };
-      console.debug('Session:', enhancedSession);
-      return enhancedSession;
+      const user = { ...userSession.user, ...result.data?.data?.user };
+      console.debug('User:', user);
+      return user;
     }
   } catch (err) {
     console.debug(err);
