@@ -6,7 +6,7 @@ export const GET_USER = gql`
       _id
       friends
       todos {
-        key
+        _id
         task
         isCompleted
       }

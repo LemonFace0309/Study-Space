@@ -37,12 +37,13 @@ const CreateRoom = ({ user }) => {
     setUser(user);
 
     const spaceInput = {
+      // Sample data
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
-      // Sample data
       userId: user?._id,
       spaceId,
     };
+
     try {
       const result = await createSpace({ variables: { spaceInput } });
 

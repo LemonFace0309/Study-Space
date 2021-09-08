@@ -59,8 +59,8 @@ const TodoList = () => {
           </form>
           <div className="max-h-80 overflow-y-auto">
             {incompleteTodos.map((todo) => (
-              <div key={todo.key}>
-                <IconButton onClick={() => setTodoComplete(todo.key)} className="p-1">
+              <div key={todo._id}>
+                <IconButton onClick={() => setTodoComplete(todo._id)} className="p-1">
                   <RadioButtonUnchecked fontSize="small" />
                 </IconButton>
                 <span>{todo.task}</span>
@@ -80,8 +80,8 @@ const TodoList = () => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <div className="max-h-40 overflow-y-auto">
               {completedTodos.map((todo) => (
-                <div key={todo.key}>
-                  <IconButton className="p-1" onClick={() => clearTodo(todo.key)}>
+                <div key={todo._id}>
+                  <IconButton className="p-1" onClick={() => clearTodo(todo._id)}>
                     <Check fontSize="small" />
                   </IconButton>
                   <span className="line-through">{todo.task}</span>

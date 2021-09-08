@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const TodoSchema = mongoose.Schema({
-  key: {
+  _id: {
     type: String,
     required: true,
   },

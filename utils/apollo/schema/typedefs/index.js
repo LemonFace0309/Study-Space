@@ -40,14 +40,14 @@ const typeDefs = gql`
   }
 
   input TodoInput {
-    key: String!
+    _id: ID!
     task: String!
     isCompleted: Boolean!
   }
 
   type User {
-    friends: [ID]
     _id: ID
+    friends: [ID]
     name: String
     email: String
     username: String
@@ -61,7 +61,7 @@ const typeDefs = gql`
   }
 
   type Todo {
-    key: String!
+    _id: ID!
     task: String!
     isCompleted: Boolean!
   }
