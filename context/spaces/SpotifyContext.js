@@ -51,7 +51,7 @@ export const SpotifyProvider = ({ children }) => {
   const initUser = async () => {
     try {
       const userData = await spotifyApi.getMe();
-      console.debug('Some information about the spotify user', userData.body);
+      console.debug('Some information about the spotify user:', userData.body);
       const username = userData.body.id;
       const playlistData = await spotifyApi.getUserPlaylists(username);
       setUser(userData.body);
