@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import TodoSchema from './Todo';
+
 const UserSchema = mongoose.Schema(
   {
     name: {
@@ -24,6 +26,7 @@ const UserSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    todos: [TodoSchema],
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -4,10 +4,9 @@ import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
-import renderComponent from 'utils/renderComponent';
+import renderComponent from '@/utils/renderComponent';
 import TabPanelHeader from './Layout/TabPanelHeader';
 import Music from './Music';
-import { SpotifyProvider } from './Music/SpotifyProvider';
 import ChatPanel from './Chat';
 import People from './People';
 import TodoList from './TodoList';
@@ -34,8 +33,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       title: 'Music Library',
       icon: LibraryMusic,
-      panel: SpotifyProvider,
-      panelChild: Music,
+      panel: Music,
     },
     {
       title: 'Participants',

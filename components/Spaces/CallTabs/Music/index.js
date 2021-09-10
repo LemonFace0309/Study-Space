@@ -10,10 +10,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import renderComponent from 'utils/renderComponent';
-import getCookie from 'utils/getCookie';
-import * as spotifyState from 'atoms/spotify';
-import { useSpotify, ENUM_AUTHENTICATION } from './SpotifyProvider';
+import { useSpotifyContext, ENUM_AUTHENTICATION } from '@/context/spaces/SpotifyContext';
+import renderComponent from '@/utils/renderComponent';
+import getCookie from '@/utils/getCookie';
+import * as spotifyState from '@/atoms/spotify';
 import SpotifySignUpBlocker from './SpotifySignUpBlocker';
 import Player from './Player';
 import HomeTab from './Tabs/Home';
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Music = ({ tabs }) => {
   const classes = useStyles();
-  const { getAccessTokenFromCookies, authenticated } = useSpotify();
+  const { getAccessTokenFromCookies, authenticated } = useSpotifyContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
 

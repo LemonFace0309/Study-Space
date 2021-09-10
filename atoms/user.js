@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const client = atom({
-  key: 'client-client',
+export const user = atom({
+  key: 'user-user',
   default: null,
 });

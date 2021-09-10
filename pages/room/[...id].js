@@ -11,6 +11,7 @@ import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
+import { RoomProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
@@ -252,7 +253,7 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
   };
 
   return (
-    <>
+    <RoomProvider>
       <Grid container className="p-10 relative flex-row justify-between h-screen bg-gray-50">
         <CallOptions
           userAudioShow={userAudioShow}
@@ -281,7 +282,7 @@ const Room = ({ roomID, spotifyAuthURL, spotifyData }) => {
           spotifyAuthURL={spotifyAuthURL}
         />
       </Grid>
-    </>
+    </RoomProvider>
   );
 };
 

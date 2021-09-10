@@ -1,10 +1,8 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
-import dbConnect from '@/utils/dbConnect';
 
 const Query = {
   user: async (_, { email, name }) => {
-    await dbConnect();
     // Fetch only the single user by Name and Email
     let user;
     try {
@@ -17,8 +15,6 @@ const Query = {
     return user;
   },
   users: async (_, { userIds }) => {
-    await dbConnect();
-
     // Fetches users that have an id found in userIds
     const filter = {
       _id: {
@@ -36,10 +32,17 @@ const Query = {
 
     return users;
   },
-
+  todos: (parent, { userId }) => {
+    try {
+      const user = User.findById(userId);
+      if (!user) throw new Error('User not found');
+      return user?.todos;
+    } catch (err) {
+      console.debug(err);
+      throw new Error(err);
+    }
+  },
   spaces: async (_, { spaceIds }) => {
-    await dbConnect();
-
     // Fetch all spaces if an spaceIds is empty
     if (spaceIds?.length == 0) {
       console.debug('Fetching all spaces:');

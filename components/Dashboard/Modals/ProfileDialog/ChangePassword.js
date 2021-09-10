@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
+const ChangePassword = ({ user, editMode, saveChanges, setSaveChanges }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [serverError, setServerError] = useState(false);
@@ -43,7 +43,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
 
   const handleUpdatePassword = async () => {
     const jsonData = {
-      id: session?.user?._id,
+      id: user?._id,
       currentPassword,
       newPassword1,
       newPassword2,
@@ -66,7 +66,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
     }
   };
 
-  if (!session?.user.type || session?.user.type !== 'credentials') {
+  if (!user.type || user.type !== 'credentials') {
     return (
       <Typography variant="h6" className={classes.title}>
         {t('LABEL_ERROR_THIRD_PARTY_PASSWORD')}
@@ -134,9 +134,7 @@ const ChangePassword = ({ session, editMode, saveChanges, setSaveChanges }) => {
 };
 
 ChangePassword.propTypes = {
-  session: PropTypes.shape({
-    user: PropTypes.object.isRequired,
-  }).isRequired,
+  user: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired,
   saveChanges: PropTypes.bool.isRequired,
   setSaveChanges: PropTypes.func.isRequired,

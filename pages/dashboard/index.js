@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useQuery, gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
-import { useQuery, gql } from '@apollo/client';
 
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
@@ -22,7 +22,7 @@ import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
 import LineChart from 'components/Dashboard/Charts/LineChart';
 import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
 import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
-import * as clientState from 'atoms/client';
+import * as userState from 'atoms/user';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 
@@ -71,15 +71,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ session, friendData, spaceCardData }) => {
+const Dashboard = ({ user, friendData, spaceCardData }) => {
   const classes = useStyles();
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const setClient = useSetRecoilState(clientState.client);
+  const setUser = useSetRecoilState(userState.user);
 
   useEffect(() => {
-    setClient(session);
+    setUser(user);
   }, []);
 
   return (
@@ -144,7 +144,7 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
 
         {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
         <Grid item xs={1} md={1}>
-          {session && (
+          {user && (
             <Grid
               container
               item
@@ -161,19 +161,13 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
               <IconButton aria-label="friends">
                 <GroupIcon className={classes.settingsIcons} />
               </IconButton>
-              <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+              <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
             </Grid>
           )}
         </Grid>
       </Grid>
     </Grid>
   );
-};
-
-Dashboard.propTypes = {
-  session: PropTypes.object.isRequired,
-  friendData: PropTypes.array.isRequired,
-  spaceCardData: PropTypes.array.isRequired,
 };
 
 const redirectToHome = {
@@ -195,21 +189,18 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   const apolloClient = initializeApollo();
 
-  let newSession = {};
+  let user = {};
   try {
-    const {
-      data: { user },
-    } = await apolloClient.query({
+    const { data } = await apolloClient.query({
       query: GET_SESSION_USER,
-      variables: { name: name, email: email },
+      variables: { name, email },
     });
 
     // Add friend and id fields to user object
-    session.user = { ...session.user, ...user };
-    newSession = { ...session };
-    console.debug('newSession:', newSession);
-  } catch (error) {
-    console.warn('Log in first:', error);
+    user = { ...session.user, ...data.user };
+    console.debug('User:', user);
+  } catch (err) {
+    console.warn('Log in first:', err);
     return redirectToHome;
   }
 
@@ -223,7 +214,7 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
+      user: JSON.parse(JSON.stringify(user)), // otherwise nextjs throws error - can't serialize data
       spaceCardData: JSON.parse(JSON.stringify(spaces)),
       ...(await serverSideTranslations(locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
@@ -256,6 +247,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
       ],
     },
   };
+};
+
+Dashboard.propTypes = {
+  user: PropTypes.object.isRequired,
+  friendData: PropTypes.array.isRequired,
+  spaceCardData: PropTypes.array.isRequired,
 };
 
 export default Dashboard;

@@ -10,16 +10,8 @@ import { Button, Paper, Typography, TextField, CircularProgress } from '@materia
 import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';
-import * as clientState from 'atoms/client';
-
-const GET_USER = gql`
-  query ($name: String!, $email: String!) {
-    user(name: $name, email: $email) {
-      _id
-      friends
-    }
-  }
-`;
+import { GET_USER } from '@/utils/apollo/templates/User';
+import * as userState from 'atoms/user';
 
 const CREATE_SPACE = gql`
   mutation CreateSpaceMutation($spaceInput: CreateSpaceInput!) {
@@ -30,29 +22,28 @@ const CREATE_SPACE = gql`
   }
 `;
 
-const CreateRoom = ({ newSession }) => {
+const CreateRoom = ({ user }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [roomID, setRoomID] = useState('');
   const [roomIsLoading, setRoomIsLoading] = useState(false);
-  const setClient = useSetRecoilState(clientState.client);
+  const setUser = useSetRecoilState(userState.user);
 
   const [createSpace] = useMutation(CREATE_SPACE);
 
   const createNewSpace = async () => {
     setRoomIsLoading(true);
     const spaceId = uuid();
-    setClient(newSession);
-
-    const clientId = newSession?._id;
+    setUser(user);
 
     const spaceInput = {
+      // Sample data
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
-      // Sample data
-      userId: clientId,
+      userId: user?._id,
       spaceId,
     };
+
     try {
       const result = await createSpace({ variables: { spaceInput } });
 
@@ -94,7 +85,6 @@ const CreateRoom = ({ newSession }) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const { locale } = context;
   const session = await getSession(context);
   const { name, email } = session.user;
 
@@ -104,20 +94,20 @@ export const getServerSideProps = async (context) => {
     variables: { name, email },
   });
 
-  const newSession = { ...session, ...data.user };
-  console.debug('Session:', newSession);
+  const user = { ...session.user, ...data.user };
+  console.debug('User:', user);
 
   return {
     props: {
-      newSession: JSON.parse(JSON.stringify(newSession)),
-      ...(await serverSideTranslations(locale, ['common'])),
+      user: JSON.parse(JSON.stringify(user)),
+      ...(await serverSideTranslations(context.locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
     },
   };
 };
 
 CreateRoom.propTypes = {
-  newSession: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default CreateRoom;

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
-import { useSpotify } from './SpotifyProvider';
+import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
 
 const Player = () => {
-  const { accessToken, queue, queueURIs, setCurrentTrack, setNextTracks } = useSpotify();
+  const { accessToken, queue, queueURIs, setCurrentTrack, setNextTracks } = useSpotifyContext();
   const [play, setPlay] = useState(false);
 
   useEffect(() => setPlay(true), [queueURIs]);

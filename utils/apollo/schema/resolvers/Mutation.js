@@ -1,5 +1,6 @@
 import User from 'models/User';
 import Space from 'models/Spaces';
+
 const Mutation = {
   createSpace: async (_, { input }) => {
     const { name, description, clientId, spaceId } = input;
@@ -66,6 +67,17 @@ const Mutation = {
       console.debug('Cannot upload new space to database: ', err);
     }
     return space;
+  },
+  updateTodos: async (_, { input }) => {
+    const { userId, todos } = input;
+
+    try {
+      const user = User.findOneAndUpdate({ _id: userId }, { $set: { todos } }, { new: true });
+      return user;
+    } catch (err) {
+      console.debug(err);
+      throw new Error(err);
+    }
   },
 };
 export default Mutation;
