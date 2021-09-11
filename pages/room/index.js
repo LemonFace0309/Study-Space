@@ -86,7 +86,7 @@ const CreateRoom = ({ user }) => {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  const { name, email } = session.user;
+  const { name, email } = session?.user;
 
   const apolloClient = initializeApollo();
   const { data } = await apolloClient.query({
