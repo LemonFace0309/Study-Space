@@ -272,13 +272,13 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
                         </TabList>
                       </Grid>
                       <Hidden mdUp>
-                        <Grid container direction="column" justify="middle">
+                        <Grid container direction="column" justifyContent="middle">
                           {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
                       <Hidden smDown>
-                        <Grid container direction="column" alignItems="baseline" justify="flex-end">
+                        <Grid container direction="column" alignItems="baseline" justifyContent="flex-end">
                           {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
@@ -288,7 +288,7 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
                 ) : (
                   /* GREY AREA */
                   <Grid container item direction="row" xs={12} className="p-4">
-                    <Grid container direction="row" alignItems="center" justify="flex-start">
+                    <Grid container direction="row" alignItems="center" justifyContent="flex-start">
                       <Hidden mdUp>
                         <Grid item xs={3}>
                           <ArrowBackIosIcon onClick={toggleSettings}></ArrowBackIosIcon>
@@ -315,7 +315,7 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
               </TabPanel>
             ))}
             {!showSettings && (
-              <Grid container item justify="flex-end" className="p-4">
+              <Grid container item justifyContent="flex-end" className="p-4">
                 <Button
                   variant="contained"
                   color="primary"
