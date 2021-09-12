@@ -4,11 +4,13 @@ import { useRecoilState } from 'recoil';
 
 import * as userState from 'atoms/user';
 import getUser from '@/utils/getUser';
+import { useSocketContext, SocketProvider } from './SocketContext';
 import { useTodoContext, TodoProvider } from './TodoContext';
 import { useSpotifyContext, SpotifyProvider } from './SpotifyContext';
 
 export const useRoomContext = () => {
   return {
+    ...useSocketContext(),
     ...useTodoContext(),
     ...useSpotifyContext(),
   };
@@ -35,9 +37,11 @@ export const RoomProvider = ({ children }) => {
   }, []);
 
   return (
-    <TodoProvider>
-      <SpotifyProvider>{children}</SpotifyProvider>
-    </TodoProvider>
+    <SocketProvider>
+      <TodoProvider>
+        <SpotifyProvider>{children}</SpotifyProvider>
+      </TodoProvider>
+    </SocketProvider>
   );
 };
 
