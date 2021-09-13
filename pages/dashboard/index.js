@@ -69,6 +69,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     color: theme.palette.primary.main,
   },
+  row: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  sidebarContainer: {
+    width: '20rem',
+  },
+  mainContainer: {
+    flex: '80%',
+  },
+  rightSidebarContainer: {
+    width: '2rem',
+  },
 }));
 
 const Dashboard = ({ user, friendData, spaceCardData }) => {
@@ -83,13 +96,13 @@ const Dashboard = ({ user, friendData, spaceCardData }) => {
   }, []);
 
   return (
-    <Grid container direction="row" className={classes.dashboardBackground}>
-      {/* Fab Drawer on Smaller Screens */}
-      <Hidden mdUp>
-        <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
-          <MenuIcon />
-        </Fab>
-        <Grid item xs={1}>
+    <div className={classes.dashboardBackground}>
+      <div className="row">
+        {/* Fab Drawer on Smaller Screens */}
+        <Hidden mdUp>
+          <Fab onClick={() => setOpen(!open)} color="primary" className="fixed bottom-4 right-4 z-40">
+            <MenuIcon />
+          </Fab>
           <Drawer anchor="left" open={open} onClose={() => setOpen(false)} classes={{ paper: classes.fabDrawer }}>
             <Sidebar
               open={open}
@@ -99,56 +112,58 @@ const Dashboard = ({ user, friendData, spaceCardData }) => {
               isSmallScreen={true}
             />
           </Drawer>
-        </Grid>
-      </Hidden>
+        </Hidden>
 
-      {/* Collapsable Drawer on Medium and Up */}
-      <Hidden smDown>
-        <Grid item md={open ? 2 : 1}>
-          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-            <Sidebar
-              open={open}
-              onClose={() => setOpen(false)}
-              onOpen={() => setOpen(true)}
-              friendData={friendData}
-              isSmallScreen={false}
-            />
-          </CollapsableDrawer>
-        </Grid>
-      </Hidden>
-
-      {/* Dashboard Body */}
-      <Grid item xs={12} md={open ? 10 : 11} container direction="row">
-        <Grid container item xs={11} direction="row" justifyContent="center">
-          <Grid item xs={12} className="mb-4">
-            <DashboardContainer spaceCardData={spaceCardData} />
-          </Grid>
-          <Grid item container spacing={2} className="mt-2">
-            <Grid item xs={12} md={6}>
-              <ChartCard
-                title={peakStudyTimes.title}
-                date={peakStudyTimes.date}
-                chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
+        {/* Collapsable Drawer on Medium and Up Grid item md={open ? 2 : 1}*/}
+        <Hidden smDown>
+          <div className="sidebarContainer">
+            <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+              <Sidebar
+                open={open}
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                friendData={friendData}
+                isSmallScreen={false}
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <ChartCard
-                title={studyTimes.title}
-                date={studyTimes.date}
-                chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
-              />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} className="h-4" />
-        </Grid>
+            </CollapsableDrawer>
+          </div>
+        </Hidden>
 
-        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
-        <Grid item xs={1} md={1}>
+        {/* Dashboard Body 
+        Grid item xs={12} md={open ? 10 : 12} container direction="row"
+        */}
+        <div className="mainContainer">
+          <Grid container direction="row" justifyContent="center">
+            <Grid item xs={12} className="mb-4">
+              <DashboardContainer spaceCardData={spaceCardData} />
+            </Grid>
+            <Grid container spacing={2} className="mt-2">
+              <Grid item xs={12} md={6}>
+                <ChartCard
+                  title={peakStudyTimes.title}
+                  date={peakStudyTimes.date}
+                  chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <ChartCard
+                  title={studyTimes.title}
+                  date={studyTimes.date}
+                  chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} className="h-4" />
+          </Grid>
+        </div>
+
+        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO
+        <Grid item xs={1} md>
+        */}
+        <div className="rightSidebarContainer">
           {user && (
             <Grid
               container
-              item
-              xs={12}
               direction="column"
               alignItems="center"
               className={classNames(['rounded-br-2xl', classes.rightSettingsBar])}>
@@ -164,9 +179,9 @@ const Dashboard = ({ user, friendData, spaceCardData }) => {
               <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
             </Grid>
           )}
-        </Grid>
-      </Grid>
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 };
 
