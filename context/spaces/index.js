@@ -21,21 +21,21 @@ export const RoomProvider = ({ children }) => {
   const [user, setUser] = useRecoilState(userState.user);
 
   const initUser = async () => {
-    try {
-      const newUser = await getUser();
-      if (newUser) {
-        setUser(newUser);
+    if (!user) {
+      try {
+        const newUser = await getUser();
+        if (newUser) {
+          setUser(newUser);
+        }
+      } catch (err) {
+        console.debug('Unable to initialize user:', user);
       }
-    } catch (err) {
-      console.debug('Unable to initialize user:', user);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (!user) {
-      initUser();
-    }
+    initUser();
   }, []);
 
   return (

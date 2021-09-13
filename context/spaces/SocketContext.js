@@ -151,9 +151,12 @@ export const SocketProvider = ({ loading, children }) => {
     });
   };
 
+  // ensures initRoom only runs once
+  const roomInitialized = useRef(false);
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !roomInitialized.current) {
       initRoom();
+      roomInitialized.current = true;
     }
   }, [loading]);
 
