@@ -94,9 +94,10 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
 
   const joinSpace = async () => {
     // Add client to participant list
+    console.debug('clien from joinSpace:', client);
     setRoomIsLoading(true);
     const addUserToSpaceInput = {
-      userId: client?.user?._id ?? '',
+      userId: client?._id ?? '',
       spaceId,
     };
     try {

@@ -3,8 +3,9 @@ import { getSession } from 'next-auth/client';
 import { GET_USER } from '@/utils/apollo/templates/User';
 import { initializeApollo } from '@/utils/apollo/client';
 
-const getUser = async () => {
-  const userSession = await getSession();
+const getUser = async (req) => {
+  // req has to be in an object for getSession to work
+  const userSession = await getSession({ req });
   if (!userSession) return;
   const { name, email } = userSession.user;
   try {
