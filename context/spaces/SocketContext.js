@@ -17,7 +17,7 @@ export const useSocketContext = () => {
   return useContext(SocketContext);
 };
 
-export const SocketProvider = ({ children }) => {
+export const SocketProvider = ({ loading, children }) => {
   const router = useRouter();
   const user = useRecoilValue(userState.user);
   const socketRef = useRef();
@@ -152,8 +152,10 @@ export const SocketProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    initRoom();
-  }, [user]);
+    if (!loading) {
+      initRoom();
+    }
+  }, [loading]);
 
   const createPeer = (userToSignal, username, callerID, stream) => {
     const peer = new Peer({
@@ -227,5 +229,6 @@ export const SocketProvider = ({ children }) => {
 };
 
 SocketProvider.propTypes = {
+  loading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
