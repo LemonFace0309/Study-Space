@@ -96,7 +96,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
     // Add client to participant list
     setRoomIsLoading(true);
     const addUserToSpaceInput = {
-      userId: client?.user?._id ?? '',
+      userId: client?._id ?? '',
       spaceId,
     };
     try {
