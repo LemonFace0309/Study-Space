@@ -179,9 +179,7 @@ const redirectToHome = {
 };
 
 export const getServerSideProps = async ({ req, res, locale }) => {
-  // getSession seems to only take in the entire context, so can't destructure {req, locale}
   const user = await getUser(req);
-  console.debug('Getting user with getUser({req}):', user);
   if (!user) {
     console.debug('Log in first!');
     return redirectToHome;

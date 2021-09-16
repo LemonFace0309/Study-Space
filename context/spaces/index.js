@@ -20,6 +20,7 @@ export const RoomProvider = ({ children }) => {
   const initUser = async () => {
     try {
       const newClient = await getUser();
+      console.debug('newClient from context/spaces:', newClient);
       if (newClient) {
         setUser(newClient);
       }

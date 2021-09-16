@@ -4,8 +4,8 @@ import { GET_USER } from '@/utils/apollo/templates/User';
 import { initializeApollo } from '@/utils/apollo/client';
 
 const getUser = async (req) => {
-  // req has to be in an object for getSession to work
   const userSession = await getSession({ req });
+  console.debug('userSession in getUser:', userSession);
   if (!userSession) return;
   const { name, email } = userSession.user;
   try {
