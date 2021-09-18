@@ -61,8 +61,8 @@ export const SocketProvider = ({ loading, children }) => {
     /**
      * Notifiy users in the room that this new user joined
      */
-    const roomID = router.query.id[0];
-    socketRef.current.emit('join room', { roomID, username: currentUsername });
+    const roomId = router.query.id[0];
+    socketRef.current.emit('join room', { roomId, userId: user?._id, username: currentUsername });
 
     /**
      * Get information of all users in the room and add them as peers
@@ -132,12 +132,12 @@ export const SocketProvider = ({ loading, children }) => {
     /**
      * Remove user as a peer and participant when disconnected
      */
-    socketRef.current.on('user disconnect', (payload) => {
+    socketRef.current.on('user disconnect', ({ users }) => {
       let usersPeerID = [];
       let participantNames = [];
-      if (payload.users) {
-        usersPeerID = payload.users.map((user) => user.socketID);
-        participantNames = payload.users.map((user) => user.username);
+      if (users) {
+        usersPeerID = users.map((user) => user.socketID);
+        participantNames = users.map((user) => user.username);
       }
       if (usersPeerID.length > 0) {
         peersRef.current.forEach((peerRef, index) => {

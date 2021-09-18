@@ -21,21 +21,21 @@ import {
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
-import * as userState from 'atoms/user';
+// import * as userState from 'atoms/user';
 
-const ADD_USER_TO_SPACE = gql`
-  mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
-    addUserToSpace(input: $addUserToSpaceInput) {
-      participants {
-        _id
-        name
-        image
-      }
-      name
-      spaceId
-    }
-  }
-`;
+// const ADD_USER_TO_SPACE = gql`
+//   mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
+//     addUserToSpace(input: $addUserToSpaceInput) {
+//       participants {
+//         _id
+//         name
+//         image
+//       }
+//       name
+//       spaceId
+//     }
+//   }
+// `;
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -88,24 +88,26 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const client = useRecoilValue(userState.user);
+  // const client = useRecoilValue(userState.user);
   const [roomIsLoading, setRoomIsLoading] = useState(false);
-  const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
+  // const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
 
   const joinSpace = async () => {
-    // Add client to participant list
-    setRoomIsLoading(true);
-    const addUserToSpaceInput = {
-      userId: client?._id ?? '',
-      spaceId,
-    };
-    try {
-      const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
-      console.debug('Joining Space:', result);
-      router.push(`/room/${spaceId}`);
-    } catch (err) {
-      console.warn('Unable to join space:', err);
-    }
+    // // Add client to participant list
+    // setRoomIsLoading(true);
+    // const addUserToSpaceInput = {
+    //   userId: client?._id ?? '',
+    //   username: client?.name,
+    //   spaceId,
+    // };
+    // try {
+    //   const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
+    //   console.debug('Joining Space:', result);
+    //   router.push(`/room/${spaceId}`);
+    // } catch (err) {
+    //   console.warn('Unable to join space:', err);
+    // }
+    router.push(`/room/${spaceId}`);
   };
 
   return (

@@ -18,7 +18,7 @@ const People = ({ participants, username }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const router = useRouter();
-  const roomID = router.query;
+  const roomId = router.query;
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -44,9 +44,9 @@ const People = ({ participants, username }) => {
             component="h1"
             style={{ color: '#4E3276', textAlign: 'center' }}
             className="font-bold">
-            {roomID.id}
+            {roomId.id}
           </Typography>
-          <CopyToClipboard text={roomID.id}>
+          <CopyToClipboard text={roomId.id}>
             <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
               {t('LABEL_COPY_ROOM_ID')}
             </Button>

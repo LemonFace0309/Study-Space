@@ -21,6 +21,7 @@ const typeDefs = gql`
     name: String!
     description: String!
     userId: ID!
+    username: String!
     spaceId: ID!
   }
 
@@ -32,6 +33,7 @@ const typeDefs = gql`
   input AddUserToSpaceInput {
     spaceId: ID!
     userId: ID!
+    username: String!
   }
 
   input UpdateTodosInput {
@@ -82,13 +84,19 @@ const typeDefs = gql`
     updatedAt: String
   }
 
+  type Participant {
+    username: String!
+    userId: ID
+  }
+
   type Space {
     name: String
     description: String
     spaceId: ID!
     isActive: Boolean!
     music: String
-    participants: [User!]
+    admin: Participant
+    participants: [Participant!]
     createdAt: String!
     updatedAt: String!
   }

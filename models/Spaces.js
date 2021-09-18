@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import ParticipantSchema from './Participant';
+
 const SpaceSchema = mongoose.Schema(
   {
     name: {
@@ -24,7 +26,11 @@ const SpaceSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    admin: {
+      type: ParticipantSchema,
+      required: true,
+    },
+    participants: [ParticipantSchema],
   },
   {
     timestamps: true,

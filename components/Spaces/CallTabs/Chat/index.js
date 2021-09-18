@@ -5,14 +5,14 @@ import SendIcon from '@material-ui/icons/Send';
 
 import Conversation from './Conversation';
 
-const Chat = ({ conversation, socketRef, roomID, username }) => {
+const Chat = ({ conversation, socketRef, roomId, username }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
     socketRef.current.emit('send message', {
-      roomID,
+      roomId,
       message: text,
       username,
     });
@@ -55,7 +55,7 @@ const Chat = ({ conversation, socketRef, roomID, username }) => {
 Chat.propTypes = {
   username: PropTypes.string,
   conversation: PropTypes.array.isRequired,
-  roomID: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired,
   socketRef: PropTypes.object.isRequired,
 };
 
