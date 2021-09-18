@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
-import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,24 +26,17 @@ import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
 import getUser from '@/utils/getUser';
 
-const GET_SESSION_USER = gql`
-  query ($name: String!, $email: String!) {
-    user(name: $name, email: $email) {
-      _id
-      friends
-    }
-  }
-`;
 const GET_SPACES = gql`
   query Query($spacesSpaceIds: [ID]) {
     spaces(spaceIds: $spacesSpaceIds) {
       name
-      participants {
-        _id
-        name
-        email
+      hosts {
+        userId
         username
-        image
+      }
+      participants {
+        userId
+        username
       }
       description
       spaceId
@@ -72,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ user, friendData, spaceCardData }) => {
+const Dashboard = ({ user, friendData, spaces }) => {
   const classes = useStyles();
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
@@ -122,7 +114,7 @@ const Dashboard = ({ user, friendData, spaceCardData }) => {
       <Grid item xs={12} md={open ? 10 : 11} container direction="row">
         <Grid container item xs={11} direction="row" justifyContent="center">
           <Grid item xs={12} className="mb-4">
-            <DashboardContainer spaceCardData={spaceCardData} />
+            <DashboardContainer spaces={spaces} />
           </Grid>
           <Grid item container spacing={2} className="mt-2">
             <Grid item xs={12} md={6}>
@@ -197,7 +189,7 @@ export const getServerSideProps = async ({ req, res, locale }) => {
   return {
     props: {
       user: JSON.parse(JSON.stringify(user)), // otherwise nextjs throws error - can't serialize data
-      spaceCardData: JSON.parse(JSON.stringify(spaces)),
+      spaces: JSON.parse(JSON.stringify(spaces)),
       ...(await serverSideTranslations(locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
       friendData: [
@@ -234,7 +226,7 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 Dashboard.propTypes = {
   user: PropTypes.object.isRequired,
   friendData: PropTypes.array.isRequired,
-  spaceCardData: PropTypes.array.isRequired,
+  spaces: PropTypes.array.isRequired,
 };
 
 export default Dashboard;

@@ -43,9 +43,9 @@ SpacePackage.propTypes = {
     music: PropTypes.string,
   }),
   spaceCardModalData: PropTypes.shape({
+    hosts: PropTypes.array,
     friends: PropTypes.array,
     participants: PropTypes.array,
-    hosts: PropTypes.array,
     spaceId: PropTypes.string.isRequired,
   }),
 };

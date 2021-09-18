@@ -5,7 +5,6 @@ import { initializeApollo } from '@/utils/apollo/client';
 
 const getUser = async (req) => {
   const userSession = await getSession({ req });
-  console.debug('userSession in getUser:', userSession);
   if (!userSession) return;
   const { name, email } = userSession.user;
   try {

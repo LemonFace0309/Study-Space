@@ -1,8 +1,5 @@
-import { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import { useMutation, useQuery, gql } from '@apollo/client';
-import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
 import uniqueId from 'lodash/uniqueId';
 import {
@@ -16,26 +13,9 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  CircularProgress,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
-// import * as userState from 'atoms/user';
-
-// const ADD_USER_TO_SPACE = gql`
-//   mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
-//     addUserToSpace(input: $addUserToSpaceInput) {
-//       participants {
-//         _id
-//         name
-//         image
-//       }
-//       name
-//       spaceId
-//     }
-//   }
-// `;
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -57,7 +37,7 @@ const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={uniqueId()}>
+        <ListItem key={user.userId}>
           <ListItemAvatar>
             <Avatar alt="profile image" src={user?.image}></Avatar>
           </ListItemAvatar>
@@ -65,7 +45,7 @@ const UserList = ({ users }) => {
             disableTypography
             primary={
               <Typography variant="body1" color="textPrimary">
-                {user?.name}
+                {user?.username}
               </Typography>
             }
             secondary={
@@ -79,6 +59,7 @@ const UserList = ({ users }) => {
     </List>
   );
 };
+
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
@@ -88,25 +69,9 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  // const client = useRecoilValue(userState.user);
-  const [roomIsLoading, setRoomIsLoading] = useState(false);
-  // const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
+  console.debug(hosts);
 
   const joinSpace = async () => {
-    // // Add client to participant list
-    // setRoomIsLoading(true);
-    // const addUserToSpaceInput = {
-    //   userId: client?._id ?? '',
-    //   username: client?.name,
-    //   spaceId,
-    // };
-    // try {
-    //   const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
-    //   console.debug('Joining Space:', result);
-    //   router.push(`/room/${spaceId}`);
-    // } catch (err) {
-    //   console.warn('Unable to join space:', err);
-    // }
     router.push(`/room/${spaceId}`);
   };
 
@@ -148,7 +113,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 startIcon={<ArrowForwardIcon />}
                 onClick={joinSpace}>
                 {t('LABEL_JOIN_SPACE')}
-                {roomIsLoading && <CircularProgress className="ml-2" />}
               </Button>
             </Box>
           </Grid>

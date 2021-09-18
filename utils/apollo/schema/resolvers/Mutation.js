@@ -10,7 +10,7 @@ const Mutation = {
       const space = new Space({
         name,
         description,
-        admin: { userId, username },
+        hosts: [{ userId, username }],
         participants: [],
         spaceId,
         isActive: true,

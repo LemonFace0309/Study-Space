@@ -5,7 +5,7 @@ import { Card, Container, Box, Grid, Typography, useTheme } from '@material-ui/c
 import DashboardCard from './Cards/DashboardCard';
 import SpacePackage from './Cards/SpacePackage';
 
-const DashboardContainer = ({ spaceCardData }) => {
+const DashboardContainer = ({ spaces }) => {
   const theme = useTheme();
 
   return (
@@ -46,12 +46,12 @@ const DashboardContainer = ({ spaceCardData }) => {
               />
             </Grid>
             {/* Space Card Section */}
-            {spaceCardData.map(({ name, description, participants, music, spaceId }) => {
+            {spaces.map(({ name, description, participants, hosts, music, spaceId }) => {
               return (
                 <Grid item key={uniqueId(name)} xs={12} sm={6} md={4}>
                   <SpacePackage
                     spaceCardData={{ name, description, headCount: participants?.length, music }}
-                    spaceCardModalData={{ friends: [], participants, hosts: [], spaceId }}
+                    spaceCardModalData={{ friends: [], participants, hosts, spaceId }}
                   />
                 </Grid>
               );
@@ -64,6 +64,6 @@ const DashboardContainer = ({ spaceCardData }) => {
 };
 
 DashboardContainer.propTypes = {
-  spaceCardData: PropTypes.array.isRequired,
+  spaces: PropTypes.array.isRequired,
 };
 export default DashboardContainer;

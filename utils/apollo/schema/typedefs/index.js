@@ -5,7 +5,7 @@ const typeDefs = gql`
     user(name: String!, email: String!): User
     users(userIds: [ID]): [User]
     todos(userId: [ID]!): [Todo!]!
-    spaces(spaceIds: [ID]): [Space]
+    spaces(spaceIds: [ID]): [Space!]!
   }
 
   type Mutation {
@@ -90,12 +90,12 @@ const typeDefs = gql`
   }
 
   type Space {
-    name: String
+    name: String!
     description: String
     spaceId: ID!
     isActive: Boolean!
     music: String
-    admin: Participant
+    hosts: [Participant!]!
     participants: [Participant!]
     createdAt: String!
     updatedAt: String!

@@ -7,7 +7,6 @@ const Query = {
     let user;
     try {
       user = await User.findOne({ name, email });
-      console.debug('Fetching session user with user resolver:', user);
     } catch (err) {
       console.warn('Cannot fetch user:', err);
     }
@@ -45,10 +44,7 @@ const Query = {
   spaces: async (_, { spaceIds }) => {
     // Fetch all spaces if an spaceIds is empty
     if (spaceIds?.length == 0) {
-      console.debug('Fetching all spaces:');
-      // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
-      // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
-      const spaces = await Space.find({}).populate('participants').exec();
+      const spaces = await Space.find({});
       return spaces;
     }
 
@@ -61,12 +57,10 @@ const Query = {
 
     let spaces = {};
     try {
-      // populate('participants') fetches the corresponding User object for each object ID in the Space's participants attribute.
-      // Mongoose queries are not Promises by default. exec() turns the query into a Promise so we can use async/await after calling populate()
-      spaces = await Space.find(filter).populate('participants').exec();
-      console.debug('Fetching spaces with specified spaceIds', spaces);
+      spaces = await Space.find(filter);
+      console.debug('Retrieved spaces with specified spaceIds', spaces);
     } catch (err) {
-      console.debug(err);
+      console.warn('Unable to retrieve spaces:', err);
     }
     return spaces;
   },

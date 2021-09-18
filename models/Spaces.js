@@ -26,8 +26,8 @@ const SpaceSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    admin: {
-      type: ParticipantSchema,
+    hosts: {
+      type: [ParticipantSchema],
       required: true,
     },
     participants: [ParticipantSchema],
