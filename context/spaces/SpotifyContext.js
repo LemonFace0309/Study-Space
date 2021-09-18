@@ -16,9 +16,9 @@ const spotifyApi = new SpotifyWebApi({
   clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
 });
 
-export function useSpotifyContext() {
+export const useSpotifyContext = () => {
   return useContext(SpotifyContext);
-}
+};
 
 export const ENUM_AUTHENTICATION = {
   LOADING: 'LOADING',
@@ -77,27 +77,30 @@ export const SpotifyProvider = ({ children }) => {
   ];
 
   const initRecommendedPlaylists = () => {
+    let promisesArr = [];
     for (const fetchObj of fetchPlaylists) {
       if (fetchObj.category) {
-        spotifyApi
-          .getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit })
-          .then((data) => {
-            fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
-          })
-          .catch((err) => {
-            console.debug('Unable to fetch playlists:', err);
-          });
+        promisesArr.push(spotifyApi.getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit }));
+        // spotifyApi
+        //   .getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit })
+        //   .then((data) => {
+        //     fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
+        //   })
+        //   .catch((err) => {
+        //     console.debug('Unable to fetch playlists:', err);
+        //   });
       } else if (fetchObj.search) {
-        spotifyApi
-          .searchPlaylists(fetchObj.search, { limit: fetchObj.limit })
-          .then((data) => {
-            fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
-          })
-          .catch((err) => {
-            console.debug('Unable to fetch playlists:', err);
-          });
+        promisesArr.push(spotifyApi.searchPlaylists(fetchObj.search, { limit: fetchObj.limit }));
       }
     }
+    Promise.all(promisesArr)
+      .then((dataArr) => {
+        console.debug('Data array:', dataArr);
+        dataArr.map((data, index) =>
+          fetchPlaylists[index].setState(() => parsePlaylists(data?.body?.playlists?.items))
+        );
+      })
+      .catch((err) => console.debug('Unable to fetch playlists:', err));
   };
 
   useEffect(() => {
