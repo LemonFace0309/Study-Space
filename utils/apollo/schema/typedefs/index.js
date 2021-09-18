@@ -87,6 +87,8 @@ const typeDefs = gql`
   type Participant {
     username: String!
     userId: ID
+    image: String
+    status: String
   }
 
   type Space {

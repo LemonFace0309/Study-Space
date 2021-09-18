@@ -2,10 +2,13 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SpotifyWebApi from 'spotify-web-api-node';
 import jwt from 'jsonwebtoken';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { differenceInMilliseconds, addMilliseconds } from 'date-fns';
 
+import * as spotifyState from '@/atoms/spotify';
 import getCookie from '@/utils/getCookie';
 import parsePlaylists from '@/utils/spotify/parsePlaylists';
-import Player from '@/components/Spaces/CallTabs/Music/Player';
 
 const SpotifyContext = React.createContext();
 
@@ -24,6 +27,7 @@ export const ENUM_AUTHENTICATION = {
 };
 
 export const SpotifyProvider = ({ children }) => {
+  const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
   const [authenticated, setAuthenticated] = useState(ENUM_AUTHENTICATION.LOADING);
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState(null);
@@ -59,7 +63,7 @@ export const SpotifyProvider = ({ children }) => {
       const rawPlaylists = playlistData.body.items;
       setUserPlaylists(() => parsePlaylists(rawPlaylists));
     } catch (err) {
-      console.debug('Something went wrong fetching your Spotify Information!', err);
+      console.debug('Something went wrong fetching your Spotify Information:', err);
       setAuthenticated(ENUM_AUTHENTICATION.NOT_AUTHENTICATED);
     }
   };
@@ -81,7 +85,7 @@ export const SpotifyProvider = ({ children }) => {
             fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
           })
           .catch((err) => {
-            console.debug('Something went wrong!', err);
+            console.debug('Unable to fetch playlists:', err);
           });
       } else if (fetchObj.search) {
         spotifyApi
@@ -90,7 +94,7 @@ export const SpotifyProvider = ({ children }) => {
             fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
           })
           .catch((err) => {
-            console.debug('Something went wrong!', err);
+            console.debug('Unable to fetch playlists:', err);
           });
       }
     }
@@ -109,6 +113,36 @@ export const SpotifyProvider = ({ children }) => {
   useEffect(() => {
     setQueueURIs(queue.map((track) => track?.uri ?? ''));
   }, [queue]);
+
+  useEffect(() => {
+    const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
+    if (!spotifySessionJWT) return;
+    const spotifySession = jwt.decode(spotifySessionJWT);
+    if (!spotifySession) return;
+    let timeoutDuration = 100; // set to 100 for instance refresh if recoil state is not set
+    if (spotifyRefresh?.refreshDate) {
+      const curDate = new Date();
+      const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
+      timeoutDuration = timeToRefresh;
+    }
+    const timeout = setTimeout(() => {
+      if (!spotifySession?.refreshToken) return;
+      axios
+        .post('/api/spotify/refresh-token', { refreshToken: spotifySession.refreshToken })
+        .then((res) => {
+          const expiresIn = res.data.data.expiresIn * 1000;
+          const date = new Date();
+          const expireDate = addMilliseconds(date, expiresIn);
+          const refreshDate = addMilliseconds(date, expiresIn / 4);
+          setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
+          console.debug('Successfully refreshed spotify token:', res.data);
+          getAccessTokenFromCookies();
+        })
+        .catch((err) => console.debug(err));
+    }, timeoutDuration);
+
+    return () => clearTimeout(timeout);
+  }, [spotifyRefresh]);
 
   const value = {
     authenticated,
