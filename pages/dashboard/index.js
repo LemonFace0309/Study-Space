@@ -25,6 +25,7 @@ import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
 import * as userState from 'atoms/user';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
+import getUser from '@/utils/getUser';
 
 const GET_SESSION_USER = gql`
   query ($name: String!, $email: String!) {
@@ -178,31 +179,12 @@ const redirectToHome = {
 };
 
 export const getServerSideProps = async ({ req, res, locale }) => {
-  // getSession seems to only take in the entire context, so can't destructure {req, locale}
-  const session = await getSession({ req });
-  if (!session) {
+  const user = await getUser(req);
+  if (!user) {
     console.debug('Log in first!');
     return redirectToHome;
   }
-
-  const { name, email } = session.user;
-
   const apolloClient = initializeApollo();
-
-  let user = {};
-  try {
-    const { data } = await apolloClient.query({
-      query: GET_SESSION_USER,
-      variables: { name, email },
-    });
-
-    // Add friend and id fields to user object
-    user = { ...session.user, ...data.user };
-    console.debug('User:', user);
-  } catch (err) {
-    console.warn('Log in first:', err);
-    return redirectToHome;
-  }
 
   let spaces = {};
   try {
