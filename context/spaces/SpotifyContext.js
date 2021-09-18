@@ -81,14 +81,6 @@ export const SpotifyProvider = ({ children }) => {
     for (const fetchObj of fetchPlaylists) {
       if (fetchObj.category) {
         promisesArr.push(spotifyApi.getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit }));
-        // spotifyApi
-        //   .getPlaylistsForCategory(fetchObj.category, { limit: fetchObj.limit })
-        //   .then((data) => {
-        //     fetchObj.setState(() => parsePlaylists(data?.body?.playlists?.items));
-        //   })
-        //   .catch((err) => {
-        //     console.debug('Unable to fetch playlists:', err);
-        //   });
       } else if (fetchObj.search) {
         promisesArr.push(spotifyApi.searchPlaylists(fetchObj.search, { limit: fetchObj.limit }));
       }
