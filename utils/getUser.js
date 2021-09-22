@@ -20,7 +20,7 @@ const getUser = async (req) => {
       return user;
     }
   } catch (err) {
-    console.debug(err);
+    console.debug('Unable to fetch user:', err);
     return null;
   }
   return null;

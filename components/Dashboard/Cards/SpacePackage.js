@@ -10,7 +10,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
   const [open, setOpen] = useState(false);
 
   const { name, description, headCount, music } = spaceCardData;
-  const { friends, participants, hosts, spaceId } = spaceCardModalData;
+  const { friends, participants, spaceId } = spaceCardModalData;
   return (
     <>
       <div
@@ -27,7 +27,6 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         }}
         friends={friends}
         participants={participants}
-        hosts={hosts}
         spaceId={spaceId}>
         <SpaceCard name={name} description={description} headCount={headCount} music={music} />
       </SpaceCardModal>
@@ -43,7 +42,6 @@ SpacePackage.propTypes = {
     music: PropTypes.string,
   }),
   spaceCardModalData: PropTypes.shape({
-    hosts: PropTypes.array,
     friends: PropTypes.array,
     participants: PropTypes.array,
     spaceId: PropTypes.string.isRequired,

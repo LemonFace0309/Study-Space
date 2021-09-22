@@ -61,8 +61,32 @@ const Query = {
       console.debug('Retrieved spaces with specified spaceIds', spaces);
     } catch (err) {
       console.warn('Unable to retrieve spaces:', err);
+      throw err;
     }
     return spaces;
+  },
+  registeredParticipantsInSpace: async (_, { spaceId }) => {
+    try {
+      const space = await Space.findOne({ spaceId }); // finds guest and registered users
+      const allParticipants = space.participants;
+      const registeredPartcipantIds = allParticipants.filter((p) => p.userId).map((p) => p.userId);
+
+      const populatedRegisteredParticipants = await User.find({ _id: { $in: registeredPartcipantIds } });
+      return populatedRegisteredParticipants;
+    } catch (err) {
+      console.warn(`Unable to fetch users from space ${spaceId}:`, err);
+      throw err;
+    }
+  },
+  hostsInSpace: async (_, { spaceId }) => {
+    try {
+      const space = await Space.findOne({ spaceId }).populate('hosts.userId').exec();
+      const hosts = space.hosts.map((host) => host.userId);
+      return hosts;
+    } catch (err) {
+      console.warn(`Unable to fetch users from space ${spaceId}:`, err);
+      throw err;
+    }
   },
 };
 export default Query;

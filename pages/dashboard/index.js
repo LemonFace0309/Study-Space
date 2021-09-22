@@ -27,13 +27,9 @@ import { chartData } from '../../data/chartData';
 import getUser from '@/utils/getUser';
 
 const GET_SPACES = gql`
-  query Query($spacesSpaceIds: [ID]) {
+  query Spaces($spacesSpaceIds: [ID!]) {
     spaces(spaceIds: $spacesSpaceIds) {
       name
-      hosts {
-        userId
-        username
-      }
       participants {
         userId
         username
