@@ -166,7 +166,7 @@ const redirectToHome = {
   },
 };
 
-export const getServerSideProps = async ({ req, res, locale }) => {
+export const getServerSideProps = async ({ req, _, locale }) => {
   const user = await getUser(req);
   if (!user) {
     console.debug('Log in first!');
