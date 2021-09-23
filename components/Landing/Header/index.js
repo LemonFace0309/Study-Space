@@ -70,7 +70,7 @@ const Header = (props) => {
         const userSession = await getSession();
         setSession(userSession);
         setLoading(false);
-        console.debug(userSession);
+        console.debug('User:', userSession);
       } catch (e) {
         console.error(e);
       }
@@ -91,7 +91,7 @@ const Header = (props) => {
       setSuccessfulSignUp(true);
       console.debug(result);
     } else if (validLogIn) {
-      signIn('credentials', { email, password });
+      signIn('credentials', { email, password, callbackUrl: `${process.env.NEXT_PUBLIC_HOST}/dashboard` });
     } else {
       setSubmitted(true);
     }
@@ -221,20 +221,20 @@ const Header = (props) => {
                   <Button
                     color="inherit"
                     className={authButtons}
-                    onClick={handleSignUp}
-                    style={{
-                      border: '1.5px solid rgba(107, 114, 128)',
-                    }}>
-                    {t('LABEL_SIGNUP')}
-                  </Button>
-                  <Button
-                    color="inherit"
-                    className={authButtons}
                     onClick={handleLogIn}
                     style={{
                       border: '1.5px solid rgba(107, 114, 128)',
                     }}>
                     {t('LABEL_LOGIN')}
+                  </Button>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleSignUp}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    {t('LABEL_SIGNUP')}
                   </Button>
                 </>
               )}
