@@ -73,9 +73,10 @@ export const SocketProvider = ({ loading, children }) => {
       const newParticipants = [];
       newParticipants.push(currentUsername);
       users.forEach((user) => {
-        const peer = createPeer(user.socketID, currentUsername, socketRef.current.id, stream);
+        console.debug(users);
+        const peer = createPeer(user.socketId, currentUsername, socketRef.current.id, stream);
         peersRef.current.push({
-          peerID: user.socketID,
+          peerId: user.socketId,
           peerName: user.username,
           peer,
         });
@@ -101,7 +102,7 @@ export const SocketProvider = ({ loading, children }) => {
     socketRef.current.on('user joined', (payload) => {
       const peer = addPeer(payload.signal, payload.callerID, stream);
       peersRef.current.push({
-        peerID: payload.callerID,
+        peerId: payload.callerID,
         peerName: payload.username,
         peer,
       });
@@ -113,7 +114,7 @@ export const SocketProvider = ({ loading, children }) => {
      * Load signal of new user
      */
     socketRef.current.on('receiving returned signal', (payload) => {
-      const receivingPeerObj = peersRef.current.find((p) => p.peerID === payload.id);
+      const receivingPeerObj = peersRef.current.find((p) => p.peerId === payload.id);
       receivingPeerObj.peer.signal(payload.signal);
     });
 
@@ -136,12 +137,12 @@ export const SocketProvider = ({ loading, children }) => {
       let usersPeerID = [];
       let participantNames = [];
       if (users) {
-        usersPeerID = users.map((user) => user.socketID);
+        usersPeerID = users.map((user) => user.socketId);
         participantNames = users.map((user) => user.username);
       }
       if (usersPeerID.length > 0) {
         peersRef.current.forEach((peerRef, index) => {
-          if (!usersPeerID.includes(peerRef.peerID)) {
+          if (!usersPeerID.includes(peerRef.peerId)) {
             peerRef.peer.destroy();
             peersRef.current.splice(index, 1);
             setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));

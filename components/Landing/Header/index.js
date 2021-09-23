@@ -92,7 +92,7 @@ const Header = (props) => {
       setSuccessfulSignUp(true);
       console.debug(result);
     } else if (validLogIn) {
-      signIn('credentials', { email, password, callbackUrl: `${process.env.NEXT_PUBLIC_HOST}/dashboard` });
+      signIn('credentials', { email, password, callbackUrl: `${process.env.NEXT_PUBLIC_NODE_SERVER}/dashboard` });
     } else {
       setSubmitted(true);
     }
