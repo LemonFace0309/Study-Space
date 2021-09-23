@@ -5,7 +5,9 @@ const typeDefs = gql`
     user(name: String!, email: String!): User
     users(userIds: [ID]): [User]
     todos(userId: [ID]!): [Todo!]!
-    spaces(spaceIds: [ID]): [Space]
+    spaces(spaceIds: [ID!]): [Space!]!
+    registeredParticipantsInSpace(spaceId: ID!): [User!]!
+    hostsInSpace(spaceId: ID!): [User!]!
   }
 
   type Mutation {
@@ -21,6 +23,7 @@ const typeDefs = gql`
     name: String!
     description: String!
     userId: ID!
+    username: String!
     spaceId: ID!
   }
 
@@ -32,6 +35,7 @@ const typeDefs = gql`
   input AddUserToSpaceInput {
     spaceId: ID!
     userId: ID!
+    username: String!
   }
 
   input UpdateTodosInput {
@@ -82,13 +86,21 @@ const typeDefs = gql`
     updatedAt: String
   }
 
+  type Participant {
+    username: String!
+    userId: ID
+    image: String
+    status: String
+  }
+
   type Space {
-    name: String
+    name: String!
     description: String
     spaceId: ID!
     isActive: Boolean!
     music: String
-    participants: [User!]
+    hosts: [Participant!]!
+    participants: [Participant!]
     createdAt: String!
     updatedAt: String!
   }

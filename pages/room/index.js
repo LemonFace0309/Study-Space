@@ -25,7 +25,7 @@ const CREATE_SPACE = gql`
 const CreateRoom = ({ user }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const [roomID, setRoomID] = useState('');
+  const [roomId, setRoomId] = useState('');
   const [roomIsLoading, setRoomIsLoading] = useState(false);
   const setUser = useSetRecoilState(userState.user);
 
@@ -41,6 +41,7 @@ const CreateRoom = ({ user }) => {
       name: 'Pair Programming Session',
       description: '16X 🚀🚀🚀🚀',
       userId: user?._id,
+      username: user?.name,
       spaceId,
     };
 
@@ -68,10 +69,10 @@ const CreateRoom = ({ user }) => {
             required
             fullWidth
             label="Room ID"
-            value={roomID}
-            onChange={(e) => setRoomID(e.target.value)}
+            value={roomId}
+            onChange={(e) => setRoomId(e.target.value)}
           />
-          <Button fullWidth variant="contained" color="primary" onClick={() => router.push(`/room/${roomID}`)}>
+          <Button fullWidth variant="contained" color="primary" onClick={() => router.push(`/room/${roomId}`)}>
             {t('LABEL_JOIN_SPACE')}
           </Button>
           <Button fullWidth variant="contained" color="primary" className="my-2" onClick={createNewSpace}>

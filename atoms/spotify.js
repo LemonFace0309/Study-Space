@@ -17,7 +17,7 @@ export const spotifyAuthURL = atom({
   default: '',
 });
 
-export const roomID = atom({
-  key: 'spotify-roomID',
+export const roomId = atom({
+  key: 'spotify-roomId',
   default: '',
 });

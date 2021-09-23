@@ -22,12 +22,12 @@ export const ROOM_ID = 'ROOM_ID';
 
 const SpotifySignUpBlocker = ({ loading }) => {
   const classes = useStyles();
-  const roomID = useRecoilValue(spotifyState.roomID);
+  const roomId = useRecoilValue(spotifyState.roomId);
   const spotifyAuthURL = useRecoilValue(spotifyState.spotifyAuthURL);
   const router = useRouter();
 
   const handleClicked = () => {
-    document.cookie = `productify_roomID=${roomID}; path=/`;
+    document.cookie = `productify_roomID=${roomId}; path=/`;
     router.push(spotifyAuthURL);
   };
 

@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import { useMutation, useQuery, gql } from '@apollo/client';
-import { useRecoilValue } from 'recoil';
+import { uniqueId } from 'lodash';
 import { useRouter } from 'next/router';
-import uniqueId from 'lodash/uniqueId';
 import {
   Button,
   Grid,
@@ -16,23 +14,30 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  CircularProgress,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { useQuery, gql } from '@apollo/client';
 
-import * as userState from 'atoms/user';
-
-const ADD_USER_TO_SPACE = gql`
-  mutation AddUserToSpaceMutation($addUserToSpaceInput: AddUserToSpaceInput!) {
-    addUserToSpace(input: $addUserToSpaceInput) {
-      participants {
-        _id
-        name
-        image
-      }
+const GET_REGISTERED_PARTICIPANTS_IN_SPACE = gql`
+  query GetRegisteredParticipantsInSpace($spaceId: ID!) {
+    registeredParticipantsInSpace(spaceId: $spaceId) {
+      _id
+      image
+      username
       name
-      spaceId
+      # status
+    }
+  }
+`;
+
+const GET_HOSTS_FROM_SPACE = gql`
+  query GetHostsFromSpace($spaceId: ID!) {
+    hostsInSpace(spaceId: $spaceId) {
+      _id
+      image
+      username
+      name
     }
   }
 `;
@@ -57,7 +62,7 @@ const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={uniqueId()}>
+        <ListItem key={user?._id ?? uniqueId()}>
           <ListItemAvatar>
             <Avatar alt="profile image" src={user?.image}></Avatar>
           </ListItemAvatar>
@@ -65,7 +70,7 @@ const UserList = ({ users }) => {
             disableTypography
             primary={
               <Typography variant="body1" color="textPrimary">
-                {user?.name}
+                {user?.username || user?.name}
               </Typography>
             }
             secondary={
@@ -79,33 +84,31 @@ const UserList = ({ users }) => {
     </List>
   );
 };
+
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
 
-const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
+const SpaceCardModal = ({ handleClose, open, children, friends, participants, spaceId }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const client = useRecoilValue(userState.user);
-  const [roomIsLoading, setRoomIsLoading] = useState(false);
-  const [addUserToSpace] = useMutation(ADD_USER_TO_SPACE);
+
+  const { data: pData } = useQuery(GET_REGISTERED_PARTICIPANTS_IN_SPACE, { variables: { spaceId } });
+  const { data: hData } = useQuery(GET_HOSTS_FROM_SPACE, { variables: { spaceId } });
+  const [loading, setLoading] = useState(true);
+  const [allParticipants, setAllParticipants] = useState([]);
+
+  useEffect(() => {
+    if (!pData) return;
+    const guests = participants.filter((p) => !p.userId);
+    setAllParticipants([...guests, ...pData.registeredParticipantsInSpace]);
+    setLoading(false);
+  }, [participants, pData]);
 
   const joinSpace = async () => {
-    // Add client to participant list
-    setRoomIsLoading(true);
-    const addUserToSpaceInput = {
-      userId: client?._id ?? '',
-      spaceId,
-    };
-    try {
-      const result = await addUserToSpace({ variables: { addUserToSpaceInput } });
-      console.debug('Joining Space:', result);
-      router.push(`/room/${spaceId}`);
-    } catch (err) {
-      console.warn('Unable to join space:', err);
-    }
+    router.push(`/room/${spaceId}`);
   };
 
   return (
@@ -128,7 +131,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 <Typography variant="body1">{t('LABEL_PARTICIPANTS')}</Typography>
               </Box>
 
-              <UserList users={participants} />
+              {!loading && <UserList users={allParticipants} />}
             </Box>
           </Grid>
 
@@ -138,7 +141,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
                 <Typography variant="body1">{t('LABEL_HOST')}</Typography>
               </Box>
-              <UserList users={hosts} />
+              {hData && <UserList users={hData.hostsInSpace} />}
               <Button
                 variant="contained"
                 color="primary"
@@ -146,7 +149,6 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
                 startIcon={<ArrowForwardIcon />}
                 onClick={joinSpace}>
                 {t('LABEL_JOIN_SPACE')}
-                {roomIsLoading && <CircularProgress className="ml-2" />}
               </Button>
             </Box>
           </Grid>
@@ -162,7 +164,6 @@ SpaceCardModal.propTypes = {
   children: PropTypes.element.isRequired,
   friends: PropTypes.array,
   participants: PropTypes.array,
-  hosts: PropTypes.array,
   spaceId: PropTypes.string.isRequired,
 };
 

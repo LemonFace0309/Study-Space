@@ -1,43 +1,49 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 
 import * as userState from 'atoms/user';
 import getUser from '@/utils/getUser';
+import { useSocketContext, SocketProvider } from './SocketContext';
 import { useTodoContext, TodoProvider } from './TodoContext';
 import { useSpotifyContext, SpotifyProvider } from './SpotifyContext';
 
 export const useRoomContext = () => {
   return {
+    ...useSocketContext(),
     ...useTodoContext(),
     ...useSpotifyContext(),
   };
 };
 
 export const RoomProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useRecoilState(userState.user);
 
   const initUser = async () => {
-    try {
-      const newClient = await getUser();
-      if (newClient) {
-        setUser(newClient);
+    if (!user) {
+      try {
+        const newUser = await getUser();
+        if (newUser) {
+          setUser(newUser);
+        }
+      } catch (err) {
+        console.debug('Unable to initialize user:', user);
       }
-    } catch (err) {
-      console.debug('Unable to initialize user:', user);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (!user) {
-      initUser();
-    }
+    initUser();
   }, []);
 
   return (
-    <TodoProvider>
-      <SpotifyProvider>{children}</SpotifyProvider>
-    </TodoProvider>
+    <SocketProvider loading={loading}>
+      <TodoProvider>
+        <SpotifyProvider>{children}</SpotifyProvider>
+      </TodoProvider>
+    </SocketProvider>
   );
 };
 

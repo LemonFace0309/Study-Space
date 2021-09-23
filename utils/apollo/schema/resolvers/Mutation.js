@@ -3,13 +3,14 @@ import Space from 'models/Spaces';
 
 const Mutation = {
   createSpace: async (_, { input }) => {
-    const { name, description, clientId, spaceId } = input;
+    const { name, description, userId, username, spaceId } = input;
 
     let result = {};
     try {
       const space = new Space({
         name,
         description,
+        hosts: [{ userId, username }],
         participants: [],
         spaceId,
         isActive: true,
@@ -23,7 +24,7 @@ const Mutation = {
     return result;
   },
   addUserToSpace: async (_, { input }) => {
-    const { spaceId, userId } = input;
+    const { spaceId, userId, username } = input;
 
     let space = {};
     try {
@@ -32,7 +33,7 @@ const Mutation = {
 
       // Updates by pushing userId into the participants array attribute
       const update = {
-        $push: { participants: userId },
+        $push: { participants: { userId, username } },
       };
       // Mongoose returns the space before the update occurs by default.
       // {new:true} is the option argument that tells mongoose to return the space after the update occurs.
