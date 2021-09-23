@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import * as authState from 'atoms/auth';
+import * as userState from 'atoms/user';
 import AuthDialog from '../../Auth/AuthDialog';
 import NavDrawer from './NavDrawer';
 import styles from '../../Shared/Spinner.module.css';
@@ -34,14 +35,13 @@ function ElevationScroll(props) {
 const Header = (props) => {
   const { t } = useTranslation();
 
-  const { providers, signIn, signOut, getSession } = props;
+  const { authDialogOpen, setAuthDialogOpen, providers, signIn, signOut, getSession } = props;
   const [isNavDrawerOpen, setIsNavDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState();
-  const [modalOpen, setModalOpen] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [successfulSignUp, setSuccessfulSignUp] = useState(false);
 
+  const [session, setSession] = useRecoilState(userState.session);
   const [firstName, setFirstName] = useRecoilState(authState.firstName);
   const [lastName, setLastName] = useRecoilState(authState.lastName);
   const [email, setEmail] = useRecoilState(authState.email);
@@ -53,7 +53,7 @@ const Header = (props) => {
   const validSignUp = useRecoilValue(authState.validSignUp);
   const validLogIn = useRecoilValue(authState.validLogIn);
   const [submitted, setSubmitted] = useRecoilState(authState.submitted);
-  const [allAuthData, resetAllAuthData] = useRecoilState(authState.resetAll);
+  const resetAllAuthData = useSetRecoilState(authState.resetAll);
 
   // using classNames so it's easy to change when making responsive
   const menuItemStyles = classNames([
@@ -64,17 +64,18 @@ const Header = (props) => {
   ]);
   const authButtons = classNames(['normal-case', 'px-10', 'm-2', 'rounded-full', 'outline-none']);
 
+  const initSession = async () => {
+    try {
+      const userSession = await getSession();
+      setSession(userSession);
+      setLoading(false);
+      console.debug('User:', userSession);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
-    const initSession = async () => {
-      try {
-        const userSession = await getSession();
-        setSession(userSession);
-        setLoading(false);
-        console.debug('User:', userSession);
-      } catch (e) {
-        console.error(e);
-      }
-    };
     initSession();
   }, []);
 
@@ -161,12 +162,12 @@ const Header = (props) => {
 
   const handleSignUp = () => {
     setIsSignUp(true);
-    setModalOpen(true);
+    setAuthDialogOpen(true);
   };
 
   const handleLogIn = () => {
     setIsSignUp(false);
-    setModalOpen(true);
+    setAuthDialogOpen(true);
   };
 
   if (loading) {
@@ -243,8 +244,8 @@ const Header = (props) => {
         </AppBar>
       </ElevationScroll>
       <AuthDialog
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
+        open={authDialogOpen}
+        setOpen={setAuthDialogOpen}
         showSuccessAlert={successfulSignUp}
         setShowSuccessAlert={setSuccessfulSignUp}
         handleCredentialsSubmit={handleCredentialsSubmit}
@@ -263,6 +264,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
+  authDialogOpen: PropTypes.bool.isRequired,
+  setAuthDialogOpen: PropTypes.func.isRequired,
   providers: PropTypes.object.isRequired,
   signIn: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,

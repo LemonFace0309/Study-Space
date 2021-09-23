@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -11,11 +12,20 @@ import SmallFeatures from 'components/Landing/SmallFeatures';
 import Footer from 'components/Landing/Footer';
 
 const Landing = ({ data, bigFeatures, stats, smallFeatures, providers }) => {
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+
   return (
     <>
       <div className="min-h-screen flex flex-col">
-        <Header providers={providers} signIn={signIn} signOut={signOut} getSession={getSession} />
-        <Hero />
+        <Header
+          authDialogOpen={authDialogOpen}
+          setAuthDialogOpen={setAuthDialogOpen}
+          providers={providers}
+          signIn={signIn}
+          signOut={signOut}
+          getSession={getSession}
+        />
+        <Hero setAuthDialogOpen={setAuthDialogOpen} />
       </div>
       <LandingSpaces data={data} />
       {bigFeatures.map((feature, index) => (
