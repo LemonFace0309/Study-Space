@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -35,8 +36,8 @@ const Hero = () => {
           </Button>
         </Grid>
         <Hidden smDown>
-          <Grid item xs={6} className="flex justify-center items-center">
-            <img src="/images/placeholder.jpg" alt="Hero" className="max-h-96" />
+          <Grid item xs={6} className="relative h-full flex justify-center items-center">
+            <Image src="/images/landing/hero.svg" alt="Hero" className="max-h-96" layout="fill" />
           </Grid>
         </Hidden>
       </Grid>
