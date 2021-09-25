@@ -5,7 +5,7 @@ import Card from '../../Shared/Card';
 
 const ChartCard = ({ title, date, chart }) => {
   return (
-    <Card>
+    <Card roundedFull>
       <Box className="text-left p-3">
         <Typography variant="h5" className="text-primary-dark font-bold">
           {title}

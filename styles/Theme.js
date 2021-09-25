@@ -28,6 +28,7 @@ export default createTheme({
     text: {
       primary: '#111111', // black
       secondary: '#888888', // medium gray
+      tertiary: '#616161', // dark gray
       disabled: '#C4C4C4', // light gray
       bluegray: '#607D8B', // blue gray
     },
