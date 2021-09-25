@@ -8,7 +8,7 @@ const Card = ({ isClickable, children }) => {
     <Paper
       elevation={5}
       className={classNames('rounded-xl overflow-hidden h-full', {
-        'cursor-pointer transform hover:scale-105 transition ease-out duration-200': isClickable,
+        'cursor-pointer transform hover:-translate-y-1 transition ease-out duration-200': isClickable,
       })}>
       {children}
     </Paper>

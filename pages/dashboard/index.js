@@ -7,12 +7,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
