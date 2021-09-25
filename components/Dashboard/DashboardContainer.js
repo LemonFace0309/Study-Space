@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
     paddingBottom: theme.spacing(1),
   },
+  subHeader2: {
+    color: theme.palette.text.tertiary,
+    textTransform: 'uppercase',
+  },
 }));
 
 const DashboardContainer = ({ spaces }) => {
@@ -31,7 +35,7 @@ const DashboardContainer = ({ spaces }) => {
         </div>
 
         {/* Dashboard Card Section */}
-        <Grid item container direction="row" spacing={2} className="mb-8">
+        <Grid item container direction="row" spacing={4} className="mb-8">
           <Grid item sm={12} md={6} className={classes.fitContent}>
             <Typography variant="h6" className={classes.subHeader}>
               Need a space to study?
@@ -57,9 +61,9 @@ const DashboardContainer = ({ spaces }) => {
         </Grid>
 
         {/* Space Card Section */}
-        <Grid container direction="row" spacing={2} className="mb-4">
-          <Grid item xs={12}>
-            <Typography variant="h6" className={classes.subHeader}>
+        <Grid container direction="row" spacing={4} className="mb-4">
+          <Grid item xs={12} className="pb-0">
+            <Typography variant="h6" className={classes.subHeader2}>
               Want to find a new space? <span className="font-thin">You might like these</span>
             </Typography>
           </Grid>

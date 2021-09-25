@@ -108,22 +108,29 @@ const Dashboard = ({ user, friendData, spaces }) => {
       {/* Dashboard Body */}
       <div className="flex flex-1">
         <Grid container direction="row" justifyContent="center">
-          <Grid item xs={12} className="mb-4">
+          <Grid item xs={12}>
             <DashboardContainer spaces={spaces} />
           </Grid>
-          <Grid item container spacing={2} className="mt-2 pl-12">
-            <Grid item xs={12} md={6}>
+          <Grid item container className="my-16 pl-12">
+            <Grid item xs={12} md={4} className="pr-4">
               <ChartCard
                 title={peakStudyTimes.title}
                 date={peakStudyTimes.date}
                 chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4} className="px-4">
               <ChartCard
                 title={studyTimes.title}
                 date={studyTimes.date}
                 chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
+              />
+            </Grid>
+            <Grid item xs={12} md={4} className="pl-4">
+              <ChartCard
+                title={peakStudyTimes.title}
+                date={peakStudyTimes.date}
+                chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
               />
             </Grid>
           </Grid>
