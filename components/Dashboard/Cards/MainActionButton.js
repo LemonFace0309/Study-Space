@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Typography, Grid, Hidden } from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '../../Shared/Card';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MainActionButton = ({ name, img, description, variant }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const classes = useStyles({ variant });
 
   return (
