@@ -8,14 +8,8 @@ import { Grid } from '@material-ui/core';
 
 import { RoomProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
-import VideoStreams from '@/components/Spaces/VideoStreams';
+import VideoStreams, { LAYOUT_OPTIONS } from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
-
-const LAYOUT_OPTIONS = {
-  TILED: 'TILED',
-  LIST: 'LIST',
-  MAIN: 'MAIN',
-};
 
 import * as spotifyState from '@/atoms/spotify';
 

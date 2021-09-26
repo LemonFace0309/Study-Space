@@ -5,6 +5,12 @@ import Grid from '@material-ui/core/Grid';
 import { useSocketContext } from '@/context/spaces/SocketContext';
 import PeerVideo from './PeerVideo';
 
+export const LAYOUT_OPTIONS = {
+  TILED: 'TILED',
+  LIST: 'LIST',
+  MAIN: 'MAIN',
+};
+
 const VideoStreams = ({ layout, showTabs }) => {
   const { username, userVideo, peersRef } = useSocketContext();
   console.debug(peersRef);
@@ -14,7 +20,7 @@ const VideoStreams = ({ layout, showTabs }) => {
       <div className="p-5 flex flex-row flex-wrap justify-center items-center">
         <div className="relative border">
           <video muted ref={userVideo} autoPlay height="400" width="400" />
-          {layout == 'LIST' && (
+          {layout == LAYOUT_OPTIONS.LIST && (
             <div>
               <div className="absolute top-0 left-0 w-full h-full">
                 <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
