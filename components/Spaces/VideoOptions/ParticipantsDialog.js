@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 
-const ParticipantsDialog = ({ open, setOpen, layoutOptions }) => {
+const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoLayout }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const [layout, setLayout] = useState(layoutOptions[0]?.value ?? 'tiled');
@@ -16,6 +16,7 @@ const ParticipantsDialog = ({ open, setOpen, layoutOptions }) => {
 
   const handleLayoutChange = (event) => {
     setLayout(event.target.value);
+    setVideoLayout(event.target.value);
   };
 
   return (
@@ -58,13 +59,14 @@ ParticipantsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   layoutOptions: PropTypes.array.isRequired,
+  setLayout: PropTypes.func.isRequired,
 };
 
 ParticipantsDialog.defaultProps = {
   layoutOptions: [
-    { value: 'tiled', label: 'Tiled' },
-    { value: 'list', label: 'List' },
-    { value: 'main', label: 'Main Speaker' },
+    { value: 'TILED', label: 'Tiled' },
+    { value: 'LIST', label: 'List' },
+    { value: 'MAIN', label: 'Main Speaker' },
   ],
 };
 

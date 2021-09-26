@@ -11,29 +11,14 @@ import { Grid } from '@material-ui/core';
 
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import CallTabs from '@/components/Spaces/CallTabs';
+import VideoGrid from '@/components/Spaces/VideoOptions/VideoGrid';
 
 const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
 
-const PeerVideo = ({ peer, username }) => {
-  const ref = useRef();
-  useEffect(() => {
-    peer.on('stream', (stream) => {
-      ref.current.srcObject = stream;
-    });
-  }, [peer]);
-  return (
-    <div className="flex flex-col">
-      <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
-        <track kind="captions"></track>
-      </video>
-      <span>{username}</span>
-    </div>
-  );
-};
-
-PeerVideo.propTypes = {
-  peer: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired,
+const LAYOUT_OPTIONS = {
+  TILED: 'TILED',
+  LIST: 'LIST',
+  MAIN: 'MAIN',
 };
 
 const Room = ({ roomID }) => {
@@ -47,6 +32,7 @@ const Room = ({ roomID }) => {
   const [showTabs, setShowTabs] = useState(false);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
+  const [layout, setLayout] = useState(LAYOUT_OPTIONS.TILED);
 
   const initRoom = async () => {
     const userSession = await getSession();
@@ -237,14 +223,10 @@ const Room = ({ roomID }) => {
           toggleUserAudio={toggleUserAudio}
           toggleUserVideo={toggleUserVideo}
           leaveCall={leaveCall}
+          setLayout={setLayout}
         />
         <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
-          <div className="p-5 flex flex-row flex-wrap justify-center items-center">
-            <video muted ref={userVideo} autoPlay height="400" width="400" />
-            {peersRef.current.map((peerObj) => {
-              return <PeerVideo key={peerObj.peerID} peer={peerObj.peer} username={peerObj.peerName} />;
-            })}
-          </div>
+          <VideoGrid layout={layout} userVideo={userVideo} peersRef={peersRef} username={username} />
         </Grid>
         <CallTabs
           username={username}

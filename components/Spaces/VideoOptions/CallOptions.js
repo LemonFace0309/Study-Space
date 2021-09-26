@@ -16,7 +16,7 @@ import {
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
-function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUserVideo, leaveCall }) {
+function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUserVideo, leaveCall, setLayout }) {
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openParticipantsModal, setOpenParticipantsModal] = useState(false);
@@ -73,7 +73,7 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
         )}
       </Popper>
 
-      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} />
+      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} setLayout={setLayout} />
       <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );
@@ -85,6 +85,7 @@ CallOptions.propTypes = {
   userVideoShow: PropTypes.bool.isRequired,
   toggleUserVideo: PropTypes.func.isRequired,
   leaveCall: PropTypes.func.isRequired,
+  setLayout: PropTypes.func.isRequired,
 };
 
 export default CallOptions;

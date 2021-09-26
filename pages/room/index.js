@@ -105,6 +105,7 @@ const CreateRoom = ({ spotifyAuthURL, spotifyCode, newSession }) => {
 export const getServerSideProps = async (context) => {
   const { query, locale } = context;
   const session = await getSession(context);
+  if (!session) return { props: {} };
   const { name, email } = session.user;
 
   const apolloClient = initializeApollo();
