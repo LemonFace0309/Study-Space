@@ -73,14 +73,14 @@ const AuthDialog = ({
                 <IconButton
                   className="mr-4 outline-none"
                   onClick={() =>
-                    signIn(providers?.facebook.id, { callbackUrl: `${process.env.NEXT_PUBLIC_HOST}/dashboard` })
+                    signIn(providers?.facebook.id, { callbackUrl: `${process.env.NEXT_PUBLIC_NODE_SERVER}/dashboard` })
                   }>
                   <Image src="/images/facebook.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
                 <IconButton
                   className="outline-none"
                   onClick={() =>
-                    signIn(providers?.google.id, { callbackUrl: `${process.env.NEXT_PUBLIC_HOST}/dashboard` })
+                    signIn(providers?.google.id, { callbackUrl: `${process.env.NEXT_PUBLIC_NODE_SERVER}/dashboard` })
                   }>
                   <Image src="/images/google.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>

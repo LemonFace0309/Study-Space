@@ -7,12 +7,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rightSettingsBar: {
     background: theme.palette.background.paper,
+    height: 'fit-content',
   },
   settingsIcons: {
     margin: theme.spacing(1),
@@ -93,68 +94,63 @@ const Dashboard = ({ user, friendData, spaces }) => {
 
       {/* Collapsable Drawer on Medium and Up */}
       <Hidden smDown>
-        <Grid item md={open ? 2 : 1}>
-          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-            <Sidebar
-              open={open}
-              onClose={() => setOpen(false)}
-              onOpen={() => setOpen(true)}
-              friendData={friendData}
-              isSmallScreen={false}
-            />
-          </CollapsableDrawer>
-        </Grid>
+        <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+          <Sidebar
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            friendData={friendData}
+            isSmallScreen={false}
+          />
+        </CollapsableDrawer>
       </Hidden>
 
       {/* Dashboard Body */}
-      <Grid item xs={12} md={open ? 10 : 11} container direction="row">
-        <Grid container item xs={11} direction="row" justifyContent="center">
-          <Grid item xs={12} className="mb-4">
+      <div className="flex flex-1">
+        <Grid container direction="row" justifyContent="center">
+          <Grid item xs={12}>
             <DashboardContainer spaces={spaces} />
           </Grid>
-          <Grid item container spacing={2} className="mt-2">
-            <Grid item xs={12} md={6}>
+          <Grid item container className="my-16 pl-12">
+            <Grid item xs={12} md={4} className="pr-4">
               <ChartCard
                 title={peakStudyTimes.title}
                 date={peakStudyTimes.date}
                 chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4} className="px-4">
               <ChartCard
                 title={studyTimes.title}
                 date={studyTimes.date}
                 chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
               />
             </Grid>
+            <Grid item xs={12} md={4} className="pl-4">
+              <ChartCard
+                title={peakStudyTimes.title}
+                date={peakStudyTimes.date}
+                chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
+              />
+            </Grid>
           </Grid>
           <Grid item xs={12} className="h-4" />
         </Grid>
 
-        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
-        <Grid item xs={1} md={1}>
-          {user && (
-            <Grid
-              container
-              item
-              xs={12}
-              direction="column"
-              alignItems="center"
-              className={classNames(['rounded-br-2xl', classes.rightSettingsBar])}>
-              <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
-                <SettingsIcon className={classes.settingsIcons} />
-              </IconButton>
-              <IconButton aria-label="theme">
-                <PaletteIcon className={classes.settingsIcons} />
-              </IconButton>
-              <IconButton aria-label="friends">
-                <GroupIcon className={classes.settingsIcons} />
-              </IconButton>
-              <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-            </Grid>
-          )}
-        </Grid>
-      </Grid>
+        {/* Right Settings Bar */}
+        <div className={classNames(['flex flex-col items-center rounded-br-2xl', classes.rightSettingsBar])}>
+          <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
+            <SettingsIcon className={classes.settingsIcons} />
+          </IconButton>
+          <IconButton aria-label="theme">
+            <PaletteIcon className={classes.settingsIcons} />
+          </IconButton>
+          <IconButton aria-label="friends">
+            <GroupIcon className={classes.settingsIcons} />
+          </IconButton>
+          <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+        </div>
+      </div>
     </Grid>
   );
 };
