@@ -1,21 +1,27 @@
 import PropTypes from 'prop-types';
 import { React } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import { Drawer, makeStyles } from '@material-ui/core';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  drawer: {
+    backgroundColor: 'white',
+    height: '40vh',
+    width: drawerWidth,
+    flexShrink: 0,
+  },
   drawerPaper: {
     border: 'none',
     width: drawerWidth,
     borderRadius: '0px 1rem 1rem 0px',
     overflow: 'hidden',
-    flexShrink: 0,
     whiteSpace: 'nowrap',
     height: '100vh',
   },
   drawerOpen: {
+    width: '240',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -26,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
@@ -34,12 +42,16 @@ const useStyles = makeStyles((theme) => ({
 
 const CollapsableDrawer = ({ children, open }) => {
   const classes = useStyles();
+
   return (
     <Drawer
       variant="permanent"
-      className="h-full"
+      className={classNames(classes.drawer, {
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
+      })}
       classes={{
-        paper: clsx(classes.drawerPaper, {
+        paper: classNames(classes.drawerPaper, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
         }),

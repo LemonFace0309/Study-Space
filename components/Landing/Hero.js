@@ -10,7 +10,6 @@ import * as userState from 'atoms/user';
 const Hero = ({ setAuthDialogOpen }) => {
   const { t } = useTranslation();
   const session = useRecoilValue(userState.session);
-  console.debug(session);
 
   return (
     <Container maxWidth="xl" className="flex-grow flex items-stretch">
