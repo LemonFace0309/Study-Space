@@ -1,19 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import jwt from 'jsonwebtoken';
 import classNames from 'classnames';
-import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { differenceInMilliseconds, addMilliseconds } from 'date-fns';
 import { TabList, Tab, Tabs, TabPanel } from 'react-tabs';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import renderComponent from 'utils/renderComponent';
-import getCookie from 'utils/getCookie';
-import * as spotifyState from 'atoms/spotify';
-import { useSpotify } from './SpotifyProvider';
+import { useSpotifyContext, ENUM_AUTHENTICATION } from '@/context/spaces/SpotifyContext';
+import renderComponent from '@/utils/renderComponent';
+import SpotifySignUpBlocker from './SpotifySignUpBlocker';
 import Player from './Player';
 import HomeTab from './Tabs/Home';
 import SearchSongsTab from './Tabs/SearchSongs';
@@ -53,40 +48,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Music = ({ tabs }) => {
   const classes = useStyles();
-  const { getAccessTokenFromCookies } = useSpotify();
   const [tabIndex, setTabIndex] = useState(0);
-  const [spotifyRefresh, setSpotifyRefresh] = useRecoilState(spotifyState.refresh);
+  const { authenticated } = useSpotifyContext();
 
-  useEffect(() => {
-    const spotifySessionJWT = getCookie(document.cookie, 'spotify_session');
-    if (!spotifySessionJWT) return;
-    const spotifySession = jwt.decode(spotifySessionJWT);
-    if (!spotifySession) return;
-    // let timeoutDuration = spotifySession?.expiresIn * 1000 ?? 3600 * 1000; // onehour in milliseconds
-    let timeoutDuration = 100;
-    if (spotifyRefresh?.refreshDate) {
-      const curDate = new Date();
-      const timeToRefresh = differenceInMilliseconds(spotifyRefresh?.refreshDate, curDate) ?? 3600 * 1000;
-      timeoutDuration = timeToRefresh;
-    }
-    const timeout = setTimeout(() => {
-      if (!spotifySession?.refreshToken) return;
-      axios
-        .post('/api/spotify/refresh-token', { refreshToken: spotifySession.refreshToken })
-        .then((res) => {
-          const expiresIn = res.data.data.expiresIn * 1000;
-          const date = new Date();
-          const expireDate = addMilliseconds(date, expiresIn);
-          const refreshDate = addMilliseconds(date, expiresIn / 4);
-          setSpotifyRefresh({ expiresIn, expireDate, refreshDate });
-          console.debug('Successfully refreshed spotify token:', res.data);
-          getAccessTokenFromCookies();
-        })
-        .catch((err) => console.debug(err));
-    }, timeoutDuration);
-
-    return () => clearTimeout(timeout);
-  }, [spotifyRefresh]);
+  if (authenticated !== ENUM_AUTHENTICATION.AUTHENTICATED) {
+    return <SpotifySignUpBlocker loading={authenticated === ENUM_AUTHENTICATION.LOADING} />;
+  }
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={() => null} className={classes.tabContainer}>

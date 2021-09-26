@@ -9,12 +9,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Avatar from '@material-ui/core/Avatar';
 
 import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
@@ -119,7 +119,7 @@ const tabComponents = {
   PRIVACY: 'PRIVACY',
 };
 
-const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
+const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
@@ -139,7 +139,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
       case tabComponents.ACCOUNT_DETAILS:
         return (
           <AccountDetails
-            session={session}
+            user={user}
             editMode={editMode}
             saveChanges={saveChanges}
             setSaveChanges={setSaveChanges}
@@ -148,12 +148,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
         );
       case tabComponents.CHANGE_PASSWORD:
         return (
-          <ChangePassword
-            session={session}
-            editMode={editMode}
-            saveChanges={saveChanges}
-            setSaveChanges={setSaveChanges}
-          />
+          <ChangePassword user={user} editMode={editMode} saveChanges={saveChanges} setSaveChanges={setSaveChanges} />
         );
       case tabComponents.PRIVACY:
         return <h1>{t('LABEL_PRIVACY')}</h1>;
@@ -219,8 +214,8 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                   </Tab>
                 ))}
               </TabList>
-              <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                <Button>{t('LABEL_PRIVACY')}</Button>
+              <Grid container direction="column" alignItems="baseline" justifyContent="flex-end">
+                {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                 <Button>{t('LABEL_LOGOUT')}</Button>
               </Grid>
             </Grid>
@@ -238,19 +233,21 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                         <Typography align="left" variant="h3" className={classes.title}>
                           <Button>{t('LABEL_SETTINGS')}</Button>
                         </Typography>
-                        <CloseIcon className={classes.closeIcon} />
-                        <Grid container item sm={12} justify="center" alignItems="center">
+                        <IconButton onClick={handleClose} className={classes.closeIcon}>
+                          <CloseIcon />
+                        </IconButton>
+                        <Grid container item sm={12} justifyContent="center" alignItems="center">
                           <div className={classes.imageContainer}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               alt={t('LABEL_ALT_PROFILE_PIC')}
-                              src={null ?? session?.user?.image}
+                              src={null ?? user?.image}
                               className={classes.largeAvatar}
                             />
                           </div>
                         </Grid>
                         <Typography align="center" variant="h5" className={classes.title}>
-                          {session?.user?.name}
+                          {user?.name}
                         </Typography>
 
                         {/* Tabs */}
@@ -275,14 +272,14 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                         </TabList>
                       </Grid>
                       <Hidden mdUp>
-                        <Grid container direction="column" justify="middle">
-                          <Button>{t('LABEL_PRIVACY')}</Button>
+                        <Grid container direction="column" justifyContent="middle">
+                          {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
                       <Hidden smDown>
-                        <Grid container direction="column" alignItems="baseline" justify="flex-end">
-                          <Button>{t('LABEL_PRIVACY')}</Button>
+                        <Grid container direction="column" alignItems="baseline" justifyContent="flex-end">
+                          {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
@@ -291,7 +288,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                 ) : (
                   /* GREY AREA */
                   <Grid container item direction="row" xs={12} className="p-4">
-                    <Grid container direction="row" alignItems="center" justify="flex-start">
+                    <Grid container direction="row" alignItems="center" justifyContent="flex-start">
                       <Hidden mdUp>
                         <Grid item xs={3}>
                           <ArrowBackIosIcon onClick={toggleSettings}></ArrowBackIosIcon>
@@ -304,7 +301,9 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
                       </Grid>
                       <Hidden smDown>
                         <Grid item>
-                          <CloseIcon className={classes.closeIcon} />
+                          <IconButton onClick={handleClose} className={classes.closeIcon}>
+                            <CloseIcon />
+                          </IconButton>
                         </Grid>
                       </Hidden>
                     </Grid>
@@ -316,7 +315,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
               </TabPanel>
             ))}
             {!showSettings && (
-              <Grid container item justify="flex-end" className="p-4">
+              <Grid container item justifyContent="flex-end" className="p-4">
                 <Button
                   variant="contained"
                   color="primary"
@@ -336,7 +335,7 @@ const ProfileDialog = ({ session, isOpen, handleClose, tabs }) => {
 };
 
 ProfileDialog.propTypes = {
-  session: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   acceptedFileTypes: PropTypes.string,

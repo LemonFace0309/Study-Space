@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -11,7 +10,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
   const [open, setOpen] = useState(false);
 
   const { name, description, headCount, music } = spaceCardData;
-  const { friends, participants, hosts, spaceId } = spaceCardModalData;
+  const { friends, participants, spaceId } = spaceCardModalData;
   return (
     <>
       <div
@@ -28,7 +27,6 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
         }}
         friends={friends}
         participants={participants}
-        hosts={hosts}
         spaceId={spaceId}>
         <SpaceCard name={name} description={description} headCount={headCount} music={music} />
       </SpaceCardModal>
@@ -41,12 +39,11 @@ SpacePackage.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     headCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    music: PropTypes.string.isRequired,
+    music: PropTypes.string,
   }),
   spaceCardModalData: PropTypes.shape({
     friends: PropTypes.array,
     participants: PropTypes.array,
-    hosts: PropTypes.array,
     spaceId: PropTypes.string.isRequired,
   }),
 };

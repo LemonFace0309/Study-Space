@@ -1,15 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
+import { useSocketContext } from '@/context/spaces/SocketContext';
 
 const PeerVideo = ({ peer, username }) => {
+  const {
+    constants: { USER_MEDIA_ACTIVE },
+  } = useSocketContext();
   const ref = useRef();
+
   useEffect(() => {
     peer.on('stream', (stream) => {
       ref.current.srcObject = stream;
     });
   }, [peer]);
+
   return (
     <div className="flex flex-col">
       <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">

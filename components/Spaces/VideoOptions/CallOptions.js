@@ -13,10 +13,12 @@ import {
   ExitToApp,
 } from '@material-ui/icons';
 
+import { useSocketContext } from '@/context/spaces/SocketContext';
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
-function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUserVideo, leaveCall, setLayout }) {
+const CallOptions = ({ setLayout }) => {
+  const { enableUserAudio, enableUserVideo, toggleUserAudio, toggleUserVideo, leaveCall } = useSocketContext();
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openParticipantsModal, setOpenParticipantsModal] = useState(false);
@@ -37,8 +39,8 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
   return (
     <>
       <div className="absolute bottom-0 left-0">
-        <IconButton onClick={toggleUserAudio}>{userAudioShow ? <Mic /> : <MicOff />}</IconButton>
-        <IconButton onClick={toggleUserVideo}>{userVideoShow ? <Videocam /> : <VideocamOff />}</IconButton>
+        <IconButton onClick={toggleUserAudio}>{enableUserAudio ? <Mic /> : <MicOff />}</IconButton>
+        <IconButton onClick={toggleUserVideo}>{enableUserVideo ? <Videocam /> : <VideocamOff />}</IconButton>
         <IconButton onClick={handleToggle} ref={buttonRef}>
           <MoreVert />
         </IconButton>
@@ -77,14 +79,9 @@ function CallOptions({ userAudioShow, toggleUserAudio, userVideoShow, toggleUser
       <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );
-}
+};
 
 CallOptions.propTypes = {
-  userAudioShow: PropTypes.bool.isRequired,
-  toggleUserAudio: PropTypes.func.isRequired,
-  userVideoShow: PropTypes.bool.isRequired,
-  toggleUserVideo: PropTypes.func.isRequired,
-  leaveCall: PropTypes.func.isRequired,
   setLayout: PropTypes.func.isRequired,
 };
 

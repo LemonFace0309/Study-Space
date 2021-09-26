@@ -2,22 +2,18 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
-import { getSession } from 'next-auth/client';
 import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
-import { useQuery, gql } from '@apollo/client';
+import { makeStyles } from '@material-ui/core/styles';
 
-import User from 'models/User';
-import Space from 'models/Spaces';
-import dbConnect from 'utils/dbConnect';
 import Sidebar from 'components/Dashboard/Sidebar';
 import DashboardContainer from 'components/Dashboard/DashboardContainer';
 import ChartCard from 'components/Dashboard/Cards/ChartCard';
@@ -25,20 +21,26 @@ import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
 import LineChart from 'components/Dashboard/Charts/LineChart';
 import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
 import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
-import * as clientState from 'atoms/client';
+import * as userState from 'atoms/user';
 import { initializeApollo } from 'utils/apollo/client';
 import { chartData } from '../../data/chartData';
+import getUser from '@/utils/getUser';
 
-const GET_USERS = gql`
-  query {
-    users(userIds: ["609ccafca1c3fe54cca40121", "6114e6e916e2ea30ab88aa78"]) {
+const GET_SPACES = gql`
+  query Spaces($spacesSpaceIds: [ID!]) {
+    spaces(spaceIds: $spacesSpaceIds) {
       name
-      email
-      image
+      participants {
+        userId
+        username
+      }
+      description
+      spaceId
+      isActive
+      music
     }
   }
 `;
-
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -51,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rightSettingsBar: {
     background: theme.palette.background.paper,
+    height: 'fit-content',
   },
   settingsIcons: {
     margin: theme.spacing(1),
@@ -58,18 +61,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ session, friendData, spaceCardData }) => {
+const Dashboard = ({ user, friendData, spaces }) => {
   const classes = useStyles();
   const { peakStudyTimes, studyTimes } = chartData;
   const [profileOpen, setProfileOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const setClient = useSetRecoilState(clientState.client);
-
-  // const { data } = useQuery(GET_USERS);
-  // console.debug(data);
+  const setUser = useSetRecoilState(userState.user);
 
   useEffect(() => {
-    setClient(session);
+    setUser(user);
   }, []);
 
   return (
@@ -94,76 +94,65 @@ const Dashboard = ({ session, friendData, spaceCardData }) => {
 
       {/* Collapsable Drawer on Medium and Up */}
       <Hidden smDown>
-        <Grid item md={open ? 2 : 1}>
-          <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-            <Sidebar
-              open={open}
-              onClose={() => setOpen(false)}
-              onOpen={() => setOpen(true)}
-              friendData={friendData}
-              isSmallScreen={false}
-            />
-          </CollapsableDrawer>
-        </Grid>
+        <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
+          <Sidebar
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            friendData={friendData}
+            isSmallScreen={false}
+          />
+        </CollapsableDrawer>
       </Hidden>
 
       {/* Dashboard Body */}
-      <Grid item xs={12} md={open ? 10 : 11} container direction="row">
-        <Grid container item xs={11} direction="row" justifyContent="center">
-          <Grid item xs={12} className="mb-4">
-            <DashboardContainer spaceCardData={spaceCardData} />
+      <div className="flex flex-1">
+        <Grid container direction="row" justifyContent="center">
+          <Grid item xs={12}>
+            <DashboardContainer spaces={spaces} />
           </Grid>
-          <Grid item container spacing={2} className="mt-2">
-            <Grid item xs={12} md={6}>
+          <Grid item container className="my-16 pl-12">
+            <Grid item xs={12} md={4} className="pr-4">
               <ChartCard
                 title={peakStudyTimes.title}
                 date={peakStudyTimes.date}
                 chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4} className="px-4">
               <ChartCard
                 title={studyTimes.title}
                 date={studyTimes.date}
                 chart={<LineChart options={studyTimes.options} data={studyTimes.data} />}
               />
             </Grid>
+            <Grid item xs={12} md={4} className="pl-4">
+              <ChartCard
+                title={peakStudyTimes.title}
+                date={peakStudyTimes.date}
+                chart={<VerticalBar options={peakStudyTimes.options} data={peakStudyTimes.data} />}
+              />
+            </Grid>
           </Grid>
           <Grid item xs={12} className="h-4" />
         </Grid>
 
-        {/* Right Settings Bar MOVE INTO DRAWER? TAKE OUT XS IF SO*/}
-        <Grid item xs={1} md={1}>
-          {session && (
-            <Grid
-              container
-              item
-              xs={12}
-              direction="column"
-              alignItems="center"
-              className={classNames(['rounded-br-2xl', classes.rightSettingsBar])}>
-              <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
-                <SettingsIcon className={classes.settingsIcons} />
-              </IconButton>
-              <IconButton aria-label="theme">
-                <PaletteIcon className={classes.settingsIcons} />
-              </IconButton>
-              <IconButton aria-label="friends">
-                <GroupIcon className={classes.settingsIcons} />
-              </IconButton>
-              <ProfileDialog session={session} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
-            </Grid>
-          )}
-        </Grid>
-      </Grid>
+        {/* Right Settings Bar */}
+        <div className={classNames(['flex flex-col items-center rounded-br-2xl', classes.rightSettingsBar])}>
+          <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
+            <SettingsIcon className={classes.settingsIcons} />
+          </IconButton>
+          <IconButton aria-label="theme">
+            <PaletteIcon className={classes.settingsIcons} />
+          </IconButton>
+          <IconButton aria-label="friends">
+            <GroupIcon className={classes.settingsIcons} />
+          </IconButton>
+          <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />
+        </div>
+      </div>
     </Grid>
   );
-};
-
-Dashboard.propTypes = {
-  session: PropTypes.object.isRequired,
-  friendData: PropTypes.array.isRequired,
-  spaceCardData: PropTypes.array.isRequired,
 };
 
 const redirectToHome = {
@@ -173,47 +162,26 @@ const redirectToHome = {
   },
 };
 
-export const getServerSideProps = async ({ req, locale }) => {
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: GET_USERS,
-  });
-
-  const session = await getSession({ req });
-  if (!session) {
+export const getServerSideProps = async ({ req, _, locale }) => {
+  const user = await getUser(req);
+  if (!user) {
+    console.debug('Log in first!');
     return redirectToHome;
   }
-
-  await dbConnect();
-
-  let newSession = {};
-  if (session) {
-    try {
-      const user = await User.findOne({
-        email: session.user.email,
-      });
-      if (!user) {
-        return redirectToHome;
-      }
-      newSession = { ...session, user };
-      console.debug('Session:', newSession);
-    } catch (err) {
-      console.error(err);
-      return redirectToHome;
-    }
-  }
+  const apolloClient = initializeApollo();
 
   let spaces = {};
   try {
-    spaces = await Space.find({});
+    const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
+    spaces = data.spaces;
   } catch (err) {
     console.error(err);
   }
 
   return {
     props: {
-      session: JSON.parse(JSON.stringify(newSession)), // otherwise nextjs throws error - can't serialize data
-      spaceCardData: JSON.parse(JSON.stringify(spaces)),
+      user: JSON.parse(JSON.stringify(user)), // otherwise nextjs throws error - can't serialize data
+      spaces: JSON.parse(JSON.stringify(spaces)),
       ...(await serverSideTranslations(locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
       friendData: [
@@ -245,6 +213,12 @@ export const getServerSideProps = async ({ req, locale }) => {
       ],
     },
   };
+};
+
+Dashboard.propTypes = {
+  user: PropTypes.object.isRequired,
+  friendData: PropTypes.array.isRequired,
+  spaces: PropTypes.array.isRequired,
 };
 
 export default Dashboard;

@@ -4,10 +4,10 @@ import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@material-ui/core';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
 
-import renderComponent from 'utils/renderComponent';
+import { useSocketContext } from '@/context/spaces/SocketContext';
+import renderComponent from '@/utils/renderComponent';
 import TabPanelHeader from './Layout/TabPanelHeader';
 import Music from './Music';
-import { SpotifyProvider } from './Music/SpotifyProvider';
 import ChatPanel from './Chat';
 import People from './People';
 import TodoList from './TodoList';
@@ -15,7 +15,9 @@ import TodoList from './TodoList';
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
 
-function CallTabs({ username, participants, socketRef, roomID, conversation, showTabs, setShowTabs }) {
+const CallTabs = ({ roomId, showTabs, setShowTabs }) => {
+  const { username, participants, socketRef, conversation } = useSocketContext();
+
   useEffect(() => {
     setShowTabs(true);
   }, [setShowTabs]);
@@ -34,8 +36,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
     {
       title: 'Music Library',
       icon: LibraryMusic,
-      panel: SpotifyProvider,
-      panelChild: Music,
+      panel: Music,
     },
     {
       title: 'Participants',
@@ -53,7 +54,7 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
       panelProps: {
         username,
         socketRef,
-        roomID,
+        roomId,
         conversation,
       },
     },
@@ -111,14 +112,10 @@ function CallTabs({ username, participants, socketRef, roomID, conversation, sho
       </div>
     </>
   );
-}
+};
 
 CallTabs.propTypes = {
-  username: PropTypes.string.isRequired,
-  participants: PropTypes.array.isRequired,
-  socketRef: PropTypes.object.isRequired,
-  roomID: PropTypes.string.isRequired,
-  conversation: PropTypes.array.isRequired,
+  roomId: PropTypes.string.isRequired,
   showTabs: PropTypes.bool.isRequired,
   setShowTabs: PropTypes.func.isRequired,
 };

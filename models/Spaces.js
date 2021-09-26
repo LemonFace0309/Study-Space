@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
-const Any = new Schema({ any: {} });
-const SpaceSchema = Schema(
+import ParticipantSchema from './Participant';
+
+const SpaceSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -26,10 +26,11 @@ const SpaceSchema = Schema(
       type: String,
       required: false,
     },
-    participants: {
-      type: [Any],
-      required: false,
+    hosts: {
+      type: [ParticipantSchema],
+      required: true,
     },
+    participants: [ParticipantSchema],
   },
   {
     timestamps: true,

@@ -7,8 +7,8 @@ import Alert from '@material-ui/lab/Alert';
 import styles from './Auth.module.css';
 
 const AuthDialog = ({
-  modalOpen,
-  setModalOpen,
+  open,
+  setOpen,
   showSuccessAlert,
   setShowSuccessAlert,
   handleCredentialsSubmit,
@@ -28,8 +28,8 @@ const AuthDialog = ({
     <Dialog
       fullWidth={true}
       maxWidth="lg"
-      open={modalOpen}
-      onClose={() => setModalOpen(false)}
+      open={open}
+      onClose={() => setOpen(false)}
       aria-labelledby="Login/Signup Modal"
       className={styles.Dialogue}>
       <Grid container className="my-8" alignItems="center" direction="row">
@@ -70,10 +70,18 @@ const AuthDialog = ({
                 {t(oAuthText)}
               </Typography>
               <div className="flex w-full justify-center items-center">
-                <IconButton className="mr-4 outline-none" onClick={() => signIn(providers?.facebook.id)}>
+                <IconButton
+                  className="mr-4 outline-none"
+                  onClick={() =>
+                    signIn(providers?.facebook.id, { callbackUrl: `${process.env.NEXT_PUBLIC_NODE_SERVER}/dashboard` })
+                  }>
                   <Image src="/images/facebook.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
-                <IconButton className="outline-none" onClick={() => signIn(providers?.google.id)}>
+                <IconButton
+                  className="outline-none"
+                  onClick={() =>
+                    signIn(providers?.google.id, { callbackUrl: `${process.env.NEXT_PUBLIC_NODE_SERVER}/dashboard` })
+                  }>
                   <Image src="/images/google.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
               </div>
@@ -111,8 +119,8 @@ const AuthDialog = ({
 };
 
 AuthDialog.propTypes = {
-  modalOpen: PropTypes.bool.isRequired,
-  setModalOpen: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
   showSuccessAlert: PropTypes.bool.isRequired,
   setShowSuccessAlert: PropTypes.func.isRequired,
   handleCredentialsSubmit: PropTypes.func.isRequired,

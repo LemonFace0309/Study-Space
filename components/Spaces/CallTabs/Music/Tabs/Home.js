@@ -3,14 +3,21 @@ import { shuffle } from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import parseTracks from 'utils/spotify/parseTracks';
-import { useSpotify } from '../SpotifyProvider';
+import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
+import parseTracks from '@/utils/spotify/parseTracks';
 import Playlist from '../Playlist';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
     color: theme.palette.primary.dark,
     marginBottom: theme.spacing(1),
+  },
+  songGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, 112px)',
+    gridGap: '1rem',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
   },
 }));
 
@@ -25,7 +32,7 @@ const SpotifyHome = () => {
     cafePlaylists,
     studyPlaylists,
     pianoPlaylists,
-  } = useSpotify();
+  } = useSpotifyContext();
   const playLists = [
     { name: 'Your Playlists ✨', playlistObj: userPlaylists },
     { name: 'Focus 📜', playlistObj: focusPlaylists },
@@ -57,7 +64,7 @@ const SpotifyHome = () => {
         <Typography variant="subtitle2" className={classes.heading}>
           {name}
         </Typography>
-        <Grid container alignItems="flex-start">
+        <Grid container className={classes.songGrid}>
           {playlistObj.map((playlist) => (
             <Playlist key={playlist.id} playlist={playlist} playPlaylist={playPlaylist} />
           ))}

@@ -1,11 +1,8 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import uniqueId from 'lodash/uniqueId';
+import { uniqueId } from 'lodash';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { useState } from 'react';
-import { useQuery, gql, useApolloClient } from '@apollo/client';
-
 import {
   Button,
   Grid,
@@ -17,19 +14,30 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  CircularProgress,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { useQuery, gql } from '@apollo/client';
 
-import * as clientState from 'atoms/client';
-
-const GET_SESSION_USER = gql`
-  query {
-    users(name: "Eden Chan") {
-      name
-      email
+const GET_REGISTERED_PARTICIPANTS_IN_SPACE = gql`
+  query GetRegisteredParticipantsInSpace($spaceId: ID!) {
+    registeredParticipantsInSpace(spaceId: $spaceId) {
+      _id
       image
+      username
+      name
+      # status
+    }
+  }
+`;
+
+const GET_HOSTS_FROM_SPACE = gql`
+  query GetHostsFromSpace($spaceId: ID!) {
+    hostsInSpace(spaceId: $spaceId) {
+      _id
+      image
+      username
+      name
     }
   }
 `;
@@ -37,17 +45,16 @@ const GET_SESSION_USER = gql`
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: '1rem',
+    overflow: 'hidden',
   },
   container: {
     padding: '2rem',
   },
-  paper: {
-    borderRadius: '50%',
-  },
   containedPrimary: {
     background: theme.palette.primary.dark,
     borderRadius: '2rem',
-    width: '100%',
+    whiteSpace: 'nowrap',
+    // width: '100%',
   },
 }));
 
@@ -55,20 +62,20 @@ const UserList = ({ users }) => {
   return (
     <List>
       {users.map((user) => (
-        <ListItem key={uniqueId()}>
+        <ListItem key={user?._id ?? uniqueId()}>
           <ListItemAvatar>
-            <Avatar alt={user.avatar.alt} src={user.avatar.src}></Avatar>
+            <Avatar alt="profile image" src={user?.image}></Avatar>
           </ListItemAvatar>
           <ListItemText
             disableTypography
             primary={
               <Typography variant="body1" color="textPrimary">
-                {user.name}
+                {user?.username || user?.name}
               </Typography>
             }
             secondary={
               <Typography variant="body1" color="primary">
-                {user.status}
+                {user?.status}
               </Typography>
             }
           />
@@ -77,27 +84,33 @@ const UserList = ({ users }) => {
     </List>
   );
 };
+
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
 };
 
-const SpaceCardModal = ({ handleClose, open, children, friends, participants, hosts, spaceId }) => {
+const SpaceCardModal = ({ handleClose, open, children, friends, participants, spaceId }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
-  const [client, setClient] = useRecoilState(clientState.client);
-  const [roomIsLoading, setRoomIsLoading] = useState(false);
 
-  // const gqlClient = useApolloClient();
-  // const { loading, error, data } = useQuery(GET_SESSION_USER);
-  // console.debug('data', data);
+  const { data: pData } = useQuery(GET_REGISTERED_PARTICIPANTS_IN_SPACE, { variables: { spaceId } });
+  const { data: hData } = useQuery(GET_HOSTS_FROM_SPACE, { variables: { spaceId } });
+  const [loading, setLoading] = useState(true);
+  const [allParticipants, setAllParticipants] = useState([]);
 
-  const joinSpace = () => {
-    // Add client to participant list
-    setRoomIsLoading(true);
+  useEffect(() => {
+    if (!pData) return;
+    const guests = participants.filter((p) => !p.userId);
+    setAllParticipants([...guests, ...pData.registeredParticipantsInSpace]);
+    setLoading(false);
+  }, [participants, pData]);
+
+  const joinSpace = async () => {
     router.push(`/room/${spaceId}`);
   };
+
   return (
     <Dialog onClose={() => handleClose()} open={open} PaperProps={{ classes: { root: classes.dialogPaper } }}>
       <Grid container spacing={3} className={classes.container}>
@@ -117,7 +130,8 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
                 <Typography variant="body1">{t('LABEL_PARTICIPANTS')}</Typography>
               </Box>
-              <UserList users={participants} />
+
+              {!loading && <UserList users={allParticipants} />}
             </Box>
           </Grid>
 
@@ -127,17 +141,14 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, ho
               <Box color={theme.palette.text.bluegray} paddingLeft="1rem">
                 <Typography variant="body1">{t('LABEL_HOST')}</Typography>
               </Box>
-              <UserList users={hosts} />
+              {hData && <UserList users={hData.hostsInSpace} />}
               <Button
                 variant="contained"
                 color="primary"
                 className={classes.containedPrimary}
-                // Add participant to the joined room
-                onClick={() => {
-                  joinSpace();
-                }}>
-                <ArrowForwardIcon /> {t('LABEL_JOIN_SPACE')}
-                {roomIsLoading && <CircularProgress />}
+                startIcon={<ArrowForwardIcon />}
+                onClick={joinSpace}>
+                {t('LABEL_JOIN_SPACE')}
               </Button>
             </Box>
           </Grid>
@@ -153,7 +164,6 @@ SpaceCardModal.propTypes = {
   children: PropTypes.element.isRequired,
   friends: PropTypes.array,
   participants: PropTypes.array,
-  hosts: PropTypes.array,
   spaceId: PropTypes.string.isRequired,
 };
 
