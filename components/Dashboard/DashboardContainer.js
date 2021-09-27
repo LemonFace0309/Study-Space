@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import createNewSpace from '@/utils/spaces/createNewSpace';
+import * as userState from '@/atoms/user';
 import MainActionButton from './Cards/MainActionButton';
 import SpacePackage from './Cards/SpacePackage';
 
@@ -22,12 +27,25 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardContainer = ({ spaces }) => {
   const classes = useStyles();
+  const router = useRouter();
+  const [creatingSpace, setCreatingSpace] = useState(false);
+  const user = useRecoilValue(userState.user);
+
+  const createASpace = async () => {
+    setCreatingSpace(true);
+    try {
+      const newSpaceURL = await createNewSpace(user);
+      router.push(newSpaceURL);
+    } catch (err) {
+      console.debug('Unable to create new space:', err);
+    }
+  };
 
   return (
     <div className="h-full rounded-none rounded-b-2xl bg-white p-4 pl-12">
       {/* Greeting */}
       <Grid container direction="row">
-        <div item xs={12} className="mb-8">
+        <div xs={12} className="mb-8">
           <Typography variant="h4">Hey Charles!</Typography>
           <Typography variant="h6" color="textSecondary">
             The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
@@ -44,7 +62,9 @@ const DashboardContainer = ({ spaces }) => {
               variant="dark"
               img="/images/dashboard/craft.svg"
               name="LABEL_CREATE_A_SPACE"
-              description="insert some sort of tagline or feature description"
+              description="Insert some sort of tagline or feature description"
+              loading={creatingSpace}
+              onClick={createASpace}
             />
           </Grid>
           <Grid item sm={12} md={6} className={classes.fitContent}>
@@ -55,7 +75,7 @@ const DashboardContainer = ({ spaces }) => {
               variant="light"
               img="/images/dashboard/join.svg"
               name="LABEL_JOIN_A_SPACE"
-              description="insert some sort of tagline or feature description"
+              description="Insert some sort of tagline or feature description"
             />
           </Grid>
         </Grid>

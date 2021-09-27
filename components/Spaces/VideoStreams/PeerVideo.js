@@ -21,7 +21,11 @@ const PeerVideo = ({ peer, username, stream }) => {
 
   return (
     <div className="flex flex-col relative">
-      <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
+      <video
+        muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))}
+        autoPlay
+        ref={ref}
+        className="h-72 w-96 object-cover">
         <track kind="captions"></track>
       </video>
       <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">

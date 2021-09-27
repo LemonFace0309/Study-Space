@@ -3,23 +3,17 @@ import Image from 'next/image';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { useSocketContext } from '@/context/spaces/SocketContext';
+import { useSpaceContext, LAYOUT_OPTIONS } from '@/context/spaces';
 import PeerVideo from './PeerVideo';
 
-export const LAYOUT_OPTIONS = {
-  TILED: 'Tiled',
-  LIST: 'List',
-  MAIN: 'Main',
-};
-
-const VideoStreams = ({ layout, showTabs }) => {
-  const { username, userVideo, peersRef } = useSocketContext();
+const VideoStreams = ({ showTabs }) => {
+  const { layout, username, userVideo, peersRef } = useSpaceContext();
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
       <div className="p-5 flex flex-row flex-wrap justify-center items-center">
         <div className="relative border">
-          <video muted ref={userVideo} autoPlay height="400" width="400" />
+          <video muted ref={userVideo} autoPlay className="h-72 w-96 object-cover" />
           {layout == LAYOUT_OPTIONS.LIST && (
             <div>
               <div className="absolute top-0 left-0 w-full h-full">
@@ -43,7 +37,6 @@ const VideoStreams = ({ layout, showTabs }) => {
 };
 
 VideoStreams.propTypes = {
-  layout: PropTypes.string.isRequired,
   showTabs: PropTypes.bool.isRequired,
 };
 
