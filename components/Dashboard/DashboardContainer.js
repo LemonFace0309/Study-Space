@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
@@ -27,9 +28,11 @@ const useStyles = makeStyles((theme) => ({
 const DashboardContainer = ({ spaces }) => {
   const classes = useStyles();
   const router = useRouter();
+  const [creatingSpace, setCreatingSpace] = useState(false);
   const user = useRecoilValue(userState.user);
 
   const createASpace = async () => {
+    setCreatingSpace(true);
     try {
       const newSpaceURL = await createNewSpace(user);
       router.push(newSpaceURL);
@@ -59,7 +62,8 @@ const DashboardContainer = ({ spaces }) => {
               variant="dark"
               img="/images/dashboard/craft.svg"
               name="LABEL_CREATE_A_SPACE"
-              description="insert some sort of tagline or feature description"
+              description="Insert some sort of tagline or feature description"
+              loading={creatingSpace}
               onClick={createASpace}
             />
           </Grid>
@@ -71,7 +75,7 @@ const DashboardContainer = ({ spaces }) => {
               variant="light"
               img="/images/dashboard/join.svg"
               name="LABEL_JOIN_A_SPACE"
-              description="insert some sort of tagline or feature description"
+              description="Insert some sort of tagline or feature description"
             />
           </Grid>
         </Grid>
