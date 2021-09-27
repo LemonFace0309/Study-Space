@@ -8,15 +8,13 @@ import { Grid } from '@material-ui/core';
 
 import { RoomProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
-import VideoStreams, { LAYOUT_OPTIONS } from '@/components/Spaces/VideoStreams';
+import VideoStreams from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
-
 import * as spotifyState from '@/atoms/spotify';
 
 const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
   const router = useRouter();
   const [showTabs, setShowTabs] = useState(false);
-  const [layout, setLayout] = useState(LAYOUT_OPTIONS.TILED);
   const setRoomID = useSetRecoilState(spotifyState.roomId);
   const setSpotifyAuthURL = useSetRecoilState(spotifyState.spotifyAuthURL);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
@@ -43,9 +41,9 @@ const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
 
   return (
     <RoomProvider>
-      <Grid container className="p-10 relative flex-row justify-between h-screen bg-gray-50">
-        <CallOptions setLayout={setLayout} />
-        <VideoStreams layout={layout} showTabs={showTabs} />
+      <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
+        <VideoStreams showTabs={showTabs} />
+        <CallOptions />
         <CallTabs roomId={roomId} showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
       </Grid>
     </RoomProvider>
