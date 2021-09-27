@@ -72,16 +72,12 @@ const AuthDialog = ({
               <div className="flex w-full justify-center items-center">
                 <IconButton
                   className="mr-4 outline-none"
-                  onClick={() =>
-                    signIn(providers?.facebook.id, { callbackUrl: `${process.env.NEXT_PUBLIC_URL}/dashboard` })
-                  }>
+                  onClick={() => signIn(providers?.facebook.id, { callbackUrl: '/dashboard' })}>
                   <Image src="/images/facebook.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
                 <IconButton
                   className="outline-none"
-                  onClick={() =>
-                    signIn(providers?.google.id, { callbackUrl: `${process.env.NEXT_PUBLIC_URL}/dashboard` })
-                  }>
+                  onClick={() => signIn(providers?.google.id, { callbackUrl: '/dashboard' })}>
                   <Image src="/images/google.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
               </div>
