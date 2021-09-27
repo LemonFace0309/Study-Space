@@ -6,10 +6,19 @@ import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import * as userState from 'atoms/user';
+import router from 'next/router';
 
 const Hero = ({ setAuthDialogOpen }) => {
   const { t } = useTranslation();
   const session = useRecoilValue(userState.session);
+
+  const tryItYourselfHandler = () => {
+    if (session) {
+      router.push('dashboard');
+    } else {
+      setAuthDialogOpen(true);
+    }
+  };
 
   return (
     <Container maxWidth="xl" className="flex-grow flex items-stretch">
@@ -22,9 +31,7 @@ const Hero = ({ setAuthDialogOpen }) => {
           </div>
           <div>
             <Button
-              onClick={() => {
-                !session && setAuthDialogOpen(true);
-              }}
+              onClick={tryItYourselfHandler}
               className="normal-case px-10 m-2 rounded-full outline-none text-white bg-gray-500 hover:bg-gray-600"
               style={{
                 border: '1.5px solid rgba(107, 114, 128)',
