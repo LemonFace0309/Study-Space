@@ -209,10 +209,7 @@ export const SocketProvider = ({ loading, children }) => {
     peersRef.current.forEach((peerObj) => {
       peerObj.peer.destroy();
     });
-    router.push(`/room`);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    router.push(`/dashboard`);
   };
 
   const toggleUserAudio = () => {

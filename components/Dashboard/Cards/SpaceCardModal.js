@@ -14,6 +14,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  CircularProgress,
 } from '@material-ui/core';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -98,6 +99,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, sp
   const { data: pData } = useQuery(GET_REGISTERED_PARTICIPANTS_IN_SPACE, { variables: { spaceId } });
   const { data: hData } = useQuery(GET_HOSTS_FROM_SPACE, { variables: { spaceId } });
   const [loading, setLoading] = useState(true);
+  const [joiningSpace, setJoiningSpace] = useState(false);
   const [allParticipants, setAllParticipants] = useState([]);
 
   useEffect(() => {
@@ -108,6 +110,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, sp
   }, [participants, pData]);
 
   const joinSpace = async () => {
+    setJoiningSpace(true);
     router.push(`/room/${spaceId}`);
   };
 
@@ -148,6 +151,7 @@ const SpaceCardModal = ({ handleClose, open, children, friends, participants, sp
                 className={classes.containedPrimary}
                 startIcon={<ArrowForwardIcon />}
                 onClick={joinSpace}>
+                {joiningSpace && <CircularProgress />}
                 {t('LABEL_JOIN_SPACE')}
               </Button>
             </Box>
