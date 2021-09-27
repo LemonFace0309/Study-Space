@@ -11,7 +11,9 @@ class User extends Adapters.TypeORM.Models.User.model {
     this.friends = [];
     this.todos = [];
     this.username = '';
-    // this.password = ''; Not sure if we want password field to be consistent with password users
+    this.image = '';
+    // must be in sync with User model otherwise nextAuth will boom (especially in prod)
+    // just add all required and non required fields here
   }
 }
 
