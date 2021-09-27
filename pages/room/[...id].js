@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Grid } from '@material-ui/core';
 
-import { RoomProvider } from '@/context/spaces';
+import { SpaceProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import VideoStreams from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
@@ -40,13 +40,13 @@ const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
   }, []);
 
   return (
-    <RoomProvider>
+    <SpaceProvider>
       <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
         <VideoStreams showTabs={showTabs} />
         <CallOptions />
         <CallTabs roomId={roomId} showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
       </Grid>
-    </RoomProvider>
+    </SpaceProvider>
   );
 };
 

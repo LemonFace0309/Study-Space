@@ -13,12 +13,13 @@ import {
   ExitToApp,
 } from '@material-ui/icons';
 
-import { useSocketContext } from '@/context/spaces/SocketContext';
+import { useSpaceContext } from '@/context/spaces';
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
-const CallOptions = ({ setLayout }) => {
-  const { enableUserAudio, enableUserVideo, toggleUserAudio, toggleUserVideo, leaveCall } = useSocketContext();
+const CallOptions = () => {
+  const { setLayout, enableUserAudio, enableUserVideo, toggleUserAudio, toggleUserVideo, leaveCall } =
+    useSpaceContext();
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openParticipantsModal, setOpenParticipantsModal] = useState(false);
@@ -79,10 +80,6 @@ const CallOptions = ({ setLayout }) => {
       <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );
-};
-
-CallOptions.propTypes = {
-  setLayout: PropTypes.func.isRequired,
 };
 
 export default CallOptions;

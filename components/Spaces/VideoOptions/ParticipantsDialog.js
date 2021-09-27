@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 
-import { LAYOUT_OPTIONS } from '@/components/Spaces/VideoStreams';
+import { LAYOUT_OPTIONS } from '@/context/spaces';
 
 const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoLayout }) => {
   const { t } = useTranslation();

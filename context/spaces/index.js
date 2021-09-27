@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 
@@ -8,16 +8,26 @@ import { useSocketContext, SocketProvider } from './SocketContext';
 import { useTodoContext, TodoProvider } from './TodoContext';
 import { useSpotifyContext, SpotifyProvider } from './SpotifyContext';
 
-export const useRoomContext = () => {
+export const LAYOUT_OPTIONS = {
+  TILED: 'Tiled',
+  LIST: 'List',
+  MAIN: 'Main',
+};
+
+const SpaceContext = createContext();
+
+export const useSpaceContext = () => {
   return {
+    ...useContext(SpaceContext),
     ...useSocketContext(),
     ...useTodoContext(),
     ...useSpotifyContext(),
   };
 };
 
-export const RoomProvider = ({ children }) => {
+export const SpaceProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [layout, setLayout] = useState(LAYOUT_OPTIONS.TILED);
   const [user, setUser] = useRecoilState(userState.user);
 
   const initUser = async () => {
@@ -38,15 +48,22 @@ export const RoomProvider = ({ children }) => {
     initUser();
   }, []);
 
+  const value = {
+    layout,
+    setLayout,
+  };
+
   return (
-    <SocketProvider loading={loading}>
-      <TodoProvider>
-        <SpotifyProvider>{children}</SpotifyProvider>
-      </TodoProvider>
-    </SocketProvider>
+    <SpaceContext.Provider value={value}>
+      <SocketProvider loading={loading}>
+        <TodoProvider>
+          <SpotifyProvider>{children}</SpotifyProvider>
+        </TodoProvider>
+      </SocketProvider>
+    </SpaceContext.Provider>
   );
 };
 
-RoomProvider.propTypes = {
+SpaceProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

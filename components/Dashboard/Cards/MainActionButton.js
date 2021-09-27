@@ -22,12 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainActionButton = ({ name, img, description, variant }) => {
+const MainActionButton = ({ name, img, description, variant, onClick }) => {
   const { t } = useTranslation();
   const classes = useStyles({ variant });
 
   return (
-    <Card isClickable={true}>
+    <Card isClickable={true} onClick={onClick}>
       <Grid container direction="row" className={classes.container}>
         <Hidden smDown>
           <Image src={img} height="200" width="250" />
@@ -47,6 +47,11 @@ MainActionButton.propTypes = {
   img: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+};
+
+MainActionButton.defaultProps = {
+  onClick: () => null,
 };
 
 export default MainActionButton;

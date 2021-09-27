@@ -14,17 +14,17 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import GroupIcon from '@material-ui/icons/Group';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Sidebar from 'components/Dashboard/Sidebar';
-import DashboardContainer from 'components/Dashboard/DashboardContainer';
-import ChartCard from 'components/Dashboard/Cards/ChartCard';
-import VerticalBar from 'components/Dashboard/Charts/VerticalBar';
-import LineChart from 'components/Dashboard/Charts/LineChart';
-import ProfileDialog from 'components/Dashboard/Modals/ProfileDialog';
-import CollapsableDrawer from 'components/Dashboard/CollapsableDrawer';
-import * as userState from 'atoms/user';
-import { initializeApollo } from 'utils/apollo/client';
-import { chartData } from '../../data/chartData';
+import Sidebar from '@/components/Dashboard/Sidebar';
+import DashboardContainer from '@/components/Dashboard/DashboardContainer';
+import ChartCard from '@/components/Dashboard/Cards/ChartCard';
+import VerticalBar from '@/components/Dashboard/Charts/VerticalBar';
+import LineChart from '@/components/Dashboard/Charts/LineChart';
+import ProfileDialog from '@/components/Dashboard/Modals/ProfileDialog';
+import CollapsableDrawer from '@/components/Dashboard/CollapsableDrawer';
+import * as userState from '@/atoms/user';
+import { initializeApollo } from '@/utils/apollo/client';
 import getUser from '@/utils/getUser';
+import { chartData } from '../../data/chartData';
 
 const GET_SPACES = gql`
   query Spaces($spacesSpaceIds: [ID!]) {
@@ -41,6 +41,7 @@ const GET_SPACES = gql`
     }
   }
 `;
+
 const useStyles = makeStyles((theme) => ({
   fabDrawer: {
     borderRadius: '0px 1rem 1rem 0px',
@@ -170,7 +171,7 @@ export const getServerSideProps = async ({ req, _, locale }) => {
   }
   const apolloClient = initializeApollo();
 
-  let spaces = {};
+  let spaces = [];
   try {
     const { data } = await apolloClient.query({ query: GET_SPACES, variables: { spacesSpaceIds: [] } });
     spaces = data.spaces;
