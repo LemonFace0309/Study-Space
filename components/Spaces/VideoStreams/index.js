@@ -19,7 +19,7 @@ const VideoStreams = ({ layout, showTabs }) => {
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
       <div className="p-5 flex flex-row flex-wrap justify-center items-center">
         <div className="relative border">
-          <video muted ref={userVideo} autoPlay height="400" width="400" />
+          <video muted ref={userVideo} autoPlay className="h-72 w-96 object-cover" />
           {layout == LAYOUT_OPTIONS.LIST && (
             <div>
               <div className="absolute top-0 left-0 w-full h-full">
