@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 
+import { LAYOUT_OPTIONS } from '@/components/Spaces/VideoStreams';
+
 const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoLayout }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const [layout, setLayout] = useState(layoutOptions[0]?.value ?? 'tiled');
+  const [layout, setLayout] = useState(layoutOptions.TILED);
   const [showParticipants, setShowParticipants] = useState(true);
 
   const toggleParticipants = () => {
     setShowParticipants((participants) => !participants);
   };
 
-  const handleLayoutChange = (event) => {
-    setLayout(event.target.value);
-    setVideoLayout(event.target.value);
+  const handleLayoutChange = (e) => {
+    setLayout(e.target.value);
+    setVideoLayout(e.target.value);
   };
 
   return (
@@ -38,13 +40,13 @@ const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoL
         <div className="flex flex-col w-100">
           <FormControl component="fieldset">
             <RadioGroup aria-label="Participant layout options" value={layout} onChange={handleLayoutChange}>
-              {layoutOptions.map((option) => (
+              {Object.entries(layoutOptions).map((option) => (
                 <FormControlLabel
-                  key={option.value}
+                  key={option[0]}
                   disabled={!showParticipants}
-                  value={option.value}
+                  value={option[1]}
                   control={<Radio />}
-                  label={option.label}
+                  label={option[1]}
                 />
               ))}
             </RadioGroup>
@@ -58,16 +60,12 @@ const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoL
 ParticipantsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  layoutOptions: PropTypes.array.isRequired,
+  layoutOptions: PropTypes.object,
   setLayout: PropTypes.func.isRequired,
 };
 
 ParticipantsDialog.defaultProps = {
-  layoutOptions: [
-    { value: 'TILED', label: 'Tiled' },
-    { value: 'LIST', label: 'List' },
-    { value: 'MAIN', label: 'Main Speaker' },
-  ],
+  layoutOptions: LAYOUT_OPTIONS,
 };
 
 export default ParticipantsDialog;

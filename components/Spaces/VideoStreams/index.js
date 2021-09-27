@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import { useSocketContext } from '@/context/spaces/SocketContext';
 import PeerVideo from './PeerVideo';
 
 export const LAYOUT_OPTIONS = {
-  TILED: 'TILED',
-  LIST: 'LIST',
-  MAIN: 'MAIN',
+  TILED: 'Tiled',
+  LIST: 'List',
+  MAIN: 'Main',
 };
 
 const VideoStreams = ({ layout, showTabs }) => {
   const { username, userVideo, peersRef } = useSocketContext();
-  console.debug(peersRef);
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
@@ -25,15 +25,17 @@ const VideoStreams = ({ layout, showTabs }) => {
               <div className="absolute top-0 left-0 w-full h-full">
                 <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
               </div>
-              <div className="z-10 absolute bottom-0 right-0 w-full">
-                <div className="p-1 text-white"> {username} </div>
-              </div>
             </div>
           )}
+          <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
+            {username}
+          </Typography>
         </div>
 
         {peersRef.current.map((peerObj) => {
-          return <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} />;
+          return (
+            <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
+          );
         })}
       </div>
     </Grid>
