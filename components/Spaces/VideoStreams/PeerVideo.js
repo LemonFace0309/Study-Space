@@ -1,23 +1,32 @@
 import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 
-const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
+import { useSocketContext } from '@/context/spaces/SocketContext';
 
-const PeerVideo = ({ peer, username }) => {
+const PeerVideo = ({ peer, username, stream }) => {
+  const {
+    constants: { USER_MEDIA_ACTIVE },
+  } = useSocketContext();
   const ref = useRef();
 
   useEffect(() => {
-    peer.on('stream', (stream) => {
+    if (stream) {
       ref.current.srcObject = stream;
-    });
-  }, [peer]);
+    }
+    // peer.on('stream', (stream) => {
+    //   ref.current.srcObject = stream;
+    // });
+  }, [peer, stream]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <video muted={JSON.parse(localStorage.getItem(USER_MEDIA_ACTIVE))} autoPlay ref={ref} height="400" width="400">
         <track kind="captions"></track>
       </video>
-      <span>{username}</span>
+      <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
+        {username}
+      </Typography>
     </div>
   );
 };
@@ -25,6 +34,11 @@ const PeerVideo = ({ peer, username }) => {
 PeerVideo.propTypes = {
   peer: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
+  stream: PropTypes.object,
+};
+
+PeerVideo.defaultProps = {
+  stream: null,
 };
 
 export default PeerVideo;
