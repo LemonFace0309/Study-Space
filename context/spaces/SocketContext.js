@@ -69,18 +69,10 @@ export const SocketProvider = ({ loading, children }) => {
      * Also populates conversation with redis cache
      */
     socketRef.current.on('all users', ({ users, conversation }) => {
-      const peers = [];
       const newParticipants = [];
       newParticipants.push(currentUsername);
       users.forEach((user) => {
-        console.debug(users);
-        const peer = createPeer(user.socketId, currentUsername, socketRef.current.id, stream);
-        peersRef.current.push({
-          peerId: user.socketId,
-          peerName: user.username,
-          peer,
-        });
-        peers.push(peer);
+        createPeer(user.socketId, currentUsername, socketRef.current.id, user.username, stream);
         newParticipants.push(user.username);
       });
       setParticipants([...newParticipants]);
@@ -100,12 +92,7 @@ export const SocketProvider = ({ loading, children }) => {
      * Add new user that joins after you as peer
      */
     socketRef.current.on('user joined', (payload) => {
-      const peer = addPeer(payload.signal, payload.callerID, stream);
-      peersRef.current.push({
-        peerId: payload.callerID,
-        peerName: payload.username,
-        peer,
-      });
+      addPeer(payload.signal, payload.callerID, payload.username, stream);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
     });
@@ -161,36 +148,61 @@ export const SocketProvider = ({ loading, children }) => {
     }
   }, [loading]);
 
-  const createPeer = (userToSignal, username, callerID, stream) => {
+  const createPeer = (userToSignal, myUsername, callerID, username, myStream) => {
     const peer = new Peer({
       initiator: true,
       trickle: false,
-      stream,
+      stream: myStream,
     });
+
     peer.on('signal', (signal) => {
       socketRef.current.emit('sending signal', {
         userToSignal,
-        username,
+        username: myUsername,
         callerID,
         signal,
       });
     });
-    return peer;
+
+    peer.on('stream', (stream) => {
+      const peerObj = peersRef.current.find((peer) => peer.peerId === userToSignal);
+      peerObj.stream = stream;
+      setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
+    });
+
+    peersRef.current.push({
+      peerId: userToSignal,
+      peerName: username,
+      stream: null,
+      peer,
+    });
   };
 
-  const addPeer = (incomingSignal, callerID, stream) => {
+  const addPeer = (incomingSignal, callerID, username, myStream) => {
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream,
+      stream: myStream,
     });
 
     peer.on('signal', (signal) => {
       socketRef.current.emit('returning signal', { signal, callerID });
     });
 
+    peer.on('stream', (stream) => {
+      const peerObj = peersRef.current.find((peer) => peer.peerId === callerID);
+      peerObj.stream = stream;
+      setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
+    });
+
     peer.signal(incomingSignal);
-    return peer;
+
+    peersRef.current.push({
+      peerId: callerID,
+      peerName: username,
+      stream: null,
+      peer,
+    });
   };
 
   const leaveCall = () => {
@@ -215,7 +227,12 @@ export const SocketProvider = ({ loading, children }) => {
     userVideo.current.srcObject.getVideoTracks()[0].enabled = !state;
   };
 
+  const constants = {
+    USER_MEDIA_ACTIVE,
+  };
+
   const value = {
+    constants,
     socketRef,
     userVideo,
     peersRef,

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@material-ui/core';
 import {
   Mic,
@@ -16,7 +17,7 @@ import { useSocketContext } from '@/context/spaces/SocketContext';
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
-function CallOptions() {
+const CallOptions = ({ setLayout }) => {
   const { enableUserAudio, enableUserVideo, toggleUserAudio, toggleUserVideo, leaveCall } = useSocketContext();
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
@@ -74,10 +75,14 @@ function CallOptions() {
         )}
       </Popper>
 
-      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} />
+      <ParticipantsDialog open={openParticipantsModal} setOpen={setOpenParticipantsModal} setLayout={setLayout} />
       <LeaveCallDialog open={openLeaveModal} setOpen={setOpenLeaveModal} leaveCall={leaveCall} />
     </>
   );
-}
+};
+
+CallOptions.propTypes = {
+  setLayout: PropTypes.func.isRequired,
+};
 
 export default CallOptions;

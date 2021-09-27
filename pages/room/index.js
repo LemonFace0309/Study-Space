@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
 import { v1 as uuid } from 'uuid';
