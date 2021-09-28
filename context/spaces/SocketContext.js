@@ -9,8 +9,6 @@ import { intersection } from 'lodash';
 
 import * as userState from 'atoms/user';
 
-const USER_MEDIA_ACTIVE = 'USER_MEDIA_ACTIVE';
-
 const SocketContext = createContext();
 
 export const useSocketContext = () => {
@@ -53,7 +51,6 @@ export const SocketProvider = ({ loading, children }) => {
     try {
       stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
       userVideo.current.srcObject = stream;
-      localStorage.setItem(USER_MEDIA_ACTIVE, true);
     } catch (err) {
       console.warn(err);
     }
@@ -224,12 +221,7 @@ export const SocketProvider = ({ loading, children }) => {
     userVideo.current.srcObject.getVideoTracks()[0].enabled = !state;
   };
 
-  const constants = {
-    USER_MEDIA_ACTIVE,
-  };
-
   const value = {
-    constants,
     socketRef,
     userVideo,
     peersRef,
