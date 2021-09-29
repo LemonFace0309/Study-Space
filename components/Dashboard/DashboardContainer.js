@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import createNewSpace from '@/utils/spaces/createNewSpace';
 import * as userState from '@/atoms/user';
+import CreateSpaceDialog from './Modals//CreateSpaceDialog';
 import MainActionButton from './Cards/MainActionButton';
 import SpacePackage from './Cards/SpacePackage';
 
@@ -28,28 +29,30 @@ const useStyles = makeStyles((theme) => ({
 const DashboardContainer = ({ spaces }) => {
   const classes = useStyles();
   const router = useRouter();
-  const [creatingSpace, setCreatingSpace] = useState(false);
   const user = useRecoilValue(userState.user);
-  const [greeting, setGreeting] = useState('Hey!');
+  const [greeting, setGreeting] = useState('Hey 😊');
+  const [createSpaceOpen, setCreateSpaceOpen] = useState(false);
+  const [creatingSpace, setCreatingSpace] = useState(false);
 
   useEffect(() => {
     const newGreeting = user?.username
-      ? `Welcome ${user?.username}!`
+      ? `Welcome ${user?.username}! 😊`
       : user?.name
-      ? `Hey ${user?.name.split(' ')[0]}!`
-      : 'Hello :D';
+      ? `Hey ${user?.name.split(' ')[0]}! 😊`
+      : 'Hello 😊';
 
     setGreeting(newGreeting);
   }, [user]);
 
   const createASpace = async () => {
-    setCreatingSpace(true);
-    try {
-      const newSpaceURL = await createNewSpace(user);
-      router.push(newSpaceURL);
-    } catch (err) {
-      console.debug('Unable to create new space:', err);
-    }
+    setCreateSpaceOpen(true);
+    // setCreatingSpace(true);
+    // try {
+    //   const newSpaceURL = await createNewSpace(user);
+    //   router.push(newSpaceURL);
+    // } catch (err) {
+    //   console.debug('Unable to create new space:', err);
+    // }
   };
 
   return (
@@ -77,6 +80,7 @@ const DashboardContainer = ({ spaces }) => {
               loading={creatingSpace}
               onClick={createASpace}
             />
+            <CreateSpaceDialog open={createSpaceOpen} setOpen={setCreateSpaceOpen} />
           </Grid>
           <Grid item sm={12} md={6} className={classes.fitContent}>
             <Typography variant="h6" className={classes.subHeader}>
