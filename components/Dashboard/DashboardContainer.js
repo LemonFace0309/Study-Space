@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
@@ -30,6 +30,17 @@ const DashboardContainer = ({ spaces }) => {
   const router = useRouter();
   const [creatingSpace, setCreatingSpace] = useState(false);
   const user = useRecoilValue(userState.user);
+  const [greeting, setGreeting] = useState('Hey!');
+
+  useEffect(() => {
+    const newGreeting = user?.username
+      ? `Welcome ${user?.username}!`
+      : user?.name
+      ? `Hey ${user?.name.split(' ')[0]}!`
+      : 'Hello :D';
+
+    setGreeting(newGreeting);
+  }, [user]);
 
   const createASpace = async () => {
     setCreatingSpace(true);
@@ -46,7 +57,7 @@ const DashboardContainer = ({ spaces }) => {
       {/* Greeting */}
       <Grid container direction="row">
         <div xs={12} className="mb-8">
-          <Typography variant="h4">Hey Charles!</Typography>
+          <Typography variant="h4">{greeting}</Typography>
           <Typography variant="h6" color="textSecondary">
             The key is not to prioritize what&#39;s on your schedule, but to schedule your priorities.
           </Typography>
