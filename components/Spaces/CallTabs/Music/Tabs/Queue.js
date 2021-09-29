@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { uniqueId } from 'lodash';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
 import Track from '../Track';

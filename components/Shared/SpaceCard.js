@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import VideocamOffIcon from '@material-ui/icons/VideocamOff';
-import MicIcon from '@material-ui/icons/Mic';
-import ChatIcon from '@material-ui/icons/Chat';
-import PeopleIcon from '@material-ui/icons/People';
-import LibraryMusicIcon from '@material-ui/icons/LibraryMusic';
+import { Grid, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import MicIcon from '@mui/icons-material/Mic';
+import ChatIcon from '@mui/icons-material/Chat';
+import PeopleIcon from '@mui/icons-material/People';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 
 import SpaceCardContainer from './Card';
 

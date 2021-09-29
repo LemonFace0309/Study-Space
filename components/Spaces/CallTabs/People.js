@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Grid, Dialog, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Assignment } from '@material-ui/icons';
+import { Button, Grid, Dialog, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Assignment } from '@mui/icons-material';
 
 const useStyles = makeStyles(() => ({
   paper: {

@@ -1,10 +1,10 @@
 import { useTranslation } from 'next-i18next';
 import { useState, useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Alert from '@material-ui/lab/Alert';
-import Divider from '@material-ui/core/Divider';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import InputBase from '@mui/material/InputBase';
+import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
 import parseTracks from '@/utils/spotify/parseTracks';

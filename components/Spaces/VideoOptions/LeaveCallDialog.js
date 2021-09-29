@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Dialog, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core';
+import { Grid, Dialog, Typography } from '@mui/material';
+import { useTheme } from '@mui/material';
 import LeaveCallButton from './LeaveCallButton';
 
 const LeaveCallDialog = ({ open, setOpen, leaveCall }) => {

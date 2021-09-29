@@ -6,13 +6,13 @@ import classNames from 'classnames';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { gql } from '@apollo/client';
 
-import { Grid, Hidden, Drawer, Fab } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
-import SettingsIcon from '@material-ui/icons/Settings';
-import PaletteIcon from '@material-ui/icons/Palette';
-import GroupIcon from '@material-ui/icons/Group';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Hidden, Drawer, Fab } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PaletteIcon from '@mui/icons-material/Palette';
+import GroupIcon from '@mui/icons-material/Group';
+import makeStyles from '@mui/styles/makeStyles';
 
 import Sidebar from '@/components/Dashboard/Sidebar';
 import DashboardContainer from '@/components/Dashboard/DashboardContainer';
@@ -94,7 +94,7 @@ const Dashboard = ({ user, friendData, spaces }) => {
       </Hidden>
 
       {/* Collapsable Drawer on Medium and Up */}
-      <Hidden smDown>
+      <Hidden mdDown>
         <CollapsableDrawer open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
           <Sidebar
             open={open}
@@ -140,13 +140,13 @@ const Dashboard = ({ user, friendData, spaces }) => {
 
         {/* Right Settings Bar */}
         <div className={classNames(['flex flex-col items-center rounded-br-2xl', classes.rightSettingsBar])}>
-          <IconButton onClick={() => setProfileOpen((prev) => !prev)}>
+          <IconButton onClick={() => setProfileOpen((prev) => !prev)} size="large">
             <SettingsIcon className={classes.settingsIcons} />
           </IconButton>
-          <IconButton aria-label="theme">
+          <IconButton aria-label="theme" size="large">
             <PaletteIcon className={classes.settingsIcons} />
           </IconButton>
-          <IconButton aria-label="friends">
+          <IconButton aria-label="friends" size="large">
             <GroupIcon className={classes.settingsIcons} />
           </IconButton>
           <ProfileDialog user={user} isOpen={profileOpen} handleClose={() => setProfileOpen(false)} />

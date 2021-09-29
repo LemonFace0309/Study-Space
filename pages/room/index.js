@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Button, Paper, Typography, TextField, CircularProgress } from '@material-ui/core';
+import { Button, Paper, Typography, TextField, CircularProgress } from '@mui/material';
 import { useMutation, gql } from '@apollo/client';
 
 import { initializeApollo } from '@/utils/apollo/client';

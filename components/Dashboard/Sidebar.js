@@ -2,12 +2,12 @@
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { React } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Grid, Button, IconButton, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import { makeStyles } from '@mui/styles';
+import { Grid, Button, IconButton, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 import FriendCard from './Cards/FriendCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,10 @@ const Sidebar = ({ open, onClose, onOpen, friendData, isSmallScreen }) => {
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid container item className="mb-16">
-        <IconButton className={classes.iconButton} onClick={open ? onClose : onOpen}>
+        <IconButton
+          className={classes.iconButton}
+          onClick={open ? onClose : onOpen}
+          size="large">
           <MenuIcon />
         </IconButton>
       </Grid>

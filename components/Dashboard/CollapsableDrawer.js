@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { React } from 'react';
 import classNames from 'classnames';
-import { Drawer, makeStyles } from '@material-ui/core';
+import { Drawer } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
 
 const drawerWidth = 240;
 

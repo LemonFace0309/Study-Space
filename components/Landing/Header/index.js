@@ -5,10 +5,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import { AppBar, Toolbar, Button, TextField, Hidden } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import * as authState from 'atoms/auth';
 import * as userState from 'atoms/user';
@@ -174,93 +174,92 @@ const Header = (props) => {
     return <div className={styles.loader} />;
   }
 
-  return (
-    <>
-      <NavDrawer
-        isOpen={isNavDrawerOpen}
-        setIsOpen={setIsNavDrawerOpen}
-        handleSignUp={handleSignUp}
-        handleLogIn={handleLogIn}
-      />
-      <ElevationScroll {...props}>
-        <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
-          <Toolbar>
-            <Hidden mdUp>
-              <IconButton
-                onClick={() => setIsNavDrawerOpen(true)}
-                edge="start"
-                className="mr-2 outline-none"
+  return <>
+    <NavDrawer
+      isOpen={isNavDrawerOpen}
+      setIsOpen={setIsNavDrawerOpen}
+      handleSignUp={handleSignUp}
+      handleLogIn={handleLogIn}
+    />
+    <ElevationScroll {...props}>
+      <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
+        <Toolbar>
+          <Hidden mdUp>
+            <IconButton
+              onClick={() => setIsNavDrawerOpen(true)}
+              edge="start"
+              className="mr-2 outline-none"
+              color="inherit"
+              aria-label="menu"
+              size="large">
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+          <Hidden mdDown>
+            <div className="flex-grow">
+              <button variant="h6" className={menuItemStyles}>
+                {t('LABEL_JUST_YOU')}
+              </button>
+              <button variant="h6" className={menuItemStyles}>
+                {t('LABEL_WITH_FRIENDS')}
+              </button>
+              <button variant="h6" className={menuItemStyles}>
+                {t('LABEL_LARGE_GROUPS')}
+              </button>
+            </div>
+            {session ? (
+              <Button
                 color="inherit"
-                aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
-            <Hidden smDown>
-              <div className="flex-grow">
-                <button variant="h6" className={menuItemStyles}>
-                  {t('LABEL_JUST_YOU')}
-                </button>
-                <button variant="h6" className={menuItemStyles}>
-                  {t('LABEL_WITH_FRIENDS')}
-                </button>
-                <button variant="h6" className={menuItemStyles}>
-                  {t('LABEL_LARGE_GROUPS')}
-                </button>
-              </div>
-              {session ? (
+                className={authButtons}
+                style={{
+                  border: '1.5px solid rgba(107, 114, 128)',
+                }}
+                onClick={() => signOut()}>
+                {t('LABEL_SIGNOUT')}
+              </Button>
+            ) : (
+              <>
                 <Button
                   color="inherit"
                   className={authButtons}
+                  onClick={handleLogIn}
                   style={{
                     border: '1.5px solid rgba(107, 114, 128)',
-                  }}
-                  onClick={() => signOut()}>
-                  {t('LABEL_SIGNOUT')}
+                  }}>
+                  {t('LABEL_LOGIN')}
                 </Button>
-              ) : (
-                <>
-                  <Button
-                    color="inherit"
-                    className={authButtons}
-                    onClick={handleLogIn}
-                    style={{
-                      border: '1.5px solid rgba(107, 114, 128)',
-                    }}>
-                    {t('LABEL_LOGIN')}
-                  </Button>
-                  <Button
-                    color="inherit"
-                    className={authButtons}
-                    onClick={handleSignUp}
-                    style={{
-                      border: '1.5px solid rgba(107, 114, 128)',
-                    }}>
-                    {t('LABEL_SIGNUP')}
-                  </Button>
-                </>
-              )}
-            </Hidden>
-          </Toolbar>
-        </AppBar>
-      </ElevationScroll>
-      <AuthDialog
-        open={authDialogOpen}
-        setOpen={setAuthDialogOpen}
-        showSuccessAlert={successfulSignUp}
-        setShowSuccessAlert={setSuccessfulSignUp}
-        handleCredentialsSubmit={handleCredentialsSubmit}
-        formContent={formContent}
-        isSignUp={isSignUp}
-        setIsSignUp={setIsSignUp}
-        validSignUp={validSignUp}
-        btnText={btnText}
-        oAuthText={oAuthText}
-        switchModeText={switchModeText}
-        signIn={signIn}
-        providers={providers}
-      />
-    </>
-  );
+                <Button
+                  color="inherit"
+                  className={authButtons}
+                  onClick={handleSignUp}
+                  style={{
+                    border: '1.5px solid rgba(107, 114, 128)',
+                  }}>
+                  {t('LABEL_SIGNUP')}
+                </Button>
+              </>
+            )}
+          </Hidden>
+        </Toolbar>
+      </AppBar>
+    </ElevationScroll>
+    <AuthDialog
+      open={authDialogOpen}
+      setOpen={setAuthDialogOpen}
+      showSuccessAlert={successfulSignUp}
+      setShowSuccessAlert={setSuccessfulSignUp}
+      handleCredentialsSubmit={handleCredentialsSubmit}
+      formContent={formContent}
+      isSignUp={isSignUp}
+      setIsSignUp={setIsSignUp}
+      validSignUp={validSignUp}
+      btnText={btnText}
+      oAuthText={oAuthText}
+      switchModeText={switchModeText}
+      signIn={signIn}
+      providers={providers}
+    />
+  </>;
 };
 
 Header.propTypes = {

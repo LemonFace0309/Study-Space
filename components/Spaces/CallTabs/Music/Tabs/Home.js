@@ -1,7 +1,7 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { shuffle } from 'lodash';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useSpotifyContext } from '@/context/spaces/SpotifyContext';
 import parseTracks from '@/utils/spotify/parseTracks';

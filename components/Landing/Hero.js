@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { useRecoilValue } from 'recoil';
-import { Container, Grid, Typography, Button, Hidden } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { Container, Grid, Typography, Button, Hidden } from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import * as userState from 'atoms/user';
 import router from 'next/router';
@@ -54,7 +54,7 @@ const Hero = ({ setAuthDialogOpen }) => {
             See what you can do with XXX
           </Button>
         </Grid>
-        <Hidden smDown>
+        <Hidden mdDown>
           <Grid item xs={6} className="relative h-full flex justify-center items-center">
             <Image src="/images/landing/hero.svg" alt="Hero" className="max-h-96" layout="fill" />
           </Grid>

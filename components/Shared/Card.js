@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 
 const Card = ({ isClickable, roundedFull, onClick, children }) => {
   return (

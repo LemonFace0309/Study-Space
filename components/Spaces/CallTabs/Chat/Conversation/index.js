@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 
 const Conversation = ({ conversation }) => {
   // const { conversation } = useConversation()

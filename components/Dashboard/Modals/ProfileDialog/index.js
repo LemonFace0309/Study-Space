@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useRecoilValue } from 'recoil';
-import { makeStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import makeStyles from '@mui/styles/makeStyles';
+import Dialog from '@mui/material/Dialog';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Hidden from '@mui/material/Hidden';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingBottom: '25px',
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: '2rem',
     },
   },
@@ -70,11 +70,11 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: theme.spacing(32),
     height: theme.spacing(32),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: theme.spacing(24),
       height: theme.spacing(24),
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: theme.spacing(16),
       height: theme.spacing(16),
     },
@@ -194,7 +194,7 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <Grid container direction="row" className="pt-4">
           {/* Left sidebar for md+ */}
-          <Hidden smDown>
+          <Hidden mdDown>
             <Grid container item xs={12} md={3} className="p-4">
               <TabList className="w-full">
                 {tabs.map((tab, index) => (
@@ -233,7 +233,7 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
                         <Typography align="left" variant="h3" className={classes.title}>
                           <Button>{t('LABEL_SETTINGS')}</Button>
                         </Typography>
-                        <IconButton onClick={handleClose} className={classes.closeIcon}>
+                        <IconButton onClick={handleClose} className={classes.closeIcon} size="large">
                           <CloseIcon />
                         </IconButton>
                         <Grid container item sm={12} justifyContent="center" alignItems="center">
@@ -277,7 +277,7 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
                           <Button>{t('LABEL_LOGOUT')}</Button>
                         </Grid>
                       </Hidden>
-                      <Hidden smDown>
+                      <Hidden mdDown>
                         <Grid container direction="column" alignItems="baseline" justifyContent="flex-end">
                           {/* <Button>{t('LABEL_PRIVACY')}</Button>} */}
                           <Button>{t('LABEL_LOGOUT')}</Button>
@@ -299,9 +299,9 @@ const ProfileDialog = ({ user, isOpen, handleClose, tabs }) => {
                           {tab.title}
                         </Typography>
                       </Grid>
-                      <Hidden smDown>
+                      <Hidden mdDown>
                         <Grid item>
-                          <IconButton onClick={handleClose} className={classes.closeIcon}>
+                          <IconButton onClick={handleClose} className={classes.closeIcon} size="large">
                             <CloseIcon />
                           </IconButton>
                         </Grid>

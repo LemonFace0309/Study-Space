@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Paper, Box, Typography, Avatar } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Paper, Box, Typography, Avatar } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-import PersonIcon from '@material-ui/icons/Person';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function User() {
   const theme = useTheme();

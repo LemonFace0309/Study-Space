@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ProgressBar from './ProgressBar';
-import { Paper, Container, Box, Grid, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Paper, Container, Box, Grid, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 export default function Timer() {
   const theme = useTheme();
