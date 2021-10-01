@@ -111,6 +111,7 @@ const Header = (props) => {
       className="mb-1"
       type="email"
       value={email}
+      variant="standard"
       onChange={(e) => setEmail(e.target.value)}
     />,
     <TextField
@@ -125,6 +126,7 @@ const Header = (props) => {
       }
       type="password"
       value={password}
+      variant="standard"
       onChange={(e) => setPassword(e.target.value)}
     />,
   ];
@@ -138,6 +140,7 @@ const Header = (props) => {
         helperText={submitted && !validFirstName && 'Please enter a valid first name 🥺'}
         className="mb-1"
         value={firstName}
+        variant="standard"
         onChange={(e) => setFirstName(e.target.value)}
       />,
       <TextField
@@ -148,6 +151,7 @@ const Header = (props) => {
         helperText={submitted && !validLastName && 'Please enter a valid last name 🥺'}
         className="mb-1"
         value={lastName}
+        variant="standard"
         onChange={(e) => setLastName(e.target.value)}
       />
     );
@@ -174,92 +178,94 @@ const Header = (props) => {
     return <div className={styles.loader} />;
   }
 
-  return <>
-    <NavDrawer
-      isOpen={isNavDrawerOpen}
-      setIsOpen={setIsNavDrawerOpen}
-      handleSignUp={handleSignUp}
-      handleLogIn={handleLogIn}
-    />
-    <ElevationScroll {...props}>
-      <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
-        <Toolbar>
-          <Hidden mdUp>
-            <IconButton
-              onClick={() => setIsNavDrawerOpen(true)}
-              edge="start"
-              className="mr-2 outline-none"
-              color="inherit"
-              aria-label="menu"
-              size="large">
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-          <Hidden mdDown>
-            <div className="flex-grow">
-              <button variant="h6" className={menuItemStyles}>
-                {t('LABEL_JUST_YOU')}
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                {t('LABEL_WITH_FRIENDS')}
-              </button>
-              <button variant="h6" className={menuItemStyles}>
-                {t('LABEL_LARGE_GROUPS')}
-              </button>
-            </div>
-            {session ? (
-              <Button
+  return (
+    <>
+      <NavDrawer
+        isOpen={isNavDrawerOpen}
+        setIsOpen={setIsNavDrawerOpen}
+        handleSignUp={handleSignUp}
+        handleLogIn={handleLogIn}
+      />
+      <ElevationScroll {...props}>
+        <AppBar position="sticky" className="bg-white text-gray-600 pt-2">
+          <Toolbar>
+            <Hidden mdUp>
+              <IconButton
+                onClick={() => setIsNavDrawerOpen(true)}
+                edge="start"
+                className="mr-2 outline-none"
                 color="inherit"
-                className={authButtons}
-                style={{
-                  border: '1.5px solid rgba(107, 114, 128)',
-                }}
-                onClick={() => signOut()}>
-                {t('LABEL_SIGNOUT')}
-              </Button>
-            ) : (
-              <>
+                aria-label="menu"
+                size="large">
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+            <Hidden mdDown>
+              <div className="flex-grow">
+                <button variant="h6" className={menuItemStyles}>
+                  {t('LABEL_JUST_YOU')}
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  {t('LABEL_WITH_FRIENDS')}
+                </button>
+                <button variant="h6" className={menuItemStyles}>
+                  {t('LABEL_LARGE_GROUPS')}
+                </button>
+              </div>
+              {session ? (
                 <Button
                   color="inherit"
                   className={authButtons}
-                  onClick={handleLogIn}
                   style={{
                     border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  {t('LABEL_LOGIN')}
+                  }}
+                  onClick={() => signOut()}>
+                  {t('LABEL_SIGNOUT')}
                 </Button>
-                <Button
-                  color="inherit"
-                  className={authButtons}
-                  onClick={handleSignUp}
-                  style={{
-                    border: '1.5px solid rgba(107, 114, 128)',
-                  }}>
-                  {t('LABEL_SIGNUP')}
-                </Button>
-              </>
-            )}
-          </Hidden>
-        </Toolbar>
-      </AppBar>
-    </ElevationScroll>
-    <AuthDialog
-      open={authDialogOpen}
-      setOpen={setAuthDialogOpen}
-      showSuccessAlert={successfulSignUp}
-      setShowSuccessAlert={setSuccessfulSignUp}
-      handleCredentialsSubmit={handleCredentialsSubmit}
-      formContent={formContent}
-      isSignUp={isSignUp}
-      setIsSignUp={setIsSignUp}
-      validSignUp={validSignUp}
-      btnText={btnText}
-      oAuthText={oAuthText}
-      switchModeText={switchModeText}
-      signIn={signIn}
-      providers={providers}
-    />
-  </>;
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleLogIn}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    {t('LABEL_LOGIN')}
+                  </Button>
+                  <Button
+                    color="inherit"
+                    className={authButtons}
+                    onClick={handleSignUp}
+                    style={{
+                      border: '1.5px solid rgba(107, 114, 128)',
+                    }}>
+                    {t('LABEL_SIGNUP')}
+                  </Button>
+                </>
+              )}
+            </Hidden>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+      <AuthDialog
+        open={authDialogOpen}
+        setOpen={setAuthDialogOpen}
+        showSuccessAlert={successfulSignUp}
+        setShowSuccessAlert={setSuccessfulSignUp}
+        handleCredentialsSubmit={handleCredentialsSubmit}
+        formContent={formContent}
+        isSignUp={isSignUp}
+        setIsSignUp={setIsSignUp}
+        validSignUp={validSignUp}
+        btnText={btnText}
+        oAuthText={oAuthText}
+        switchModeText={switchModeText}
+        signIn={signIn}
+        providers={providers}
+      />
+    </>
+  );
 };
 
 Header.propTypes = {

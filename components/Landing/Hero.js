@@ -14,7 +14,7 @@ const Hero = ({ setAuthDialogOpen }) => {
 
   const tryItYourselfHandler = () => {
     if (session) {
-      router.push('dashboard');
+      router.push('/dashboard');
     } else {
       setAuthDialogOpen(true);
     }
