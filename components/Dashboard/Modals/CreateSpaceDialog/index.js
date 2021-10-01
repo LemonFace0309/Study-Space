@@ -24,7 +24,7 @@ import * as userState from '@/atoms/user';
 const Box = styled(MuiBox)(({ theme }) => ({
   padding: theme.spacing(2),
   position: 'relative',
-  backgroundColor: `${theme.palette.primary.light}10`,
+  backgroundColor: `${theme.palette.primary.light}15`,
 }));
 
 const Label = styled(InputLabel)(({ theme }) => ({
@@ -142,11 +142,11 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
             borderRadius: '2rem',
             whiteSpace: 'nowrap',
             ml: 'auto',
-            my: (theme) => theme.spacing(2),
-            mr: (theme) => theme.spacing(2),
+            mt: (theme) => theme.spacing(4),
+            mb: (theme) => theme.spacing(2),
           }}
           onClick={createASpace}>
-          Next {loading && <CircularProgress />}
+          Next {loading && <CircularProgress size={30} sx={{ ml: (theme) => theme.spacing(1) }} />}
         </Button>
       </Grid>
     </Dialog>
