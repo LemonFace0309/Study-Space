@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { Grid, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import createNewSpace from '@/utils/spaces/createNewSpace';
 import * as userState from '@/atoms/user';
 import CreateSpaceDialog from './Modals//CreateSpaceDialog';
 import MainActionButton from './Cards/MainActionButton';
@@ -28,11 +26,9 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardContainer = ({ spaces }) => {
   const classes = useStyles();
-  const router = useRouter();
   const user = useRecoilValue(userState.user);
   const [greeting, setGreeting] = useState('Hey 😊');
   const [createSpaceOpen, setCreateSpaceOpen] = useState(false);
-  const [creatingSpace, setCreatingSpace] = useState(false);
 
   useEffect(() => {
     const newGreeting = user?.username
@@ -43,17 +39,6 @@ const DashboardContainer = ({ spaces }) => {
 
     setGreeting(newGreeting);
   }, [user]);
-
-  const createASpace = async () => {
-    setCreateSpaceOpen(true);
-    // setCreatingSpace(true);
-    // try {
-    //   const newSpaceURL = await createNewSpace(user);
-    //   router.push(newSpaceURL);
-    // } catch (err) {
-    //   console.debug('Unable to create new space:', err);
-    // }
-  };
 
   return (
     <div className="h-full rounded-none rounded-b-2xl bg-white p-4 pl-12">
@@ -77,8 +62,7 @@ const DashboardContainer = ({ spaces }) => {
               img="/images/dashboard/craft.svg"
               name="LABEL_CREATE_A_SPACE"
               description="Insert some sort of tagline or feature description"
-              loading={creatingSpace}
-              onClick={createASpace}
+              onClick={() => setCreateSpaceOpen(true)}
             />
             <CreateSpaceDialog open={createSpaceOpen} setOpen={setCreateSpaceOpen} />
           </Grid>
