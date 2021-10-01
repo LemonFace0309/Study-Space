@@ -207,6 +207,9 @@ export const SocketProvider = ({ loading, children }) => {
       peerObj.peer.destroy();
     });
     router.push(`/dashboard`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   const toggleUserAudio = () => {
