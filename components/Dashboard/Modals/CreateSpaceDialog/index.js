@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useRecoilValue } from 'recoil';
 import {
@@ -11,10 +13,12 @@ import {
   FormControlLabel,
   Radio,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { styled } from '@mui/material/styles';
 
+import createNewSpace from '@/utils/spaces/createNewSpace';
 import * as userState from '@/atoms/user';
 
 const Box = styled(MuiBox)(({ theme }) => ({
@@ -45,6 +49,18 @@ const TextInput = styled(InputBase)(({ theme }) => ({
 
 const CreateSpaceDialog = ({ open, setOpen }) => {
   const user = useRecoilValue(userState.user);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const createASpace = async () => {
+    setLoading(true);
+    try {
+      const newSpaceURL = await createNewSpace(user);
+      router.push(newSpaceURL);
+    } catch (err) {
+      console.debug('Unable to create new space:', err);
+    }
+  };
 
   return (
     <Dialog
@@ -78,7 +94,7 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
         <Grid item xs={12} md={6}>
           <Typography variant="subtitle1">Basic Info</Typography>
           <Box>
-            <Label htmlfor="csd-name-input">Name</Label>
+            <Label htmlFor="csd-name-input">Name</Label>
             <TextInput
               fullWidth
               required
@@ -86,10 +102,10 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
               defaultValue={`${user?.username ? user.username : user?.name ? user.name : 'My'} Study Space`}
             />
 
-            <Label htmlfor="csd-description-input">Description (Optional)</Label>
+            <Label htmlFor="csd-description-input">Description (Optional)</Label>
             <TextInput fullWidth multiline minRows="3" id="csd-description-input" />
 
-            <Label htmlfor="csd-visilbity-radio">Visibility</Label>
+            <Label htmlFor="csd-visilbity-radio">Visibility</Label>
             <RadioGroup aria-label="visibility" id="csd-visilbity-radio">
               <FormControlLabel value="private" control={<Radio />} label="Private" />
               <FormControlLabel value="public" control={<Radio />} label="Public" />
@@ -99,7 +115,7 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
         <Grid item xs={12} md={6}>
           <Typography variant="subtitle1">Functions</Typography>
           <Box>
-            <Label htmlfor="csd-name-input">Name</Label>
+            <Label htmlFor="csd-name-input">Name</Label>
             <TextInput
               fullWidth
               required
@@ -107,10 +123,10 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
               defaultValue={`${user?.username ? user.username : user?.name ? user.name : 'My'} Study Space`}
             />
 
-            <Label htmlfor="csd-description-input">Description (Optional)</Label>
+            <Label htmlFor="csd-description-input">Description (Optional)</Label>
             <TextInput fullWidth multiline minRows="3" id="csd-description-input" />
 
-            <Label htmlfor="csd-visilbity-radio">Visibility</Label>
+            <Label htmlFor="csd-visilbity-radio">Visibility</Label>
             <RadioGroup aria-label="visibility" id="csd-visilbity-radio">
               <FormControlLabel value="private" control={<Radio />} label="Private" />
               <FormControlLabel value="public" control={<Radio />} label="Public" />
@@ -128,8 +144,9 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
             ml: 'auto',
             my: (theme) => theme.spacing(2),
             mr: (theme) => theme.spacing(2),
-          }}>
-          Next
+          }}
+          onClick={createASpace}>
+          Next {loading && <CircularProgress />}
         </Button>
       </Grid>
     </Dialog>
