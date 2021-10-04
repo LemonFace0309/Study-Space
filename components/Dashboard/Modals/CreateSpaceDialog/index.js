@@ -23,7 +23,7 @@ import { styled } from '@mui/material/styles';
 
 import createNewSpace from '@/utils/spaces/createNewSpace';
 import * as userState from '@/atoms/user';
-import setInitialState, { visibilityEnum, features } from './utils/initialState';
+import setInitialState from './utils/initialState';
 import reducer from './utils/reducer';
 
 const Box = styled(MuiBox)(({ theme }) => ({

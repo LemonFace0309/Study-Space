@@ -1,19 +1,10 @@
-export const visibilityEnum = {
-  private: 'Private',
-  public: 'Public',
-};
-
-export const features = {
-  chat: 'chat',
-  camera: 'camera',
-  microphone: 'microphone',
-};
+import { visibilityEnum, features } from './reducer';
 
 const setInitialState = (defaults) => ({
   name: 'My Study Space',
   description: '',
   visibility: visibilityEnum.private,
-  studyPattern: 50,
+  studyPattern: [50, 10],
   features: [features.chat, features.camera, features.microphone],
   ...defaults,
 });
