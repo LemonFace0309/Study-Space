@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useRecoilValue } from 'recoil';
@@ -14,17 +14,28 @@ import {
   Radio,
   Button,
   CircularProgress,
+  Checkbox,
+  FormGroup,
+  Switch,
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { styled } from '@mui/material/styles';
 
 import createNewSpace from '@/utils/spaces/createNewSpace';
 import * as userState from '@/atoms/user';
+import setInitialState, { visibilityEnum, features } from './utils/initialState';
+import reducer from './utils/reducer';
 
 const Box = styled(MuiBox)(({ theme }) => ({
   padding: theme.spacing(2),
   position: 'relative',
   backgroundColor: `${theme.palette.primary.light}15`,
+}));
+
+const SwitchControlLabel = styled(FormControlLabel)(({ theme }) => ({
+  '& .MuiTypography-root': {
+    fontSize: theme.spacing(2.5),
+  },
 }));
 
 const Label = styled(InputLabel)(({ theme }) => ({
@@ -56,6 +67,7 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
   const user = useRecoilValue(userState.user);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [state, dispatch] = useReducer(reducer, setInitialState());
 
   const createASpace = async () => {
     setLoading(true);
@@ -133,15 +145,23 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
               sx={{ fontSize: (theme) => theme.spacing(2.5), display: 'inline', ml: '12px' }}>
               min
             </Typography>
+            <FormControlLabel
+              control={<Checkbox defaultChecked />}
+              label="Set as default for participants"
+              sx={{
+                '& .label': {
+                  fontSize: (theme) => theme.spacing(2.5),
+                },
+                color: (theme) => theme.palette.primary.main,
+              }}
+            />
 
-            <Label htmlFor="csd-description-input">Description (Optional)</Label>
-            <TextInput fullWidth multiline minRows="3" id="csd-description-input" />
-
-            <Label htmlFor="csd-visilbity-radio">Visibility</Label>
-            <RadioGroup aria-label="visibility" id="csd-visilbity-radio">
-              <FormControlLabel value="private" control={<Radio />} label="Private" />
-              <FormControlLabel value="public" control={<Radio />} label="Public" />
-            </RadioGroup>
+            <Label htmlFor="csd-features-radio">Enabled Features</Label>
+            <FormGroup iud="csd-features-radio">
+              <SwitchControlLabel control={<Switch defaultChecked />} label="Chat" />
+              <SwitchControlLabel control={<Switch checked />} label="Camera" />
+              <SwitchControlLabel control={<Switch checked />} label="Microphone" />
+            </FormGroup>
           </Box>
         </Grid>
         <Button
