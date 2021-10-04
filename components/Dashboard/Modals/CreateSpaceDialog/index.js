@@ -34,18 +34,23 @@ const Label = styled(InputLabel)(({ theme }) => ({
   fontWeight: '500',
 }));
 
-const TextInput = styled(InputBase)(({ theme }) => ({
-  'label + &': {
-    marginTop: theme.spacing(1),
-  },
-  '& .MuiInputBase-input': {
-    borderRadius: 4,
-    position: 'relative',
-    padding: '10px 12px',
-    border: '1px solid #BDACD4',
-    fontSize: theme.spacing(2.5),
-  },
-}));
+const TextInput = styled(InputBase, { shouldForwardProp: (prop) => prop !== 'textCenter' })(
+  ({ textCenter, theme }) => ({
+    'label + &': {
+      marginTop: theme.spacing(1),
+    },
+    '& .MuiInputBase-input': {
+      borderRadius: 4,
+      position: 'relative',
+      padding: '6px 12px',
+      border: '1px solid #BDACD4',
+      fontSize: theme.spacing(2.5),
+      ...(textCenter && {
+        textAlign: 'center',
+      }),
+    },
+  })
+);
 
 const CreateSpaceDialog = ({ open, setOpen }) => {
   const user = useRecoilValue(userState.user);
@@ -115,13 +120,19 @@ const CreateSpaceDialog = ({ open, setOpen }) => {
         <Grid item xs={12} md={6}>
           <Typography variant="subtitle1">Functions</Typography>
           <Box>
-            <Label htmlFor="csd-name-input">Name</Label>
-            <TextInput
-              fullWidth
-              required
-              id="csd-name-input"
-              defaultValue={`${user?.username ? user.username : user?.name ? user.name : 'My'} Study Space`}
-            />
+            <Label htmlFor="csd-study-break-input">Study Break Pattern</Label>
+            <TextInput required id="csd-study-input" defaultValue="50" textCenter sx={{ width: '6rem' }} />
+            <Typography
+              variant="subtitle1"
+              sx={{ fontSize: (theme) => theme.spacing(2.5), display: 'inline', mx: '12px' }}>
+              /
+            </Typography>
+            <TextInput required id="csd-break-input" defaultValue="10" textCenter sx={{ width: '6rem' }} />
+            <Typography
+              variant="subtitle1"
+              sx={{ fontSize: (theme) => theme.spacing(2.5), display: 'inline', ml: '12px' }}>
+              min
+            </Typography>
 
             <Label htmlFor="csd-description-input">Description (Optional)</Label>
             <TextInput fullWidth multiline minRows="3" id="csd-description-input" />
