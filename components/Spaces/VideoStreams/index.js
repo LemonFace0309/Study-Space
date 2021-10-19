@@ -7,7 +7,7 @@ import { useSpaceContext, LAYOUT_OPTIONS } from '@/context/spaces';
 import PeerVideo from './PeerVideo';
 
 const VideoStreams = ({ showTabs }) => {
-  const { layout, username, userVideo, peersRef } = useSpaceContext();
+  const { layout, username, myStream, peersRef } = useSpaceContext();
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
@@ -15,10 +15,10 @@ const VideoStreams = ({ showTabs }) => {
         <div className="relative border">
           <video
             muted
-            ref={userVideo}
+            ref={myStream}
             autoPlay
-            className="h-72 w-96 object-cover"
-            style={{ transform: 'scaleX(-1)' }}
+            className="object-cover"
+            style={{ transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
           />
           {layout == LAYOUT_OPTIONS.LIST && (
             <div>

@@ -19,13 +19,13 @@ export const SocketProvider = ({ loading, children }) => {
   const router = useRouter();
   const user = useRecoilValue(userState.user);
   const socketRef = useRef();
-  const userVideo = useRef();
+  const myStream = useRef();
   const peersRef = useRef([]);
   const [conversation, setConversation] = useState([]);
   const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
-  const [enableUserAudio, setEnableUserAudio] = useState(true);
-  const [enableUserVideo, setEnableUserVideo] = useState(true);
+  const [isMyVideoEnabled, setIsMyVideoEnabled] = useState(true);
+  const [isMyAudioEnabled, setIsMyAudioEnabled] = useState(true);
 
   const initRoom = async () => {
     let currentUsername = '';
@@ -51,7 +51,7 @@ export const SocketProvider = ({ loading, children }) => {
     let stream = null;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
-      userVideo.current.srcObject = stream;
+      myStream.current.srcObject = stream;
     } catch (err) {
       console.warn(err);
     }
@@ -65,12 +65,13 @@ export const SocketProvider = ({ loading, children }) => {
     socketRef.current.emit('join room', { roomId, userId: user?._id, username: currentUsername });
 
     /**
-     * Get information of all users in the room and add them as peers
+     * Get information of others users in the room and add them as peers
      * Also populates conversation with redis cache
      */
-    socketRef.current.on('all users', ({ users, conversation }) => {
+    socketRef.current.on('other users', ({ users, conversation }) => {
       const newParticipants = [];
       newParticipants.push(currentUsername);
+
       users.forEach((user) => {
         createPeer(user.socketId, currentUsername, socketRef.current.id, user.username, stream);
         newParticipants.push(user.username);
@@ -155,6 +156,7 @@ export const SocketProvider = ({ loading, children }) => {
       stream: myStream,
     });
 
+    // fires immediately and also after modifying the stream being sent.
     peer.on('signal', (signal) => {
       socketRef.current.emit('offer', {
         userToSignal,
@@ -178,6 +180,10 @@ export const SocketProvider = ({ loading, children }) => {
     });
   };
 
+  /**
+   * NOTE: this function is reexecuted everytime a peer signals you again (ie. he/she screen shares).
+   * That's why peers are only pushed onto the peersRef array given that they don't already exist.
+   */
   const addPeer = (incomingSignal, callerID, username, myStream) => {
     const peer = new Peer({
       initiator: false,
@@ -190,19 +196,22 @@ export const SocketProvider = ({ loading, children }) => {
     });
 
     peer.on('stream', (stream) => {
-      const peerObj = peersRef.current.find((peer) => peer.peerId === callerID);
-      peerObj.stream = stream;
+      let peerObj = peersRef.current.find((obj) => obj.peerId === callerID);
+      if (peerObj) {
+        peerObj.stream = stream;
+      } else {
+        peersRef.current.push({
+          peerId: callerID,
+          peerName: username,
+          stream,
+          peer,
+        });
+      }
+
       setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
     peer.signal(incomingSignal);
-
-    peersRef.current.push({
-      peerId: callerID,
-      peerName: username,
-      stream: null,
-      peer,
-    });
   };
 
   const sendMessage = (roomId, message, username) => {
@@ -211,6 +220,32 @@ export const SocketProvider = ({ loading, children }) => {
       message,
       username,
     });
+  };
+
+  const shareScreen = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
+      const screenTrack = stream.getTracks()[0];
+      peersRef.current.forEach((peerObj) => {
+        peerObj.peer.replaceTrack(
+          myStream.current.srcObject.getVideoTracks()[0],
+          screenTrack,
+          myStream.current.srcObject
+        );
+      });
+
+      screenTrack.onended = () => {
+        peersRef.current.forEach((peerObj) => {
+          peerObj.peer.replaceTrack(
+            screenTrack,
+            myStream.current.srcObject.getVideoTracks()[0],
+            myStream.current.srcObject
+          );
+        });
+      };
+    } catch (err) {
+      console.debug('Unable to share screens:', err);
+    }
   };
 
   const leaveCall = () => {
@@ -223,31 +258,32 @@ export const SocketProvider = ({ loading, children }) => {
     }, 2000);
   };
 
-  const toggleUserAudio = () => {
-    const state = userVideo.current.srcObject.getAudioTracks()[0].enabled;
-    setEnableUserAudio(!state);
-    userVideo.current.srcObject.getAudioTracks()[0].enabled = !state;
+  const toggleMyAudio = () => {
+    const state = myStream.current.srcObject.getAudioTracks()[0].enabled;
+    setIsMyVideoEnabled(!state);
+    myStream.current.srcObject.getAudioTracks()[0].enabled = !state;
   };
 
-  const toggleUserVideo = () => {
-    const state = userVideo.current.srcObject.getVideoTracks()[0].enabled;
-    setEnableUserVideo(!state);
-    userVideo.current.srcObject.getVideoTracks()[0].enabled = !state;
+  const toggleMyVideo = () => {
+    const state = myStream.current.srcObject.getVideoTracks()[0].enabled;
+    setIsMyAudioEnabled(!state);
+    myStream.current.srcObject.getVideoTracks()[0].enabled = !state;
   };
 
   const value = {
     socketRef,
-    userVideo,
+    myStream,
     peersRef,
     username, // further abstract
     conversation,
     participants,
     sendMessage,
+    shareScreen,
     leaveCall,
-    toggleUserAudio,
-    toggleUserVideo,
-    enableUserAudio,
-    enableUserVideo,
+    toggleMyAudio,
+    toggleMyVideo,
+    isMyVideoEnabled,
+    isMyAudioEnabled,
   };
 
   return <SocketContext.Provider value={value}>{children}</SocketContext.Provider>;

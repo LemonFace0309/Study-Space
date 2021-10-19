@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@mui/material';
 import {
   Mic,
@@ -12,13 +11,14 @@ import {
   Settings,
   ExitToApp,
 } from '@mui/icons-material';
+import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 
 import { useSpaceContext } from '@/context/spaces';
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
 const CallOptions = () => {
-  const { setLayout, enableUserAudio, enableUserVideo, toggleUserAudio, toggleUserVideo, leaveCall } =
+  const { setLayout, isMyVideoEnabled, isMyAudioEnabled, toggleMyAudio, toggleMyVideo, shareScreen, leaveCall } =
     useSpaceContext();
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
@@ -40,11 +40,14 @@ const CallOptions = () => {
   return (
     <>
       <div className="absolute bottom-0 left-0">
-        <IconButton onClick={toggleUserAudio} size="large">
-          {enableUserAudio ? <Mic /> : <MicOff />}
+        <IconButton onClick={toggleMyAudio} size="large">
+          {isMyVideoEnabled ? <Mic /> : <MicOff />}
         </IconButton>
-        <IconButton onClick={toggleUserVideo} size="large">
-          {enableUserVideo ? <Videocam /> : <VideocamOff />}
+        <IconButton onClick={toggleMyVideo} size="large">
+          {isMyAudioEnabled ? <Videocam /> : <VideocamOff />}
+        </IconButton>
+        <IconButton onClick={shareScreen} size="large">
+          <ScreenShareIcon />
         </IconButton>
         <IconButton onClick={handleToggle} ref={buttonRef} size="large">
           <MoreVert />
