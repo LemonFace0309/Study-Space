@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
+import { useSocketContext } from '@/context/spaces/SocketContext';
 import Conversation from './Conversation';
 
-const Chat = ({ conversation, socketRef, roomId, username }) => {
+const Chat = ({ conversation, roomId, username }) => {
+  const { sendMessage } = useSocketContext();
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    socketRef.current.emit('send message', {
-      roomId,
-      message: text,
-      username,
-    });
+
+    sendMessage(roomId, text, username);
     setText('');
     setTimeout(() => {
       setError(false);
@@ -56,7 +55,6 @@ Chat.propTypes = {
   username: PropTypes.string,
   conversation: PropTypes.array.isRequired,
   roomId: PropTypes.string.isRequired,
-  socketRef: PropTypes.object.isRequired,
 };
 
 export default Chat;

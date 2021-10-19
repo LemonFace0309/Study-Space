@@ -15,8 +15,8 @@ const PeerVideo = ({ peer, username, stream }) => {
   }, [peer, stream]);
 
   return (
-    <div className="flex flex-col relative">
-      <video autoPlay ref={ref} className="h-72 w-96 object-cover">
+    <div className="relative">
+      <video controls autoPlay ref={ref} className="object-cover" style={{ height: '18rem', width: '32rem' }}>
         <track kind="captions"></track>
       </video>
       <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
