@@ -40,13 +40,14 @@ export const SocketProvider = ({ loading, children }) => {
       currentUsername = randomName;
     }
     setUsername(currentUsername);
+
     const videoConstraints = {
       height: window.innerHeight / 2,
       width: window.innerWidth / 2,
+      video: { facingMode: 'user' },
       frameRate: { ideal: 15, max: 30 },
     };
 
-    socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
     let stream = null;
     try {
       stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
@@ -54,6 +55,8 @@ export const SocketProvider = ({ loading, children }) => {
     } catch (err) {
       console.warn(err);
     }
+
+    socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
 
     /**
      * Notifiy users in the room that this new user joined
