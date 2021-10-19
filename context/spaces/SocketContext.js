@@ -88,7 +88,7 @@ export const SocketProvider = ({ loading, children }) => {
     /**
      * Add new user that joins after you as peer
      */
-    socketRef.current.on('user joined', (payload) => {
+    socketRef.current.on('offer', (payload) => {
       addPeer(payload.signal, payload.callerID, payload.username, stream);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
@@ -97,7 +97,7 @@ export const SocketProvider = ({ loading, children }) => {
     /**
      * Load signal of new user
      */
-    socketRef.current.on('receiving returned signal', (payload) => {
+    socketRef.current.on('answer', (payload) => {
       const receivingPeerObj = peersRef.current.find((p) => p.peerId === payload.id);
       receivingPeerObj.peer.signal(payload.signal);
     });
@@ -105,7 +105,7 @@ export const SocketProvider = ({ loading, children }) => {
     /**
      * Receiving message and updating conversation
      */
-    socketRef.current.on('return message', (payload) => {
+    socketRef.current.on('message', (payload) => {
       setConversation((prevConversation) => {
         return [
           ...prevConversation,
@@ -153,7 +153,7 @@ export const SocketProvider = ({ loading, children }) => {
     });
 
     peer.on('signal', (signal) => {
-      socketRef.current.emit('sending signal', {
+      socketRef.current.emit('offer', {
         userToSignal,
         username: myUsername,
         callerID,
@@ -183,7 +183,7 @@ export const SocketProvider = ({ loading, children }) => {
     });
 
     peer.on('signal', (signal) => {
-      socketRef.current.emit('returning signal', { signal, callerID });
+      socketRef.current.emit('answer', { signal, callerID });
     });
 
     peer.on('stream', (stream) => {
@@ -199,6 +199,14 @@ export const SocketProvider = ({ loading, children }) => {
       peerName: username,
       stream: null,
       peer,
+    });
+  };
+
+  const sendMessage = (roomId, message, username) => {
+    socketRef.current.emit('message', {
+      roomId,
+      message,
+      username,
     });
   };
 
@@ -231,6 +239,7 @@ export const SocketProvider = ({ loading, children }) => {
     username, // further abstract
     conversation,
     participants,
+    sendMessage,
     leaveCall,
     toggleUserAudio,
     toggleUserVideo,
