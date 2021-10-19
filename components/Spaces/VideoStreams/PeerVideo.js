@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const PeerVideo = ({ peer, username, stream }) => {
   const ref = useRef();

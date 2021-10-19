@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 import BigStat from './BigStat';
 

@@ -1,8 +1,8 @@
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
-import { useTheme } from '@material-ui/core';
+import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import { useTheme } from '@mui/material';
 
 import { LAYOUT_OPTIONS } from '@/context/spaces';
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, IconButton, Divider, TextField, Collapse, List, ListItem, ListItemText } from '@material-ui/core';
-import { Add, RadioButtonUnchecked, Check, ExpandLess, ExpandMore } from '@material-ui/icons';
+import makeStyles from '@mui/styles/makeStyles';
+import { Button, IconButton, Divider, Input, Collapse, List, ListItem, ListItemText } from '@mui/material';
+import { Add, RadioButtonUnchecked, Check, ExpandLess, ExpandMore } from '@mui/icons-material';
 
 import { useTodoContext } from '@/context/spaces/TodoContext';
 
@@ -45,22 +45,22 @@ const TodoList = () => {
           </ListItem>
           <Divider />
           <form onSubmit={addTodoHandler} className="flex items-center">
-            <IconButton type="submit" color="primary" className="p-1">
+            <IconButton type="submit" color="primary" className="p-1" size="large">
               <Add />
             </IconButton>
-            <TextField
+            <Input
               fullWidth
               placeholder="Add a task"
-              type="text"
+              variant="standard"
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              InputProps={{ disableUnderline: true }}
+              disableUnderline
             />
           </form>
           <div className="max-h-80 overflow-y-auto">
             {incompleteTodos.map((todo) => (
               <div key={todo._id}>
-                <IconButton onClick={() => setTodoComplete(todo._id)} className="p-1">
+                <IconButton onClick={() => setTodoComplete(todo._id)} className="p-1" size="large">
                   <RadioButtonUnchecked fontSize="small" />
                 </IconButton>
                 <span>{todo.task}</span>
@@ -75,13 +75,15 @@ const TodoList = () => {
             <Button className={classes.clearAll} onClick={clearCompletedTodos}>
               Clear All
             </Button>
-            <IconButton onClick={handleClick}>{open ? <ExpandLess /> : <ExpandMore />}</IconButton>
+            <IconButton onClick={handleClick} size="large">
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </IconButton>
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <div className="max-h-40 overflow-y-auto">
               {completedTodos.map((todo) => (
                 <div key={todo._id}>
-                  <IconButton className="p-1" onClick={() => clearTodo(todo._id)}>
+                  <IconButton className="p-1" onClick={() => clearTodo(todo._id)} size="large">
                     <Check fontSize="small" />
                   </IconButton>
                   <span className="line-through">{todo.task}</span>

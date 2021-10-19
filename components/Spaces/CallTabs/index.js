@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
-import { IconButton, Grid, Paper } from '@material-ui/core';
-import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@material-ui/icons';
+import { IconButton, Grid, Paper } from '@mui/material';
+import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@mui/icons-material';
 
 import { useSocketContext } from '@/context/spaces/SocketContext';
 import renderComponent from '@/utils/renderComponent';
@@ -72,46 +72,44 @@ const CallTabs = ({ roomId, showTabs, setShowTabs }) => {
     }
   }
 
-  return (
-    <>
-      {showTabs && (
-        <Grid item xs={12} md={6} lg={5} xl={4} className="h-full p-5 flex flex-col items-center justify-items-center">
-          <Tabs selectedIndex={tabIndex} onSelect={() => null}>
-            {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
-            <TabList>
-              {callTabs.map((tabObj) => (
-                <Tab key={tabObj.title + '_TAB'} />
-              ))}
-            </TabList>
+  return <>
+    {showTabs && (
+      <Grid item xs={12} md={6} lg={5} xl={4} className="h-full p-5 flex flex-col items-center justify-items-center">
+        <Tabs selectedIndex={tabIndex} onSelect={() => null}>
+          {/* "There should be an equal number of 'Tab' and 'TabPanel' in `Tabs` " -- react-tabs */}
+          <TabList>
+            {callTabs.map((tabObj) => (
+              <Tab key={tabObj.title + '_TAB'} />
+            ))}
+          </TabList>
 
-            {/* The empty tab  */}
-            {callTabs.map((tabObj) => {
-              if (!tabObj.panel) return <TabPanel key={tabObj.title + '_PANEL'} />;
-              return (
-                <TabPanel key={tabObj.title + '_PANEL'}>
-                  <Paper elevation={2} className="w-90 h-full rounded-md overflow-hidden bg-white flex flex-col">
-                    <TabPanelHeader>{tabObj.title}</TabPanelHeader>
-                    {renderComponent(tabObj.panel, { ...tabObj.panelProps }, tabObj?.panelChild)}
-                  </Paper>
-                </TabPanel>
-              );
-            })}
-          </Tabs>
-        </Grid>
-      )}
+          {/* The empty tab  */}
+          {callTabs.map((tabObj) => {
+            if (!tabObj.panel) return <TabPanel key={tabObj.title + '_PANEL'} />;
+            return (
+              <TabPanel key={tabObj.title + '_PANEL'}>
+                <Paper elevation={2} className="w-90 h-full rounded-md overflow-hidden bg-white flex flex-col">
+                  <TabPanelHeader>{tabObj.title}</TabPanelHeader>
+                  {renderComponent(tabObj.panel, { ...tabObj.panelProps }, tabObj?.panelChild)}
+                </Paper>
+              </TabPanel>
+            );
+          })}
+        </Tabs>
+      </Grid>
+    )}
 
-      <div className="absolute bottom-0 right-0">
-        {callTabs.map((tabObj, index) => {
-          if (!tabObj.icon) return null;
-          return (
-            <IconButton key={tabObj.title + '_ICON'} onClick={() => setTab(index)}>
-              {renderComponent(tabObj.icon)}
-            </IconButton>
-          );
-        })}
-      </div>
-    </>
-  );
+    <div className="absolute bottom-0 right-0">
+      {callTabs.map((tabObj, index) => {
+        if (!tabObj.icon) return null;
+        return (
+          <IconButton key={tabObj.title + '_ICON'} onClick={() => setTab(index)} size="large">
+            {renderComponent(tabObj.icon)}
+          </IconButton>
+        );
+      })}
+    </div>
+  </>;
 };
 
 CallTabs.propTypes = {

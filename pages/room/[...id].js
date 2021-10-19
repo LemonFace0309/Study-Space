@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import addMilliseconds from 'date-fns/addMilliseconds';
 import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 import { SpaceProvider } from '@/context/spaces';
 import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';

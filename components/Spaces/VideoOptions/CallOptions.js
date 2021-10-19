@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@material-ui/core';
+import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@mui/material';
 import {
   Mic,
   MicOff,
@@ -11,7 +11,7 @@ import {
   Palette,
   Settings,
   ExitToApp,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
 import { useSpaceContext } from '@/context/spaces';
 import LeaveCallDialog from './LeaveCallDialog';
@@ -40,9 +40,13 @@ const CallOptions = () => {
   return (
     <>
       <div className="absolute bottom-0 left-0">
-        <IconButton onClick={toggleUserAudio}>{enableUserAudio ? <Mic /> : <MicOff />}</IconButton>
-        <IconButton onClick={toggleUserVideo}>{enableUserVideo ? <Videocam /> : <VideocamOff />}</IconButton>
-        <IconButton onClick={handleToggle} ref={buttonRef}>
+        <IconButton onClick={toggleUserAudio} size="large">
+          {enableUserAudio ? <Mic /> : <MicOff />}
+        </IconButton>
+        <IconButton onClick={toggleUserVideo} size="large">
+          {enableUserVideo ? <Videocam /> : <VideocamOff />}
+        </IconButton>
+        <IconButton onClick={handleToggle} ref={buttonRef} size="large">
           <MoreVert />
         </IconButton>
       </div>

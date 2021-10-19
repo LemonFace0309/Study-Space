@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
-import { Typography, Grid, Hidden, CircularProgress } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Grid, Hidden, CircularProgress } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Card from '../../Shared/Card';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +29,7 @@ const MainActionButton = ({ name, img, description, variant, loading, onClick })
   return (
     <Card isClickable={true} onClick={onClick}>
       <Grid container direction="row" className={classes.container}>
-        <Hidden smDown>
+        <Hidden mdDown>
           <Image src={img} height="200" width="250" />
         </Hidden>
 

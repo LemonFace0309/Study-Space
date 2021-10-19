@@ -1,8 +1,8 @@
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@mui/material';
+import Alert from '@mui/material/Alert';
 
 import styles from './Auth.module.css';
 
@@ -74,14 +74,16 @@ const AuthDialog = ({
                   className="mr-4 outline-none"
                   onClick={() =>
                     signIn(providers?.facebook.id, { callbackUrl: `${process.env.NEXT_PUBLIC_URL}/dashboard` })
-                  }>
+                  }
+                  size="large">
                   <Image src="/images/facebook.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
                 <IconButton
                   className="outline-none"
                   onClick={() =>
                     signIn(providers?.google.id, { callbackUrl: `${process.env.NEXT_PUBLIC_URL}/dashboard` })
-                  }>
+                  }
+                  size="large">
                   <Image src="/images/google.svg" alt="Facebook Login" height="32" width="32" />
                 </IconButton>
               </div>
@@ -101,7 +103,7 @@ const AuthDialog = ({
             </Typography>
           </div>
         </Grid>
-        <Hidden smDown>
+        <Hidden mdDown>
           <Grid item md={6} className="overflow-hidden flex flex-col content-center items-start">
             <Typography variant="h6" component="h4" className="mb-2">
               {t('LABEL_ALL_STUDY_NEEDS')}

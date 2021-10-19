@@ -5,10 +5,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { AppBar, Toolbar, Button, TextField, Hidden } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import { AppBar, Toolbar, Button, TextField, Hidden } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import * as authState from 'atoms/auth';
 import * as userState from 'atoms/user';
@@ -111,6 +111,7 @@ const Header = (props) => {
       className="mb-1"
       type="email"
       value={email}
+      variant="standard"
       onChange={(e) => setEmail(e.target.value)}
     />,
     <TextField
@@ -125,6 +126,7 @@ const Header = (props) => {
       }
       type="password"
       value={password}
+      variant="standard"
       onChange={(e) => setPassword(e.target.value)}
     />,
   ];
@@ -138,6 +140,7 @@ const Header = (props) => {
         helperText={submitted && !validFirstName && 'Please enter a valid first name 🥺'}
         className="mb-1"
         value={firstName}
+        variant="standard"
         onChange={(e) => setFirstName(e.target.value)}
       />,
       <TextField
@@ -148,6 +151,7 @@ const Header = (props) => {
         helperText={submitted && !validLastName && 'Please enter a valid last name 🥺'}
         className="mb-1"
         value={lastName}
+        variant="standard"
         onChange={(e) => setLastName(e.target.value)}
       />
     );
@@ -191,11 +195,12 @@ const Header = (props) => {
                 edge="start"
                 className="mr-2 outline-none"
                 color="inherit"
-                aria-label="menu">
+                aria-label="menu"
+                size="large">
                 <MenuIcon />
               </IconButton>
             </Hidden>
-            <Hidden smDown>
+            <Hidden mdDown>
               <div className="flex-grow">
                 <button variant="h6" className={menuItemStyles}>
                   {t('LABEL_JUST_YOU')}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, TextField } from '@material-ui/core';
-import SendIcon from '@material-ui/icons/Send';
+import { IconButton, TextField } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 import Conversation from './Conversation';
 
@@ -44,7 +44,7 @@ const Chat = ({ conversation, socketRef, roomId, username }) => {
           onChange={(e) => setText(e.target.value)}
           onKeyDown={keyPressHandler}
         />
-        <IconButton type="submit" color="primary">
+        <IconButton type="submit" color="primary" size="large">
           <SendIcon />
         </IconButton>
       </form>

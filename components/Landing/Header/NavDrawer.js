@@ -1,16 +1,16 @@
 import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import GroupIcon from '@material-ui/icons/Group';
-import ClearIcon from '@material-ui/icons/Clear';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import PersonIcon from '@mui/icons-material/Person';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import GroupIcon from '@mui/icons-material/Group';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const NavDrawer = ({ isOpen, setIsOpen, handleSignUp, handleLogIn }) => {
   const { t } = useTranslation();

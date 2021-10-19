@@ -15,9 +15,10 @@ import {
   ListItemAvatar,
   Avatar,
   CircularProgress,
-} from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useQuery, gql } from '@apollo/client';
 
 const GET_REGISTERED_PARTICIPANTS_IN_SPACE = gql`

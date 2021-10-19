@@ -2,9 +2,9 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { TabList, Tab, Tabs, TabPanel } from 'react-tabs';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useSpotifyContext, ENUM_AUTHENTICATION } from '@/context/spaces/SpotifyContext';
 import renderComponent from '@/utils/renderComponent';

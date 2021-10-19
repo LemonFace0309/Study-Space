@@ -2,11 +2,11 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import QueueIcon from '@material-ui/icons/Queue';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import QueueIcon from '@mui/icons-material/Queue';
+import DeleteIcon from '@mui/icons-material/Delete';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   songTitle: {
@@ -44,12 +44,12 @@ const Track = ({ track, playTrack, addToQueue, removeFromQueue }) => {
         <Typography variant="caption">{artist}</Typography>
       </div>
       {addToQueue && (
-        <IconButton aria-label="add to queue" onClick={queueSong}>
+        <IconButton aria-label="add to queue" onClick={queueSong} size="large">
           <QueueIcon />
         </IconButton>
       )}
       {removeFromQueue && (
-        <IconButton aria-label="remove from queue" onClick={removeSong}>
+        <IconButton aria-label="remove from queue" onClick={removeSong} size="large">
           <DeleteIcon />
         </IconButton>
       )}

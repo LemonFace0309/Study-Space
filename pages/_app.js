@@ -3,17 +3,20 @@ import { appWithTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { ApolloProvider } from '@apollo/client';
+import { CacheProvider } from '@emotion/react';
 
+import createEmotionCache from '@/utils/createEmotionCache';
 import { useApollo } from '@/utils/apollo/client';
 import Layout from 'components/Layout';
 import theme from 'styles/Theme';
 import 'styles/globals.css';
 
-// Configure the ApolloClient to connect to your app's GraphQL endpoint
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   useEffect(() => {
@@ -28,20 +31,72 @@ function MyApp({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <RecoilRoot>
         <Provider session={pageProps.session}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
+          <CacheProvider value={emotionCache}>
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={theme}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </CacheProvider>
         </Provider>
       </RecoilRoot>
     </ApolloProvider>
   );
-}
+};
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
+  emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
 
 export default appWithTranslation(MyApp);
+
+// import PropTypes from 'prop-types';
+// import { appWithTranslation } from 'next-i18next';
+// import { Provider } from 'next-auth/client';
+// import { RecoilRoot } from 'recoil';
+// // import { ApolloProvider } from '@apollo/client';
+// import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+// // import { CacheProvider } from '@emotion/react';
+
+// import { useApollo } from '@/utils/apollo/client';
+// import createEmotionCache from '../utils/createEmotionCache';
+// import Layout from 'components/Layout';
+// import theme from '@/styles/Theme';
+// import '@/styles/globals.css';
+
+// // Client-side cache, shared for the whole session of the user in the browser.
+// const clientSideEmotionCache = createEmotionCache();
+
+// const MyApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps }) => {
+//   const apolloClient = useApollo(pageProps.initialApolloState);
+
+//   return (
+//     <ApolloProvider client={apolloClient}>
+//       <RecoilRoot>
+//         <Provider session={pageProps.session}>
+//           <CacheProvider value={emotionCache}>
+//             <StyledEngineProvider injectFirst>
+//               <ThemeProvider theme={theme}>
+//                 <Layout>
+//                   <Component {...pageProps} />
+//                 </Layout>
+//               </ThemeProvider>
+//             </StyledEngineProvider>
+//           </CacheProvider>
+//         </Provider>
+//       </RecoilRoot>
+//     </ApolloProvider>
+//   );
+// };
+
+// MyApp.propTypes = {
+//   Component: PropTypes.elementType.isRequired,
+//   emotionCache: PropTypes.object.isRequired,
+//   pageProps: PropTypes.object.isRequired,
+// };
+
+// export default appWithTranslation(MyApp);
