@@ -11,7 +11,7 @@ const VideoStreams = ({ showTabs }) => {
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
-      <div className="p-5 flex flex-row flex-wrap justify-center items-center">
+      <div className="p-5 flex flex-row flex-wrap justify-start items-center">
         <div className="relative border">
           <video
             muted
