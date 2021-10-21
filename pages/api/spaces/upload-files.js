@@ -62,7 +62,7 @@ router.post(async (req, res) => {
 
   setTimeout(() => {
     if (!success) return res.status(500).json({ error: 'Timeout: Unable to upload files' });
-  }, 4500);
+  }, 4800);
 });
 
 export default router;
