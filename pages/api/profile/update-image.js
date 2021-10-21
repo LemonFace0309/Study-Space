@@ -26,7 +26,7 @@ const router = nextConnect({
 router.use(multer({ storage }).single('image'));
 
 router.patch(async (req, res) => {
-  const reqBody = JSON.parse(JSON.stringify(req.body));
+  const reqBody = req.body;
   const userId = reqBody?.id;
   if (!userId) {
     return res.status(422).json({ message: 'invalid input' });
