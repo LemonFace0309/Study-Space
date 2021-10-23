@@ -52,11 +52,7 @@ const Entry = ({ updateUsername }) => {
 };
 
 Entry.propTypes = {
-  updateUsername: PropTypes.function,
-};
-
-Entry.defaultProps = {
-  updateUsername: () => false,
+  updateUsername: PropTypes.func.isRequired,
 };
 
 export default Entry;
