@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid, Dialog, Typography, Switch, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { useTheme } from '@mui/material';
 
-import { LAYOUT_OPTIONS } from '@/context/spaces';
+import LAYOUT_ENUM from '@/context/spaces/libs/layoutEnum';
 
 const ParticipantsDialog = ({ open, setOpen, layoutOptions, setLayout: setVideoLayout }) => {
   const { t } = useTranslation();
@@ -65,7 +65,7 @@ ParticipantsDialog.propTypes = {
 };
 
 ParticipantsDialog.defaultProps = {
-  layoutOptions: LAYOUT_OPTIONS,
+  layoutOptions: LAYOUT_ENUM,
 };
 
 export default ParticipantsDialog;

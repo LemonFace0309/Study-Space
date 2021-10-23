@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
-import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 import { useRecoilValue } from 'recoil';
 import { intersection } from 'lodash';
 
 import * as userState from 'atoms/user';
+import LOADING_ENUM from './libs/loadingEnum';
 
 const SocketContext = createContext();
 
@@ -15,32 +15,18 @@ export const useSocketContext = () => {
   return useContext(SocketContext);
 };
 
-export const SocketProvider = ({ loading, children }) => {
+export const SocketProvider = ({ loading, username, children }) => {
   const router = useRouter();
   const user = useRecoilValue(userState.user);
   const socketRef = useRef();
   const myStream = useRef();
   const peersRef = useRef([]);
   const [conversation, setConversation] = useState([]);
-  const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState([]);
   const [isMyVideoEnabled, setIsMyVideoEnabled] = useState(true);
   const [isMyAudioEnabled, setIsMyAudioEnabled] = useState(true);
 
   const initRoom = async () => {
-    let currentUsername = '';
-    if (user?.name) {
-      currentUsername = user.name;
-    } else {
-      const randomName = uniqueNamesGenerator({
-        dictionaries: [colors, animals],
-        style: 'capital',
-        separator: ' ',
-      });
-      currentUsername = randomName;
-    }
-    setUsername(currentUsername);
-
     const videoConstraints = {
       height: window.innerHeight / 2,
       width: window.innerWidth / 2,
@@ -62,7 +48,7 @@ export const SocketProvider = ({ loading, children }) => {
      * Notifiy users in the room that this new user joined
      */
     const roomId = router.query.id[0];
-    socketRef.current.emit('join room', { roomId, userId: user?._id, username: currentUsername });
+    socketRef.current.emit('join room', { roomId, userId: user?._id, username: username });
 
     /**
      * Get information of others users in the room and add them as peers
@@ -70,10 +56,10 @@ export const SocketProvider = ({ loading, children }) => {
      */
     socketRef.current.on('other users', ({ users, conversation }) => {
       const newParticipants = [];
-      newParticipants.push(currentUsername);
+      newParticipants.push(username);
 
       users.forEach((user) => {
-        createPeer(user.socketId, currentUsername, socketRef.current.id, user.username, stream);
+        createPeer(user.socketId, username, socketRef.current.id, user.username, stream);
         newParticipants.push(user.username);
       });
       setParticipants([...newParticipants]);
@@ -82,7 +68,7 @@ export const SocketProvider = ({ loading, children }) => {
           if (!obj) return {};
           obj = JSON.parse(obj);
           if (!obj?.message || !obj?.username) return {};
-          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == currentUsername };
+          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username };
         });
         conversation = conversation.filter((obj) => obj !== {});
       }
@@ -113,7 +99,7 @@ export const SocketProvider = ({ loading, children }) => {
       setConversation((prevConversation) => {
         return [
           ...prevConversation,
-          { text: payload.message, sender: payload.username, fromMe: payload.username == currentUsername },
+          { text: payload.message, sender: payload.username, fromMe: payload.username == username },
         ];
       });
     });
@@ -143,7 +129,7 @@ export const SocketProvider = ({ loading, children }) => {
   // ensures initRoom only runs once
   const roomInitialized = useRef(false);
   useEffect(() => {
-    if (!loading && !roomInitialized.current) {
+    if (loading != LOADING_ENUM.LOADING && !roomInitialized.current) {
       initRoom();
       roomInitialized.current = true;
     }
@@ -290,6 +276,7 @@ export const SocketProvider = ({ loading, children }) => {
 };
 
 SocketProvider.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };

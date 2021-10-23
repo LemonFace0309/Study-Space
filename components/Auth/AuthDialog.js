@@ -57,7 +57,7 @@ const AuthDialog = ({
                   // 'bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 hover:from-pink-500 hover:to-yellow-400 transition duration-200 ease-in-out'
                 } my-12 overflow-hidden text-white font-bold py-2 px-4 rounded-full w-8/12 outline-none`}
                 disabled={isSignUp && !validSignUp}>
-                {t(btnText)}
+                <span>{t(btnText)}</span>
               </Button>
               <div className="flex w-full justify-center items-center">
                 <Divider className="w-4/12 h-0.5" />

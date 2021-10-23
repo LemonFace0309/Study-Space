@@ -3,7 +3,8 @@ import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { useSpaceContext, LAYOUT_OPTIONS } from '@/context/spaces';
+import { useSpaceContext } from '@/context/spaces';
+import LAYOUT_ENUM from '@/context/spaces/libs/layoutEnum';
 import PeerVideo from './PeerVideo';
 
 const VideoStreams = ({ showTabs }) => {
@@ -20,7 +21,7 @@ const VideoStreams = ({ showTabs }) => {
             className="object-cover"
             style={{ transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
           />
-          {layout == LAYOUT_OPTIONS.LIST && (
+          {layout == LAYOUT_ENUM.LIST && (
             <div>
               <div className="absolute top-0 left-0 w-full h-full">
                 <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
