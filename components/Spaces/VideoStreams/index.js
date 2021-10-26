@@ -8,12 +8,12 @@ import ROLES from '@/context/spaces/libs/roles';
 import MyVideo from './libs/MyVideo';
 import PeerVideo from './libs/PeerVideo';
 
-const VideoContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'status' })(({ theme, status }) => ({
+const VideosContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'status' })(({ theme, status }) => ({
   padding: theme.spacing(3),
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  justifyContent: status == ROLES.TEACHER.value ? 'center' : 'start',
+  justifyContent: status == 'upper' ? 'center' : 'start',
   alignItems: 'center',
 }));
 
@@ -23,17 +23,28 @@ const VideoStreams = ({ showTabs }) => {
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
       {/* Teachers */}
-      <VideoContainer status={ROLES.TEACHER.value}>{role == ROLES.TEACHER.value && <MyVideo />}</VideoContainer>
+      <VideosContainer status="upper">
+        {role == ROLES.TEACHER.value && <MyVideo />}
+        {peersRef.current
+          .filter((peerObj) => peerObj.role == ROLES.TEACHER.value)
+          .map((peerObj) => {
+            return (
+              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
+            );
+          })}
+      </VideosContainer>
 
       {/* Students */}
-      <VideoContainer status={ROLES.STUDENT.value}>
+      <VideosContainer status="lower">
         {role == ROLES.STUDENT.value && <MyVideo />}
-        {peersRef.current.map((peerObj) => {
-          return (
-            <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
-          );
-        })}
-      </VideoContainer>
+        {peersRef.current
+          .filter((peerObj) => peerObj.role == ROLES.STUDENT.value)
+          .map((peerObj) => {
+            return (
+              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
+            );
+          })}
+      </VideosContainer>
     </Grid>
   );
 };

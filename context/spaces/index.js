@@ -98,7 +98,7 @@ export const SpaceProvider = ({ children }) => {
 
   return (
     <SpaceContext.Provider value={value}>
-      <SocketProvider loading={loading} username={username}>
+      <SocketProvider loading={loading} username={username} role={role}>
         <TodoProvider>
           <SpotifyProvider>{children}</SpotifyProvider>
         </TodoProvider>

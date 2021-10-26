@@ -8,6 +8,7 @@ import { intersection } from 'lodash';
 
 import * as userState from 'atoms/user';
 import LOADING_ENUM from './libs/loadingEnum';
+import * as utils from './utils/socket';
 
 const SocketContext = createContext();
 
@@ -15,7 +16,7 @@ export const useSocketContext = () => {
   return useContext(SocketContext);
 };
 
-export const SocketProvider = ({ loading, username, children }) => {
+export const SocketProvider = ({ loading, username, role, children }) => {
   const router = useRouter();
   const user = useRecoilValue(userState.user);
   const socketRef = useRef();
@@ -25,6 +26,7 @@ export const SocketProvider = ({ loading, username, children }) => {
   const [participants, setParticipants] = useState([]);
   const [isMyVideoEnabled, setIsMyVideoEnabled] = useState(true);
   const [isMyAudioEnabled, setIsMyAudioEnabled] = useState(true);
+  console.debug(peersRef.current);
 
   const initRoom = async () => {
     const videoConstraints = {
@@ -48,7 +50,7 @@ export const SocketProvider = ({ loading, username, children }) => {
      * Notifiy users in the room that this new user joined
      */
     const roomId = router.query.id[0];
-    socketRef.current.emit('join room', { roomId, userId: user?._id, username: username });
+    socketRef.current.emit('join room', { roomId, userId: user?._id, username, role });
 
     /**
      * Get information of others users in the room and add them as peers
@@ -59,10 +61,11 @@ export const SocketProvider = ({ loading, username, children }) => {
       newParticipants.push(username);
 
       users.forEach((user) => {
-        createPeer(user.socketId, username, socketRef.current.id, user.username, stream);
+        createPeer(user.socketId, user.username, user.role, stream);
         newParticipants.push(user.username);
       });
       setParticipants([...newParticipants]);
+
       if (conversation) {
         conversation = JSON.parse(conversation).map((obj) => {
           if (!obj) return {};
@@ -71,15 +74,15 @@ export const SocketProvider = ({ loading, username, children }) => {
           return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username };
         });
         conversation = conversation.filter((obj) => obj !== {});
+        setConversation(conversation);
       }
-      conversation && setConversation(conversation ?? []);
     });
 
     /**
      * Add new user that joins after you as peer
      */
     socketRef.current.on('offer', (payload) => {
-      addPeer(payload.signal, payload.callerID, payload.username, stream);
+      addPeer(payload.signal, payload.callerID, payload.username, payload.role, stream);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
     });
@@ -135,7 +138,7 @@ export const SocketProvider = ({ loading, username, children }) => {
     }
   }, [loading]);
 
-  const createPeer = (userToSignal, myUsername, callerID, username, myStream) => {
+  const createPeer = (userToSignal, pUsername, pRole, myStream) => {
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -146,8 +149,9 @@ export const SocketProvider = ({ loading, username, children }) => {
     peer.on('signal', (signal) => {
       socketRef.current.emit('offer', {
         userToSignal,
-        username: myUsername,
-        callerID,
+        username,
+        role,
+        callerID: socketRef.current.id,
         signal,
       });
     });
@@ -160,7 +164,8 @@ export const SocketProvider = ({ loading, username, children }) => {
 
     peersRef.current.push({
       peerId: userToSignal,
-      peerName: username,
+      peerName: pUsername,
+      role: pRole,
       stream: null,
       peer,
     });
@@ -170,7 +175,7 @@ export const SocketProvider = ({ loading, username, children }) => {
    * NOTE: this function is reexecuted everytime a peer signals you again (ie. he/she screen shares).
    * That's why peers are only pushed onto the peersRef array given that they don't already exist.
    */
-  const addPeer = (incomingSignal, callerID, username, myStream) => {
+  const addPeer = (incomingSignal, callerID, pUsername, pRole, myStream) => {
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -188,7 +193,8 @@ export const SocketProvider = ({ loading, username, children }) => {
       } else {
         peersRef.current.push({
           peerId: callerID,
-          peerName: username,
+          peerName: pUsername,
+          role: pRole,
           stream,
           peer,
         });
@@ -278,5 +284,6 @@ export const SocketProvider = ({ loading, username, children }) => {
 SocketProvider.propTypes = {
   loading: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
