@@ -2,6 +2,9 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import * as userState from 'atoms/user';
 import getUser from '@/utils/getUser';
 import EntryDialog from '@/components/Spaces/Dialogs/Entry';
@@ -11,6 +14,7 @@ import { useTodoContext, TodoProvider } from './TodoContext';
 import { useSpotifyContext, SpotifyProvider } from './SpotifyContext';
 import LOADING_ENUM from './libs/loadingEnum';
 import LAYOUT_ENUM from './libs/layoutEnum';
+import ROLES from './libs/roles';
 import USERNAME_PREFIX_KEY from './libs/usernamePrefixKey';
 import getUsername from './libs/getUsername';
 
@@ -30,6 +34,7 @@ export const SpaceProvider = ({ children }) => {
   const [layout, setLayout] = useState(LAYOUT_ENUM.TILED);
   const [username, setUsername] = useState('');
   const [user, setUser] = useRecoilState(userState.user);
+  const [role, setRole] = useState(ROLES.STUDENT.value);
 
   const initUser = async () => {
     let newUser = null;
@@ -71,12 +76,25 @@ export const SpaceProvider = ({ children }) => {
     return true;
   };
 
+  const updateRole = (_role) => {
+    setRole(_role);
+  };
+
   const value = {
+    role,
     layout,
     setLayout,
   };
 
-  if (loading == LOADING_ENUM.SHOW_DIALOG) return <EntryDialog updateUsername={updateUsername} />;
+  if (loading == LOADING_ENUM.LOADING)
+    return (
+      <Box sx={{ height: '100vh', display: 'grid', placeItems: 'center' }}>
+        <CircularProgress size={80} />
+      </Box>
+    );
+
+  if (loading == LOADING_ENUM.SHOW_DIALOG)
+    return <EntryDialog updateUsername={updateUsername} updateRole={updateRole} />;
 
   return (
     <SpaceContext.Provider value={value}>
