@@ -1,43 +1,50 @@
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
-import { useSpaceContext, LAYOUT_OPTIONS } from '@/context/spaces';
-import PeerVideo from './PeerVideo';
+import { useSpaceContext } from '@/context/spaces';
+import ROLES from '@/context/spaces/libs/roles';
+import MyVideo from './libs/MyVideo';
+import PeerVideo from './libs/PeerVideo';
+
+const VideosContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'status' })(({ theme, status }) => ({
+  padding: theme.spacing(3),
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: status == 'upper' ? 'center' : 'start',
+  alignItems: 'center',
+}));
 
 const VideoStreams = ({ showTabs }) => {
-  const { layout, username, myStream, peersRef } = useSpaceContext();
+  const { role, peersRef } = useSpaceContext();
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
-      <div className="p-5 flex flex-row flex-wrap justify-center items-center">
-        <div className="relative border">
-          <video
-            muted
-            ref={myStream}
-            autoPlay
-            className="object-cover"
-            style={{ transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
-          />
-          {layout == LAYOUT_OPTIONS.LIST && (
-            <div>
-              <div className="absolute top-0 left-0 w-full h-full">
-                <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
-              </div>
-            </div>
-          )}
-          <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
-            {username}
-          </Typography>
-        </div>
+      {/* Teachers */}
+      <VideosContainer status="upper">
+        {role == ROLES.TEACHER.value && <MyVideo />}
+        {peersRef.current
+          .filter((peerObj) => peerObj.role == ROLES.TEACHER.value)
+          .map((peerObj) => {
+            return (
+              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
+            );
+          })}
+      </VideosContainer>
 
-        {peersRef.current.map((peerObj) => {
-          return (
-            <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
-          );
-        })}
-      </div>
+      {/* Students */}
+      <VideosContainer status="lower">
+        {role == ROLES.STUDENT.value && <MyVideo />}
+        {peersRef.current
+          .filter((peerObj) => peerObj.role == ROLES.STUDENT.value)
+          .map((peerObj) => {
+            return (
+              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
+            );
+          })}
+      </VideosContainer>
     </Grid>
   );
 };

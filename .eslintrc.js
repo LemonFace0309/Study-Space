@@ -45,5 +45,6 @@ module.exports = {
     ],
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'no-console': 'off',
+    'jsx-a11y/no-autofocus': 'warn',
   },
 };
