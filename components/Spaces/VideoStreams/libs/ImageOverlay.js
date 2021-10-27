@@ -21,7 +21,7 @@ const ImageOverlay = () => {
   return (
     <DisplayImageContainer>
       <Box sx={{ height: '6rem', width: '6rem', overflow: 'hidden', borderRadius: '9999px', position: 'relative' }}>
-        <Image src={genericPic} layout="fill" objectFit="cover"></Image>
+        <Image priority src={genericPic} layout="fill" objectFit="cover"></Image>
       </Box>
     </DisplayImageContainer>
   );

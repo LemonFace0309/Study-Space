@@ -1,4 +1,6 @@
 import { useState, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
+
 import { IconButton, MenuList, MenuItem, Popper, Grow, Paper, ClickAwayListener } from '@mui/material';
 import {
   Mic,
@@ -12,14 +14,26 @@ import {
   ExitToApp,
 } from '@mui/icons-material';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 
+import * as userState from '@/atoms/user';
 import { useSpaceContext } from '@/context/spaces';
 import LeaveCallDialog from './LeaveCallDialog';
 import ParticipantsDialog from './ParticipantsDialog';
 
 const CallOptions = () => {
-  const { setLayout, isMyVideoEnabled, isMyAudioEnabled, toggleMyAudio, toggleMyVideo, shareScreen, leaveCall } =
-    useSpaceContext();
+  const {
+    setLayout,
+    openEntryDialog,
+    isMyVideoEnabled,
+    isMyAudioEnabled,
+    toggleMyAudio,
+    toggleMyVideo,
+    shareScreen,
+    leaveCall,
+    disconnect,
+  } = useSpaceContext();
+  const user = useRecoilValue(userState.user);
   const [openOptions, setOpenOptions] = useState(false);
   const [openLeaveModal, setOpenLeaveModal] = useState(false);
   const [openParticipantsModal, setOpenParticipantsModal] = useState(false);
@@ -35,6 +49,11 @@ const CallOptions = () => {
     }
 
     setOpenOptions(false);
+  };
+
+  const changeUsername = () => {
+    disconnect();
+    openEntryDialog();
   };
 
   return (
@@ -62,12 +81,18 @@ const CallOptions = () => {
                 <MenuList autoFocusItem={openOptions}>
                   <MenuItem onClick={() => setOpenParticipantsModal(true)}>
                     <ViewCompact className="m-1" />
-                    Participant layout
+                    Participant Layout
                   </MenuItem>
                   <MenuItem onClick={() => {}}>
                     <Palette className="m-1" />
                     Appearance
                   </MenuItem>
+                  {!user && (
+                    <MenuItem onClick={changeUsername}>
+                      <SwitchAccountIcon className="m-1" />
+                      Change username
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={() => {}}>
                     <Settings className="m-1" />
                     Settings
