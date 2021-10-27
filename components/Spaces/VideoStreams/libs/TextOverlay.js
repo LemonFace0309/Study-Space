@@ -53,7 +53,7 @@ const TextOverlay = ({ username, isAudioEnabled, statusBubble }) => {
       </StatusBox>
       <TextBox>
         <Typography variant="body1">{username}</Typography>
-        {isAudioEnabled && <MicOffIcon />}
+        {!isAudioEnabled && <MicOffIcon />}
       </TextBox>
     </>
   );
