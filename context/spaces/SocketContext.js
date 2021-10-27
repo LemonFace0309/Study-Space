@@ -52,7 +52,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     /**
      * Notifiy users in the room that this new user joined
      */
-    const roomId = router.query.id[0];
+    const roomId = router.query.id ? router.query.id[0] : null;
     socketRef.current.emit('join room', { roomId, userId: user?._id, username, role });
 
     /**
