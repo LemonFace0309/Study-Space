@@ -15,7 +15,7 @@ import TodoList from './TodoList';
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
 
-const CallTabs = ({ roomId, showTabs, setShowTabs }) => {
+const CallTabs = ({ showTabs, setShowTabs }) => {
   const { username, participants, conversation } = useSocketContext();
 
   useEffect(() => {
@@ -52,8 +52,6 @@ const CallTabs = ({ roomId, showTabs, setShowTabs }) => {
       icon: ChatIcon,
       panel: ChatPanel,
       panelProps: {
-        username,
-        roomId,
         conversation,
       },
     },
@@ -114,7 +112,6 @@ const CallTabs = ({ roomId, showTabs, setShowTabs }) => {
 };
 
 CallTabs.propTypes = {
-  roomId: PropTypes.string.isRequired,
   showTabs: PropTypes.bool.isRequired,
   setShowTabs: PropTypes.func.isRequired,
 };

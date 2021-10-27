@@ -41,10 +41,10 @@ const CallOptions = () => {
     <>
       <div className="absolute bottom-0 left-0">
         <IconButton onClick={toggleMyAudio} size="large">
-          {isMyVideoEnabled ? <Mic /> : <MicOff />}
+          {isMyAudioEnabled ? <Mic /> : <MicOff />}
         </IconButton>
         <IconButton onClick={toggleMyVideo} size="large">
-          {isMyAudioEnabled ? <Videocam /> : <VideocamOff />}
+          {isMyVideoEnabled ? <Videocam /> : <VideocamOff />}
         </IconButton>
         <IconButton onClick={shareScreen} size="large">
           <ScreenShareIcon />

@@ -4,29 +4,39 @@ import Typography from '@mui/material/Typography';
 import LAYOUT_ENUM from '@/context/spaces/libs/layoutEnum';
 import { useSpaceContext } from '@/context/spaces';
 
+import ImageOverlay from './ImageOverlay';
+
 const MyVideo = () => {
-  const { layout, username, myStream } = useSpaceContext();
+  const { layout, username, myStream, myScreenShare, isMyVideoEnabled, isScreenShare } = useSpaceContext();
 
   return (
-    <div className="relative border">
+    <>
+      <div className="relative border">
+        <video
+          muted
+          ref={myStream}
+          autoPlay
+          style={{ objectFit: 'cover', transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
+        />
+        {!isMyVideoEnabled && <ImageOverlay />}
+        {layout == LAYOUT_ENUM.LIST && (
+          <div>
+            <div className="absolute top-0 left-0 w-full h-full">
+              <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
+            </div>
+          </div>
+        )}
+        <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
+          {username}
+        </Typography>
+      </div>
       <video
         muted
-        ref={myStream}
+        ref={myScreenShare}
         autoPlay
-        className="object-cover"
-        style={{ transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
+        style={{ display: isScreenShare ? 'block' : 'none', objectFit: 'cover', height: '18rem', width: '32rem' }}
       />
-      {layout == LAYOUT_ENUM.LIST && (
-        <div>
-          <div className="absolute top-0 left-0 w-full h-full">
-            <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
-          </div>
-        </div>
-      )}
-      <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
-        {username}
-      </Typography>
-    </div>
+    </>
   );
 };
 

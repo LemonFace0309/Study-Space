@@ -81,6 +81,7 @@ export const SpaceProvider = ({ children }) => {
   };
 
   const value = {
+    username,
     role,
     layout,
     setLayout,

@@ -12,17 +12,19 @@ import VideoStreams from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
 
-const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
+const Room = ({ roomId, spotifyAuthURL }) => {
   const router = useRouter();
   const [showTabs, setShowTabs] = useState(false);
-  const setRoomID = useSetRecoilState(spotifyState.roomId);
+  const setRoomId = useSetRecoilState(spotifyState.roomId);
   const setSpotifyAuthURL = useSetRecoilState(spotifyState.spotifyAuthURL);
   const setSpotifyRefresh = useSetRecoilState(spotifyState.refresh);
 
   const initRecoilState = () => {
-    setRoomID(roomId);
+    setRoomId(roomId);
     setSpotifyAuthURL(spotifyAuthURL);
-    if (spotifyData) {
+    if (router.query && router.query.data) {
+      const spotifyData = JSON.parse(router.query.data);
+
       // redirected back to room and user clicked signed into Spotify in call tab.
       const expiresIn = spotifyData.expiresIn * 1000;
       const date = new Date();
@@ -44,36 +46,25 @@ const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
       <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
         <VideoStreams showTabs={showTabs} />
         <CallOptions />
-        <CallTabs roomId={roomId} showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
+        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
       </Grid>
     </SpaceProvider>
   );
 };
 
-export async function getServerSideProps({ locale, params, query }) {
-  let spotifyData = null;
-  if (query && query.data) {
-    try {
-      spotifyData = JSON.parse(query.data);
-    } catch (err) {
-      console.debug('Error occured while trying to parse spotify data from url query:', err);
-    }
-  }
-
+export const getServerSideProps = async ({ locale, params }) => {
   return {
     props: {
       roomId: params.id[0],
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       ...(await serverSideTranslations(locale, ['common'])),
-      spotifyData,
     },
   };
-}
+};
 
 Room.propTypes = {
   roomId: PropTypes.string.isRequired,
   spotifyAuthURL: PropTypes.string.isRequired,
-  spotifyData: PropTypes.object,
 };
 
 export default Room;

@@ -28,9 +28,7 @@ const VideoStreams = ({ showTabs }) => {
         {peersRef.current
           .filter((peerObj) => peerObj.role == ROLES.TEACHER.value)
           .map((peerObj) => {
-            return (
-              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
-            );
+            return <PeerVideo key={peerObj.peerId} peerObj={peerObj} />;
           })}
       </VideosContainer>
 
@@ -40,9 +38,7 @@ const VideoStreams = ({ showTabs }) => {
         {peersRef.current
           .filter((peerObj) => peerObj.role == ROLES.STUDENT.value)
           .map((peerObj) => {
-            return (
-              <PeerVideo key={peerObj.peerId} peer={peerObj.peer} username={peerObj.peerName} stream={peerObj.stream} />
-            );
+            return <PeerVideo key={peerObj.peerId} peerObj={peerObj} />;
           })}
       </VideosContainer>
     </Grid>
