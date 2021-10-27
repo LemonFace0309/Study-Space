@@ -50,7 +50,7 @@ export const SpaceProvider = ({ children }) => {
       newUser = user;
     }
 
-    const _username = getUsername(user);
+    const _username = getUsername(newUser);
     if (_username) {
       setUsername(_username);
       setLoading(LOADING_ENUM.SKIP_DIALOG);
