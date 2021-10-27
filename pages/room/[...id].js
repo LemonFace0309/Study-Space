@@ -55,7 +55,7 @@ const Room = ({ roomId, spotifyAuthURL }) => {
 export const getStaticPaths = () => {
   return {
     paths: [{ params: { id: ['1'] } }],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
