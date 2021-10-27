@@ -4,8 +4,10 @@ import Typography from '@mui/material/Typography';
 import LAYOUT_ENUM from '@/context/spaces/libs/layoutEnum';
 import { useSpaceContext } from '@/context/spaces';
 
+import ImageOverlay from './ImageOverlay';
+
 const MyVideo = () => {
-  const { layout, username, myStream } = useSpaceContext();
+  const { layout, username, myStream, isMyVideoEnabled } = useSpaceContext();
 
   return (
     <div className="relative border">
@@ -16,6 +18,7 @@ const MyVideo = () => {
         className="object-cover"
         style={{ transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
       />
+      {!isMyVideoEnabled && <ImageOverlay />}
       {layout == LAYOUT_ENUM.LIST && (
         <div>
           <div className="absolute top-0 left-0 w-full h-full">

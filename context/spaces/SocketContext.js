@@ -26,7 +26,6 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   const [participants, setParticipants] = useState([]);
   const [isMyVideoEnabled, setIsMyVideoEnabled] = useState(true);
   const [isMyAudioEnabled, setIsMyAudioEnabled] = useState(true);
-  console.debug(peersRef.current);
 
   const initRoom = async () => {
     const videoConstraints = {
@@ -108,6 +107,24 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
 
     /**
+     * Peer mutes/unmutes mic
+     */
+    socketRef.current.on('isAudioEnabled', ({ id, enabled }) => {
+      const peerObj = peersRef.current.find((peerObj) => peerObj.peerId == id);
+      peerObj.isAudioEnabled = enabled;
+      setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
+    });
+
+    /**
+     * Peer turns on/off video
+     */
+    socketRef.current.on('isVideoEnabled', ({ id, enabled }) => {
+      const peerObj = peersRef.current.find((peerObj) => peerObj.peerId == id);
+      peerObj.isVideoEnabled = enabled;
+      setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
+    });
+
+    /**
      * Remove user as a peer and participant when disconnected
      */
     socketRef.current.on('user disconnect', ({ users }) => {
@@ -167,6 +184,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       peerName: pUsername,
       role: pRole,
       stream: null,
+      isAudioEnabled: true,
+      isVideoEnabled: true,
       peer,
     });
   };
@@ -196,6 +215,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           peerName: pUsername,
           role: pRole,
           stream,
+          isAudioEnabled: true,
+          isVideoEnabled: true,
           peer,
         });
       }
@@ -206,9 +227,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     peer.signal(incomingSignal);
   };
 
-  const sendMessage = (roomId, message, username) => {
+  const sendMessage = (message) => {
     socketRef.current.emit('message', {
-      roomId,
       message,
       username,
     });
@@ -254,19 +274,22 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     const state = myStream.current.srcObject.getAudioTracks()[0].enabled;
     setIsMyVideoEnabled(!state);
     myStream.current.srcObject.getAudioTracks()[0].enabled = !state;
+
+    socketRef.current.emit('isAudioEnabled', { enabled: !state });
   };
 
   const toggleMyVideo = () => {
     const state = myStream.current.srcObject.getVideoTracks()[0].enabled;
     setIsMyAudioEnabled(!state);
     myStream.current.srcObject.getVideoTracks()[0].enabled = !state;
+
+    socketRef.current.emit('isVideoEnabled', { enabled: !state });
   };
 
   const value = {
     socketRef,
     myStream,
     peersRef,
-    username, // further abstract
     conversation,
     participants,
     sendMessage,

@@ -44,7 +44,7 @@ const Room = ({ roomId, spotifyAuthURL, spotifyData }) => {
       <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
         <VideoStreams showTabs={showTabs} />
         <CallOptions />
-        <CallTabs roomId={roomId} showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
+        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
       </Grid>
     </SpaceProvider>
   );

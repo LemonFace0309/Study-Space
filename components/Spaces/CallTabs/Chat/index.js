@@ -17,7 +17,7 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const Chat = ({ conversation, roomId, username }) => {
+const Chat = ({ conversation }) => {
   const { sendMessage } = useSocketContext();
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
@@ -71,8 +71,8 @@ const Chat = ({ conversation, roomId, username }) => {
       });
     }
 
-    fileMsgs.forEach((fm) => sendMessage(roomId, fm, username));
-    if (validMsg) sendMessage(roomId, text, username);
+    fileMsgs.forEach((fm) => sendMessage(fm));
+    if (validMsg) sendMessage(text);
 
     setText('');
     setFiles([]);
@@ -123,9 +123,7 @@ const Chat = ({ conversation, roomId, username }) => {
 };
 
 Chat.propTypes = {
-  username: PropTypes.string,
   conversation: PropTypes.array.isRequired,
-  roomId: PropTypes.string.isRequired,
 };
 
 export default Chat;
