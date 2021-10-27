@@ -3,10 +3,21 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import { styled } from '@mui/material/styles';
 
 import ImageOverlay from './ImageOverlay';
+
+const ProgressBox = styled(Box)({
+  height: '100%',
+  width: '100%',
+  display: 'grid',
+  placeItems: 'center',
+  position: 'absolute',
+  zIndex: 10,
+  top: 0,
+});
 
 const InfoBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -29,10 +40,15 @@ const PeerVideo = ({ peerObj }) => {
   }, [peerObj.peer, peerObj.stream]);
 
   return (
-    <div className="relative">
+    <div style={{ position: 'relative' }}>
       <video controls autoPlay ref={ref} style={{ objectFit: 'cover', height: '18rem', width: '32rem' }}>
         <track kind="captions"></track>
       </video>
+      {!peerObj.stream && (
+        <ProgressBox>
+          <CircularProgress size={50} />
+        </ProgressBox>
+      )}
       {!peerObj.isVideoEnabled && <ImageOverlay />}
       <InfoBox>
         <Typography variant="body1">{peerObj.peerName}</Typography>
