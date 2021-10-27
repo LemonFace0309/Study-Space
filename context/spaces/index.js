@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import * as userState from 'atoms/user';
+import * as userState from '@/atoms/user';
 import getUser from '@/utils/getUser';
 import EntryDialog from '@/components/Spaces/Dialogs/Entry';
 import { PREFIX } from '@/hooks/useLocalStorage';
@@ -80,11 +80,16 @@ export const SpaceProvider = ({ children }) => {
     setRole(_role);
   };
 
+  const openEntryDialog = () => {
+    setLoading(LOADING_ENUM.SHOW_DIALOG);
+  };
+
   const value = {
     username,
     role,
     layout,
     setLayout,
+    openEntryDialog,
   };
 
   if (loading == LOADING_ENUM.LOADING)
