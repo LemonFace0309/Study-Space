@@ -8,6 +8,7 @@ import { intersection } from 'lodash';
 
 import * as userState from '@/atoms/user';
 import useStateRef from '@/hooks/useStateRef';
+import { useStatusBubbleContext } from './StatusBubbleContext';
 import LOADING_ENUM from './libs/loadingEnum';
 import * as utils from './utils/socket';
 
@@ -19,6 +20,7 @@ export const useSocketContext = () => {
 
 export const SocketProvider = ({ loading, username, role, children }) => {
   const router = useRouter();
+  const { statusBubble, statusBubbleRef, setStatusActiveTemp } = useStatusBubbleContext();
   const user = useRecoilValue(userState.user);
   const socketRef = useRef();
   const myStream = useRef();
@@ -85,14 +87,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
      * Add new user that joins after you as peer
      */
     socketRef.current.on('offer', (payload) => {
-      addPeer(
-        payload.signal,
-        payload.callerID,
-        payload.username,
-        payload.role,
-        payload.isAudioEnabled,
-        payload.isVideoEnabled
-      );
+      addPeer(payload);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
     });
@@ -101,10 +96,11 @@ export const SocketProvider = ({ loading, username, role, children }) => {
      * Load signal of new user
      */
     socketRef.current.on('answer', (payload) => {
-      const receivingPeerObj = peersRef.current.find((p) => p.peerId === payload.id);
-      receivingPeerObj.isAudioEnabled = payload.isAudioEnabled;
-      receivingPeerObj.isVideoEnabled = payload.isVideoEnabled;
-      receivingPeerObj.peer.signal(payload.signal);
+      const peerObj = peersRef.current.find((p) => p.peerId === payload.id);
+      peerObj.isAudioEnabled = payload.isAudioEnabled;
+      peerObj.isVideoEnabled = payload.isVideoEnabled;
+      peerObj.statusBubble = payload.statusBubble;
+      peerObj.peer.signal(payload.signal);
     });
 
     /**
@@ -134,6 +130,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     socketRef.current.on('isVideoEnabled', ({ id, enabled }) => {
       const peerObj = peersRef.current.find((peerObj) => peerObj.peerId == id);
       peerObj.isVideoEnabled = enabled;
+      setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
+    });
+
+    /**
+     * Peer status bubble changes
+     */
+    socketRef.current.on('statusBubble', ({ id, statusBubble }) => {
+      const peerObj = peersRef.current.find((p) => p.peerId === id);
+      peerObj.statusBubble = statusBubble;
       setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
@@ -168,6 +173,11 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     }
   }, [loading]);
 
+  useEffect(() => {
+    if (!roomInitialized.current || !socketRef.current) return;
+    socketRef.current.emit('statusBubble', { statusBubble });
+  }, [statusBubble]);
+
   const createPeer = (userToSignal, pUsername, pRole) => {
     const peer = new Peer({
       initiator: true,
@@ -185,6 +195,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
         signal,
         isAudioEnabled: isMyAudioEnabledRef.current,
         isVideoEnabled: isMyVideoEnabledRef.current,
+        statusBubble: statusBubbleRef.current,
       });
     });
 
@@ -201,6 +212,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       stream: null,
       isAudioEnabled: true,
       isVideoEnabled: true,
+      statusBubble: null,
       peer,
     });
   };
@@ -209,7 +221,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
    * NOTE: this function is reexecuted everytime a peer signals you again (ie. he/she screen shares).
    * That's why peers are only pushed onto the peersRef array given that they don't already exist.
    */
-  const addPeer = (incomingSignal, callerID, pUsername, pRole, isAudioEnabled, isVideoEnabled) => {
+  const addPeer = ({
+    signal: incomingSignal,
+    callerID,
+    username: pUsername,
+    role: pRole,
+    isAudioEnabled,
+    isVideoEnabled,
+    statusBubble: pStatusBubble,
+  }) => {
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -222,6 +242,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
         callerID,
         isAudioEnabled: isMyAudioEnabledRef.current,
         isVideoEnabled: isMyVideoEnabledRef.current,
+        statusBubble: statusBubbleRef.current,
       });
     });
 
@@ -237,6 +258,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           stream,
           isAudioEnabled: isAudioEnabled,
           isVideoEnabled: isVideoEnabled,
+          statusBubble: pStatusBubble,
           peer,
         });
       }
@@ -256,6 +278,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   };
 
   const sendMessage = (message) => {
+    setStatusActiveTemp();
     socketRef.current.emit('message', {
       message,
       username,

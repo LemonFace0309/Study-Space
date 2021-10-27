@@ -1,13 +1,11 @@
-import Image from 'next/image';
-import Typography from '@mui/material/Typography';
-
-import LAYOUT_ENUM from '@/context/spaces/libs/layoutEnum';
 import { useSpaceContext } from '@/context/spaces';
 
 import ImageOverlay from './ImageOverlay';
+import TextOverlay from './TextOverlay';
 
 const MyVideo = () => {
-  const { layout, username, myStream, myScreenShare, isMyVideoEnabled, isScreenShare } = useSpaceContext();
+  const { username, myStream, myScreenShare, isMyAudioEnabled, isMyVideoEnabled, statusBubble, isScreenShare } =
+    useSpaceContext();
 
   return (
     <>
@@ -19,16 +17,7 @@ const MyVideo = () => {
           style={{ objectFit: 'cover', transform: 'scaleX(-1)', height: '18rem', width: '32rem' }}
         />
         {!isMyVideoEnabled && <ImageOverlay />}
-        {layout == LAYOUT_ENUM.LIST && (
-          <div>
-            <div className="absolute top-0 left-0 w-full h-full">
-              <Image src="/images/avatar/anime.png" alt="login screen picture" layout="fill" objectFit="cover" />
-            </div>
-          </div>
-        )}
-        <Typography variant="body1" className="z-10 absolute bottom-0 right-0 w-full text-white p-1">
-          {username}
-        </Typography>
+        <TextOverlay username={username} isAudioEnabled={isMyAudioEnabled} statusBubble={statusBubble} />
       </div>
       <video
         muted
