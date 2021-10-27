@@ -52,7 +52,7 @@ const Room = ({ roomId, spotifyAuthURL }) => {
   );
 };
 
-export const getServerSideProps = async ({ locale, params }) => {
+export const getStaticProps = async ({ locale, params }) => {
   return {
     props: {
       roomId: params.id[0],
