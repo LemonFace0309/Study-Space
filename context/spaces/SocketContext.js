@@ -319,6 +319,10 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     socketRef.current.emit('isVideoEnabled', { enabled: !state });
   };
 
+  const disconnect = () => {
+    socketRef.current.disconnect();
+  };
+
   const value = {
     socketRef,
     myStream,
@@ -326,14 +330,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     peersRef,
     conversation,
     participants,
+    isMyVideoEnabled,
+    isMyAudioEnabled,
+    isScreenShare,
     sendMessage,
     shareScreen,
     leaveCall,
     toggleMyAudio,
     toggleMyVideo,
-    isMyVideoEnabled,
-    isMyAudioEnabled,
-    isScreenShare,
+    disconnect,
   };
 
   return <SocketContext.Provider value={value}>{children}</SocketContext.Provider>;

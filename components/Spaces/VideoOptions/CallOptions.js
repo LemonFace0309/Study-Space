@@ -31,6 +31,7 @@ const CallOptions = () => {
     toggleMyVideo,
     shareScreen,
     leaveCall,
+    disconnect,
   } = useSpaceContext();
   const user = useRecoilValue(userState.user);
   const [openOptions, setOpenOptions] = useState(false);
@@ -48,6 +49,11 @@ const CallOptions = () => {
     }
 
     setOpenOptions(false);
+  };
+
+  const changeUsername = () => {
+    disconnect();
+    openEntryDialog();
   };
 
   return (
@@ -81,12 +87,12 @@ const CallOptions = () => {
                     <Palette className="m-1" />
                     Appearance
                   </MenuItem>
-                  {/* {!user && (
-                    <MenuItem onClick={openEntryDialog}>
+                  {!user && (
+                    <MenuItem onClick={changeUsername}>
                       <SwitchAccountIcon className="m-1" />
                       Change username
                     </MenuItem>
-                  )} */}
+                  )}
                   <MenuItem onClick={() => {}}>
                     <Settings className="m-1" />
                     Settings
