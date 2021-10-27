@@ -6,10 +6,10 @@ import io from 'socket.io-client';
 import { useRecoilValue } from 'recoil';
 import { intersection } from 'lodash';
 
-import * as userState from 'atoms/user';
+import * as userState from '@/atoms/user';
+import useStateRef from '@/hooks/useStateRef';
 import LOADING_ENUM from './libs/loadingEnum';
 import * as utils from './utils/socket';
-import { TryRounded } from '@mui/icons-material';
 
 const SocketContext = createContext();
 
@@ -28,7 +28,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   const [participants, setParticipants] = useState([]);
   const [isMyVideoEnabled, setIsMyVideoEnabled] = useState(true);
   const [isMyAudioEnabled, setIsMyAudioEnabled] = useState(true);
-  const [isScreenShare, setIsScreenShare] = useState(false);
+  const [isScreenShare, setIsScreenShare, isScreenShareRef] = useStateRef(false);
 
   const initRoom = async () => {
     const videoConstraints = {
@@ -38,9 +38,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       frameRate: { ideal: 15, max: 30 },
     };
 
-    let stream = null;
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true });
       myStream.current.srcObject = stream;
     } catch (err) {
       console.warn(err);
@@ -63,7 +62,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       newParticipants.push(username);
 
       users.forEach((user) => {
-        createPeer(user.socketId, user.username, user.role, stream);
+        createPeer(user.socketId, user.username, user.role);
         newParticipants.push(user.username);
       });
       setParticipants([...newParticipants]);
@@ -84,7 +83,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
      * Add new user that joins after you as peer
      */
     socketRef.current.on('offer', (payload) => {
-      addPeer(payload.signal, payload.callerID, payload.username, payload.role, stream);
+      addPeer(payload.signal, payload.callerID, payload.username, payload.role);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
     });
@@ -158,11 +157,11 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     }
   }, [loading]);
 
-  const createPeer = (userToSignal, pUsername, pRole, myStream) => {
+  const createPeer = (userToSignal, pUsername, pRole) => {
     const peer = new Peer({
       initiator: true,
       trickle: false,
-      stream: myStream,
+      stream: myStream.current.srcObject,
     });
 
     // fires immediately and also after modifying the stream being sent.
@@ -197,11 +196,11 @@ export const SocketProvider = ({ loading, username, role, children }) => {
    * NOTE: this function is reexecuted everytime a peer signals you again (ie. he/she screen shares).
    * That's why peers are only pushed onto the peersRef array given that they don't already exist.
    */
-  const addPeer = (incomingSignal, callerID, pUsername, pRole, myStream) => {
+  const addPeer = (incomingSignal, callerID, pUsername, pRole) => {
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream: myStream,
+      stream: myStream.current.srcObject,
     });
 
     peer.on('signal', (signal) => {
@@ -226,6 +225,14 @@ export const SocketProvider = ({ loading, username, role, children }) => {
 
       setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
     });
+
+    if (isScreenShareRef.current) {
+      peer.replaceTrack(
+        myStream.current.srcObject.getVideoTracks()[0],
+        myScreenShare.current.srcObject.getTracks()[0],
+        myStream.current.srcObject
+      );
+    }
 
     peer.signal(incomingSignal);
   };
@@ -259,9 +266,9 @@ export const SocketProvider = ({ loading, username, role, children }) => {
             myStream.current.srcObject.getVideoTracks()[0],
             myStream.current.srcObject
           );
-          setIsScreenShare(false);
-          myScreenShare.current.srcObject = null;
         });
+        setIsScreenShare(false);
+        myScreenShare.current.srcObject = null;
       };
     } catch (err) {
       console.debug('Unable to share screens:', err);
