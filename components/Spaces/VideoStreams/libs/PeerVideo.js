@@ -39,17 +39,24 @@ const PeerVideo = ({ peerObj }) => {
     }
   }, [peerObj.peer, peerObj.stream]);
 
+  const Overlay = () => {
+    if (!peerObj.stream)
+      return (
+        <ProgressBox>
+          <CircularProgress size={50} />
+        </ProgressBox>
+      );
+
+    if (!peerObj.isVideoEnabled) return <ImageOverlay />;
+    return null;
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <video controls autoPlay ref={ref} style={{ objectFit: 'cover', height: '18rem', width: '32rem' }}>
         <track kind="captions"></track>
       </video>
-      {!peerObj.stream && (
-        <ProgressBox>
-          <CircularProgress size={50} />
-        </ProgressBox>
-      )}
-      {!peerObj.isVideoEnabled && <ImageOverlay />}
+      <Overlay />
       <InfoBox>
         <Typography variant="body1">{peerObj.peerName}</Typography>
         {!peerObj.isAudioEnabled && <MicOffIcon />}
