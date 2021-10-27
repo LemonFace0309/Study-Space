@@ -52,6 +52,13 @@ const Room = ({ roomId, spotifyAuthURL }) => {
   );
 };
 
+export const getStaticPaths = () => {
+  return {
+    paths: [{ params: { id: [] } }],
+    fallback: 'blocking',
+  };
+};
+
 export const getStaticProps = async ({ locale, params }) => {
   return {
     props: {
