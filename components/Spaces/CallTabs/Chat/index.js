@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import { IconButton, TextField, Box, Chip } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -20,7 +19,7 @@ const Input = styled('input')({
 });
 
 const Chat = () => {
-  const { role, conversation, sendMessage, peers } = useSpaceContext();
+  const { role, conversation, sendMessage, directMessage, peers } = useSpaceContext();
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
@@ -62,7 +61,7 @@ const Chat = () => {
     return [];
   };
 
-  const submitHandler = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validMsg = text && /\S/.test(text);
@@ -78,7 +77,11 @@ const Chat = () => {
     }
 
     fileMsgs.forEach((fm) => sendMessage(fm));
-    if (validMsg) sendMessage(text);
+    if (validMsg && messageOption == null) {
+      sendMessage(text);
+    } else if (validMsg) {
+      directMessage(text, messageOptions[messageOption].peerId);
+    }
 
     setText('');
     setFiles([]);
@@ -87,9 +90,9 @@ const Chat = () => {
     }, 2000);
   };
 
-  const keyPressHandler = (e) => {
+  const handleKeyPress = (e) => {
     if (e.keyCode == 13) {
-      submitHandler(e);
+      handleSubmit(e);
     }
   };
 
@@ -102,7 +105,7 @@ const Chat = () => {
           <FileChip key={file.lastModified} label={file.name} onDelete={() => removeFileHandler(i)} />
         ))}
       </Box>
-      <form onSubmit={submitHandler} className="flex items-center mt-2">
+      <form onSubmit={handleSubmit} className="flex items-center mt-2">
         <label htmlFor="icon-button-file">
           <Input id="icon-button-file" type="file" multiple="multiple" onChange={filesHandler} />
           <IconButton color="primary" size="large" component="span">
@@ -119,7 +122,7 @@ const Chat = () => {
           rows={1}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyDown={keyPressHandler}
+          onKeyDown={handleKeyPress}
         />
         <IconButton type="submit" color="primary" size="large">
           <SendIcon />

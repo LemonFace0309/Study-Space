@@ -55,6 +55,12 @@ const Entry = ({ updateUsername, updateRole }) => {
     if (validUsername) setOpen(false);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.keyCode == 13) {
+      handleSubmit();
+    }
+  };
+
   return (
     <Dialog open={open}>
       <DialogTitle>
@@ -74,6 +80,7 @@ const Entry = ({ updateUsername, updateRole }) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2.5 }}
+            onKeyDown={handleKeyPress}
           />
           <FormControl component="fieldset">
             <FormLabel component="legend">I am a</FormLabel>
@@ -92,6 +99,7 @@ const Entry = ({ updateUsername, updateRole }) => {
             value={password}
             sx={{ mt: 0, display: passwordAPI ? 'block' : 'none' }}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
         </DialogContent>
       </form>

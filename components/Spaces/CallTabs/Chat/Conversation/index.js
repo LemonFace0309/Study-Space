@@ -41,24 +41,33 @@ const Conversation = ({ conversation }) => {
     }
   }, []);
 
-  const messages = useMemo(
-    () =>
-      conversation.map((message, index) => {
-        const lastMessage = conversation.length - 1 === index;
-        return (
-          <MessageContainer ref={lastMessage ? setRef : null} key={index} fromMe={message.fromMe}>
-            <MessageText
-              bgColour={message.fromMe ? theme.palette.primary.main : 'white'}
-              text={message.fromMe ? 'white' : 'black'}
-              border={message.fromMe ? '0px' : '2px'}>
-              {message.text}
-            </MessageText>
-            <MessageSender>{message.fromMe ? 'Me' : message.sender}</MessageSender>
-          </MessageContainer>
-        );
-      }),
-    [conversation]
-  );
+  const messages = useMemo(() => {
+    return conversation.map((message, index) => {
+      let subText = '';
+      if (message.fromMe && message.dm) {
+        subText = `To ${message.sender}`;
+      } else if (message.fromMe) {
+        subText = `Me`;
+      } else if (message.dm) {
+        subText = `From ${message.sender}`;
+      } else {
+        subText = `${message.sender}`;
+      }
+
+      const lastMessage = conversation.length - 1 === index;
+      return (
+        <MessageContainer ref={lastMessage ? setRef : null} key={index} fromMe={message.fromMe}>
+          <MessageText
+            bgColour={message.dm ? 'honeydew' : message.fromMe ? theme.palette.primary.main : 'white'}
+            text={message.dm ? 'black' : message.fromMe ? 'white' : 'black'}
+            border={message.fromMe ? '0px' : '2px'}>
+            {message.text}
+          </MessageText>
+          <MessageSender>{subText}</MessageSender>
+        </MessageContainer>
+      );
+    });
+  }, [conversation]);
 
   return (
     <Box sx={{ flexGrow: '1', overflow: 'auto' }}>

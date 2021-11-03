@@ -101,6 +101,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       peerObj.isVideoEnabled = payload.isVideoEnabled;
       peerObj.statusBubble = payload.statusBubble;
       peerObj.peer.signal(payload.signal);
+      setPeers((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
     /**
@@ -306,7 +307,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
   };
 
-  const directMessage = (peerId, message) => {
+  const directMessage = (message, peerId) => {
     setStatusActiveTemp();
     socketRef.current.emit('dm', {
       message,
@@ -397,6 +398,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     isMyAudioEnabled,
     isScreenShare,
     sendMessage,
+    directMessage,
     shareScreen,
     leaveCall,
     toggleMyAudio,
