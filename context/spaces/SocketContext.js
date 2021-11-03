@@ -9,7 +9,7 @@ import { intersection } from 'lodash';
 import * as userState from '@/atoms/user';
 import useStateRef from '@/hooks/useStateRef';
 import { useStatusBubbleContext } from './StatusBubbleContext';
-import LOADING_ENUM from './libs/loadingEnum';
+import LOADING_ENUM from '../libs/loadingEnum';
 import * as utils from './utils/socket';
 
 const SocketContext = createContext();
@@ -25,7 +25,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   const socketRef = useRef();
   const myStream = useRef();
   const myScreenShare = useRef();
-  const peersRef = useRef([]);
+  const [peers, setPeers, peersRef] = useStateRef([]);
+  const [admins, setAdmins] = useState([]);
   const [conversation, setConversation] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [isMyAudioEnabled, setIsMyAudioEnabled, isMyAudioEnabledRef] = useStateRef(false);
@@ -76,11 +77,18 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           if (!obj) return {};
           obj = JSON.parse(obj);
           if (!obj?.message || !obj?.username) return {};
-          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username };
+          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username, dm: false };
         });
         conversation = conversation.filter((obj) => obj !== {});
         setConversation(conversation);
       }
+    });
+
+    /**
+     * Add admins
+     */
+    socketRef.current.on('admins', (payload) => {
+      setAdmins(() => payload.admins.map((admin) => ({ username: admin.username, socketId: admin.socketId })));
     });
 
     /**
@@ -93,6 +101,19 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
 
     /**
+     * Add admins that join
+     */
+    socketRef.current.on('new admin', (payload) => {
+      setAdmins(([...prev]) => {
+        prev.push({
+          username: payload.username,
+          socketId: payload.socketId,
+        });
+        return prev;
+      });
+    });
+
+    /**
      * Load signal of new user
      */
     socketRef.current.on('answer', (payload) => {
@@ -101,6 +122,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       peerObj.isVideoEnabled = payload.isVideoEnabled;
       peerObj.statusBubble = payload.statusBubble;
       peerObj.peer.signal(payload.signal);
+      setPeers((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
     /**
@@ -110,7 +132,25 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       setConversation((prevConversation) => {
         return [
           ...prevConversation,
-          { text: payload.message, sender: payload.username, fromMe: payload.username == username },
+          { text: payload.message, sender: payload.username, fromMe: payload.username == username, dm: false },
+        ];
+      });
+    });
+
+    /**
+     * Receiving dm and updating conversation
+     */
+    socketRef.current.on('dm', (payload) => {
+      setConversation((prevConversation) => {
+        return [
+          ...prevConversation,
+          {
+            text: payload.message,
+            recipient: payload.recipient,
+            sender: payload.username,
+            fromMe: payload.username == username,
+            dm: true,
+          },
         ];
       });
     });
@@ -146,21 +186,31 @@ export const SocketProvider = ({ loading, username, role, children }) => {
      * Remove user as a peer and participant when disconnected
      */
     socketRef.current.on('user disconnect', ({ users }) => {
-      let usersPeerID = [];
+      let usersPeerId = [];
       let participantNames = [];
       if (users) {
-        usersPeerID = users.map((user) => user.socketId);
+        usersPeerId = users.map((user) => user.socketId);
         participantNames = users.map((user) => user.username);
       }
-      if (usersPeerID.length > 0) {
+      if (usersPeerId.length > 0) {
         peersRef.current.forEach((peerRef, index) => {
-          if (!usersPeerID.includes(peerRef.peerId)) {
+          if (!usersPeerId.includes(peerRef.peerId)) {
             peerRef.peer.destroy();
-            peersRef.current.splice(index, 1);
+            setPeers(([...prev]) => {
+              prev.splice(index, 1);
+              return prev;
+            });
             setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));
           }
         });
       }
+    });
+
+    /**
+     * Remove admin when disconnected
+     */
+    socketRef.current.on('admin disconnect', ({ admins }) => {
+      setAdmins(() => admins.map((admin) => ({ username: admin.username, socketId: admin.socketId })));
     });
   };
 
@@ -205,15 +255,18 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
-    peersRef.current.push({
-      peerId: userToSignal,
-      peerName: pUsername,
-      role: pRole,
-      stream: null,
-      isAudioEnabled: true,
-      isVideoEnabled: true,
-      statusBubble: null,
-      peer,
+    setPeers((prev) => {
+      prev.push({
+        peerId: userToSignal,
+        peerName: pUsername,
+        role: pRole,
+        stream: null,
+        isAudioEnabled: true,
+        isVideoEnabled: true,
+        statusBubble: null,
+        peer,
+      });
+      return prev;
     });
   };
 
@@ -251,15 +304,18 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       if (peerObj) {
         peerObj.stream = stream;
       } else {
-        peersRef.current.push({
-          peerId: callerID,
-          peerName: pUsername,
-          role: pRole,
-          stream,
-          isAudioEnabled: isAudioEnabled,
-          isVideoEnabled: isVideoEnabled,
-          statusBubble: pStatusBubble,
-          peer,
+        setPeers(([...prev]) => {
+          prev.push({
+            peerId: callerID,
+            peerName: pUsername,
+            role: pRole,
+            stream,
+            isAudioEnabled: isAudioEnabled,
+            isVideoEnabled: isVideoEnabled,
+            statusBubble: pStatusBubble,
+            peer,
+          });
+          return prev;
         });
       }
 
@@ -285,6 +341,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
   };
 
+  const directMessage = (message, peerId) => {
+    setStatusActiveTemp();
+    socketRef.current.emit('dm', {
+      message,
+      username,
+      socketId: peerId,
+    });
+  };
+
   const shareScreen = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
@@ -292,21 +357,27 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       myScreenShare.current.srcObject = stream;
       const screenTrack = stream.getTracks()[0];
 
-      peersRef.current.forEach((peerObj) => {
-        peerObj.peer.replaceTrack(
-          myStream.current.srcObject.getVideoTracks()[0],
-          screenTrack,
-          myStream.current.srcObject
-        );
+      setPeers(([...prev]) => {
+        prev.forEach((peerObj) => {
+          peerObj.peer.replaceTrack(
+            myStream.current.srcObject.getVideoTracks()[0],
+            screenTrack,
+            myStream.current.srcObject
+          );
+        });
+        return prev;
       });
 
       screenTrack.onended = () => {
-        peersRef.current.forEach((peerObj) => {
-          peerObj.peer.replaceTrack(
-            screenTrack,
-            myStream.current.srcObject.getVideoTracks()[0],
-            myStream.current.srcObject
-          );
+        setPeers(([...prev]) => {
+          prev.forEach((peerObj) => {
+            peerObj.peer.replaceTrack(
+              screenTrack,
+              myStream.current.srcObject.getVideoTracks()[0],
+              myStream.current.srcObject
+            );
+          });
+          return prev;
         });
         setIsScreenShare(false);
         myScreenShare.current.srcObject = null;
@@ -317,9 +388,13 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   };
 
   const leaveCall = () => {
-    peersRef.current.forEach((peerObj) => {
-      peerObj.peer.destroy();
+    setPeers(([...prev]) => {
+      prev.forEach((peerObj) => {
+        peerObj.peer.destroy();
+      });
+      return prev;
     });
+
     router.push(`/dashboard`);
     setTimeout(() => {
       window.location.reload();
@@ -350,13 +425,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     socketRef,
     myStream,
     myScreenShare,
-    peersRef,
+    peers,
+    admins,
     conversation,
     participants,
     isMyVideoEnabled,
     isMyAudioEnabled,
     isScreenShare,
     sendMessage,
+    directMessage,
     shareScreen,
     leaveCall,
     toggleMyAudio,

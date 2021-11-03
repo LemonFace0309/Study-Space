@@ -7,17 +7,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import * as userState from '@/atoms/user';
 import getUser from '@/utils/getUser';
-import EntryDialog from '@/components/Spaces/Dialogs/Entry';
+import EntryDialog from '@/components/Shared/Dialogs/Entry';
 import { PREFIX } from '@/hooks/useLocalStorage';
 import { useStatusBubbleContext, StatusBubbleProvider } from './StatusBubbleContext';
 import { useSocketContext, SocketProvider } from './SocketContext';
 import { useTodoContext, TodoProvider } from './TodoContext';
 import { useSpotifyContext, SpotifyProvider } from './SpotifyContext';
-import LOADING_ENUM from './libs/loadingEnum';
+import LOADING_ENUM from '../libs/loadingEnum';
 import LAYOUT_ENUM from './libs/layoutEnum';
-import ROLES from './libs/roles';
 import USERNAME_PREFIX_KEY from './libs/usernamePrefixKey';
 import getUsername from './libs/getUsername';
+import ROLES from '../libs/roles';
 
 const SpaceContext = createContext();
 
@@ -69,11 +69,15 @@ export const SpaceProvider = ({ children }) => {
     if (username) setLoading(LOADING_ENUM.SKIP_DIALOG);
   }, [username]);
 
-  const updateUsername = (_username) => {
+  const updateUsername = (_username, _role) => {
     if (!_username) return false;
 
     const prefixedKey = PREFIX + USERNAME_PREFIX_KEY;
-    localStorage.setItem(prefixedKey, JSON.stringify(_username));
+    if (_role == ROLES.STUDENT.value) {
+      localStorage.setItem(prefixedKey, JSON.stringify(_username));
+    } else {
+      localStorage.removeItem(prefixedKey);
+    }
     setUsername(_username);
     return true;
   };
@@ -102,7 +106,9 @@ export const SpaceProvider = ({ children }) => {
     );
 
   if (loading == LOADING_ENUM.SHOW_DIALOG)
-    return <EntryDialog updateUsername={updateUsername} updateRole={updateRole} />;
+    return (
+      <EntryDialog roles={[ROLES.STUDENT, ROLES.TEACHER]} updateUsername={updateUsername} updateRole={updateRole} />
+    );
 
   return (
     <SpaceContext.Provider value={value}>

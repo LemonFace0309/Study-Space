@@ -4,19 +4,19 @@ import { TabList, Tab, Tabs, TabPanel, resetIdCounter } from 'react-tabs';
 import { IconButton, Grid, Paper } from '@mui/material';
 import { Chat as ChatIcon, People as PeopleIcon, LibraryMusic, PlaylistAddCheck } from '@mui/icons-material';
 
-import { useSocketContext } from '@/context/spaces/SocketContext';
+import { useSpaceContext } from '@/context/spaces';
 import renderComponent from '@/utils/renderComponent';
 import TabPanelHeader from './Layout/TabPanelHeader';
 import Music from './Music';
-import ChatPanel from './Chat';
 import People from './People';
 import TodoList from './TodoList';
+import ChatPanel from '../../Shared/Chat';
 
 // https://github.com/reactjs/react-tabs#api
 resetIdCounter();
 
 const CallTabs = ({ showTabs, setShowTabs }) => {
-  const { username, participants, conversation } = useSocketContext();
+  const { username, participants, role, conversation, sendMessage, directMessage, peers, admins } = useSpaceContext();
 
   useEffect(() => {
     setShowTabs(true);
@@ -52,7 +52,12 @@ const CallTabs = ({ showTabs, setShowTabs }) => {
       icon: ChatIcon,
       panel: ChatPanel,
       panelProps: {
+        role,
         conversation,
+        sendMessage,
+        directMessage,
+        peers,
+        admins,
       },
     },
   ];
