@@ -69,11 +69,15 @@ export const SpaceProvider = ({ children }) => {
     if (username) setLoading(LOADING_ENUM.SKIP_DIALOG);
   }, [username]);
 
-  const updateUsername = (_username) => {
+  const updateUsername = (_username, _role) => {
     if (!_username) return false;
 
     const prefixedKey = PREFIX + USERNAME_PREFIX_KEY;
-    localStorage.setItem(prefixedKey, JSON.stringify(_username));
+    if (_role == ROLES.STUDENT.value) {
+      localStorage.setItem(prefixedKey, JSON.stringify(_username));
+    } else {
+      localStorage.removeItem(prefixedKey);
+    }
     setUsername(_username);
     return true;
   };

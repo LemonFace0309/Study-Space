@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { IconButton, TextField, Box, Chip } from '@mui/material';
@@ -6,8 +6,10 @@ import SendIcon from '@mui/icons-material/Send';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
 
-import { useSocketContext } from '@/context/spaces/SocketContext';
+import { useSpaceContext } from '@/context/spaces';
+import ROLES from '@/context/spaces/libs/roles';
 import Conversation from './Conversation';
+import MessageOptions from './MessageOptions';
 
 const FileChip = styled(Chip)(({ theme }) => ({
   marginRight: theme.spacing(1),
@@ -17,11 +19,16 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const Chat = ({ conversation }) => {
-  const { sendMessage } = useSocketContext();
+const Chat = () => {
+  const { role, conversation, sendMessage, peers } = useSpaceContext();
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
+  const [messageOption, setMessageOption] = useState(null);
+  const messageOptions = useMemo(() => {
+    const optionFilter = role == ROLES.TEACHER.value ? ROLES.STUDENT.value : ROLES.TEACHER.value;
+    return peers.filter((peerObj) => peerObj?.role == optionFilter);
+  }, [role, peers]);
 
   const filesHandler = (e) => {
     setFiles([...e.target.files]);
@@ -30,7 +37,6 @@ const Chat = ({ conversation }) => {
   const removeFileHandler = (index) => {
     setFiles((prev) => {
       prev.splice(index, 1);
-      console.debug(prev);
       return [...prev];
     });
   };
@@ -90,6 +96,7 @@ const Chat = ({ conversation }) => {
   return (
     <div className="flex p-2 flex-col flex-1 h-96 w-full">
       <Conversation conversation={conversation} />
+      <MessageOptions selectedIndex={messageOption} setSelectedIndex={setMessageOption} options={messageOptions} />
       <Box sx={{ mb: 0.5 }}>
         {files.map((file, i) => (
           <FileChip key={file.lastModified} label={file.name} onDelete={() => removeFileHandler(i)} />
@@ -120,10 +127,6 @@ const Chat = ({ conversation }) => {
       </form>
     </div>
   );
-};
-
-Chat.propTypes = {
-  conversation: PropTypes.array.isRequired,
 };
 
 export default Chat;

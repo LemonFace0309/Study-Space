@@ -33,20 +33,14 @@ export default createTheme(
         disabled: '#C4C4C4', // light gray
         bluegray: '#607D8B', // blue gray
       },
-
       error: {
         // red
         main: '#EF5D66',
       },
-      /* success causes error so I'm leaving it out for now
-    success: {
-      // green
-      main: "1DD1A1",
-    }, */
-      action: {
-        active: '#4E3276',
-        hover: '#977BBF',
-      },
+      // action: {
+      //   active: '#4E3276',
+      //   hover: '#977BBF',
+      // },
     },
     typography: {
       fontFamily: 'Ubuntu',

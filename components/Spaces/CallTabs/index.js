@@ -16,7 +16,7 @@ import TodoList from './TodoList';
 resetIdCounter();
 
 const CallTabs = ({ showTabs, setShowTabs }) => {
-  const { username, participants, conversation } = useSocketContext();
+  const { username, participants } = useSocketContext();
 
   useEffect(() => {
     setShowTabs(true);
@@ -51,9 +51,6 @@ const CallTabs = ({ showTabs, setShowTabs }) => {
       title: 'Chat Messages',
       icon: ChatIcon,
       panel: ChatPanel,
-      panelProps: {
-        conversation,
-      },
     },
   ];
 

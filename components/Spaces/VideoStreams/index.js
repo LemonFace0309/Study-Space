@@ -18,14 +18,14 @@ const VideosContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'sta
 }));
 
 const VideoStreams = ({ showTabs }) => {
-  const { role, peersRef } = useSpaceContext();
+  const { role, peers } = useSpaceContext();
 
   return (
     <Grid item xs={12} md={showTabs ? 6 : 12} lg={showTabs ? 7 : 12} xl={showTabs ? 8 : 12}>
       {/* Teachers */}
       <VideosContainer status="upper">
         {role == ROLES.TEACHER.value && <MyVideo />}
-        {peersRef.current
+        {peers
           .filter((peerObj) => peerObj.role == ROLES.TEACHER.value)
           .map((peerObj) => {
             return <PeerVideo key={peerObj.peerId} peerObj={peerObj} />;
@@ -35,7 +35,7 @@ const VideoStreams = ({ showTabs }) => {
       {/* Students */}
       <VideosContainer status="lower">
         {role == ROLES.STUDENT.value && <MyVideo />}
-        {peersRef.current
+        {peers
           .filter((peerObj) => peerObj.role == ROLES.STUDENT.value)
           .map((peerObj) => {
             return <PeerVideo key={peerObj.peerId} peerObj={peerObj} />;

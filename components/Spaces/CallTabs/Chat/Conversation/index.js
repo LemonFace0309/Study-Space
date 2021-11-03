@@ -1,11 +1,39 @@
 import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material';
 
+const MessageContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'fromMe' })(({ theme, fromMe }) => ({
+  margin: theme.spacing(0.5, 0),
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'start',
+  ...(fromMe && {
+    alignItems: 'end',
+    alignSelf: 'end',
+  }),
+}));
+
+const MessageText = styled(Box, { shouldForwardProp: (prop) => !['bgColour', 'text', 'border'].includes(prop) })(
+  ({ theme, bgColour, text, border }) => ({
+    borderRadius: '0.25rem',
+    padding: theme.spacing(0.5, 1),
+    color: text,
+    backgroundColor: bgColour,
+    borderWidth: border,
+  })
+);
+
+const MessageSender = styled(Box)({
+  fontSize: '0.875rem',
+  lineHeight: '1.25rem',
+});
+
 const Conversation = ({ conversation }) => {
-  // const { conversation } = useConversation()
   const theme = useTheme();
+  console.debug(conversation);
 
   const setRef = useCallback((node) => {
     if (node) {
@@ -18,28 +46,24 @@ const Conversation = ({ conversation }) => {
       conversation.map((message, index) => {
         const lastMessage = conversation.length - 1 === index;
         return (
-          <div
-            ref={lastMessage ? setRef : null}
-            key={index}
-            className={`my-1 flex flex-col ${message.fromMe ? 'self-end items-end' : 'items-start'}`}>
-            <div
-              className={`rounded px-2 py-1 ${message.fromMe ? 'text-white' : 'border-2'}`}
-              style={{ backgroundColor: message.fromMe ? theme.palette.primary.main : 'white' }}>
+          <MessageContainer ref={lastMessage ? setRef : null} key={index} fromMe={message.fromMe}>
+            <MessageText
+              bgColour={message.fromMe ? theme.palette.primary.main : 'white'}
+              text={message.fromMe ? 'white' : 'black'}
+              border={message.fromMe ? '0px' : '2px'}>
               {message.text}
-            </div>
-            <div className={`text-current text-sm ${message.fromMe ? 'text-right' : ''}`}>
-              {message.fromMe ? 'Me' : message.sender}
-            </div>
-          </div>
+            </MessageText>
+            <MessageSender>{message.fromMe ? 'Me' : message.sender}</MessageSender>
+          </MessageContainer>
         );
       }),
     [conversation]
   );
 
   return (
-    <div className="flex-grow overflow-auto">
-      <div className="flex flex-col items-start justify-end px-3">{messages}</div>
-    </div>
+    <Box sx={{ flexGrow: '1', overflow: 'auto' }}>
+      <Box sx={{ px: 1.5 }}>{messages}</Box>
+    </Box>
   );
 };
 

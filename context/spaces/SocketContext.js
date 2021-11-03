@@ -25,7 +25,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   const socketRef = useRef();
   const myStream = useRef();
   const myScreenShare = useRef();
-  const peersRef = useRef([]);
+  const [peers, setPeers, peersRef] = useStateRef([]);
   const [conversation, setConversation] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [isMyAudioEnabled, setIsMyAudioEnabled, isMyAudioEnabledRef] = useStateRef(false);
@@ -110,7 +110,19 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       setConversation((prevConversation) => {
         return [
           ...prevConversation,
-          { text: payload.message, sender: payload.username, fromMe: payload.username == username },
+          { text: payload.message, sender: payload.username, fromMe: payload.username == username, dm: false },
+        ];
+      });
+    });
+
+    /**
+     * Receiving dm and updating conversation
+     */
+    socketRef.current.on('dm', (payload) => {
+      setConversation((prevConversation) => {
+        return [
+          ...prevConversation,
+          { text: payload.message, sender: payload.username, fromMe: payload.username == username, dm: true },
         ];
       });
     });
@@ -156,7 +168,10 @@ export const SocketProvider = ({ loading, username, role, children }) => {
         peersRef.current.forEach((peerRef, index) => {
           if (!usersPeerID.includes(peerRef.peerId)) {
             peerRef.peer.destroy();
-            peersRef.current.splice(index, 1);
+            setPeers(([...prev]) => {
+              prev.splice(index, 1);
+              return prev;
+            });
             setParticipants((prevParticipants) => intersection(prevParticipants, participantNames));
           }
         });
@@ -205,15 +220,18 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       setParticipants((prev) => [...prev]); // force refresh in VideoStreams component
     });
 
-    peersRef.current.push({
-      peerId: userToSignal,
-      peerName: pUsername,
-      role: pRole,
-      stream: null,
-      isAudioEnabled: true,
-      isVideoEnabled: true,
-      statusBubble: null,
-      peer,
+    setPeers((prev) => {
+      prev.push({
+        peerId: userToSignal,
+        peerName: pUsername,
+        role: pRole,
+        stream: null,
+        isAudioEnabled: true,
+        isVideoEnabled: true,
+        statusBubble: null,
+        peer,
+      });
+      return prev;
     });
   };
 
@@ -251,15 +269,18 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       if (peerObj) {
         peerObj.stream = stream;
       } else {
-        peersRef.current.push({
-          peerId: callerID,
-          peerName: pUsername,
-          role: pRole,
-          stream,
-          isAudioEnabled: isAudioEnabled,
-          isVideoEnabled: isVideoEnabled,
-          statusBubble: pStatusBubble,
-          peer,
+        setPeers(([...prev]) => {
+          prev.push({
+            peerId: callerID,
+            peerName: pUsername,
+            role: pRole,
+            stream,
+            isAudioEnabled: isAudioEnabled,
+            isVideoEnabled: isVideoEnabled,
+            statusBubble: pStatusBubble,
+            peer,
+          });
+          return prev;
         });
       }
 
@@ -285,6 +306,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
   };
 
+  const directMessage = (peerId, message) => {
+    setStatusActiveTemp();
+    socketRef.current.emit('dm', {
+      message,
+      username,
+      socketId: peerId,
+    });
+  };
+
   const shareScreen = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({ cursor: true });
@@ -292,21 +322,27 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       myScreenShare.current.srcObject = stream;
       const screenTrack = stream.getTracks()[0];
 
-      peersRef.current.forEach((peerObj) => {
-        peerObj.peer.replaceTrack(
-          myStream.current.srcObject.getVideoTracks()[0],
-          screenTrack,
-          myStream.current.srcObject
-        );
+      setPeers(([...prev]) => {
+        prev.forEach((peerObj) => {
+          peerObj.peer.replaceTrack(
+            myStream.current.srcObject.getVideoTracks()[0],
+            screenTrack,
+            myStream.current.srcObject
+          );
+        });
+        return prev;
       });
 
       screenTrack.onended = () => {
-        peersRef.current.forEach((peerObj) => {
-          peerObj.peer.replaceTrack(
-            screenTrack,
-            myStream.current.srcObject.getVideoTracks()[0],
-            myStream.current.srcObject
-          );
+        setPeers(([...prev]) => {
+          prev.forEach((peerObj) => {
+            peerObj.peer.replaceTrack(
+              screenTrack,
+              myStream.current.srcObject.getVideoTracks()[0],
+              myStream.current.srcObject
+            );
+          });
+          return prev;
         });
         setIsScreenShare(false);
         myScreenShare.current.srcObject = null;
@@ -317,9 +353,13 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   };
 
   const leaveCall = () => {
-    peersRef.current.forEach((peerObj) => {
-      peerObj.peer.destroy();
+    setPeers(([...prev]) => {
+      prev.forEach((peerObj) => {
+        peerObj.peer.destroy();
+      });
+      return prev;
     });
+
     router.push(`/dashboard`);
     setTimeout(() => {
       window.location.reload();
@@ -350,7 +390,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     socketRef,
     myStream,
     myScreenShare,
-    peersRef,
+    peers,
     conversation,
     participants,
     isMyVideoEnabled,

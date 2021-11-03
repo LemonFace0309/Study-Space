@@ -43,7 +43,6 @@ const Entry = ({ updateUsername, updateRole }) => {
 
   const handleSubmit = async () => {
     if (passwordAPI) {
-      console.debug(password);
       const result = await axios.post(passwordAPI, { password });
       if (!result.data.valid) {
         setError('Invalid Passcode');
@@ -52,7 +51,7 @@ const Entry = ({ updateUsername, updateRole }) => {
     }
 
     updateRole(role);
-    const validUsername = updateUsername(username);
+    const validUsername = updateUsername(username, role);
     if (validUsername) setOpen(false);
   };
 
@@ -62,38 +61,40 @@ const Entry = ({ updateUsername, updateRole }) => {
         Welcome
         {error && <Typography sx={{ color: 'red' }}>{error}</Typography>}
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText>Please enter the name you&#39;d like to be displayed.</DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Name"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          sx={{ mb: 2.5 }}
-        />
-        <FormControl component="fieldset">
-          <FormLabel component="legend">I am a</FormLabel>
-          <RadioGroup row aria-label="Role" value={role} onChange={(e) => setRole(e.target.value)}>
-            {Object.entries(ROLES).map(([key, obj]) => (
-              <FormControlLabel key={key} value={obj.value} control={<Radio />} label={obj.value} />
-            ))}
-          </RadioGroup>
-        </FormControl>
-        <TextField
-          margin="dense"
-          label="Password"
-          type="password"
-          fullWidth
-          variant="standard"
-          value={password}
-          sx={{ mt: 0, display: passwordAPI ? 'block' : 'none' }}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </DialogContent>
+      <form>
+        <DialogContent>
+          <DialogContentText>Please enter the name you&#39;d like to be displayed.</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            sx={{ mb: 2.5 }}
+          />
+          <FormControl component="fieldset">
+            <FormLabel component="legend">I am a</FormLabel>
+            <RadioGroup row aria-label="Role" value={role} onChange={(e) => setRole(e.target.value)}>
+              {Object.entries(ROLES).map(([key, obj]) => (
+                <FormControlLabel key={key} value={obj.value} control={<Radio />} label={obj.value} />
+              ))}
+            </RadioGroup>
+          </FormControl>
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={password}
+            sx={{ mt: 0, display: passwordAPI ? 'block' : 'none' }}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+      </form>
       <DialogActions>
         <Button onClick={handleSubmit}>Enter</Button>
       </DialogActions>
