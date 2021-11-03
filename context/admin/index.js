@@ -8,7 +8,7 @@ import ROLES from '../libs/roles';
 
 const AdminContext = createContext();
 
-export const useSpaceContext = () => {
+export const useAdminContext = () => {
   return {
     ...useContext(AdminContext),
     ...useSocketContext(),
@@ -34,14 +34,17 @@ export const AdminProvider = ({ children }) => {
     setRole(_role);
   };
 
-  const value = {};
+  const value = {
+    username,
+    role,
+  };
 
   if (loading == LOADING_ENUM.SHOW_DIALOG)
     return <EntryDialog roles={[ROLES.ADMIN]} updateUsername={updateUsername} updateRole={updateRole} />;
 
   return (
     <AdminContext.Provider value={value}>
-      <SocketProvider>{children}</SocketProvider>
+      <SocketProvider username={username}>{children}</SocketProvider>
     </AdminContext.Provider>
   );
 };

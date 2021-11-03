@@ -76,7 +76,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           if (!obj) return {};
           obj = JSON.parse(obj);
           if (!obj?.message || !obj?.username) return {};
-          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username };
+          return { text: obj?.message, sender: obj?.username, fromMe: obj?.username == username, dm: false };
         });
         conversation = conversation.filter((obj) => obj !== {});
         setConversation(conversation);
@@ -159,15 +159,15 @@ export const SocketProvider = ({ loading, username, role, children }) => {
      * Remove user as a peer and participant when disconnected
      */
     socketRef.current.on('user disconnect', ({ users }) => {
-      let usersPeerID = [];
+      let usersPeerId = [];
       let participantNames = [];
       if (users) {
-        usersPeerID = users.map((user) => user.socketId);
+        usersPeerId = users.map((user) => user.socketId);
         participantNames = users.map((user) => user.username);
       }
-      if (usersPeerID.length > 0) {
+      if (usersPeerId.length > 0) {
         peersRef.current.forEach((peerRef, index) => {
-          if (!usersPeerID.includes(peerRef.peerId)) {
+          if (!usersPeerId.includes(peerRef.peerId)) {
             peerRef.peer.destroy();
             setPeers(([...prev]) => {
               prev.splice(index, 1);

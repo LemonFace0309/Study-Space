@@ -24,6 +24,7 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
   const [files, setFiles] = useState([]);
   const [messageOption, setMessageOption] = useState(null);
   const messageOptions = useMemo(() => {
+    if (!peers) return [];
     const optionFilter = role == ROLES.TEACHER.value ? ROLES.STUDENT.value : ROLES.TEACHER.value;
     return peers.filter((peerObj) => peerObj?.role == optionFilter);
   }, [role, peers]);
@@ -76,9 +77,9 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
     }
 
     fileMsgs.forEach((fm) => sendMessage(fm));
-    if (validMsg && messageOption == null) {
+    if (validMsg && messageOption == null && sendMessage) {
       sendMessage(text);
-    } else if (validMsg) {
+    } else if (validMsg && directMessage) {
       directMessage(text, messageOptions[messageOption].peerId);
     }
 
@@ -98,7 +99,9 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
   return (
     <div className="flex p-2 flex-col flex-1 h-96 w-full">
       <Conversation conversation={conversation} />
-      <MessageOptions selectedIndex={messageOption} setSelectedIndex={setMessageOption} options={messageOptions} />
+      {peers && (
+        <MessageOptions selectedIndex={messageOption} setSelectedIndex={setMessageOption} options={messageOptions} />
+      )}
       <Box sx={{ mb: 0.5 }}>
         {files.map((file, i) => (
           <FileChip key={file.lastModified} label={file.name} onDelete={() => removeFileHandler(i)} />
@@ -142,12 +145,12 @@ Chat.propTypes = {
     }).isRequired
   ).isRequired,
   sendMessage: PropTypes.func.isRequired,
-  directMessage: PropTypes.func.isRequired,
+  directMessage: PropTypes.func,
   peers: PropTypes.arrayOf(
     PropTypes.shape({
       role: PropTypes.string.isRequired,
     }).isRequired
-  ).isRequired,
+  ),
 };
 
 export default Chat;
