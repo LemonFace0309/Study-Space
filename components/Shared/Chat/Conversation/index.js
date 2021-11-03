@@ -33,7 +33,6 @@ const MessageSender = styled(Box)({
 
 const Conversation = ({ conversation }) => {
   const theme = useTheme();
-  console.debug(conversation);
 
   const setRef = useCallback((node) => {
     if (node) {

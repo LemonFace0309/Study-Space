@@ -37,7 +37,6 @@ const Entry = ({ roles, updateUsername, updateRole }) => {
   }, []);
 
   useEffect(() => {
-    console.debug(roles.some((obj) => obj.value == role));
     setPasswordAPI(roles.find((obj) => obj.value == role && obj.password)?.password ?? '');
     setPassword('');
   }, [role]);

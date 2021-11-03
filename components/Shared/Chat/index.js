@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { IconButton, TextField, Box, Chip } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
 
-import { useSpaceContext } from '@/context/spaces';
 import ROLES from '@/context/libs/roles';
 import Conversation from './Conversation';
 import MessageOptions from './MessageOptions';
@@ -18,8 +18,7 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const Chat = () => {
-  const { role, conversation, sendMessage, directMessage, peers } = useSpaceContext();
+const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
@@ -130,6 +129,25 @@ const Chat = () => {
       </form>
     </div>
   );
+};
+
+Chat.propTypes = {
+  role: PropTypes.string.isRequired,
+  conversation: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      sender: PropTypes.string.isRequired,
+      fromMe: PropTypes.bool.isRequired,
+      dm: PropTypes.bool.isRequired,
+    }).isRequired
+  ).isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  directMessage: PropTypes.func.isRequired,
+  peers: PropTypes.arrayOf(
+    PropTypes.shape({
+      role: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 export default Chat;
