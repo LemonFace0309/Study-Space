@@ -16,13 +16,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import ROLES from '@/context/spaces/libs/roles';
-
-const Entry = ({ updateUsername, updateRole }) => {
+const Entry = ({ roles, updateUsername, updateRole }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(true);
   const [username, setUsername] = useState('');
-  const [role, setRole] = useState(ROLES.STUDENT.value);
+  const [role, setRole] = useState(roles[0].value);
   const [password, setPassword] = useState('');
   const [passwordAPI, setPasswordAPI] = useState('');
   const [error, setError] = useState('');
@@ -37,15 +37,18 @@ const Entry = ({ updateUsername, updateRole }) => {
   }, []);
 
   useEffect(() => {
-    setPasswordAPI(Object.values(ROLES).find((obj) => obj.value === role && obj.password)?.password ?? '');
+    console.debug(roles.some((obj) => obj.value == role));
+    setPasswordAPI(roles.find((obj) => obj.value == role && obj.password)?.password ?? '');
     setPassword('');
   }, [role]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (passwordAPI) {
       const result = await axios.post(passwordAPI, { password });
       if (!result.data.valid) {
         setError('Invalid Passcode');
+        setIsLoading(false);
         return;
       }
     }
@@ -53,6 +56,7 @@ const Entry = ({ updateUsername, updateRole }) => {
     updateRole(role);
     const validUsername = updateUsername(username, role);
     if (validUsername) setOpen(false);
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e) => {
@@ -82,14 +86,16 @@ const Entry = ({ updateUsername, updateRole }) => {
             sx={{ mb: 2.5 }}
             onKeyDown={handleKeyPress}
           />
-          <FormControl component="fieldset">
-            <FormLabel component="legend">I am a</FormLabel>
-            <RadioGroup row aria-label="Role" value={role} onChange={(e) => setRole(e.target.value)}>
-              {Object.entries(ROLES).map(([key, obj]) => (
-                <FormControlLabel key={key} value={obj.value} control={<Radio />} label={obj.value} />
-              ))}
-            </RadioGroup>
-          </FormControl>
+          {roles.length > 1 && (
+            <FormControl component="fieldset">
+              <FormLabel component="legend">I am a</FormLabel>
+              <RadioGroup row aria-label="Role" value={role} onChange={(e) => setRole(e.target.value)}>
+                {roles.map((role) => (
+                  <FormControlLabel key={role.value} value={role.value} control={<Radio />} label={role.value} />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          )}
           <TextField
             margin="dense"
             label="Password"
@@ -104,6 +110,7 @@ const Entry = ({ updateUsername, updateRole }) => {
         </DialogContent>
       </form>
       <DialogActions>
+        {isLoading && <CircularProgress sx={{ mr: 1 }} />}
         <Button onClick={handleSubmit}>Enter</Button>
       </DialogActions>
     </Dialog>
@@ -111,6 +118,11 @@ const Entry = ({ updateUsername, updateRole }) => {
 };
 
 Entry.propTypes = {
+  roles: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
   updateUsername: PropTypes.func.isRequired,
   updateRole: PropTypes.func.isRequired,
 };

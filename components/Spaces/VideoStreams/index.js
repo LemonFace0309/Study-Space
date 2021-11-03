@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
 import { useSpaceContext } from '@/context/spaces';
-import ROLES from '@/context/spaces/libs/roles';
+import ROLES from '@/context/libs/roles';
 import MyVideo from './libs/MyVideo';
 import PeerVideo from './libs/PeerVideo';
 

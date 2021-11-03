@@ -9,7 +9,7 @@ import { intersection } from 'lodash';
 import * as userState from '@/atoms/user';
 import useStateRef from '@/hooks/useStateRef';
 import { useStatusBubbleContext } from './StatusBubbleContext';
-import LOADING_ENUM from './libs/loadingEnum';
+import LOADING_ENUM from '../libs/loadingEnum';
 import * as utils from './utils/socket';
 
 const SocketContext = createContext();
