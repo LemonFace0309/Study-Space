@@ -16,7 +16,7 @@ import ChatPanel from '../../Shared/Chat';
 resetIdCounter();
 
 const CallTabs = ({ showTabs, setShowTabs }) => {
-  const { username, participants, role, conversation, sendMessage, directMessage, peers } = useSpaceContext();
+  const { username, participants, role, conversation, sendMessage, directMessage, peers, admins } = useSpaceContext();
 
   useEffect(() => {
     setShowTabs(true);
@@ -57,6 +57,7 @@ const CallTabs = ({ showTabs, setShowTabs }) => {
         sendMessage,
         directMessage,
         peers,
+        admins,
       },
     },
   ];

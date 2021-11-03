@@ -8,6 +8,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
+import ROLES from '@/context/libs/roles';
 import { useSocketContext } from '@/context/admin/SocketContext';
 
 const People = () => {
@@ -35,7 +36,7 @@ const People = () => {
               </ListItemAvatar>
               <ListItemText
                 sx={{ textOverflow: 'ellipsis' }}
-                primary={user.username}
+                primary={user.role == ROLES.TEACHER.value ? `${user.username} (Teacher)` : `${user.username}`}
                 secondary={
                   <>
                     <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">

@@ -26,6 +26,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
   const myStream = useRef();
   const myScreenShare = useRef();
   const [peers, setPeers, peersRef] = useStateRef([]);
+  const [admins, setAdmins] = useState([]);
   const [conversation, setConversation] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [isMyAudioEnabled, setIsMyAudioEnabled, isMyAudioEnabledRef] = useStateRef(false);
@@ -84,12 +85,32 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     });
 
     /**
+     * Add admins
+     */
+    socketRef.current.on('admins', (payload) => {
+      setAdmins(() => payload.admins.map((admin) => ({ username: admin.username, socketId: admin.socketId })));
+    });
+
+    /**
      * Add new user that joins after you as peer
      */
     socketRef.current.on('offer', (payload) => {
       addPeer(payload);
 
       setParticipants((curParticipants) => [...curParticipants, payload.username]);
+    });
+
+    /**
+     * Add admins that join
+     */
+    socketRef.current.on('new admin', (payload) => {
+      setAdmins(([...prev]) => {
+        prev.push({
+          username: payload.username,
+          socketId: payload.socketId,
+        });
+        return prev;
+      });
     });
 
     /**
@@ -183,6 +204,13 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           }
         });
       }
+    });
+
+    /**
+     * Remove admin when disconnected
+     */
+    socketRef.current.on('admin disconnect', ({ admins }) => {
+      setAdmins(() => admins.map((admin) => ({ username: admin.username, socketId: admin.socketId })));
     });
   };
 
@@ -398,6 +426,7 @@ export const SocketProvider = ({ loading, username, role, children }) => {
     myStream,
     myScreenShare,
     peers,
+    admins,
     conversation,
     participants,
     isMyVideoEnabled,

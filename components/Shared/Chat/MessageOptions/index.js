@@ -31,7 +31,7 @@ const MessageOptions = ({ selectedIndex, setSelectedIndex, options }) => {
         <ListItem button aria-expanded={open ? 'true' : undefined} onClick={handleClickListItem}>
           <ListItemText
             primary="Message Options"
-            secondary={selectedIndex == null ? 'Everyone' : options[selectedIndex]?.peerName}
+            secondary={selectedIndex == null ? 'Everyone' : options[selectedIndex]?.username}
           />
         </ListItem>
       </List>
@@ -47,8 +47,8 @@ const MessageOptions = ({ selectedIndex, setSelectedIndex, options }) => {
         </MenuItem>
         <Divider />
         {options.map((person, index) => (
-          <MenuItem key={person.peerId} selected={index === selectedIndex} onClick={() => handleMenuItemClick(index)}>
-            {person.peerName}
+          <MenuItem key={person.socketId} selected={index === selectedIndex} onClick={() => handleMenuItemClick(index)}>
+            {person.username}
           </MenuItem>
         ))}
       </Menu>
@@ -61,8 +61,8 @@ MessageOptions.propTypes = {
   setSelectedIndex: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      peerName: PropTypes.string.isRequired,
-      peerId: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      socketId: PropTypes.string.isRequired,
     })
   ),
 };

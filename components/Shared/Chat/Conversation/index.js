@@ -44,7 +44,7 @@ const Conversation = ({ conversation }) => {
     return conversation.map((message, index) => {
       let subText = '';
       if (message.fromMe && message.dm) {
-        subText = `To ${message.recipient}`;
+        subText = `To ${message.recipient || 'Admin'}`;
       } else if (message.fromMe) {
         subText = `Me`;
       } else if (message.dm) {

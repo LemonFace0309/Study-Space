@@ -18,16 +18,35 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
+const Chat = ({ role, conversation, sendMessage, directMessage, peers, admins }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
   const [messageOption, setMessageOption] = useState(null);
   const messageOptions = useMemo(() => {
-    if (!peers) return [];
-    const optionFilter = role == ROLES.TEACHER.value ? ROLES.STUDENT.value : ROLES.TEACHER.value;
-    return peers.filter((peerObj) => peerObj?.role == optionFilter);
-  }, [role, peers]);
+    let options = [];
+    if (admins) {
+      options.push(
+        ...admins.map((admin) => ({
+          username: admin.username,
+          socketId: admin.socketId,
+        }))
+      );
+    }
+    if (peers) {
+      const optionFilter = role == ROLES.TEACHER.value ? ROLES.STUDENT.value : ROLES.TEACHER.value;
+      options.push(
+        ...peers
+          .filter((peerObj) => peerObj?.role == optionFilter)
+          .map((obj) => ({
+            username: obj.peerName,
+            socketId: obj.peerId,
+          }))
+      );
+    }
+    console.debug(options);
+    return options;
+  }, [role, peers, admins]);
 
   const filesHandler = (e) => {
     setFiles([...e.target.files]);
@@ -80,7 +99,7 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
     if (validMsg && messageOption == null && sendMessage) {
       sendMessage(text);
     } else if (validMsg && directMessage) {
-      directMessage(text, messageOptions[messageOption].peerId);
+      directMessage(text, messageOptions[messageOption].socketId);
     }
 
     setText('');
@@ -99,7 +118,7 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1', height: '100%', width: '100%', p: 1 }}>
       <Conversation conversation={conversation} />
-      {peers && (
+      {(peers || admins) && (
         <MessageOptions selectedIndex={messageOption} setSelectedIndex={setMessageOption} options={messageOptions} />
       )}
       <Box sx={{ mb: 0.5 }}>
@@ -148,8 +167,16 @@ Chat.propTypes = {
   directMessage: PropTypes.func,
   peers: PropTypes.arrayOf(
     PropTypes.shape({
+      peerName: PropTypes.string.isRequired,
+      peerId: PropTypes.string.isRequired,
       role: PropTypes.string.isRequired,
     }).isRequired
+  ),
+  admins: PropTypes.arrayOf(
+    PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      socketId: PropTypes.string.isRequired,
+    })
   ),
 };
 
