@@ -15,6 +15,7 @@ export const SocketProvider = ({ username, children }) => {
   const [selectedUser, setSelectedUser] = useState([]);
   const [users, setUsers, usersRef] = useStateRef([]);
   const [userConversations, setUserConversations] = useState([]);
+  console.debug(users);
 
   const initRoom = async () => {
     socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
@@ -30,11 +31,26 @@ export const SocketProvider = ({ username, children }) => {
      */
     socketRef.current.on('users', ({ users }) => {
       setUsers(() => {
-        const value = users.map((user) => ({ userId: user.socketId, username: user.username, role: user.role }));
+        const value = users.map((user) => ({ socketId: user.socketId, username: user.username, role: user.role }));
         setSelectedUser(value[0]);
         return value;
       });
-      setUserConversations(users.map((user) => ({ userId: user.socketId, conversation: [] })));
+      setUserConversations(users.map((user) => ({ socketId: user.socketId, conversation: [] })));
+    });
+
+    /**
+     * Get information of new user
+     */
+    socketRef.current.on('new user', ({ user }) => {
+      setUsers(([...prev]) => {
+        prev.push({ socketId: user.socketId, username: user.username, role: user.role });
+        setSelectedUser(prev[0]);
+        return prev;
+      });
+      setUserConversations(([...prev]) => {
+        prev.push({ socketId: user.socketId, conversation: [] });
+        return prev;
+      });
     });
 
     /**
@@ -43,10 +59,10 @@ export const SocketProvider = ({ username, children }) => {
     socketRef.current.on('user disconnect', ({ users }) => {
       const usersPeerId = users.map((user) => user.socketId);
 
-      if (users.length > 0) {
+      if (usersRef.current.length > 0) {
         usersRef.current.forEach((userRef, index) => {
-          if (!usersPeerId.includes(userRef.peerId)) {
-            userRef.peer.destroy();
+          console.debug('searching thru:', userRef);
+          if (!usersPeerId.includes(userRef.socketId)) {
             setUsers(([...prev]) => {
               prev.splice(index, 1);
               return prev;

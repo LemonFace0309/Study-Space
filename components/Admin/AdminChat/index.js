@@ -7,11 +7,11 @@ import { useAdminContext } from '@/context/admin';
 const AdminChat = () => {
   const { role, selectedUser, userConversations, sendMessage } = useAdminContext();
   const conversation = useMemo(() => {
-    return userConversations.find((obj) => obj.userId == selectedUser.userId);
+    return userConversations.find((obj) => obj.socketId == selectedUser.socketId)?.conversation ?? [];
   }, [selectedUser]);
 
   return (
-    <Box sx={{ p: 1 }}>
+    <Box sx={{ p: 1, height: '100%' }}>
       <Chat role={role} conversation={conversation} sendMessage={sendMessage} />
     </Box>
   );

@@ -97,7 +97,7 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
   };
 
   return (
-    <div className="flex p-2 flex-col flex-1 h-96 w-full">
+    <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1', height: '100%', width: '100%', p: 1 }}>
       <Conversation conversation={conversation} />
       {peers && (
         <MessageOptions selectedIndex={messageOption} setSelectedIndex={setMessageOption} options={messageOptions} />
@@ -130,7 +130,7 @@ const Chat = ({ role, conversation, sendMessage, directMessage, peers }) => {
           <SendIcon />
         </IconButton>
       </form>
-    </div>
+    </Box>
   );
 };
 
