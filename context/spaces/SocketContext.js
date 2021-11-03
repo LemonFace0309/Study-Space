@@ -123,7 +123,13 @@ export const SocketProvider = ({ loading, username, role, children }) => {
       setConversation((prevConversation) => {
         return [
           ...prevConversation,
-          { text: payload.message, sender: payload.username, fromMe: payload.username == username, dm: true },
+          {
+            text: payload.message,
+            recipient: payload.recipient,
+            sender: payload.username,
+            fromMe: payload.username == username,
+            dm: true,
+          },
         ];
       });
     });

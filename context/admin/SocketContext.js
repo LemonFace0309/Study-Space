@@ -12,10 +12,9 @@ export const useSocketContext = () => {
 
 export const SocketProvider = ({ username, children }) => {
   const socketRef = useRef();
-  const [selectedUser, setSelectedUser] = useState([]);
+  const [selectedUser, setSelectedUser, selectedUserRef] = useStateRef([]);
   const [users, setUsers, usersRef] = useStateRef([]);
   const [userConversations, setUserConversations] = useState([]);
-  console.debug(users);
 
   const initRoom = async () => {
     socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
@@ -54,6 +53,23 @@ export const SocketProvider = ({ username, children }) => {
     });
 
     /**
+     * Receiving dm and updating conversation
+     */
+    socketRef.current.on('dm', (payload) => {
+      setUserConversations(([...prev]) => {
+        const conversation = prev.find((obj) => obj.socketId == selectedUserRef.current.socketId)?.conversation ?? [];
+        conversation.push({
+          text: payload.message,
+          recipient: payload.recipient,
+          sender: payload.username,
+          fromMe: payload.username == username,
+          dm: true,
+        });
+        return prev;
+      });
+    });
+
+    /**
      * Remove user when disconnected
      */
     socketRef.current.on('user disconnect', ({ users }) => {
@@ -61,7 +77,6 @@ export const SocketProvider = ({ username, children }) => {
 
       if (usersRef.current.length > 0) {
         usersRef.current.forEach((userRef, index) => {
-          console.debug('searching thru:', userRef);
           if (!usersPeerId.includes(userRef.socketId)) {
             setUsers(([...prev]) => {
               prev.splice(index, 1);
@@ -81,8 +96,8 @@ export const SocketProvider = ({ username, children }) => {
     }
   }, []);
 
-  const sendMessage = () => {
-    return null;
+  const sendMessage = (message) => {
+    socketRef.current.emit('dm', { message, username, socketId: selectedUser.socketId });
   };
 
   const disconnect = () => {
@@ -91,6 +106,7 @@ export const SocketProvider = ({ username, children }) => {
 
   const value = {
     selectedUser,
+    setSelectedUser,
     users,
     userConversations,
     sendMessage,

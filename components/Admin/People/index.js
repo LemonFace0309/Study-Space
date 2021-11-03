@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useSocketContext } from '@/context/admin/SocketContext';
 
 const People = () => {
-  const { selectedUser, users, userConversations } = useSocketContext();
+  const { selectedUser, setSelectedUser, users, userConversations } = useSocketContext();
 
   return (
     <List sx={{ height: '100%', overflowY: 'auto', width: '100%', bgcolor: 'background.paper' }}>
@@ -22,6 +22,7 @@ const People = () => {
           <Fragment key={user.socketId}>
             <ListItem
               alignItems="flex-start"
+              onClick={() => setSelectedUser(user)}
               sx={{
                 bgcolor: selectedUser.socketId == user.socketId ? 'primary.main' : 'background.paper',
                 '&:hover': {
@@ -38,9 +39,10 @@ const People = () => {
                 secondary={
                   <>
                     <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                      {conversation.at(-1)?.fromMe ? 'You:' : ''}
+                      {conversation.at(-1)?.fromMe ? 'You: ' : ''}
+                      {conversation.at(-1)?.text}
                     </Typography>
-                    {conversation.at(-1)?.text}
+                    {/* {conversation.at(-1)?.text} */}
                   </>
                 }
               />
