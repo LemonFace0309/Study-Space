@@ -57,12 +57,17 @@ export const SocketProvider = ({ username, children }) => {
      */
     socketRef.current.on('dm', (payload) => {
       setUserConversations(([...prev]) => {
-        const conversation = prev.find((obj) => obj.socketId == selectedUserRef.current.socketId)?.conversation ?? [];
+        let conversation;
+        if (payload.sender == username) {
+          conversation = prev.find((obj) => obj.socketId == selectedUserRef.current.socketId)?.conversation ?? [];
+        } else {
+          conversation = prev.find((obj) => obj.socketId == payload.socketId)?.conversation ?? [];
+        }
         conversation.push({
           text: payload.message,
           recipient: payload.recipient,
-          sender: payload.username,
-          fromMe: payload.username == username,
+          sender: payload.sender,
+          fromMe: payload.sender == username,
           dm: true,
         });
         return prev;

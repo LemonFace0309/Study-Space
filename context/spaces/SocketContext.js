@@ -147,8 +147,8 @@ export const SocketProvider = ({ loading, username, role, children }) => {
           {
             text: payload.message,
             recipient: payload.recipient,
-            sender: payload.username,
-            fromMe: payload.username == username,
+            sender: payload.sender,
+            fromMe: payload.sender == username,
             dm: true,
           },
         ];
