@@ -22,9 +22,7 @@ const SpacePackage = ({ spaceCardData, spaceCardModalData }) => {
       </div>
       <SpaceCardModal
         open={open}
-        handleClose={() => {
-          setOpen(false);
-        }}
+        handleClose={() => setOpen(false)}
         friends={friends}
         participants={participants}
         spaceId={spaceId}>
