@@ -37,6 +37,7 @@ export default createTheme({
       main: '#EF5D66',
     },
   },
+  spacing: (factor) => `${0.5 * factor}rem`,
   typography: {
     fontFamily: 'Ubuntu',
     h1: {

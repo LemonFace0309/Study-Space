@@ -19,7 +19,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const GET_REGISTERED_PARTICIPANTS_IN_SPACE = gql`
