@@ -17,7 +17,7 @@ export const SocketProvider = ({ username, children }) => {
   const [userConversations, setUserConversations] = useState([]);
 
   const initRoom = async () => {
-    socketRef.current = io(process.env.NEXT_PUBLIC_NODE_SERVER || 'http://localhost:8080');
+    socketRef.current = io(`${process.env.NEXT_PUBLIC_NODE_SERVER}/admins` || 'http://localhost:8080/admins');
 
     /**
      * Notifiy users the admin is here
