@@ -5,7 +5,7 @@ import { v1 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Button, Paper, Typography, TextField, CircularProgress } from '@mui/material';
 import { useMutation, gql } from '@apollo/client';
 
@@ -101,7 +101,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       user: JSON.parse(JSON.stringify(user)),
-      // ...(await serverSideTranslations(context.locale, ['common'])),
+      ...(await serverSideTranslations(context.locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
     },
   };
