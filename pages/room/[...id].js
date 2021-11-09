@@ -53,16 +53,15 @@ const Room = ({ roomId, spotifyAuthURL }) => {
     initRecoilState();
   }, []);
 
-  return 'test';
-  // return (
-  //   <SpaceProvider>
-  //     <GridContainer container>
-  //       <VideoStreams showTabs={showTabs} />
-  //       <CallOptions />
-  //       <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
-  //     </GridContainer>
-  //   </SpaceProvider>
-  // );
+  return (
+    <SpaceProvider>
+      <GridContainer container>
+        <VideoStreams showTabs={showTabs} />
+        <CallOptions />
+        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
+      </GridContainer>
+    </SpaceProvider>
+  );
 };
 
 export const getStaticPaths = () => {
@@ -72,10 +71,13 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps = async ({ locale }) => {
+/**
+ * This causes the 12 second server render times. IDK why
+ */
+export const getStaticProps = async ({ locale, params }) => {
   return {
     props: {
-      roomId: 1,
+      roomId: params.id[0],
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       ...(await serverSideTranslations(locale, [])),
     },
