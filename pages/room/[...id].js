@@ -43,15 +43,16 @@ const Room = ({ roomId, spotifyAuthURL }) => {
     initRecoilState();
   }, []);
 
-  return (
-    <SpaceProvider>
-      <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
-        <VideoStreams showTabs={showTabs} />
-        <CallOptions />
-        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
-      </Grid>
-    </SpaceProvider>
-  );
+  return 'test';
+  // return (
+  //   <SpaceProvider>
+  //     <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
+  //       <VideoStreams showTabs={showTabs} />
+  //       <CallOptions />
+  //       <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
+  //     </Grid>
+  //   </SpaceProvider>
+  // );
 };
 
 export const getStaticPaths = () => {
