@@ -26,7 +26,7 @@ const Hero = ({ setAuthDialogOpen }) => {
         <Grid item xs={12} md={6} className="flex flex-col h-full justify-between items-start py-12">
           <Typography variant="body1"> {t('LABEL_HEY_THERE')} </Typography>
           <div>
-            <Typography variant="h4">{t('LABEL_YOUR_AROMIA')}</Typography>
+            <Typography variant="h4">{t('LABEL_YOUR_AROMA')}</Typography>
             <Typography variant="subtitle1">{t('LABEL_INCREASE_PROD')}</Typography>
           </div>
           <div>

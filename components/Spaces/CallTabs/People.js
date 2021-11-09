@@ -1,7 +1,7 @@
-import { useTranslation } from 'next-i18next';
-import { uniqueId } from 'lodash';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'next-i18next';
+import { uniqueId } from 'lodash';
 import { useRouter } from 'next/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, Grid, Dialog, Typography } from '@mui/material';

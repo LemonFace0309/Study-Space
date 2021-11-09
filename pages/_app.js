@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { appWithTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'next-auth/client';
@@ -52,4 +51,4 @@ MyApp.propTypes = {
   pageProps: PropTypes.object.isRequired,
 };
 
-export default appWithTranslation(MyApp);
+export default MyApp;

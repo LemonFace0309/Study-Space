@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
 import classNames from 'classnames';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { gql } from '@apollo/client';
 
 import { Grid, Hidden, Drawer, Fab } from '@mui/material';
@@ -183,7 +183,7 @@ export const getServerSideProps = async ({ req, _, locale }) => {
     props: {
       user: JSON.parse(JSON.stringify(user)), // otherwise nextjs throws error - can't serialize data
       spaces: JSON.parse(JSON.stringify(spaces)),
-      ...(await serverSideTranslations(locale, ['common'])),
+      // ...(await serverSideTranslations(locale, ['common'])),
       initialApolloState: apolloClient.cache.extract(),
       friendData: [
         {

@@ -1,6 +1,7 @@
-import { useTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+import { useTranslation } from 'next-i18next';
+
 import { Box, Button, Dialog, Divider, Grid, Hidden, Typography, IconButton, Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 

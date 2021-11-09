@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getProviders, signIn, signOut, getSession } from 'next-auth/client';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Header from 'components/Landing/Header/index';
 import Hero from 'components/Landing/Hero';
@@ -57,7 +57,7 @@ export const getStaticProps = async ({ locale }) => {
   return {
     props: {
       providers,
-      ...(await serverSideTranslations(locale, ['common'])),
+      // ...(await serverSideTranslations(locale, ['common'])),
       data: [
         {
           name: 'UW Math 2025',

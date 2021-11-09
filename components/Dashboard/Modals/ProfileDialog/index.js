@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useRecoilValue } from 'recoil';
+import { useTranslation } from 'next-i18next';
+
 import makeStyles from '@mui/styles/makeStyles';
 import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Grid';
@@ -16,7 +18,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import { useTranslation } from 'next-i18next';
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
 import * as authState from 'atoms/auth';
