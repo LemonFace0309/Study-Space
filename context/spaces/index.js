@@ -114,13 +114,13 @@ export const SpaceProvider = ({ children }) => {
 
   return (
     <SpaceContext.Provider value={value}>
-      <StatusBubbleProvider>
+      {/* <StatusBubbleProvider>
         <SocketProvider loading={loading} username={username} role={role}>
           <TodoProvider>
             <SpotifyProvider>{children}</SpotifyProvider>
           </TodoProvider>
         </SocketProvider>
-      </StatusBubbleProvider>
+      </StatusBubbleProvider> */}
     </SpaceContext.Provider>
   );
 };
