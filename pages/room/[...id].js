@@ -46,9 +46,9 @@ const Room = ({ roomId, spotifyAuthURL }) => {
   return (
     <SpaceProvider>
       <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
-        <VideoStreams showTabs={showTabs} />
+        {/* <VideoStreams showTabs={showTabs} />
         <CallOptions />
-        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
+        <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} /> */}
       </Grid>
     </SpaceProvider>
   );
@@ -65,7 +65,7 @@ export const getStaticProps = async ({ locale, params }) => {
   return {
     props: {
       roomId: params.id[0],
-      spotifyAuthURL: ``,
+      spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
       ...(await serverSideTranslations(locale, [])),
     },
   };
