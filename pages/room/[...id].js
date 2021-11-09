@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import addMilliseconds from 'date-fns/addMilliseconds';
 import { useSetRecoilState } from 'recoil';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
@@ -72,12 +72,12 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps = async ({ locale, params }) => {
+export const getStaticProps = async ({ locale }) => {
   return {
     props: {
-      roomId: params.id[0],
+      roomId: 1,
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
-      // ...(await serverSideTranslations(locale, [])),
+      ...(await serverSideTranslations(locale, [])),
     },
   };
 };
