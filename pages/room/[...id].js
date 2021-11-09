@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import addMilliseconds from 'date-fns/addMilliseconds';
 import { useSetRecoilState } from 'recoil';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
 
 import { SpaceProvider } from '@/context/spaces';
 import VideoStreams from '@/components/Spaces/VideoStreams';
@@ -13,6 +14,15 @@ import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
 
 const CallOptions = dynamic(() => import('@/components/Spaces/VideoOptions/CallOptions'));
+
+const GridContainer = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(5),
+  position: 'relative',
+  height: '100vh',
+  // minHeight: '100vh',
+  backgroundColor: 'rgba(249, 250, 251)',
+  justifyContent: 'space-between',
+}));
 
 const Room = ({ roomId, spotifyAuthURL }) => {
   const router = useRouter();
@@ -46,11 +56,11 @@ const Room = ({ roomId, spotifyAuthURL }) => {
   return 'test';
   // return (
   //   <SpaceProvider>
-  //     <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
+  //     <GridContainer container>
   //       <VideoStreams showTabs={showTabs} />
   //       <CallOptions />
   //       <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
-  //     </Grid>
+  //     </GridContainer>
   //   </SpaceProvider>
   // );
 };
@@ -67,7 +77,7 @@ export const getStaticProps = async ({ locale, params }) => {
     props: {
       roomId: params.id[0],
       spotifyAuthURL: `https://accounts.spotify.com/authorize?client_id=${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`,
-      ...(await serverSideTranslations(locale, [])),
+      // ...(await serverSideTranslations(locale, [])),
     },
   };
 };
