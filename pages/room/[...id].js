@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import addMilliseconds from 'date-fns/addMilliseconds';
 import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import { SpaceProvider } from '@/context/spaces';
-import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import VideoStreams from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
+
+const CallOptions = dynamic(() => import('@/components/Spaces/VideoOptions/CallOptions'));
 
 const Room = ({ roomId, spotifyAuthURL }) => {
   const router = useRouter();
