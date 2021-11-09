@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 
@@ -32,6 +33,7 @@ export const useSpaceContext = () => {
 };
 
 export const SpaceProvider = ({ children }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(LOADING_ENUM.LOADING);
   const [layout, setLayout] = useState(LAYOUT_ENUM.TILED);
   const [username, setUsername] = useState('');
@@ -98,7 +100,7 @@ export const SpaceProvider = ({ children }) => {
     openEntryDialog,
   };
 
-  if (loading == LOADING_ENUM.LOADING)
+  if (loading == LOADING_ENUM.LOADING || router.isFallback)
     return (
       <Box sx={{ height: '100vh', display: 'grid', placeItems: 'center' }}>
         <CircularProgress size={80} />

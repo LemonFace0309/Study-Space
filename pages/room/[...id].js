@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import addMilliseconds from 'date-fns/addMilliseconds';
 import { useSetRecoilState } from 'recoil';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
 
 import { SpaceProvider } from '@/context/spaces';
-import CallOptions from '@/components/Spaces/VideoOptions/CallOptions';
 import VideoStreams from '@/components/Spaces/VideoStreams';
 import CallTabs from '@/components/Spaces/CallTabs';
 import * as spotifyState from '@/atoms/spotify';
+
+const CallOptions = dynamic(() => import('@/components/Spaces/VideoOptions/CallOptions'));
+
+const GridContainer = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(5),
+  position: 'relative',
+  height: '100vh',
+  // minHeight: '100vh',
+  backgroundColor: 'rgba(249, 250, 251)',
+  justifyContent: 'space-between',
+}));
 
 const Room = ({ roomId, spotifyAuthURL }) => {
   const router = useRouter();
@@ -43,11 +55,11 @@ const Room = ({ roomId, spotifyAuthURL }) => {
 
   return (
     <SpaceProvider>
-      <Grid container className="p-10 relative flex-row justify-between min-h-screen md:h-screen bg-gray-50">
+      <GridContainer container>
         <VideoStreams showTabs={showTabs} />
         <CallOptions />
         <CallTabs showTabs={showTabs} setShowTabs={setShowTabs} spotifyAuthURL={spotifyAuthURL} />
-      </Grid>
+      </GridContainer>
     </SpaceProvider>
   );
 };
@@ -55,10 +67,13 @@ const Room = ({ roomId, spotifyAuthURL }) => {
 export const getStaticPaths = () => {
   return {
     paths: [{ params: { id: ['1'] } }],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
+/**
+ * This causes the 12 second server render times. IDK why
+ */
 export const getStaticProps = async ({ locale, params }) => {
   return {
     props: {

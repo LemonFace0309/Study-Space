@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { appWithTranslation } from 'next-i18next';
 import PropTypes from 'prop-types';
 import { RecoilRoot } from 'recoil';
+import { appWithTranslation } from 'next-i18next';
 import { Provider } from 'next-auth/client';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { ApolloProvider } from '@apollo/client';

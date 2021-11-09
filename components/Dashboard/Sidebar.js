@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import { useTranslation } from 'next-i18next';
-import PropTypes from 'prop-types';
 import { React } from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'next-i18next';
 import { makeStyles } from '@mui/styles';
 import { Grid, Button, IconButton, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -58,10 +58,7 @@ const Sidebar = ({ open, onClose, onOpen, friendData, isSmallScreen }) => {
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid container item className="mb-16">
-        <IconButton
-          className={classes.iconButton}
-          onClick={open ? onClose : onOpen}
-          size="large">
+        <IconButton className={classes.iconButton} onClick={open ? onClose : onOpen} size="large">
           <MenuIcon />
         </IconButton>
       </Grid>
