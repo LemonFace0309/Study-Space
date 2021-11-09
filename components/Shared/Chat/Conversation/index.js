@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import { useTheme } from '@mui/material';
 
 const MessageContainer = styled(Box, { shouldForwardProp: (prop) => prop !== 'fromMe' })(({ theme, fromMe }) => ({
   margin: theme.spacing(0.5, 0),
@@ -21,7 +20,7 @@ const MessageText = styled(Box, { shouldForwardProp: (prop) => !['bgColour', 'te
     borderRadius: '0.25rem',
     padding: theme.spacing(0.5, 1),
     color: text,
-    backgroundColor: bgColour,
+    backgroundColor: bgColour || theme.palette.primary.main,
     borderWidth: border,
   })
 );
@@ -32,8 +31,6 @@ const MessageSender = styled(Box)({
 });
 
 const Conversation = ({ conversation }) => {
-  const theme = useTheme();
-
   const setRef = useCallback((node) => {
     if (node) {
       node.scrollIntoView({ smooth: true });
@@ -57,7 +54,7 @@ const Conversation = ({ conversation }) => {
       return (
         <MessageContainer ref={lastMessage ? setRef : null} key={index} fromMe={message.fromMe}>
           <MessageText
-            bgColour={message.dm ? 'honeydew' : message.fromMe ? theme.palette.primary.main : 'white'}
+            bgColour={message.dm ? 'honeydew' : message.fromMe ? '' : 'white'}
             text={message.dm ? 'black' : message.fromMe ? 'white' : 'black'}
             border={message.fromMe ? '0px' : '2px'}>
             {message.text}

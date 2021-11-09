@@ -1,17 +1,12 @@
-import React from 'react';
-
 import { Paper, Box, Typography, Avatar } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 import PersonIcon from '@mui/icons-material/Person';
 
-export default function User() {
-  const theme = useTheme();
+const User = () => {
   return (
     <Paper elevate={10} className="rounded-lg">
       <Box
-        bgcolor={theme.palette.primary.light}
-        color={theme.palette.primary.dark}
+        sx={{ bgcolor: 'primary.light', color: 'primary.dark' }}
         className="flex flex-col justify-center items-center p-5 rounded-lg w-full h-full">
         <Avatar>
           <PersonIcon />
@@ -22,4 +17,6 @@ export default function User() {
       </Box>
     </Paper>
   );
-}
+};
+
+export default User;
