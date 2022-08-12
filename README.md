@@ -1,6 +1,6 @@
 # About
 
-https://cdn.loom.com/sessions/thumbnails/8c2a53ae39a44027a565096e1c4bc09e-with-play.gif"
+https://www.loom.com/share/8c2a53ae39a44027a565096e1c4bc09e
 
 # Getting Started 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 
